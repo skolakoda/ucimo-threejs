@@ -1,9 +1,15 @@
 {
   "extends": "standard",
+  "env": {
+      "browser": true,
+  },
   "globals": {
       "THREE": false,
-      "Image": false,
+      "THREEx": false,
       "Physijs": false,
       "createjs": false,
+      "dat": false,
+      "Stats": false,
+      "chroma": false,
   }
 }
