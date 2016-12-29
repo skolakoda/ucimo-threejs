@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Motion Detection</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+</head>
+
+<body>
+
+  <video id="monitor" autoplay style="display: none; width: 320px; height: 240px;"></video>
+
+  <div style="position: relative;">
+    <canvas id="videoCanvas" width="320" height="240" style="z-index: 1; position: absolute; left:0px; top:0px;"></canvas>
+    <canvas id="layer2" width="320" height="240" style="z-index: 2; position: absolute; left:0px; top:0px; opacity:0.5;"></canvas>
+  </div>
+  <canvas id="blendCanvas" style="display: none; position: relative; left: 320px; top: 240px; width: 320px; height: 240px;"></canvas>
+
+  <div id="messageArea" style="position: relative; left: 0px; top: 270px;">Messages will be displayed here.</div>
+
+  <script src="js/detekcija-pokreta-kamerom.js"></script>
+
+</body>
+
+</html>

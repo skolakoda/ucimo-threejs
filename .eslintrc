@@ -1,0 +1,9 @@
+{
+  "extends": "standard",
+  "globals": {
+      "THREE": false,
+      "Image": false,
+      "Physijs": false,
+      "createjs": false,
+  }
+}

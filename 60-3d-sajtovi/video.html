@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>Video Texture (Three.js)</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+</head>
+
+<body>
+
+	<script src="../libs/Three.js"></script>
+	<script src="../libs/Detector.js"></script>
+	<script src="../libs/Stats.js"></script>
+	<script src="../libs/OrbitControls.js"></script>
+	<script src="../libs/THREEx.KeyboardState.js"></script>
+	<script src="../libs/THREEx.FullScreen.js"></script>
+	<script src="../libs/THREEx.WindowResize.js"></script>
+
+	<!-- jQuery code to display an information button and box when clicked. -->
+	<script src="../libs/jquery-1.9.1.js"></script>
+	<script src="../libs/jquery-ui.js"></script>
+
+	<script src="../libs/info.js"></script>
+	<div id="infoButton"></div>
+	<div id="infoBox" title="Demo Information">
+		Demo controls:
+		<ul>
+			<li> P: play video
+				<li> Space: pause video
+					<li> S: stop video
+						<li> R: rewind to beginning
+		</ul>
+	</div>
+
+	<div id="ThreeJS" style="position: absolute; left:0px; top:0px"></div>
+
+	<script src="js/video.js"></script>
+</body>
+
+</html>

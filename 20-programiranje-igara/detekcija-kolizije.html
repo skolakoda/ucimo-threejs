@@ -1,0 +1,46 @@
+<html>
+
+<head>
+  <title>Collision Detection (Three.js)</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+</head>
+
+<body>
+
+  <div id="message"></div>
+
+  <script src="../libs/Three.js"></script>
+  <script src="../libs/Detector.js"></script>
+  <script src="../libs/Stats.js"></script>
+  <script src="../libs/OrbitControls.js"></script>
+  <script src="../libs/THREEx.KeyboardState.js"></script>
+  <script src="../libs/THREEx.FullScreen.js"></script>
+  <script src="../libs/THREEx.WindowResize.js"></script>
+
+  <!-- jQuery code to display an information button and box when clicked. -->
+  <script src="../libs/jquery-1.9.1.js"></script>
+  <script src="../libs/jquery-ui.js"></script>
+  <script src="../libs/info.js"></script>
+
+  <div id="infoButton"></div>
+  <div id="infoBox" title="Demo Information">
+    Controls:
+    <ul>
+      <li>Up/Down arrow: move in global Z direction
+        <li>Left/Right arrow: move in global X direction
+          <li>A/D: rotate left/right
+    </ul>
+    Notes:
+    <br/> Collision rays originate at center of cube and extend to each vertex. Collisions are indicated by "hit" text above the Three.js region. Note that collisions do not register if rays intersect the back side of a mesh (in particular, if the origin
+    of the rays are contained in the target mesh).
+  </div>
+  <!-- ------------------------------------------------------------ -->
+
+  <div id="ThreeJS" style="z-index: 2;"></div>
+  <script src="js/detekcija-kolizije.js"></script>
+
+</body>
+
+</html>
