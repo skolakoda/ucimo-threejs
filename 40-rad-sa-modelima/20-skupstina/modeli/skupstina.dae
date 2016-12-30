@@ -16370,22 +16370,22 @@
     </library_effects>
     <library_images>
         <image id="ID5">
-            <init_from>skupstina_google/__Stone-masonry_4.jpg</init_from>
+            <init_from>teksture/kamen.jpg</init_from>
         </image>
         <image id="ID38">
-            <init_from>skupstina_google/__Shingles-wood_shake02_2.jpg</init_from>
+            <init_from>teksture/drvo.jpg</init_from>
         </image>
         <image id="ID55">
-            <init_from>skupstina_google/__Glass-block_.jpg</init_from>
+            <init_from>teksture/staklo.jpg</init_from>
         </image>
         <image id="ID708">
-            <init_from>skupstina_google/__Stone-masonry_.jpg</init_from>
+            <init_from>teksture/kamen.jpg</init_from>
         </image>
         <image id="ID737">
-            <init_from>skupstina_google/__Stone-masonry_3.jpg</init_from>
+            <init_from>teksture/kamen.jpg</init_from>
         </image>
         <image id="ID1422">
-            <init_from>skupstina_google/__Stone-masonry_2.jpg</init_from>
+            <init_from>teksture/kamen.jpg</init_from>
         </image>
     </library_images>
     <scene>
