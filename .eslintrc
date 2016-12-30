@@ -6,6 +6,7 @@
   "globals": {
       "THREE": false,
       "THREEx": false,
+      "TWEEN": false,
       "Physijs": false,
       "createjs": false,
       "dat": false,
