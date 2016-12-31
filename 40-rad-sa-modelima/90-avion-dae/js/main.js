@@ -14,7 +14,7 @@ renderer.setClearColor(0x333F47, 1)
 document.body.appendChild(renderer.domElement)
 
 const camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.1, 20000)
-camera.position.set(4, 2, 9)
+camera.position.set(-6, 2, 9)
 scene.add(camera)
 
 var light = new THREE.PointLight(0xffffff)

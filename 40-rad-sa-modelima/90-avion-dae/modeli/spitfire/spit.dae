@@ -11,34 +11,34 @@
     </asset>
     <library_images>
         <image id="ID5">
-            <init_from>tex/landing%20light.tga</init_from>
+            <init_from>teksture/landing%20light.png</init_from>
         </image>
         <image id="ID10">
-            <init_from>tex/Wheel%20Support.tga</init_from>
+            <init_from>teksture/Wheel%20Support.png</init_from>
         </image>
         <image id="ID15">
-            <init_from>tex/glass.tga</init_from>
+            <init_from>teksture/glass.png</init_from>
         </image>
         <image id="ID20">
-            <init_from>tex/rear.tga</init_from>
+            <init_from>teksture/rear.png</init_from>
         </image>
         <image id="ID25">
-            <init_from>tex/Right%20Wing.tga</init_from>
+            <init_from>teksture/Right%20Wing.png</init_from>
         </image>
         <image id="ID30">
-            <init_from>tex/Left%20Wing.tga</init_from>
+            <init_from>teksture/Left%20Wing.png</init_from>
         </image>
         <image id="ID35">
-            <init_from>tex/Cockpit.tga</init_from>
+            <init_from>teksture/Cockpit.png</init_from>
         </image>
         <image id="ID40">
-            <init_from>tex/ref.tga</init_from>
+            <init_from>teksture/ref.png</init_from>
         </image>
         <image id="ID45">
-            <init_from>tex/pilot_uk.tga</init_from>
+            <init_from>teksture/pilot_uk.png</init_from>
         </image>
         <image id="ID50">
-            <init_from>tex/Body%20Front.tga</init_from>
+            <init_from>teksture/Body%20Front.png</init_from>
         </image>
     </library_images>
     <library_effects>
