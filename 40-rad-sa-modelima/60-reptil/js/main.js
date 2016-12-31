@@ -1,121 +1,88 @@
-var container,
-  stats
+/* KONFIG */
 
-var camera,
-  scene,
-  renderer
-var particleLight
-var dae
+const gridSize = 14
+const gridStep = 1
+const skaliranje = 0.002
 
-var loader = new THREE.ColladaLoader()
+/* INIT */
+
+const clock = new THREE.Clock()
+const container = document.createElement('div')
+document.body.appendChild(container)
+
+const scene = new THREE.Scene()
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000)
+camera.position.set(2, 2, 3)
+
+const particleLight = new THREE.Mesh(new THREE.SphereGeometry(4, 8, 8), new THREE.MeshBasicMaterial({color: 0xffffff}))
+scene.add(particleLight)
+
+let loader = new THREE.ColladaLoader()
 loader.options.convertUpAxis = true
 loader.load('modeli/reptil.dae', function (collada) {
-  dae = collada.scene
-
-  dae.traverse(function (child) {
-    if (child instanceof THREE.SkinnedMesh) {
-      var animation = new THREE.Animation(child, child.geometry.animation)
-      animation.play()
-    }
+  const model = collada.scene
+  model.traverse(child => {
+    if (!(child instanceof THREE.SkinnedMesh)) return
+    const animation = new THREE.Animation(child, child.geometry.animation)
+    animation.play()
   })
-
-  dae.scale.x = dae.scale.y = dae.scale.z = 0.002
-  dae.updateMatrix()
-
-  init()
-  animate()
+  model.scale.x = model.scale.y = model.scale.z = skaliranje
+  scene.add(model)
 })
 
-function init () {
-  container = document.createElement('div')
-  document.body.appendChild(container)
+const renderer = new THREE.WebGLRenderer()
+renderer.setPixelRatio(window.devicePixelRatio)
+renderer.setSize(window.innerWidth, window.innerHeight)
+container.appendChild(renderer.domElement)
 
-  camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000)
-  camera.position.set(2, 2, 3)
+const stats = new Stats()
+stats.domElement.style.position = 'absolute'
+stats.domElement.style.top = '0px'
+container.appendChild(stats.domElement)
 
-  scene = new THREE.Scene()
+/** FUNCTIONS **/
 
-  // Grid
+function drawGrid () {
+  const geometry = new THREE.Geometry()
+  const material = new THREE.LineBasicMaterial({color: 0x303030})
+  for (let i = -gridSize; i <= gridSize; i += gridStep) {
+    geometry.vertices.push(new THREE.Vector3(-gridSize, -0.04, i))
+    geometry.vertices.push(new THREE.Vector3(gridSize, -0.04, i))
 
-  var size = 14,
-    step = 1
-
-  var geometry = new THREE.Geometry()
-  var material = new THREE.LineBasicMaterial({color: 0x303030})
-
-  for (var i = -size; i <= size; i += step) {
-    geometry.vertices.push(new THREE.Vector3(-size, -0.04, i))
-    geometry.vertices.push(new THREE.Vector3(size, -0.04, i))
-
-    geometry.vertices.push(new THREE.Vector3(i, -0.04, -size))
-    geometry.vertices.push(new THREE.Vector3(i, -0.04, size))
+    geometry.vertices.push(new THREE.Vector3(i, -0.04, -gridSize))
+    geometry.vertices.push(new THREE.Vector3(i, -0.04, gridSize))
   }
-
-  var line = new THREE.Line(geometry, material, THREE.LinePieces)
+  const line = new THREE.Line(geometry, material, THREE.LinePieces)
   scene.add(line)
+}
 
-  // Add the COLLADA
-
-  scene.add(dae)
-
-  particleLight = new THREE.Mesh(new THREE.SphereGeometry(4, 8, 8), new THREE.MeshBasicMaterial({color: 0xffffff}))
-  scene.add(particleLight)
-
-  // Lights
-
+function addLights () {
   scene.add(new THREE.AmbientLight(0xcccccc))
 
-  var directionalLight = new THREE.DirectionalLight(/* Math.random() * 0xffffff */
-  0xeeeeee)
+  const directionalLight = new THREE.DirectionalLight(/* Math.random() * 0xffffff */
+    0xeeeeee)
   directionalLight.position.x = Math.random() - 0.5
   directionalLight.position.y = Math.random() - 0.5
   directionalLight.position.z = Math.random() - 0.5
   directionalLight.position.normalize()
   scene.add(directionalLight)
 
-  var pointLight = new THREE.PointLight(0xffffff, 4)
+  const pointLight = new THREE.PointLight(0xffffff, 4)
   particleLight.add(pointLight)
-
-  renderer = new THREE.WebGLRenderer()
-  renderer.setPixelRatio(window.devicePixelRatio)
-  renderer.setSize(window.innerWidth, window.innerHeight)
-  container.appendChild(renderer.domElement)
-
-  stats = new Stats()
-  stats.domElement.style.position = 'absolute'
-  stats.domElement.style.top = '0px'
-  container.appendChild(stats.domElement)
-
-  //
-
-  window.addEventListener('resize', onWindowResize, false)
 }
 
-function onWindowResize () {
+function onWindowRegridSize () {
   camera.aspect = window.innerWidth / window.innerHeight
   camera.updateProjectionMatrix()
-
   renderer.setSize(window.innerWidth, window.innerHeight)
 }
-
-//
 
 function animate () {
   requestAnimationFrame(animate)
-
-  render()
-  stats.update()
-}
-
-var clock = new THREE.Clock()
-
-function render () {
-  var timer = Date.now() * 0.0005
-
+  const timer = Date.now() * 0.0005
   camera.position.x = Math.cos(timer) * 10
   camera.position.y = 2
   camera.position.z = Math.sin(timer) * 10
-
   camera.lookAt(scene.position)
 
   particleLight.position.x = Math.sin(timer * 4) * 3009
@@ -123,6 +90,16 @@ function render () {
   particleLight.position.z = Math.cos(timer * 4) * 3009
 
   THREE.AnimationHandler.update(clock.getDelta())
-
   renderer.render(scene, camera)
+  stats.update()
 }
+
+/** LOGIC **/
+
+drawGrid()
+addLights()
+animate()
+
+/** EVENTS **/
+
+window.addEventListener('regridSize', onWindowRegridSize, false)
