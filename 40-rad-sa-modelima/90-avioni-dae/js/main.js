@@ -28,6 +28,7 @@ const controls = new THREE.OrbitControls(camera, renderer.domElement)
 
 const loadModel = function (src) {
   let loader = new THREE.ColladaLoader()
+  loader.options.convertUpAxis = true
   loader.load(src, collada => {
     scene.remove(scene.getObjectById(currentId))
     const model = collada.scene
