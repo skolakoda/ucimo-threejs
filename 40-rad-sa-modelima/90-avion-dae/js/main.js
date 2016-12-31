@@ -2,6 +2,7 @@
 
 const WIDTH = window.innerWidth
 const HEIGHT = window.innerHeight
+let currentId
 
 /** INIT **/
 
@@ -23,15 +24,19 @@ scene.add(light)
 
 const controls = new THREE.OrbitControls(camera, renderer.domElement)
 
-let loader = new THREE.ColladaLoader()
-loader.load('modeli/spitfire/spit.dae', function (collada) {
-  const model = collada.scene
-  scene.add(model)
-})
-
 /** FUNCTIONS **/
 
-function animate () {
+const loadModel = function (src) {
+  let loader = new THREE.ColladaLoader()
+  loader.load(src, collada => {
+    scene.remove(scene.getObjectById(currentId))
+    const model = collada.scene
+    scene.add(model)
+    currentId = model.id
+  })
+}
+
+const animate = function () {
   requestAnimationFrame(animate)
   renderer.render(scene, camera)
   controls.update()
@@ -39,7 +44,7 @@ function animate () {
 
 /** EVENTS **/
 
-window.addEventListener('resize', function () {
+window.addEventListener('resize', () => {
   const WIDTH = window.innerWidth
   const HEIGHT = window.innerHeight
   renderer.setSize(WIDTH, HEIGHT)
@@ -47,6 +52,11 @@ window.addEventListener('resize', function () {
   camera.updateProjectionMatrix()
 })
 
+document.querySelector('#izaberi-avion').addEventListener('change', function (e) {
+  loadModel(this.value)
+})
+
 /** LOGIC **/
 
+loadModel(document.querySelector('#izaberi-avion').value)
 animate()
