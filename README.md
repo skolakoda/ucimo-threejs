@@ -35,6 +35,11 @@ Za primere koji uključuju učitavanje modela i tekstura je potreban lokalni ser
 * [Making of The Aviator game](https://tympanus.net/codrops/2016/04/26/the-aviator-animating-basic-3d-scene-threejs/)
 * [Ptice](https://threejs.org/examples/canvas_geometry_birds.html)
 
+## Besplatni modeli:
+* https://3dwarehouse.sketchup.com
+* http://www.turbosquid.com/
+* http://tf3dm.com/
+
 ## TODO
 * dodati moje 3d sajtove primere
 
