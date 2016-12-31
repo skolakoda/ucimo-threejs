@@ -19,7 +19,7 @@ document.body.appendChild(renderer.domElement)
 const light = new THREE.AmbientLight(0xfcfcfc)
 scena.add(light)
 
-const controls = new THREE.OrbitControls(kamera)
+const kontrole = new THREE.OrbitControls(kamera)
 
 let loader = new THREE.ColladaLoader()
 loader.options.convertUpAxis = true
@@ -36,7 +36,7 @@ loader.load('modeli/skupstina.dae',
 
 function update () {
   requestAnimationFrame(update)
-  controls.update()
+  kontrole.update()
   renderer.render(scena, kamera)
 }
 

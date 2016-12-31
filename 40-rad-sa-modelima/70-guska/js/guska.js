@@ -1,30 +1,31 @@
 const aspectRatio = window.innerWidth / window.innerHeight
 
-const scene = new THREE.Scene()
+const scena = new THREE.Scene()
 
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
 
-const light = new THREE.AmbientLight(0xffffff)
+const svetlo = new THREE.AmbientLight(0xffffff)
 document.body.appendChild(renderer.domElement)
-scene.add(light)
+scena.add(svetlo)
 
-const camera = new THREE.PerspectiveCamera(35, aspectRatio, 1, 1000)
-camera.position.set(-20, 110, 900)
-scene.add(camera)
+const kamera = new THREE.PerspectiveCamera(35, aspectRatio, 1, 1000)
+kamera.position.set(0, 0, 5)
+scena.add(kamera)
+const kontrole = new THREE.OrbitControls(kamera)
 
 const loader = new THREE.JSONLoader()
-loader.load('modeli/guska.json', function (geometry) {
-  var gooseMaterial = new THREE.MeshLambertMaterial({
+loader.load('modeli/guska.json', function (oblik) {
+  const tekstura = new THREE.MeshLambertMaterial({
     map: THREE.ImageUtils.loadTexture('teksture/guska.jpg')
   })
-  const mesh = new THREE.Mesh(geometry, gooseMaterial)
-  mesh.scale.set(1000, 1000, 1000)
-  scene.add(mesh)
+  const guska = new THREE.Mesh(oblik, tekstura)
+  scena.add(guska)
 })
 
 function update () {
-  renderer.render(scene, camera)
+  kontrole.update()
+  renderer.render(scena, kamera)
   requestAnimationFrame(update)
 }
 
