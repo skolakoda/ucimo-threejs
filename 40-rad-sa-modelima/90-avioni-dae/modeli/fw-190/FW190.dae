@@ -11,19 +11,19 @@
     </asset>
     <library_images>
         <image id="ID5">
-            <init_from>Glass.tga</init_from>
+            <init_from>Glass.png</init_from>
         </image>
         <image id="ID10">
-            <init_from>controls.tga</init_from>
+            <init_from>controls.png</init_from>
         </image>
         <image id="ID15">
-            <init_from>Main%20Body.tga</init_from>
+            <init_from>Main%20Body.png</init_from>
         </image>
         <image id="ID20">
-            <init_from>bomb%201.tga</init_from>
+            <init_from>bomb%201.png</init_from>
         </image>
         <image id="ID25">
-            <init_from>bombs%202.tga</init_from>
+            <init_from>bombs%202.png</init_from>
         </image>
     </library_images>
     <library_effects>
