@@ -34,8 +34,11 @@ const renderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
 container.appendChild(renderer.domElement)
 
+const controls = new THREE.OrbitControls(camera, renderer.domElement)
+
 function animate () {
   requestAnimationFrame(animate)
+  controls.update()
   renderer.render(scene, camera)
 }
 
