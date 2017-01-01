@@ -2,8 +2,8 @@ var container
 
 var camera, scene, renderer
 
-var mouseX = 0,
-  mouseY = 0
+var mouseX = 0
+var mouseY = 0
 
 var windowHalfX = window.innerWidth / 2
 var windowHalfY = window.innerHeight / 2
@@ -55,8 +55,8 @@ function init () {
 
   // model
 
-  var loader = new THREE.OBJLoader(manager)
-  loader.load('modeli/male02.obj', function (object) {
+  var loader2 = new THREE.OBJLoader(manager)
+  loader2.load('modeli/male02.obj', function (object) {
     object.traverse(function (child) {
       if (child instanceof THREE.Mesh) {
         child.material.map = texture
@@ -96,8 +96,6 @@ function onDocumentMouseMove (event) {
   mouseY = (event.clientY - windowHalfY) / 2
 }
 
-//
-
 function animate () {
   requestAnimationFrame(animate)
   render()
@@ -108,6 +106,5 @@ function render () {
   camera.position.y += (-mouseY - camera.position.y) * 0.05
 
   camera.lookAt(scene.position)
-
   renderer.render(scene, camera)
 }

@@ -20,7 +20,7 @@ const kontrole = new THREE.OrbitControls(kamera)
 
 let loader = new THREE.ColladaLoader()
 // loader.options.convertUpAxis = true
-loader.load('modeli/gradjevina.dae',
+loader.load('modeli/tvrdjava.dae',
   collada => {
     const model = collada.scene
     model.scale.set(skaliranje, skaliranje, skaliranje)
