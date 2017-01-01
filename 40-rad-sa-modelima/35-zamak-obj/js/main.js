@@ -1,40 +1,71 @@
-/** KONFIG **/
-
-const skaliranje = 0.1
+let mouseX = 0
+let mouseY = 0
+let windowHalfX = window.innerWidth / 2
+let windowHalfY = window.innerHeight / 2
 
 /** INIT **/
 
-const scena = new THREE.Scene()
-const kamera = new THREE.PerspectiveCamera(
-  45, window.innerWidth / window.innerHeight, 1, 1000
-)
-kamera.position.set(-6, 6, 9)
+const container = document.createElement('div')
+document.body.appendChild(container)
 
-const renderer = new THREE.WebGLRenderer()
-renderer.setSize(window.innerWidth, window.innerHeight)
-renderer.setClearColor(0xfcfcfc, 1)
-document.body.appendChild(renderer.domElement)
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000)
+camera.position.z = 250
 
-const kontrole = new THREE.OrbitControls(kamera)
+const scene = new THREE.Scene()
 
-const objLoader = new THREE.OBJLoader()
-objLoader.load('modeli/castle/castle.obj', function (object) {
-  object.scale.set(skaliranje, skaliranje, skaliranje)
-  scena.add(object)
-})
+// light
+
+const ambient = new THREE.AmbientLight(0x101030)
+scene.add(ambient)
 
 const directionalLight = new THREE.DirectionalLight(0xffeedd)
 directionalLight.position.set(0, 0, 1)
-scena.add(directionalLight)
+scene.add(directionalLight)
+
+// model
+
+const loader = new THREE.OBJLoader()
+loader.load('modeli/castle.obj', function (object) {
+  object.position.y = -95
+  scene.add(object)
+})
+
+const renderer = new THREE.WebGLRenderer()
+renderer.setPixelRatio(window.devicePixelRatio)
+renderer.setSize(window.innerWidth, window.innerHeight)
+container.appendChild(renderer.domElement)
 
 /** FUNCTIONS **/
 
-function update () {
-  requestAnimationFrame(update)
-  kontrole.update()
-  renderer.render(scena, kamera)
+function onWindowResize () {
+  windowHalfX = window.innerWidth / 2
+  windowHalfY = window.innerHeight / 2
+  camera.aspect = window.innerWidth / window.innerHeight
+  camera.updateProjectionMatrix()
+  renderer.setSize(window.innerWidth, window.innerHeight)
 }
 
-/** LOGIC **/
+function onDocumentMouseMove (event) {
+  mouseX = (event.clientX - windowHalfX) / 2
+  mouseY = (event.clientY - windowHalfY) / 2
+}
 
-update()
+function animate () {
+  requestAnimationFrame(animate)
+  render()
+}
+
+function render () {
+  camera.position.x += (mouseX - camera.position.x) * 0.05
+  camera.position.y += (-mouseY - camera.position.y) * 0.05
+
+  camera.lookAt(scene.position)
+  renderer.render(scene, camera)
+}
+
+/** EVENTS **/
+
+document.addEventListener('mousemove', onDocumentMouseMove, false)
+window.addEventListener('resize', onWindowResize, false)
+
+animate()
