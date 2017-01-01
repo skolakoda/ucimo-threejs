@@ -1,13 +1,12 @@
 /** KONFIG **/
 
-const skaliranje = 0.1
-const ugaoKamere = 45
+const skaliranje = 0.5
 
 /** INIT **/
 
 const scena = new THREE.Scene()
 const kamera = new THREE.PerspectiveCamera(
-  ugaoKamere, window.innerWidth / window.innerHeight, 1, 1000
+  45, window.innerWidth / window.innerHeight, 1, 1000
 )
 kamera.position.set(-6, 6, 9)
 
@@ -20,7 +19,7 @@ const kontrole = new THREE.OrbitControls(kamera)
 
 let loader = new THREE.OBJLoader()
 // loader.options.convertUpAxis = true
-loader.load('modeli/castle/castle.obj', object => {
+loader.load('modeli/castle-X6.obj', object => {
   object.scale.set(skaliranje, skaliranje, skaliranje)
   scena.add(object)
 })
