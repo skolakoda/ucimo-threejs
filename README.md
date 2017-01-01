@@ -39,6 +39,7 @@ Za primere koji uključuju učitavanje modela i tekstura je potreban lokalni ser
 * https://3dwarehouse.sketchup.com
 * http://www.turbosquid.com/
 * http://tf3dm.com/
+* https://www.cgtrader.com/
 
 ## TODO
 * dodati moje 3d sajtove primere
