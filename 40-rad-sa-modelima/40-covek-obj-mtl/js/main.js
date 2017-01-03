@@ -46,15 +46,15 @@ function init() {
   THREE.Loader.Handlers.add(/\.dds$/i, new THREE.DDSLoader());
 
   var mtlLoader = new THREE.MTLLoader();
-  mtlLoader.setPath('modeli/covek/');
-  mtlLoader.load('male02_dds.mtl', function(materials) {
+  mtlLoader.setPath('modeli/pilot/');
+  mtlLoader.load('ArmyPilot.mtl', function(materials) {
 
     materials.preload();
 
     var objLoader = new THREE.OBJLoader();
     objLoader.setMaterials(materials);
-    objLoader.setPath('modeli/covek/');
-    objLoader.load('male02.obj', function(object) {
+    objLoader.setPath('modeli/pilot/');
+    objLoader.load('ArmyPilot.obj', function(object) {
 
       object.position.y = -95;
       scene.add(object);
