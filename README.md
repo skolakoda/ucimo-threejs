@@ -42,7 +42,19 @@ Za primere koji uključuju učitavanje modela i tekstura je potreban lokalni ser
 * https://www.cgtrader.com/
 
 ## TODO
-* dodati moje 3d sajtove primere
+* naci najbolje 3d modele
+ ** avione iz ww1
+ ** avione iz ww2
+ ** tenkove iz ww1
+ ** tenkove iz ww2
+ ** malo fantastike
+* ugraditi 3d modele
+ ** mozda ubaciti nebo https://www.chromeexperiments.com/experiment/clouds
+* srediti biblioteke bower-om
+* srediti 3d sajtove primere
+* napraviti osnovne lekcije iz fizike
+* napraviti osnovne lekcije iz algoritama
+* naziv kursa: Učimo 3D programiranje kroz Unity i WebGL (od jezika koristimo C# i JS)
 
 ---
 ### Škola koda, učimo narod programiranju!

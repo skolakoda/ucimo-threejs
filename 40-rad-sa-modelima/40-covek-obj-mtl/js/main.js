@@ -1,16 +1,13 @@
 var container, stats;
-
 var camera, scene, renderer;
-
 var mouseX = 0,
   mouseY = 0;
 
-var windowHalfX = window.innerWidth / 2;
-var windowHalfY = window.innerHeight / 2;
+var windowHalfX = window.innerWidth / 2
+var windowHalfY = window.innerHeight / 2
 
-
-init();
-animate();
+init()
+animate()
 
 
 function init() {

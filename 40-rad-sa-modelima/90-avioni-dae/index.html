@@ -9,6 +9,7 @@
       margin: 0;
       overflow: hidden;
     }
+
     #izaberi-avion {
       position: absolute;
     }
@@ -18,14 +19,18 @@
 <body>
 
   <select name="izaberi-avion" id="izaberi-avion">
-    <option value="modeli/spitfire/spit.dae">Spitfire</option>
-    <option value="modeli/fw-190/FW190.dae">Focke-Wulf Fw 190</option>
-    <option value="modeli/p39-airacobra/p39.dae">P39 Airacobra</option>
-    <option value="modeli/heinkel-he-111-b/model.dae">Heinkel He 111b</option>
-    <option value="modeli/messerschmitt-me-262/model.dae">Messerschmitt Me 262</option>
-    <option value="modeli/pilot/ArmyPilot.dae">Pilot</option>
+    <optgroup label="ww1">
+      <option value="modeli/sopwith-camel/model.dae">British aircraft Sopwith Camel</option>
+      <option value="modeli/pfalz-D-III/model.dae">German aircraft Pfalz D.III</option>
+      <option value="modeli/ehrhardt-e-v4/model.dae">German armored car E-V/4</option>
+	  <option value="modeli/morane-saulnier-L/model.dae">French aircraft Morane-Saulnier L</option>
+	  <option value="modeli/s-e-5a/model.dae">British aircraft S.E.5a</option>
+	  <option value="modeli/a7v/model.dae">German tank A7V</option>
+    </optgroup>
+    <optgroup label="ww2">
+   </optgroup>
   </select>
-
+  
   <script src="../../libs/three.min.js"></script>
   <script src="../../libs/OrbitControls.js"></script>
   <script src="../../libs/ColladaLoader.js"></script>
