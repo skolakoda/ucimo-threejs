@@ -4,7 +4,7 @@ const modeli = {
 	pfalzDIII: {
 		naziv: "Sopwith Camel",
 		opis: "The Pfalz D.III was a fighter aircraft used by the Luftstreitkräfte during the First World War.",
-		putanja: "pfalz-D-III",
+		putanja: "pfalz-d-III",
 		izvor: "https://3dwarehouse.sketchup.com/model.html?id=414cf4ec44f4573346e211e2fce8d948"
 	},
 	sopwithCamel: {
