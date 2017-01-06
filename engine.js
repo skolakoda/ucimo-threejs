@@ -1,4 +1,4 @@
-// TODO: napraviti platformski nezavisan slash / ili \
+// da ne upisuje windows putanje u html
 
 const fs = require('fs')
 const chokidar = require('chokidar')
@@ -22,9 +22,8 @@ let $ = {}
 
 /** FUNKCIJE **/
 
-const praviSablon = put => {
-  const value = path.join('modeli', put, 'model.dae')
-  return `<option id="${put}" value="${value}">${put}</option>
+const praviSablon = naziv => {
+  return `<option id="${naziv}" value="modeli/${naziv}/model.dae">${naziv}</option>
   `
 }
 
