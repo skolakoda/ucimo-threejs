@@ -9,8 +9,7 @@
       margin: 0;
       overflow: hidden;
     }
-
-    #izaberi-avion {
+    .izaberi-avion {
       position: absolute;
     }
   </style>
@@ -18,7 +17,7 @@
 
 <body>
 
-  <select name="izaberi-avion" id="izaberi-avion">
+  <select name="izaberi-avion" id="izaberi-avion" class="izaberi-avion">
         <optgroup label="fantasy">
             <option value="modeli/wizards-tower/model.dae">Wizards Tower House</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=e6b498a19539404bbca1f0ee09a7c4e0 -->
@@ -50,39 +49,23 @@
             <!-- https://3dwarehouse.sketchup.com/model.html?id=da41f2b9-175e-41c6-ba0e-31c6e0f3402b -->
             <option value="modeli/rajhstag/model.dae">Battle of Berlin 1945 Reichstag</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=8b7ae40cd4a4f1798e8c44d96a1c65d1 -->
-            <option value="modeli/breda/model.dae">Breda 30</option>
-            <!-- https://3dwarehouse.sketchup.com/model.html?id=2ab448ef7e800759152be1f5910e33df -->
             <option value="modeli/b-24-liberator/model.dae">American bomber B 24 Liberator</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=fc9e6f08b8e5f97923d7c84b6b6fb959 -->
             <option value="modeli/autoblinda-1zm/model.dae">Autoblinda 1ZM</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=udc395b04-5bec-41f0-997e-e44381b42b5e -->
             <option value="modeli/auschwitz-gate/model.dae">Auschwitz gate, arbeit macht frei</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=8c2e0e23e88d8ab89925b4905c3a51d -->
-            <option value="modeli/fw190/model.dae">German aircraft Focke-Wulf Fw 190 W&#xFC;rger</option>
-            <!-- https://3dwarehouse.sketchup.com/model.html?id=4dfe2199fdd333d09837a3d08a6a1966 -->
             <option value="modeli/lavochkin-la-5fn/model.dae">Lavochkin La-5FN</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=u1da1bb3f-7820-4a23-8909-82845c81567d -->
-            <option value="modeli/sdkfz-234-2/model.dae">German armored car SdKfz 234/2</option>
-            <!-- https://3dwarehouse.sketchup.com/model.html?id=ef85b0bc562a9c98ecd93b70051489c1 -->
             <option value="modeli/spitfire/model.dae">Supermarine Spitfire </option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=dc03e743739c4f87c27f2d9f006d69eb -->
         </optgroup>
         <optgroup label="probno" id="probni-modeli">
-        
-  <option id="Erich_Hartmann" value="modeli\Erich_Hartmann\model.dae">Erich_Hartmann</option>
-  <option id="Heinkel+He+111+B" value="modeli\Heinkel+He+111+B\model.dae">Heinkel+He+111+B</option>
-  <option id="Me-109+-+Jagfliegerschule-Pilsen" value="modeli\Me-109+-+Jagfliegerschule-Pilsen\model.dae">Me-109+-+Jagfliegerschule-Pilsen</option>
-  <option id="bf109" value="modeli\bf109\model.dae">bf109</option>
-  <option id="junkers+stuka" value="modeli\junkers+stuka\model.dae">junkers+stuka</option>
-  <option id="B-17F+Flying+Fortess" value="modeli\B-17F+Flying+Fortess\model.dae">B-17F+Flying+Fortess</option>
-  <option id="Me-109+-+JG-27" value="modeli\Me-109+-+JG-27\model.dae">Me-109+-+JG-27</option>
-  <option id="Me-109+-+Sonderkommando-Elbe" value="modeli\Me-109+-+Sonderkommando-Elbe\model.dae">Me-109+-+Sonderkommando-Elbe</option>
-  
-  <option id="Untitled(1)" value="modeli\Untitled(1)\model.dae">Untitled(1)</option>
-  <option id="Untitled" value="modeli/Untitled/model.dae">Untitled</option>
-  
-  <option id="wizards-tower" value="modeli/wizards-tower/model.dae">wizards-tower</option>
-  </optgroup>
+            <option id="bf109" value="modeli/bf109/model.dae">bf109</option>
+            <option id="junkers+stuka" value="modeli/junkers+stuka/model.dae">junkers+stuka</option>
+            <option id="B-17F+Flying+Fortess" value="modeli/B-17F+Flying+Fortess/model.dae">B-17F+Flying+Fortess</option>
+            <option id="Me-109+-+JG-27" value="modeli/Me-109+-+JG-27/model.dae">Me-109+-+JG-27</option>
+        </optgroup>
     </select>
 
   <script src="../../libs/three.min.js"></script>
