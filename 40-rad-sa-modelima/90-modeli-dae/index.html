@@ -2,22 +2,23 @@
 <html lang="en">
 
 <head>
-  <title>Modeli</title>
-  <meta charset="utf-8">
-  <style media="screen">
-    body {
-      margin: 0;
-      overflow: hidden;
-    }
-    .izaberi-avion {
-      position: absolute;
-    }
-  </style>
+    <title>Modeli</title>
+    <meta charset="utf-8">
+    <style media="screen">
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .izaberi-avion {
+            position: absolute;
+        }
+    </style>
 </head>
 
 <body>
 
-  <select name="izaberi-avion" id="izaberi-avion" class="izaberi-avion">
+    <select name="izaberi-avion" id="izaberi-avion" class="izaberi-avion">
         <optgroup label="fantasy">
             <option value="modeli/wizards-tower/model.dae">Wizards Tower House</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=e6b498a19539404bbca1f0ee09a7c4e0 -->
@@ -53,19 +54,19 @@
             <!-- https://3dwarehouse.sketchup.com/model.html?id=udc395b04-5bec-41f0-997e-e44381b42b5e -->
             <option value="modeli/auschwitz-gate/model.dae">Auschwitz gate, arbeit macht frei</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=8c2e0e23e88d8ab89925b4905c3a51d -->
-            <option value="modeli/spitfire/model.dae">Supermarine Spitfire </option>
-            <!-- https://3dwarehouse.sketchup.com/model.html?id=dc03e743739c4f87c27f2d9f006d69eb -->
         </optgroup>
         <optgroup label="probno" id="probni-modeli">
-            <option id="bf109" value="modeli/bf109/model.dae">bf109</option>
             <option id="Me-109+-+JG-27" value="modeli/Me-109+-+JG-27/model.dae">Me-109+-+JG-27</option>
-  </optgroup>
+            <option id="panzer" value="modeli/panzer/model.dae">panzer</option>
+            <option id="buldozer" value="modeli/buldozer/model.dae">buldozer</option>
+            <!-- https://3dwarehouse.sketchup.com/model.html?id=13fcdf33e0cf3efabff3b8b883ab202d -->
+        </optgroup>
     </select>
 
-  <script src="../../libs/three.min.js"></script>
-  <script src="../../libs/OrbitControls.js"></script>
-  <script src="../../libs/ColladaLoader.js"></script>
-  <script src="js/main.js"></script>
+    <script src="../../libs/three.min.js"></script>
+    <script src="../../libs/OrbitControls.js"></script>
+    <script src="../../libs/ColladaLoader.js"></script>
+    <script src="js/main.js"></script>
 
 </body>
 
