@@ -8,18 +8,37 @@ const cheerio = require('cheerio')
 
 const putDoFoldera = '40-rad-sa-modelima/90-modeli-dae/modeli/'
 const indexFajl = '40-rad-sa-modelima/90-modeli-dae/index.html'
-const nadgledac = chokidar.watch(`./${putDoFoldera}`, {
-  // ignoreInitial: true,
+const chokidarOpcije = {
+  depth: 0,
+  ignoreInitial: true,
   persistent: true
-})
+}
+const nadgledac = chokidar.watch(`./${putDoFoldera}`, chokidarOpcije)
 
 let sadrzajFajla = ''
-let $
+let $ = {}
 
 /** FUNKCIJE **/
 
 const praviSablon = put => {
-  `<option value="modeli/${put}/model.dae">${put}</option>`
+  return (
+    `<option id="${put}" value="modeli/${put}/model.dae">${put}</option>
+    `
+  )
+}
+
+const sredjujePut = put => {
+  put = put.replace(putDoFoldera, '') // otklanja prefix
+  if (put.indexOf('/')) put = put.split('/')[0] // otklanja sufix
+  return put
+}
+
+const azuriraFajl = (put, istina) => {
+  put = sredjujePut(put)
+  if (istina) $('#probni-modeli').append(praviSablon(put))
+  else $(`#${put}`).remove()
+  sadrzajFajla = $.html()
+  fs.writeFile(indexFajl, sadrzajFajla)
 }
 
 /** INIT **/
@@ -28,31 +47,10 @@ fs.readFile(`./${indexFajl}`, 'utf8', (err, data) => {
   if (err) throw err
   sadrzajFajla = data
   $ = cheerio.load(sadrzajFajla)
-  // console.log(sadrzajFajla)
 })
 
 /** EVENTS **/
 
 nadgledac
-  .on('addDir', put => {
-    put = put.replace(putDoFoldera, '') // otklanja prefix
-    if (put.indexOf('/')) put = put.split('/')[0] // otklanja sufix
-    console.log(praviSablon(put))
-    // apenduje padajuci meni
-    $('#test').append(praviSablon(put))
-    // azurira sadrzajFajla
-    sadrzajFajla = $.html()
-    // upisuje fajl
-    fs.writeFile(indexFajl, sadrzajFajla, function (err) {
-      if (err) return console.log(err)
-    })
-  })
-  // .on('unlink', put => {
-  //   console.log(`fajl: ${put} je obrisan.`)
-  // })
-  // .on('change', function (put) {
-  //   console.log('File', put, 'has been changed')
-  // })
-  // .on('error', function (error) {
-  //   console.error('Error happened', error)
-  // })
+  .on('addDir', put => azuriraFajl(put, true))
+  .on('unlinkDir', put => azuriraFajl(put, false))
