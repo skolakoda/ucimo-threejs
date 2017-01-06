@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/skolakoda/ucimo-threejs#readme",
   "devDependencies": {
+    "chokidar": "^1.6.1",
     "eslint": "^3.12.2",
     "eslint-config-standard": "^6.2.1",
     "eslint-plugin-promise": "^3.4.0",
