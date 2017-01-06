@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "live-server",
-    "dev": "parallelshell \"live-server\" \"echo 2\" \"node engine.js\"",
+    "dev": "parallelshell \"live-server\" \"node engine.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
