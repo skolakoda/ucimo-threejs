@@ -1,10 +1,10 @@
-/* global stanja */
+/* global pokreti */
 
 /** MODEL **/
 
 const igrac = {
   mesh: null,
-  kretnja: 'stand',
+  pokret: 'stand',
   stanje: 'stand',
   stanjeKretanja: {
     ide: false,
@@ -29,12 +29,12 @@ const igrac = {
     y: 0,
     z: 0
   },
-  promeniStanje: function (kretnja) {
-    igrac.kretnja = kretnja
-    igrac.stanje = stanja[kretnja][3].stanje
-    const animMin = stanja[kretnja][0]
-    const animMax = stanja[kretnja][1]
-    const animFps = stanja[kretnja][2]
+  promeniPokret: function (pokret) {
+    igrac.pokret = pokret
+    igrac.stanje = pokreti[pokret].stanje
+    const animMin = pokreti[pokret].animMin
+    const animMax = pokreti[pokret].animMax
+    const animFps = pokreti[pokret].animFps
     igrac.mesh.time = 0
     igrac.mesh.duration = 1000 * ((animMax - animMin) / animFps)
     igrac.mesh.setFrameRange(animMin, animMax)
@@ -113,7 +113,7 @@ ucitavac.load('model/droid.json', function (oblik) {
   igrac.mesh.rotation.y = -Math.PI / 2
   igrac.mesh.scale.set(skaliranje, skaliranje, skaliranje)
   igrac.mesh.position.y = 0.5
-  igrac.promeniStanje('stand')
+  igrac.promeniPokret('stand')
   igrac.objekat.add(igrac.mesh)
 })
 
@@ -148,8 +148,8 @@ function odrediUgao () {
 }
 
 function hodaj () {
-  if (igrac.kretnja !== 'run' && igrac.stanje === 'stand') igrac.promeniStanje('run')
-  if (igrac.kretnja !== 'crwalk' && igrac.stanje === 'crstand') igrac.promeniStanje('crwalk')
+  if (igrac.pokret !== 'run' && igrac.stanje === 'stand') igrac.promeniPokret('run')
+  if (igrac.pokret !== 'crwalk' && igrac.stanje === 'crstand') igrac.promeniPokret('crwalk')
 
   let modifikator = 1
   if (igrac.stanje === 'crstand') modifikator = 0.5
@@ -222,12 +222,12 @@ function azuriraPrestanakKretanja (keyCode) {
 
 function azurirajIgraca (deltaVreme) {
   if (!igrac.mesh) return
-  const isEndFrame = stanja[igrac.kretnja][1] === igrac.mesh.currentKeyframe
-  const isAction = stanja[igrac.kretnja][3].action
+  const isEndFrame = (pokreti[igrac.pokret].animMax === igrac.mesh.currentKeyframe)
+  const isAction = pokreti[igrac.pokret].action
   if (!isAction || (isAction && !isEndFrame)) {
     igrac.mesh.updateAnimation(1000 * deltaVreme)
-  } else if (stanja[igrac.kretnja][3].stanje !== 'freeze') {
-    igrac.promeniStanje(igrac.stanje)
+  } else if (pokreti[igrac.pokret].stanje !== 'freeze') {
+    igrac.promeniPokret(igrac.stanje)
   }
 }
 
@@ -253,9 +253,9 @@ window.onload = function () {
 document.addEventListener('keydown', function (e) {
   if (e.keyCode !== 67) return  // c
   if (igrac.stanje === 'stand') {
-    igrac.promeniStanje('crstand')
+    igrac.promeniPokret('crstand')
   } else if (igrac.stanje === 'crstand') {
-    igrac.promeniStanje('stand')
+    igrac.promeniPokret('stand')
   }
 })
 
@@ -263,8 +263,8 @@ document.addEventListener('keydown', function (e) {
   if (!/65|68|83|87/.test(e.keyCode)) return
   azurirajStanjeKretanja(e.keyCode)
   if (!igrac.stanjeKretanja.ide) {
-    if (igrac.stanje === 'stand') igrac.promeniStanje('run')
-    if (igrac.stanje === 'crstand') igrac.promeniStanje('crwalk')
+    if (igrac.stanje === 'stand') igrac.promeniPokret('run')
+    if (igrac.stanje === 'crstand') igrac.promeniPokret('crwalk')
     igrac.stanjeKretanja.ide = true
     hodaj()
     interval = setInterval(() => hodaj(), 1000 / 60)
@@ -275,7 +275,7 @@ document.addEventListener('keyup', function (e) {
   if (!/65|68|83|87/.test(e.keyCode)) return
   azuriraPrestanakKretanja(e.keyCode)
   if (!igrac.stanjeKretanja.napred && !igrac.stanjeKretanja.nazad && !igrac.stanjeKretanja.levo && !igrac.stanjeKretanja.desno) {
-    igrac.promeniStanje(igrac.stanje)
+    igrac.promeniPokret(igrac.stanje)
     igrac.stanjeKretanja.ide = false
     clearInterval(interval)
   }

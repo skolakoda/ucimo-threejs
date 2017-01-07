@@ -1,17 +1,17 @@
-/* global stanja */
+/* global pokreti */
 
 /** KONFIG **/
 
 const igrac = {
   mesh: null,
-  kretnja: 'stand',
+  pokret: 'stand',
   stanje: 'stand',
-  promeniStanje: function (kretnja) {
-    igrac.kretnja = kretnja
-    igrac.stanje = stanja[kretnja][3].stanje
-    const animMin = stanja[kretnja][0]
-    const animMax = stanja[kretnja][1]
-    const animFps = stanja[kretnja][2]
+  promeniPokret: function (pokret) {
+    igrac.pokret = pokret
+    igrac.stanje = pokreti[pokret].stanje
+    const animMin = pokreti[pokret].animMin
+    const animMax = pokreti[pokret].animMax
+    const animFps = pokreti[pokret].animFps
     igrac.mesh.time = 0
     igrac.mesh.duration = 1000 * ((animMax - animMin) / animFps)
     igrac.mesh.setFrameRange(animMin, animMax)
@@ -46,7 +46,7 @@ const materijal = new THREE.MeshPhongMaterial({
 const ucitavac = new THREE.JSONLoader()
 ucitavac.load('model/droid.json', function (oblik) {
   igrac.mesh = new THREE.MorphAnimMesh(oblik, materijal)
-  igrac.promeniStanje('stand')
+  igrac.promeniPokret('stand')
   scena.add(igrac.mesh)
 })
 
@@ -56,12 +56,12 @@ const clock = new THREE.Clock()
 
 function azurirajIgraca (deltaVreme) {
   if (!igrac.mesh) return
-  const isEndFrame = (stanja[igrac.kretnja][1] === igrac.mesh.currentKeyframe)
-  const isAction = stanja[igrac.kretnja][3].action
+  const isEndFrame = (pokreti[igrac.pokret].animMax === igrac.mesh.currentKeyframe)
+  const isAction = pokreti[igrac.pokret].action
   if (!isAction || (isAction && !isEndFrame)) {
     igrac.mesh.updateAnimation(1000 * deltaVreme)
-  } else if (stanja[igrac.kretnja][3].stanje !== 'freeze') {
-    igrac.promeniStanje(igrac.stanje)
+  } else if (pokreti[igrac.pokret].stanje !== 'freeze') {
+    igrac.promeniPokret(igrac.stanje)
   }
 }
 
@@ -91,4 +91,4 @@ document.querySelector('#tekstura2').addEventListener('click', () => {
 })
 
 const buttons = [...document.querySelectorAll('.js-stanje')]
-buttons.map(btn => btn.addEventListener('click', () => igrac.promeniStanje(btn.value)))
+buttons.map(btn => btn.addEventListener('click', () => igrac.promeniPokret(btn.value)))
