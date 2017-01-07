@@ -184,30 +184,57 @@ function rotate () {
   kursor.staroY = kursor.y
 }
 
+function azurirajStanjeKretanja (keyCode) {
+  switch (keyCode) {
+    case 87:
+      igrac.stanjeKretanja.napred = true
+      igrac.stanjeKretanja.nazad = false
+      break
+    case 83:
+      igrac.stanjeKretanja.nazad = true
+      igrac.stanjeKretanja.napred = false
+      break
+    case 65:
+      igrac.stanjeKretanja.levo = true
+      igrac.stanjeKretanja.desno = false
+      break
+    case 68:
+      igrac.stanjeKretanja.desno = true
+      igrac.stanjeKretanja.levo = false
+  }
+}
+
+function azuriraPrestanakKretanja (keyCode) {
+  switch (keyCode) {
+    case 87:
+      igrac.stanjeKretanja.napred = false
+      break
+    case 83:
+      igrac.stanjeKretanja.nazad = false
+      break
+    case 65:
+      igrac.stanjeKretanja.levo = false
+      break
+    case 68:
+      igrac.stanjeKretanja.desno = false
+  }
+}
+
 function update () {
   requestAnimationFrame(update)
-
-  igrac.objekat.position.x = igrac.position.x
-  igrac.objekat.position.y = igrac.position.y
-  igrac.objekat.position.z = igrac.position.z
-
+  igrac.objekat.position.set(igrac.position.x, igrac.position.y, igrac.position.z)
   kamera.position.x = igrac.position.x + igrac.kamera.daljina * Math.sin((igrac.kamera.x) * Math.PI / 360)
   kamera.position.z = igrac.position.z + igrac.kamera.daljina * Math.cos((igrac.kamera.x) * Math.PI / 360)
-  kamera.position.y = igrac.position.y + igrac.kamera.daljina * Math.sin((igrac.kamera.y) * Math.PI / 360)
-  kamera.position.y += 1
-
+  kamera.position.y = igrac.position.y + igrac.kamera.daljina * Math.sin((igrac.kamera.y) * Math.PI / 360) + 1
   const vec3 = new THREE.Vector3(igrac.position.x, igrac.position.y, igrac.position.z)
   kamera.lookAt(vec3)
-
-  // model animation
-  const delta = casovnik.getDelta()
+  const deltaVreme = casovnik.getDelta()
   if (igrac.mesh) {
-    const isEndFleame = (svaStanja[igrac.kretnja][1] === igrac.mesh.currentKeyframe)
+    const isEndFrame = svaStanja[igrac.kretnja][1] === igrac.mesh.currentKeyframe
     const isAction = svaStanja[igrac.kretnja][3].action
-
-    if (!isAction || (isAction && !isEndFleame)) {
-      igrac.mesh.updateAnimation(1000 * delta)
-    } else if (/freeze/.test(svaStanja[igrac.kretnja][3].stanje)) {
+    if (!isAction || (isAction && !isEndFrame)) {
+      igrac.mesh.updateAnimation(1000 * deltaVreme)
+    } else if (svaStanja[igrac.kretnja][3].stanje === 'freeze') {
         // dead...
     } else {
       igrac.promeniStanje(igrac.stanje)
@@ -224,7 +251,7 @@ window.onload = function () {
 }
 
 document.addEventListener('keydown', function (e) {
-  if (e.keyCode !== 67) return
+  if (e.keyCode !== 67) return  // c
   if (igrac.stanje === 'stand') {
     igrac.promeniStanje('crstand')
   } else if (igrac.stanje === 'crstand') {
@@ -233,48 +260,20 @@ document.addEventListener('keydown', function (e) {
 })
 
 document.addEventListener('keydown', function (e) {
-  if (!/65|68|83|87/.test(e.keyCode)) {
-    return
-  }
-  if (e.keyCode === 87) {
-    igrac.stanjeKretanja.napred = true
-    igrac.stanjeKretanja.nazad = false
-  } else if (e.keyCode === 83) {
-    igrac.stanjeKretanja.nazad = true
-    igrac.stanjeKretanja.napred = false
-  } else if (e.keyCode === 65) {
-    igrac.stanjeKretanja.levo = true
-    igrac.stanjeKretanja.desno = false
-  } else if (e.keyCode === 68) {
-    igrac.stanjeKretanja.desno = true
-    igrac.stanjeKretanja.levo = false
-  }
+  if (!/65|68|83|87/.test(e.keyCode)) return
+  azurirajStanjeKretanja(e.keyCode)
   if (!igrac.stanjeKretanja.ide) {
-    if (igrac.stanje === 'stand') {
-      igrac.promeniStanje('run')
-    }
-    if (igrac.stanje === 'crstand') {
-      igrac.promeniStanje('crwalk')
-    }
+    if (igrac.stanje === 'stand') igrac.promeniStanje('run')
+    if (igrac.stanje === 'crstand') igrac.promeniStanje('crwalk')
     igrac.stanjeKretanja.ide = true
     hodaj()
-    interval = setInterval(function () {
-      hodaj()
-    }, 1000 / 60)
+    interval = setInterval(() => hodaj(), 1000 / 60)
   }
 })
 
 document.addEventListener('keyup', function (e) {
   if (!/65|68|83|87/.test(e.keyCode)) return
-  if (e.keyCode === 87) {
-    igrac.stanjeKretanja.napred = false
-  } else if (e.keyCode === 83) {
-    igrac.stanjeKretanja.nazad = false
-  } else if (e.keyCode === 65) {
-    igrac.stanjeKretanja.levo = false
-  } else if (e.keyCode === 68) {
-    igrac.stanjeKretanja.desno = false
-  }
+  azuriraPrestanakKretanja(e.keyCode)
   if (!igrac.stanjeKretanja.napred && !igrac.stanjeKretanja.nazad && !igrac.stanjeKretanja.levo && !igrac.stanjeKretanja.desno) {
     igrac.promeniStanje(igrac.stanje)
     igrac.stanjeKretanja.ide = false
