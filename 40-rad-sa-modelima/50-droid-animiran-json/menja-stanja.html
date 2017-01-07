@@ -26,28 +26,28 @@
 
 <body>
   <div class="komande">
-    <button onclick="igrac.mesh.material.map = THREE.ImageUtils.loadTexture( 'model/teksture/droid-tekstura.png' )">Texture 1</button>
-    <button onclick="igrac.mesh.material.map = THREE.ImageUtils.loadTexture( 'model/teksture/droid-tekstura2.png' )">Texture 2</button><br>
-    <button onclick="igrac.promeniStanje('stand')">stand</button>
-    <button onclick="igrac.promeniStanje('run')">run</button>
-    <button onclick="igrac.promeniStanje('attack')">attack</button>
-    <button onclick="igrac.promeniStanje('pain1')">pain1</button>
-    <button onclick="igrac.promeniStanje('pain2')">pain2</button>
-    <button onclick="igrac.promeniStanje('pain3')">pain3</button>
-    <button onclick="igrac.promeniStanje('jump')">jump</button>
-    <button onclick="igrac.promeniStanje('flip')">flip</button>
-    <button onclick="igrac.promeniStanje('salute')">salute</button>
-    <button onclick="igrac.promeniStanje('taunt')">taunt</button>
-    <button onclick="igrac.promeniStanje('wave')">wave</button>
-    <button onclick="igrac.promeniStanje('point')">point</button>
-    <button onclick="igrac.promeniStanje('crstand')">crstand</button>
-    <button onclick="igrac.promeniStanje('crwalk')">crwalk</button>
-    <button onclick="igrac.promeniStanje('crattack')">crattack</button>
-    <button onclick="igrac.promeniStanje('crpain')">crpain</button>
-    <button onclick="igrac.promeniStanje('crdeath');">crdeath</button>
-    <button onclick="igrac.promeniStanje('death1');">death1</button>
-    <button onclick="igrac.promeniStanje('death2');">death2</button>
-    <button onclick="igrac.promeniStanje('death3');">death3</button>
+    <button id="tekstura1">Texture 1</button>
+    <button id="tekstura2">Texture 2</button><br>
+    <button class="js-stanje" value="stand">stand</button>
+    <button class="js-stanje" value="run">run</button>
+    <button class="js-stanje" value="attack">attack</button>
+    <button class="js-stanje" value="pain1">pain1</button>
+    <button class="js-stanje" value="pain2">pain2</button>
+    <button class="js-stanje" value="pain3">pain3</button>
+    <button class="js-stanje" value="jump">jump</button>
+    <button class="js-stanje" value="flip">flip</button>
+    <button class="js-stanje" value="salute">salute</button>
+    <button class="js-stanje" value="taunt">taunt</button>
+    <button class="js-stanje" value="wave">wave</button>
+    <button class="js-stanje" value="point">point</button>
+    <button class="js-stanje" value="crstand">crstand</button>
+    <button class="js-stanje" value="crwalk">crwalk</button>
+    <button class="js-stanje" value="crattack">crattack</button>
+    <button class="js-stanje" value="crpain">crpain</button>
+    <button class="js-stanje" value="crdeath">crdeath</button>
+    <button class="js-stanje" value="death1">death1</button>
+    <button class="js-stanje" value="death2">death2</button>
+    <button class="js-stanje" value="death3">death3</button>
   </div>
 
   <script src="../../libs/Three_r49.js"></script>

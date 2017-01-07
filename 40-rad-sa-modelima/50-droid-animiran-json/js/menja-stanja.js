@@ -76,4 +76,19 @@ function update () {
   requestAnimationFrame(update)
 }
 
+/** EXEC **/
+
 update()
+
+/** EVENTS **/
+
+document.querySelector('#tekstura1').addEventListener('click', () => {
+  igrac.mesh.material.map = THREE.ImageUtils.loadTexture('model/teksture/droid-tekstura.png')
+})
+
+document.querySelector('#tekstura2').addEventListener('click', () => {
+  igrac.mesh.material.map = THREE.ImageUtils.loadTexture('model/teksture/droid-tekstura2.png')
+})
+
+const buttons = [...document.querySelectorAll('.js-stanje')]
+buttons.map(btn => btn.addEventListener('click', () => igrac.promeniStanje(btn.value)))
