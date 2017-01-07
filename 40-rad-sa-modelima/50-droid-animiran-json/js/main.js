@@ -1,44 +1,50 @@
+/** KONFIG **/
+
+let timer
 let md2meshBody
 
-const player = {
+const igrac = {
   model: {
-    objects: new THREE.Object3D(),
-    motion: 'stand',
-    state: 'stand'
+    objekat: new THREE.Object3D(),
+    kretnja: 'stand',
+    stanje: 'stand'
   },
   position: {
     x: 0,
     y: 0,
     z: 0,
-    direction: 0
+    smer: 0
   },
-  camera: {
-    speed: 300,
-    distance: 5,
+  kamera: {
+    brzina: 300,
+    daljina: 5,
     x: 0,
     y: 0,
     z: 0
   }
 }
 
-const width = window.innerWidth
-const height = window.innerHeight
+const sirinaScene = window.innerWidth
+const visinaScene = window.innerHeight
+
+/** INIT **/
+
 const clock = new THREE.Clock()
 
-const scene = new THREE.Scene()
-scene.fog = new THREE.FogExp2(0x000000, 0.05)
-scene.add(player.model.objects)
+const scena = new THREE.Scene()
+scena.fog = new THREE.FogExp2(0x000000, 0.05)
+scena.add(igrac.model.objekat)
 
-const camera = new THREE.PerspectiveCamera(40, width / height, 1, 1000)
-scene.add(camera)
+const kamera = new THREE.PerspectiveCamera(40, sirinaScene / visinaScene, 1, 1000)
+scena.add(kamera)
 
 const light = new THREE.DirectionalLight(0xffffff, 1.5)
 light.position.set(1, 1, 1).normalize()
 light.castShadow = true
-scene.add(light)
+scena.add(light)
 
 const renderer = new THREE.WebGLRenderer()
-renderer.setSize(width, height)
+renderer.setSize(sirinaScene, visinaScene)
 renderer.shadowMapEnabled = true
 renderer.shadowMapSoft = true
 renderer.shadowMapEnabled = true
@@ -46,7 +52,7 @@ document.body.appendChild(renderer.domElement)
 
 animate()
 
-  /* create field */
+/* create field */
 
 const planeGeometry = new THREE.PlaneGeometry(1000, 1000)
 const planeMaterial = new THREE.MeshLambertMaterial({
@@ -60,7 +66,7 @@ planeMaterial.map.wrapT = THREE.RepeatWrapping
 const plane = new THREE.Mesh(planeGeometry, planeMaterial)
 plane.castShadow = false
 plane.receiveShadow = true
-scene.add(plane)
+scena.add(plane)
 
 const meshArray = []
 const geometry = new THREE.CubeGeometry(1, 1, 1)
@@ -73,100 +79,100 @@ for (let i = 0; i < 100; i++) {
   meshArray[i].position.z = -1 * i * 4
   meshArray[i].castShadow = true
   meshArray[i].receiveShadow = true
-  scene.add(meshArray[i])
+  scena.add(meshArray[i])
 }
 
 const md2frames = {
     // first, last, fps
   stand: [0, 39, 9, {
-    state: 'stand',
+    stanje: 'stand',
     action: false
   }], // STAND
   run: [40, 45, 10, {
-    state: 'stand',
+    stanje: 'stand',
     action: false
   }], // RUN
   attack: [46, 53, 10, {
-    state: 'stand',
+    stanje: 'stand',
     action: true
   }], // ATTACK
   pain1: [54, 57, 7, {
-    state: 'stand',
+    stanje: 'stand',
     action: true
   }], // PAIN_A
   pain2: [58, 61, 7, {
-    state: 'stand',
+    stanje: 'stand',
     action: true
   }], // PAIN_B
   pain3: [62, 65, 7, {
-    state: 'stand',
+    stanje: 'stand',
     action: true
   }], // PAIN_C
   jump: [66, 71, 7, {
-    state: 'stand',
+    stanje: 'stand',
     action: true
   }], // JUMP
   flip: [72, 83, 7, {
-    state: 'stand',
+    stanje: 'stand',
     action: true
   }], // FLIP
   salute: [84, 94, 7, {
-    state: 'stand',
+    stanje: 'stand',
     action: true
   }], // SALUTE
   taunt: [95, 111, 10, {
-    state: 'stand',
+    stanje: 'stand',
     action: true
   }], // FALLBACK
   wave: [112, 122, 7, {
-    state: 'stand',
+    stanje: 'stand',
     action: true
   }], // WAVE
   point: [123, 134, 6, {
-    state: 'stand',
+    stanje: 'stand',
     action: true
   }], // POINT
   crstand: [135, 153, 10, {
-    state: 'crstand',
+    stanje: 'crstand',
     action: false
   }], // CROUCH_STAND
   crwalk: [154, 159, 7, {
-    state: 'crstand',
+    stanje: 'crstand',
     action: false
   }], // CROUCH_WALK
   crattack: [160, 168, 10, {
-    state: 'crstand',
+    stanje: 'crstand',
     action: true
   }], // CROUCH_ATTACK
   crpain: [196, 172, 7, {
-    state: 'crstand',
+    stanje: 'crstand',
     action: true
   }], // CROUCH_PAIN
   crdeath: [173, 177, 5, {
-    state: 'freeze',
+    stanje: 'freeze',
     action: true
   }], // CROUCH_DEATH
   death1: [178, 183, 7, {
-    state: 'freeze',
+    stanje: 'freeze',
     action: true
   }], // DEATH_FALLBACK
   death2: [184, 189, 7, {
-    state: 'freeze',
+    stanje: 'freeze',
     action: true
   }], // DEATH_FALLFORWARD
   death3: [190, 197, 7, {
-    state: 'freeze',
+    stanje: 'freeze',
     action: true
   }] // DEATH_FALLBACKSLOW
     // boom    : [ 198, 198,  5 ]    // BOOM
 }
 
-function changeMotion (motion) {
-  player.model.motion = motion
-  player.model.state = md2frames[motion][3].state
-  const animMin = md2frames[motion][0]
-  const animMax = md2frames[motion][1]
-  const animFps = md2frames[motion][2]
+function changeMotion (kretnja) {
+  igrac.model.kretnja = kretnja
+  igrac.model.stanje = md2frames[kretnja][3].stanje
+  const animMin = md2frames[kretnja][0]
+  const animMax = md2frames[kretnja][1]
+  const animFps = md2frames[kretnja][2]
   md2meshBody.time = 0
   md2meshBody.duration = 1000 * ((animMax - animMin) / animFps)
   md2meshBody.setFrameRange(animMin, animMax)
@@ -190,8 +196,7 @@ loader.load('model/droid.json', function (geometry) {
   md2meshBody.castShadow = true
   md2meshBody.receiveShadow = true
   changeMotion('stand')
-  player.model.objects.add(md2meshBody)
-  console.log(player.model.objects)
+  igrac.model.objekat.add(md2meshBody)
 })
 
   /**
@@ -201,9 +206,9 @@ document.addEventListener('keydown', function (e) {
   if (!/67/.test(e.keyCode)) {
     return
   } // c key
-  if (player.model.state === 'stand') {
+  if (igrac.model.stanje === 'stand') {
     changeMotion('crstand')
-  } else if (player.model.state === 'crstand') {
+  } else if (igrac.model.stanje === 'crstand') {
     changeMotion('stand')
   }
 }, false)
@@ -217,57 +222,56 @@ const moveState = {
   Backwards: false,
   left: false,
   right: false,
-  speed: 0.1,
+  brzina: 0.1,
   angle: 0
 }
 
 function move () {
-  if (player.model.motion !== 'run' && player.model.state === 'stand') {
+  if (igrac.model.kretnja !== 'run' && igrac.model.stanje === 'stand') {
     changeMotion('run')
   }
-  if (player.model.motion !== 'crwalk' && player.model.state === 'crstand') {
+  if (igrac.model.kretnja !== 'crwalk' && igrac.model.stanje === 'crstand') {
     changeMotion('crwalk')
   }
-  let speed = moveState.speed
-  if (player.model.state === 'crstand') {
-    speed *= 0.5
+  let brzina = moveState.brzina
+  if (igrac.model.stanje === 'crstand') {
+    brzina *= 0.5
   }
-  if (player.model.state === 'freeze') {
-    speed *= 0
+  if (igrac.model.stanje === 'freeze') {
+    brzina *= 0
   }
 
-  let direction = moveState.angle
+  let smer = moveState.angle
   if (moveState.front && !moveState.left && !moveState.Backwards && !moveState.right) {
-    direction += 0
+    smer += 0
   }
   if (moveState.front && moveState.left && !moveState.Backwards && !moveState.right) {
-    direction += 45
+    smer += 45
   }
   if (!moveState.front && moveState.left && !moveState.Backwards && !moveState.right) {
-    direction += 90
+    smer += 90
   }
   if (!moveState.front && moveState.left && moveState.Backwards && !moveState.right) {
-    direction += 135
+    smer += 135
   }
   if (!moveState.front && !moveState.left && moveState.Backwards && !moveState.right) {
-    direction += 180
+    smer += 180
   }
   if (!moveState.front && !moveState.left && moveState.Backwards && moveState.right) {
-    direction += 225
+    smer += 225
   }
   if (!moveState.front && !moveState.left && !moveState.Backwards && moveState.right) {
-    direction += 270
+    smer += 270
   }
   if (moveState.front && !moveState.left && !moveState.Backwards && moveState.right) {
-    direction += 315
+    smer += 315
   }
 
-  player.model.objects.rotation.y = direction * Math.PI / 180
-  player.position.x -= Math.sin(direction * Math.PI / 180) * speed
-  player.position.z -= Math.cos(direction * Math.PI / 180) * speed
+  igrac.model.objekat.rotation.y = smer * Math.PI / 180
+  igrac.position.x -= Math.sin(smer * Math.PI / 180) * brzina
+  igrac.position.z -= Math.cos(smer * Math.PI / 180) * brzina
 }
 
-let timer
 document.addEventListener('keydown', function (e) {
   if (!/65|68|83|87/.test(e.keyCode)) {
     return
@@ -286,10 +290,10 @@ document.addEventListener('keydown', function (e) {
     moveState.left = false
   }
   if (!moveState.moving) {
-    if (player.model.state === 'stand') {
+    if (igrac.model.stanje === 'stand') {
       changeMotion('run')
     }
-    if (player.model.state === 'crstand') {
+    if (igrac.model.stanje === 'crstand') {
       changeMotion('crwalk')
     }
     moveState.moving = true
@@ -314,15 +318,15 @@ document.addEventListener('keyup', function (e) {
     moveState.right = false
   }
   if (!moveState.front && !moveState.Backwards && !moveState.left && !moveState.right) {
-    changeMotion(player.model.state)
+    changeMotion(igrac.model.stanje)
     moveState.moving = false
     clearInterval(timer)
   }
 }, false)
 
-  /**
-   * camera rotation
-   */
+/**
+ * kamera rotation
+ */
 const getElementPosition = function (element) {
   let top = 0
   let left = 0
@@ -366,60 +370,48 @@ function rotateStop () {
 }
 
 function rotate () {
-  player.camera.x += (oldPointerX - pointer.x) * player.camera.speed
-  player.camera.y += (oldPointerY - pointer.y) * player.camera.speed
-  if (player.camera.y > 150) {
-    player.camera.y = 150
+  igrac.kamera.x += (oldPointerX - pointer.x) * igrac.kamera.brzina
+  igrac.kamera.y += (oldPointerY - pointer.y) * igrac.kamera.brzina
+  if (igrac.kamera.y > 150) {
+    igrac.kamera.y = 150
   }
-  if (player.camera.y < -150) {
-    player.camera.y = -150
+  if (igrac.kamera.y < -150) {
+    igrac.kamera.y = -150
   }
-
-  moveState.angle = (player.camera.x / 2) % 360
-
+  moveState.angle = (igrac.kamera.x / 2) % 360
   oldPointerX = pointer.x
   oldPointerY = pointer.y
 }
 
-  /**
-   * render
-   */
 function animate () {
   requestAnimationFrame(animate)
 
-  player.model.objects.position.x = player.position.x
-  player.model.objects.position.y = player.position.y
-  player.model.objects.position.z = player.position.z
+  igrac.model.objekat.position.x = igrac.position.x
+  igrac.model.objekat.position.y = igrac.position.y
+  igrac.model.objekat.position.z = igrac.position.z
 
-    // camera rotate x
-  camera.position.x = player.position.x + player.camera.distance * Math.sin((player.camera.x) * Math.PI / 360)
-  camera.position.z = player.position.z + player.camera.distance * Math.cos((player.camera.x) * Math.PI / 360)
+  kamera.position.x = igrac.position.x + igrac.kamera.daljina * Math.sin((igrac.kamera.x) * Math.PI / 360)
+  kamera.position.z = igrac.position.z + igrac.kamera.daljina * Math.cos((igrac.kamera.x) * Math.PI / 360)
+  kamera.position.y = igrac.position.y + igrac.kamera.daljina * Math.sin((igrac.kamera.y) * Math.PI / 360)
+  kamera.position.y += 1
 
-    // camera rotate y
-    // camera.position.x = player.position.x + player.camera.distance * Math.cos( (player.camera.y) * Math.PI / 360 );
-  camera.position.y = player.position.y + player.camera.distance * Math.sin((player.camera.y) * Math.PI / 360)
-    // camera.position.z = player.position.z + player.camera.distance * Math.cos( (player.camera.y) * Math.PI / 360 );
+  const vec3 = new THREE.Vector3(igrac.position.x, igrac.position.y, igrac.position.z)
+  kamera.lookAt(vec3)
 
-  camera.position.y += 1
-    // console.log(camera.position.z)
-
-  const vec3 = new THREE.Vector3(player.position.x, player.position.y, player.position.z)
-  camera.lookAt(vec3)
-
-    // model animation
+  // model animation
   const delta = clock.getDelta()
   if (md2meshBody) {
-    const isEndFleame = (md2frames[player.model.motion][1] === md2meshBody.currentKeyframe)
-    const isAction = md2frames[player.model.motion][3].action
+    const isEndFleame = (md2frames[igrac.model.kretnja][1] === md2meshBody.currentKeyframe)
+    const isAction = md2frames[igrac.model.kretnja][3].action
 
     if (!isAction || (isAction && !isEndFleame)) {
       md2meshBody.updateAnimation(1000 * delta)
-    } else if (/freeze/.test(md2frames[player.model.motion][3].state)) {
+    } else if (/freeze/.test(md2frames[igrac.model.kretnja][3].stanje)) {
         // dead...
     } else {
-      changeMotion(player.model.state)
+      changeMotion(igrac.model.stanje)
     }
   }
 
-  renderer.render(scene, camera)
+  renderer.render(scena, kamera)
 }
