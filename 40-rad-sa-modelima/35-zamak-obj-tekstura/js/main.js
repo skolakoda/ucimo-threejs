@@ -1,45 +1,45 @@
-const container = document.createElement('div')
-document.body.appendChild(container)
+/** INIT **/
 
-const camera = new THREE.PerspectiveCamera(
-  45, window.innerWidth / window.innerHeight, 1, 1000
-)
-camera.position.set(0, 0, 20)
+const scena = new THREE.Scene()
 
-const scene = new THREE.Scene()
+const kamera = new THREE.PerspectiveCamera(
+  45, window.innerWidth / window.innerHeight, 1, 1000)
+kamera.position.set(-2, 6, 20)
 
-const ambient = new THREE.AmbientLight(0x101030)
-scene.add(ambient)
+const ambijent = new THREE.AmbientLight(0x201010)
+scena.add(ambijent)
 
-const directionalLight = new THREE.DirectionalLight(0xffeedd)
-directionalLight.position.set(0, 0, 1)
-scene.add(directionalLight)
+const usmerenoSvetlo = new THREE.DirectionalLight(0xffeedd)
+usmerenoSvetlo.position.set(0, 0, 1)
+scena.add(usmerenoSvetlo)
 
-const texture = new THREE.Texture()
-const imageLoader = new THREE.ImageLoader()
-imageLoader.load('../../assets/teksture/crate.gif', image => {
-  texture.image = image
-  texture.needsUpdate = true
+const tekstura = new THREE.Texture()
+const ucitavacSlika = new THREE.ImageLoader()
+ucitavacSlika.load('../../assets/teksture/crate.gif', slika => {
+  tekstura.image = slika
+  tekstura.needsUpdate = true
 })
 
-const loader = new THREE.OBJLoader()
-loader.load('modeli/castle-X6.obj', object => {
-  object.traverse(child => {
-    if (child instanceof THREE.Mesh) child.material.map = texture
+const ucitavac = new THREE.OBJLoader()
+ucitavac.load('modeli/carobni-zamak.obj', model => {
+  model.traverse(komad => {
+    if (komad instanceof THREE.Mesh) komad.material.map = tekstura
   })
-  scene.add(object)
+  scena.add(model)
 })
 
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
-container.appendChild(renderer.domElement)
+document.body.appendChild(renderer.domElement)
 
-const controls = new THREE.OrbitControls(camera, renderer.domElement)
+const kontrole = new THREE.OrbitControls(kamera, renderer.domElement)
+
+/** FUNKCIJE **/
 
 function animate () {
   requestAnimationFrame(animate)
-  controls.update()
-  renderer.render(scene, camera)
+  kontrole.update()
+  renderer.render(scena, kamera)
 }
 
 animate()

@@ -1,71 +1,53 @@
-let mouseX = 0
-let mouseY = 0
-let windowHalfX = window.innerWidth / 2
-let windowHalfY = window.innerHeight / 2
+let misX = 0
+let misY = 0
+let polaEkranaX = window.innerWidth / 2
+let polaEkranaY = window.innerHeight / 2
 
 /** INIT **/
 
-const container = document.createElement('div')
-document.body.appendChild(container)
+const scena = new THREE.Scene()
 
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000)
-camera.position.z = 250
+const kamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000)
+kamera.position.z = 250
 
-const scene = new THREE.Scene()
+const ambijent = new THREE.AmbientLight(0x101030)
+scena.add(ambijent)
 
-// light
+const usmerenoSvetlo = new THREE.DirectionalLight(0xffeedd)
+usmerenoSvetlo.position.set(0, 0, 1)
+scena.add(usmerenoSvetlo)
 
-const ambient = new THREE.AmbientLight(0x101030)
-scene.add(ambient)
-
-const directionalLight = new THREE.DirectionalLight(0xffeedd)
-directionalLight.position.set(0, 0, 1)
-scene.add(directionalLight)
-
-// model
-
-const loader = new THREE.OBJLoader()
-loader.load('modeli/castle.obj', function (object) {
-  object.position.y = -95
-  scene.add(object)
+const ucitavac = new THREE.OBJLoader()
+ucitavac.load('modeli/zamak.obj', model => {
+  model.position.y = -95
+  scena.add(model)
 })
 
 const renderer = new THREE.WebGLRenderer()
-renderer.setPixelRatio(window.devicePixelRatio)
 renderer.setSize(window.innerWidth, window.innerHeight)
-container.appendChild(renderer.domElement)
+document.body.appendChild(renderer.domElement)
 
-/** FUNCTIONS **/
+/** FUNKCIJE **/
 
-function onWindowResize () {
-  windowHalfX = window.innerWidth / 2
-  windowHalfY = window.innerHeight / 2
-  camera.aspect = window.innerWidth / window.innerHeight
-  camera.updateProjectionMatrix()
-  renderer.setSize(window.innerWidth, window.innerHeight)
+const onDocumentMouseMove = event => {
+  misX = (event.clientX - polaEkranaX) / 2
+  misY = (event.clientY - polaEkranaY) / 2
 }
 
-function onDocumentMouseMove (event) {
-  mouseX = (event.clientX - windowHalfX) / 2
-  mouseY = (event.clientY - windowHalfY) / 2
+const render = () => {
+  kamera.position.x += (misX - kamera.position.x) * 0.05
+  kamera.position.y += (-misY - kamera.position.y) * 0.05
+  kamera.lookAt(scena.position)
+  renderer.render(scena, kamera)
 }
 
-function animate () {
-  requestAnimationFrame(animate)
+const update = () => {
+  requestAnimationFrame(update)
   render()
 }
 
-function render () {
-  camera.position.x += (mouseX - camera.position.x) * 0.05
-  camera.position.y += (-mouseY - camera.position.y) * 0.05
+/** LOGIKA **/
 
-  camera.lookAt(scene.position)
-  renderer.render(scene, camera)
-}
+update()
 
-/** EVENTS **/
-
-document.addEventListener('mousemove', onDocumentMouseMove, false)
-window.addEventListener('resize', onWindowResize, false)
-
-animate()
+document.addEventListener('mousemove', onDocumentMouseMove)
