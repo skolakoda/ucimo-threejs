@@ -1,5 +1,5 @@
 /* eslint-disable */
-const svaStanja = {
+const stanja = {
   // animMin, animMax, animFps
   stand   : [   0,  39,  9, {stanje : 'stand',  action : false} ],   // STAND
   run     : [  40,  45, 10, {stanje : 'stand',  action : false} ],   // RUN

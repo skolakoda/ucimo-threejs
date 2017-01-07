@@ -1,4 +1,4 @@
-/* global svaStanja */
+/* global stanja */
 
 /** MODEL **/
 
@@ -31,10 +31,10 @@ const igrac = {
   },
   promeniStanje: function (kretnja) {
     igrac.kretnja = kretnja
-    igrac.stanje = svaStanja[kretnja][3].stanje
-    const animMin = svaStanja[kretnja][0]
-    const animMax = svaStanja[kretnja][1]
-    const animFps = svaStanja[kretnja][2]
+    igrac.stanje = stanja[kretnja][3].stanje
+    const animMin = stanja[kretnja][0]
+    const animMax = stanja[kretnja][1]
+    const animFps = stanja[kretnja][2]
     igrac.mesh.time = 0
     igrac.mesh.duration = 1000 * ((animMax - animMin) / animFps)
     igrac.mesh.setFrameRange(animMin, animMax)
@@ -220,6 +220,17 @@ function azuriraPrestanakKretanja (keyCode) {
   }
 }
 
+function azurirajIgraca (deltaVreme) {
+  if (!igrac.mesh) return
+  const isEndFrame = stanja[igrac.kretnja][1] === igrac.mesh.currentKeyframe
+  const isAction = stanja[igrac.kretnja][3].action
+  if (!isAction || (isAction && !isEndFrame)) {
+    igrac.mesh.updateAnimation(1000 * deltaVreme)
+  } else if (stanja[igrac.kretnja][3].stanje !== 'freeze') {
+    igrac.promeniStanje(igrac.stanje)
+  }
+}
+
 function update () {
   requestAnimationFrame(update)
   igrac.objekat.position.set(igrac.position.x, igrac.position.y, igrac.position.z)
@@ -228,18 +239,7 @@ function update () {
   kamera.position.y = igrac.position.y + igrac.kamera.daljina * Math.sin((igrac.kamera.y) * Math.PI / 360) + 1
   const vec3 = new THREE.Vector3(igrac.position.x, igrac.position.y, igrac.position.z)
   kamera.lookAt(vec3)
-  const deltaVreme = casovnik.getDelta()
-  if (igrac.mesh) {
-    const isEndFrame = svaStanja[igrac.kretnja][1] === igrac.mesh.currentKeyframe
-    const isAction = svaStanja[igrac.kretnja][3].action
-    if (!isAction || (isAction && !isEndFrame)) {
-      igrac.mesh.updateAnimation(1000 * deltaVreme)
-    } else if (svaStanja[igrac.kretnja][3].stanje === 'freeze') {
-        // dead...
-    } else {
-      igrac.promeniStanje(igrac.stanje)
-    }
-  }
+  azurirajIgraca(casovnik.getDelta())
   renderer.render(scena, kamera)
 }
 
