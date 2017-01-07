@@ -1,27 +1,12 @@
-/* global pokreti */
+/* global pokreti, Robot */
 
 /** KONFIG **/
 
-const igrac = {
-  mesh: null,
-  pokret: 'stand',
-  stanje: 'stand',
-  promeniPokret: function (pokret) {
-    igrac.pokret = pokret
-    igrac.stanje = pokreti[pokret].stanje
-    const animMin = pokreti[pokret].animMin
-    const animMax = pokreti[pokret].animMax
-    const animFps = pokreti[pokret].animFps
-    igrac.mesh.time = 0
-    igrac.mesh.duration = 1000 * ((animMax - animMin) / animFps)
-    igrac.mesh.setFrameRange(animMin, animMax)
-  }
-}
-
+const igrac = new Robot()
 const sirinaScene = window.innerWidth
 const visinaScene = window.innerHeight
 
-let theta = 0
+let ugaoKamere = 0
 
 /** INIT **/
 
@@ -67,11 +52,11 @@ function azurirajIgraca (deltaVreme) {
 
 function update () {
   azurirajIgraca(clock.getDelta())
-  kamera.position.x = 150 * Math.sin(theta / 2 * Math.PI / 360)
-  kamera.position.y = 150 * Math.sin(theta / 2 * Math.PI / 360)
-  kamera.position.z = 150 * Math.cos(theta / 2 * Math.PI / 360)
+  kamera.position.x = 150 * Math.sin(ugaoKamere / 2 * Math.PI / 360)
+  kamera.position.y = 150 * Math.sin(ugaoKamere / 2 * Math.PI / 360)
+  kamera.position.z = 150 * Math.cos(ugaoKamere / 2 * Math.PI / 360)
   kamera.lookAt(scena.position)
-  theta++
+  ugaoKamere++
   renderer.render(scena, kamera)
   requestAnimationFrame(update)
 }

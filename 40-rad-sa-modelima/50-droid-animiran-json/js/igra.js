@@ -1,43 +1,15 @@
-/* global pokreti */
+/* global pokreti, Robot */
 
 /** MODEL **/
 
-const igrac = {
-  mesh: null,
-  pokret: 'stand',
-  stanje: 'stand',
-  stanjeKretanja: {
-    ide: false,
-    napred: false,
-    nazad: false,
-    levo: false,
-    desno: false,
-    brzina: 0.1,
-    ugao: 0
-  },
-  objekat: new THREE.Object3D(),
-  position: {
-    x: 0,
-    y: 0,
-    z: 0,
-    ugao: 0
-  },
-  kamera: {
-    brzina: 300,
-    daljina: 5,
-    x: 0,
-    y: 0,
-    z: 0
-  },
-  promeniPokret: function (pokret) {
-    igrac.pokret = pokret
-    igrac.stanje = pokreti[pokret].stanje
-    const animMin = pokreti[pokret].animMin
-    const animMax = pokreti[pokret].animMax
-    const animFps = pokreti[pokret].animFps
-    igrac.mesh.time = 0
-    igrac.mesh.duration = 1000 * ((animMax - animMin) / animFps)
-    igrac.mesh.setFrameRange(animMin, animMax)
+class Igrac extends Robot {
+  constructor () {
+    super()
+    this.ugao = 0
+    this.brzina = 0.1
+    this.x = this.y = this.z = 0
+    this.hoda = this.napred = this.nazad = this.levo = this.desno = false
+    this.objekat = new THREE.Object3D()
   }
 }
 
@@ -46,6 +18,14 @@ const igrac = {
 const sirinaScene = window.innerWidth
 const visinaScene = window.innerHeight
 const skaliranje = 0.02
+
+const stanjeKamere = {
+  brzina: 300,
+  daljina: 5,
+  x: 0,
+  y: 0,
+  z: 0
+}
 
 const kursor = {
   x: 0,
@@ -61,6 +41,7 @@ let ofsetLevo = 0
 /** INIT **/
 
 const casovnik = new THREE.Clock()
+const igrac = new Igrac()
 
 const scena = new THREE.Scene()
 scena.fog = new THREE.FogExp2(0x000000, 0.05)
@@ -136,14 +117,14 @@ const getDomElementPosition = domElement => {
 
 function odrediUgao () {
   let ugao = 0
-  if (igrac.stanjeKretanja.napred) ugao = 0
-  if (igrac.stanjeKretanja.levo) ugao = Math.PI / 2
-  if (igrac.stanjeKretanja.nazad) ugao = Math.PI
-  if (igrac.stanjeKretanja.desno) ugao = 3 * Math.PI / 2
-  if (igrac.stanjeKretanja.napred && igrac.stanjeKretanja.levo) ugao = Math.PI / 4
-  if (igrac.stanjeKretanja.levo && igrac.stanjeKretanja.nazad) ugao = 3 * Math.PI / 4
-  if (igrac.stanjeKretanja.nazad && igrac.stanjeKretanja.desno) ugao = 5 * Math.PI / 4
-  if (igrac.stanjeKretanja.napred && igrac.stanjeKretanja.desno) ugao = 7 * Math.PI / 4
+  if (igrac.napred) ugao = 0
+  if (igrac.levo) ugao = Math.PI / 2
+  if (igrac.nazad) ugao = Math.PI
+  if (igrac.desno) ugao = 3 * Math.PI / 2
+  if (igrac.napred && igrac.levo) ugao = Math.PI / 4
+  if (igrac.levo && igrac.nazad) ugao = 3 * Math.PI / 4
+  if (igrac.nazad && igrac.desno) ugao = 5 * Math.PI / 4
+  if (igrac.napred && igrac.desno) ugao = 7 * Math.PI / 4
   return ugao
 }
 
@@ -157,9 +138,9 @@ function hodaj () {
 
   const ugao = odrediUgao()
   igrac.objekat.rotation.y = ugao
-  const brzina = igrac.stanjeKretanja.brzina
-  igrac.position.x -= Math.sin(ugao) * brzina * modifikator
-  igrac.position.z -= Math.cos(ugao) * brzina * modifikator
+  const brzina = igrac.brzina
+  igrac.x -= Math.sin(ugao) * brzina * modifikator
+  igrac.z -= Math.cos(ugao) * brzina * modifikator
 }
 
 function rotateStart () {
@@ -175,11 +156,11 @@ function rotateStop () {
 }
 
 function rotate () {
-  igrac.kamera.x += (kursor.staroX - kursor.x) * igrac.kamera.brzina
-  igrac.kamera.y += (kursor.staroY - kursor.y) * igrac.kamera.brzina
-  if (igrac.kamera.y > 150) igrac.kamera.y = 150
-  if (igrac.kamera.y < -150) igrac.kamera.y = -150
-  igrac.stanjeKretanja.ugao = (igrac.kamera.x / 2) % 360
+  stanjeKamere.x += (kursor.staroX - kursor.x) * stanjeKamere.brzina
+  stanjeKamere.y += (kursor.staroY - kursor.y) * stanjeKamere.brzina
+  if (stanjeKamere.y > 150) stanjeKamere.y = 150
+  if (stanjeKamere.y < -150) stanjeKamere.y = -150
+  igrac.ugao = (stanjeKamere.x / 2) % 360
   kursor.staroX = kursor.x
   kursor.staroY = kursor.y
 }
@@ -187,36 +168,36 @@ function rotate () {
 function azurirajStanjeKretanja (keyCode) {
   switch (keyCode) {
     case 87:
-      igrac.stanjeKretanja.napred = true
-      igrac.stanjeKretanja.nazad = false
+      igrac.napred = true
+      igrac.nazad = false
       break
     case 83:
-      igrac.stanjeKretanja.nazad = true
-      igrac.stanjeKretanja.napred = false
+      igrac.nazad = true
+      igrac.napred = false
       break
     case 65:
-      igrac.stanjeKretanja.levo = true
-      igrac.stanjeKretanja.desno = false
+      igrac.levo = true
+      igrac.desno = false
       break
     case 68:
-      igrac.stanjeKretanja.desno = true
-      igrac.stanjeKretanja.levo = false
+      igrac.desno = true
+      igrac.levo = false
   }
 }
 
 function azuriraPrestanakKretanja (keyCode) {
   switch (keyCode) {
     case 87:
-      igrac.stanjeKretanja.napred = false
+      igrac.napred = false
       break
     case 83:
-      igrac.stanjeKretanja.nazad = false
+      igrac.nazad = false
       break
     case 65:
-      igrac.stanjeKretanja.levo = false
+      igrac.levo = false
       break
     case 68:
-      igrac.stanjeKretanja.desno = false
+      igrac.desno = false
   }
 }
 
@@ -233,11 +214,11 @@ function azurirajIgraca (deltaVreme) {
 
 function update () {
   requestAnimationFrame(update)
-  igrac.objekat.position.set(igrac.position.x, igrac.position.y, igrac.position.z)
-  kamera.position.x = igrac.position.x + igrac.kamera.daljina * Math.sin((igrac.kamera.x) * Math.PI / 360)
-  kamera.position.z = igrac.position.z + igrac.kamera.daljina * Math.cos((igrac.kamera.x) * Math.PI / 360)
-  kamera.position.y = igrac.position.y + igrac.kamera.daljina * Math.sin((igrac.kamera.y) * Math.PI / 360) + 1
-  const vec3 = new THREE.Vector3(igrac.position.x, igrac.position.y, igrac.position.z)
+  igrac.objekat.position.set(igrac.x, igrac.y, igrac.z)
+  kamera.position.x = igrac.x + stanjeKamere.daljina * Math.sin((stanjeKamere.x) * Math.PI / 360)
+  kamera.position.z = igrac.z + stanjeKamere.daljina * Math.cos((stanjeKamere.x) * Math.PI / 360)
+  kamera.position.y = igrac.y + stanjeKamere.daljina * Math.sin((stanjeKamere.y) * Math.PI / 360) + 1
+  const vec3 = new THREE.Vector3(igrac.x, igrac.y, igrac.z)
   kamera.lookAt(vec3)
   azurirajIgraca(casovnik.getDelta())
   renderer.render(scena, kamera)
@@ -262,10 +243,10 @@ document.addEventListener('keydown', function (e) {
 document.addEventListener('keydown', function (e) {
   if (!/65|68|83|87/.test(e.keyCode)) return
   azurirajStanjeKretanja(e.keyCode)
-  if (!igrac.stanjeKretanja.ide) {
+  if (!igrac.hoda) {
     if (igrac.stanje === 'stand') igrac.promeniPokret('run')
     if (igrac.stanje === 'crstand') igrac.promeniPokret('crwalk')
-    igrac.stanjeKretanja.ide = true
+    igrac.hoda = true
     hodaj()
     interval = setInterval(() => hodaj(), 1000 / 60)
   }
@@ -274,9 +255,9 @@ document.addEventListener('keydown', function (e) {
 document.addEventListener('keyup', function (e) {
   if (!/65|68|83|87/.test(e.keyCode)) return
   azuriraPrestanakKretanja(e.keyCode)
-  if (!igrac.stanjeKretanja.napred && !igrac.stanjeKretanja.nazad && !igrac.stanjeKretanja.levo && !igrac.stanjeKretanja.desno) {
+  if (!igrac.napred && !igrac.nazad && !igrac.levo && !igrac.desno) {
     igrac.promeniPokret(igrac.stanje)
-    igrac.stanjeKretanja.ide = false
+    igrac.hoda = false
     clearInterval(interval)
   }
 })
