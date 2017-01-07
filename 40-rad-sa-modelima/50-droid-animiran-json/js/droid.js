@@ -50,7 +50,7 @@ animate()
 
 const planeGeometry = new THREE.PlaneGeometry(1000, 1000)
 const planeMaterial = new THREE.MeshLambertMaterial({
-  map: THREE.ImageUtils.loadTexture('teksture/trava.jpg'),
+  map: THREE.ImageUtils.loadTexture('model/teksture/trava.jpg'),
   color: 0xffffff
 })
 planeMaterial.map.repeat.x = 300
@@ -173,7 +173,7 @@ function changeMotion (motion) {
 }
 
 const material = new THREE.MeshLambertMaterial({
-  map: THREE.ImageUtils.loadTexture('teksture/droid-tekstura.png'),
+  map: THREE.ImageUtils.loadTexture('model/teksture/droid-tekstura.png'),
   ambient: 0x999999,
   color: 0xffffff,
   specular: 0xffffff,
@@ -182,7 +182,7 @@ const material = new THREE.MeshLambertMaterial({
 })
 
 const loader = new THREE.JSONLoader()
-loader.load('modeli/droid.json', function (geometry) {
+loader.load('model/droid.json', function (geometry) {
   md2meshBody = new THREE.MorphAnimMesh(geometry, material)
   md2meshBody.rotation.y = -Math.PI / 2
   md2meshBody.scale.set(0.02, 0.02, 0.02)
