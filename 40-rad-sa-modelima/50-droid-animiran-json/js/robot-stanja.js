@@ -1,6 +1,6 @@
 /* eslint-disable */
-const robotStanja = {
-  // first, last, fps
+const svaStanja = {
+  // animMin, animMax, animFps
   stand   : [   0,  39,  9, {stanje : 'stand',  action : false} ],   // STAND
   run     : [  40,  45, 10, {stanje : 'stand',  action : false} ],   // RUN
   attack  : [  46,  53, 10, {stanje : 'stand',  action : true}  ],   // ATTACK
