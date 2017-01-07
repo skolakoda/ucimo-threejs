@@ -1,7 +1,12 @@
+/* global robotStanja */
+
 /** KONFIG **/
 
-let timer
-let md2meshBody
+let interval
+let igracMesh
+
+const sirinaScene = window.innerWidth
+const visinaScene = window.innerHeight
 
 const igrac = {
   model: {
@@ -21,15 +26,22 @@ const igrac = {
     x: 0,
     y: 0,
     z: 0
+  },
+  changeMotion: function (kretnja) {
+    igrac.model.kretnja = kretnja
+    igrac.model.stanje = robotStanja[kretnja][3].stanje
+    const animMin = robotStanja[kretnja][0]
+    const animMax = robotStanja[kretnja][1]
+    const animFps = robotStanja[kretnja][2]
+    igracMesh.time = 0
+    igracMesh.duration = 1000 * ((animMax - animMin) / animFps)
+    igracMesh.setFrameRange(animMin, animMax)
   }
 }
 
-const sirinaScene = window.innerWidth
-const visinaScene = window.innerHeight
-
 /** INIT **/
 
-const clock = new THREE.Clock()
+const casovnik = new THREE.Clock()
 
 const scena = new THREE.Scene()
 scena.fog = new THREE.FogExp2(0x000000, 0.05)
@@ -38,144 +50,35 @@ scena.add(igrac.model.objekat)
 const kamera = new THREE.PerspectiveCamera(40, sirinaScene / visinaScene, 1, 1000)
 scena.add(kamera)
 
-const light = new THREE.DirectionalLight(0xffffff, 1.5)
-light.position.set(1, 1, 1).normalize()
-light.castShadow = true
-scena.add(light)
+const svetlo = new THREE.DirectionalLight(0xffffff, 1.5)
+svetlo.position.set(1, 1, 1)
+scena.add(svetlo)
 
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(sirinaScene, visinaScene)
-renderer.shadowMapEnabled = true
-renderer.shadowMapSoft = true
-renderer.shadowMapEnabled = true
 document.body.appendChild(renderer.domElement)
 
-animate()
-
-/* create field */
-
-const planeGeometry = new THREE.PlaneGeometry(1000, 1000)
-const planeMaterial = new THREE.MeshLambertMaterial({
-  map: THREE.ImageUtils.loadTexture('model/teksture/trava.jpg'),
-  color: 0xffffff
+const ravanOblik = new THREE.PlaneGeometry(1000, 1000)
+const ravanMaterijal = new THREE.MeshLambertMaterial({
+  map: THREE.ImageUtils.loadTexture('model/teksture/trava.jpg')
 })
-planeMaterial.map.repeat.x = 300
-planeMaterial.map.repeat.y = 300
-planeMaterial.map.wrapS = THREE.RepeatWrapping
-planeMaterial.map.wrapT = THREE.RepeatWrapping
-const plane = new THREE.Mesh(planeGeometry, planeMaterial)
-plane.castShadow = false
-plane.receiveShadow = true
-scena.add(plane)
+ravanMaterijal.map.repeat.x = 300
+ravanMaterijal.map.repeat.y = 300
+ravanMaterijal.map.wrapS = THREE.RepeatWrapping
+ravanMaterijal.map.wrapT = THREE.RepeatWrapping
+const ravan = new THREE.Mesh(ravanOblik, ravanMaterijal)
+scena.add(ravan)
 
-const meshArray = []
+const kocke = []
 const geometry = new THREE.CubeGeometry(1, 1, 1)
 for (let i = 0; i < 100; i++) {
-  meshArray[i] = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({
+  kocke[i] = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({
     color: 0xffffff * Math.random()
   }))
-  meshArray[i].position.x = i % 2 * 5 - 2.5
-  meshArray[i].position.y = 0.5
-  meshArray[i].position.z = -1 * i * 4
-  meshArray[i].castShadow = true
-  meshArray[i].receiveShadow = true
-  scena.add(meshArray[i])
-}
-
-const md2frames = {
-    // first, last, fps
-  stand: [0, 39, 9, {
-    stanje: 'stand',
-    action: false
-  }], // STAND
-  run: [40, 45, 10, {
-    stanje: 'stand',
-    action: false
-  }], // RUN
-  attack: [46, 53, 10, {
-    stanje: 'stand',
-    action: true
-  }], // ATTACK
-  pain1: [54, 57, 7, {
-    stanje: 'stand',
-    action: true
-  }], // PAIN_A
-  pain2: [58, 61, 7, {
-    stanje: 'stand',
-    action: true
-  }], // PAIN_B
-  pain3: [62, 65, 7, {
-    stanje: 'stand',
-    action: true
-  }], // PAIN_C
-  jump: [66, 71, 7, {
-    stanje: 'stand',
-    action: true
-  }], // JUMP
-  flip: [72, 83, 7, {
-    stanje: 'stand',
-    action: true
-  }], // FLIP
-  salute: [84, 94, 7, {
-    stanje: 'stand',
-    action: true
-  }], // SALUTE
-  taunt: [95, 111, 10, {
-    stanje: 'stand',
-    action: true
-  }], // FALLBACK
-  wave: [112, 122, 7, {
-    stanje: 'stand',
-    action: true
-  }], // WAVE
-  point: [123, 134, 6, {
-    stanje: 'stand',
-    action: true
-  }], // POINT
-  crstand: [135, 153, 10, {
-    stanje: 'crstand',
-    action: false
-  }], // CROUCH_STAND
-  crwalk: [154, 159, 7, {
-    stanje: 'crstand',
-    action: false
-  }], // CROUCH_WALK
-  crattack: [160, 168, 10, {
-    stanje: 'crstand',
-    action: true
-  }], // CROUCH_ATTACK
-  crpain: [196, 172, 7, {
-    stanje: 'crstand',
-    action: true
-  }], // CROUCH_PAIN
-  crdeath: [173, 177, 5, {
-    stanje: 'freeze',
-    action: true
-  }], // CROUCH_DEATH
-  death1: [178, 183, 7, {
-    stanje: 'freeze',
-    action: true
-  }], // DEATH_FALLBACK
-  death2: [184, 189, 7, {
-    stanje: 'freeze',
-    action: true
-  }], // DEATH_FALLFORWARD
-  death3: [190, 197, 7, {
-    stanje: 'freeze',
-    action: true
-  }] // DEATH_FALLBACKSLOW
-    // boom    : [ 198, 198,  5 ]    // BOOM
-}
-
-function changeMotion (kretnja) {
-  igrac.model.kretnja = kretnja
-  igrac.model.stanje = md2frames[kretnja][3].stanje
-  const animMin = md2frames[kretnja][0]
-  const animMax = md2frames[kretnja][1]
-  const animFps = md2frames[kretnja][2]
-  md2meshBody.time = 0
-  md2meshBody.duration = 1000 * ((animMax - animMin) / animFps)
-  md2meshBody.setFrameRange(animMin, animMax)
+  kocke[i].position.x = i % 2 * 5 - 2.5
+  kocke[i].position.y = 0.5
+  kocke[i].position.z = -1 * i * 4
+  scena.add(kocke[i])
 }
 
 const material = new THREE.MeshLambertMaterial({
@@ -189,14 +92,14 @@ const material = new THREE.MeshLambertMaterial({
 
 const loader = new THREE.JSONLoader()
 loader.load('model/droid.json', function (geometry) {
-  md2meshBody = new THREE.MorphAnimMesh(geometry, material)
-  md2meshBody.rotation.y = -Math.PI / 2
-  md2meshBody.scale.set(0.02, 0.02, 0.02)
-  md2meshBody.position.y = 0.5
-  md2meshBody.castShadow = true
-  md2meshBody.receiveShadow = true
-  changeMotion('stand')
-  igrac.model.objekat.add(md2meshBody)
+  igracMesh = new THREE.MorphAnimMesh(geometry, material)
+  igracMesh.rotation.y = -Math.PI / 2
+  igracMesh.scale.set(0.02, 0.02, 0.02)
+  igracMesh.position.y = 0.5
+  igracMesh.castShadow = true
+  igracMesh.receiveShadow = true
+  igrac.changeMotion('stand')
+  igrac.model.objekat.add(igracMesh)
 })
 
   /**
@@ -207,9 +110,9 @@ document.addEventListener('keydown', function (e) {
     return
   } // c key
   if (igrac.model.stanje === 'stand') {
-    changeMotion('crstand')
+    igrac.changeMotion('crstand')
   } else if (igrac.model.stanje === 'crstand') {
-    changeMotion('stand')
+    igrac.changeMotion('stand')
   }
 }, false)
 
@@ -228,10 +131,10 @@ const moveState = {
 
 function move () {
   if (igrac.model.kretnja !== 'run' && igrac.model.stanje === 'stand') {
-    changeMotion('run')
+    igrac.changeMotion('run')
   }
   if (igrac.model.kretnja !== 'crwalk' && igrac.model.stanje === 'crstand') {
-    changeMotion('crwalk')
+    igrac.changeMotion('crwalk')
   }
   let brzina = moveState.brzina
   if (igrac.model.stanje === 'crstand') {
@@ -291,23 +194,21 @@ document.addEventListener('keydown', function (e) {
   }
   if (!moveState.moving) {
     if (igrac.model.stanje === 'stand') {
-      changeMotion('run')
+      igrac.changeMotion('run')
     }
     if (igrac.model.stanje === 'crstand') {
-      changeMotion('crwalk')
+      igrac.changeMotion('crwalk')
     }
     moveState.moving = true
     move()
-    timer = setInterval(function () {
+    interval = setInterval(function () {
       move()
     }, 1000 / 60)
   }
 }, false)
 
 document.addEventListener('keyup', function (e) {
-  if (!/65|68|83|87/.test(e.keyCode)) {
-    return
-  }
+  if (!/65|68|83|87/.test(e.keyCode)) return
   if (e.keyCode === 87) {
     moveState.front = false
   } else if (e.keyCode === 83) {
@@ -318,9 +219,9 @@ document.addEventListener('keyup', function (e) {
     moveState.right = false
   }
   if (!moveState.front && !moveState.Backwards && !moveState.left && !moveState.right) {
-    changeMotion(igrac.model.stanje)
+    igrac.changeMotion(igrac.model.stanje)
     moveState.moving = false
-    clearInterval(timer)
+    clearInterval(interval)
   }
 }, false)
 
@@ -383,8 +284,8 @@ function rotate () {
   oldPointerY = pointer.y
 }
 
-function animate () {
-  requestAnimationFrame(animate)
+function update () {
+  requestAnimationFrame(update)
 
   igrac.model.objekat.position.x = igrac.position.x
   igrac.model.objekat.position.y = igrac.position.y
@@ -399,19 +300,23 @@ function animate () {
   kamera.lookAt(vec3)
 
   // model animation
-  const delta = clock.getDelta()
-  if (md2meshBody) {
-    const isEndFleame = (md2frames[igrac.model.kretnja][1] === md2meshBody.currentKeyframe)
-    const isAction = md2frames[igrac.model.kretnja][3].action
+  const delta = casovnik.getDelta()
+  if (igracMesh) {
+    const isEndFleame = (robotStanja[igrac.model.kretnja][1] === igracMesh.currentKeyframe)
+    const isAction = robotStanja[igrac.model.kretnja][3].action
 
     if (!isAction || (isAction && !isEndFleame)) {
-      md2meshBody.updateAnimation(1000 * delta)
-    } else if (/freeze/.test(md2frames[igrac.model.kretnja][3].stanje)) {
+      igracMesh.updateAnimation(1000 * delta)
+    } else if (/freeze/.test(robotStanja[igrac.model.kretnja][3].stanje)) {
         // dead...
     } else {
-      changeMotion(igrac.model.stanje)
+      igrac.changeMotion(igrac.model.stanje)
     }
   }
 
   renderer.render(scena, kamera)
 }
+
+/** LOGIKA **/
+
+update()

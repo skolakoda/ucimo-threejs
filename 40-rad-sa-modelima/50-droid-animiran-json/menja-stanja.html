@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>MD2 /w THREE.js</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #333;
+    }
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .komande {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      background: rgba(0, 0, 0, .6)
+    }
+  </style>
+</head>
+
+<body>
+  <div class="komande">
+    <button onclick="igrac.mesh.material.map = THREE.ImageUtils.loadTexture( 'model/teksture/droid-tekstura.png' )">Texture 1</button>
+    <button onclick="igrac.mesh.material.map = THREE.ImageUtils.loadTexture( 'model/teksture/droid-tekstura2.png' )">Texture 2</button><br>
+    <button onclick="igrac.changeMotion('stand')">stand</button>
+    <button onclick="igrac.changeMotion('run')">run</button>
+    <button onclick="igrac.changeMotion('attack')">attack</button>
+    <button onclick="igrac.changeMotion('pain1')">pain1</button>
+    <button onclick="igrac.changeMotion('pain2')">pain2</button>
+    <button onclick="igrac.changeMotion('pain3')">pain3</button>
+    <button onclick="igrac.changeMotion('jump')">jump</button>
+    <button onclick="igrac.changeMotion('flip')">flip</button>
+    <button onclick="igrac.changeMotion('salute')">salute</button>
+    <button onclick="igrac.changeMotion('taunt')">taunt</button>
+    <button onclick="igrac.changeMotion('wave')">wave</button>
+    <button onclick="igrac.changeMotion('point')">point</button>
+    <button onclick="igrac.changeMotion('crstand')">crstand</button>
+    <button onclick="igrac.changeMotion('crwalk')">crwalk</button>
+    <button onclick="igrac.changeMotion('crattack')">crattack</button>
+    <button onclick="igrac.changeMotion('crpain')">crpain</button>
+    <button onclick="igrac.changeMotion('crdeath');">crdeath</button>
+    <button onclick="igrac.changeMotion('death1');">death1</button>
+    <button onclick="igrac.changeMotion('death2');">death2</button>
+    <button onclick="igrac.changeMotion('death3');">death3</button>
+  </div>
+
+  <script src="../../libs/Three_r49.js"></script>
+  <script src="js/robot-stanja.js"></script>
+  <script src="js/menja-stanja.js"></script>
+</body>
+
+</html>
