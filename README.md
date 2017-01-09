@@ -29,11 +29,11 @@ Za primere koji uključuju učitavanje modela i tekstura je potreban lokalni ser
 * [Constructive solid geometry](https://en.wikipedia.org/wiki/Constructive_solid_geometry): Create a new mesh from the union, intersection, or subtraction of two meshes. Uses the [ThreeCSG](http://github.com/chandlerprall/ThreeCSG/) library.
 
 ## Korisni linkovi:
-* [Metaballs (also known as: Blobs)](http://www.geisswerks.com/ryan/BLOBS/blobs.html)
-* [Metaballs and Marching Squares](http://jamie-wong.com/2014/08/19/metaballs-and-marching-squares/)
 * [Build a basic combat game with three.js](http://www.creativebloq.com/web-design/build-basic-combat-game-threejs-101517540)
 * [Making of The Aviator game](https://tympanus.net/codrops/2016/04/26/the-aviator-animating-basic-3d-scene-threejs/)
 * [Ptice](https://threejs.org/examples/canvas_geometry_birds.html)
+* https://threejs.org/examples/webgl_animation_skinning_blending.html (https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_skinning_blending.html)
+* https://threejs.org/examples/webgl_morphtargets_horse.html (https://github.com/mrdoob/three.js/blob/master/examples/webgl_morphtargets_horse.html)
 
 ## Besplatni modeli:
 * https://3dwarehouse.sketchup.com
@@ -42,19 +42,13 @@ Za primere koji uključuju učitavanje modela i tekstura je potreban lokalni ser
 * https://www.cgtrader.com/
 
 ## TODO
-* naci najbolje 3d modele
- ** avione iz ww1
- ** avione iz ww2
- ** tenkove iz ww1
- ** tenkove iz ww2
- ** malo fantastike
-* ugraditi 3d modele
- ** mozda ubaciti nebo https://www.chromeexperiments.com/experiment/clouds
+* mozda ubaciti nebo https://www.chromeexperiments.com/experiment/clouds
 * srediti biblioteke bower-om
 * srediti 3d sajtove primere
-* napraviti osnovne lekcije iz fizike
-* napraviti osnovne lekcije iz algoritama
+* dodati uvodnu lekciju Platonova tela: https://en.wikipedia.org/wiki/Platonic_solid
+* napraviti osnovne lekcije iz fizike, algoritama, boja (heksadecimalne...)
 * naziv kursa: Učimo 3D programiranje kroz Unity i WebGL (od jezika koristimo C# i JS)
+* dodati priču o 3D štampi, VR-u
 
 ---
 ### Škola koda, učimo narod programiranju!

@@ -3,7 +3,7 @@
 const visinaTla = -0.04
 const brojResetki = 10 // mnozi se sa dva
 const razmakResetki = 1
-const skaliranje = 0.004
+const skaliranje = 1 // 0.004
 
 /* INIT */
 
@@ -24,6 +24,7 @@ document.body.appendChild(renderer.domElement)
 /** FUNCTIONS **/
 
 function pustiAnimaciju (model) {
+  console.log(model)
   model.traverse(child => {
     if (!(child instanceof THREE.SkinnedMesh)) return
     const animation = new THREE.Animation(child, child.geometry.animation)
@@ -65,7 +66,7 @@ function animiraj () {
 
 /** LOGIC **/
 
-ucitavac.load('modeli/reptil.dae', data => {
+ucitavac.load('modeli/zmaj/dragon.dae', data => {
   const model = data.scene
   pustiAnimaciju(model)
   model.scale.set(skaliranje, skaliranje, skaliranje)

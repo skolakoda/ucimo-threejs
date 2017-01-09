@@ -39,7 +39,8 @@ document.body.appendChild(renderer.domElement)
 
 function loadModel () {
   const loader = new THREE.JSONLoader()
-  loader.load('modeli/dino.js', function (model, loadedMat) {
+  loader.load('modeli/dino.json', function (model, loadedMat) {
+    console.log(model)
     loadedMat[0].skinning = true
     THREE.AnimationHandler.add(model.animations[0])
     const animmesh = new THREE.SkinnedMesh(model, loadedMat[0])
