@@ -1,4 +1,4 @@
-![threejs](https://www.digitaltactics.co.uk/wp-content/uploads/sites/2/2015/11/three-js-logo-480x368.png)
+![threejs](ucimo-threejs.png)
 
 # Učimo Three.js
 
@@ -49,6 +49,9 @@ Za primere koji uključuju učitavanje modela i tekstura je potreban lokalni ser
 * napraviti osnovne lekcije iz fizike, algoritama, boja (heksadecimalne...)
 * naziv kursa: Učimo 3D programiranje kroz Unity i WebGL (od jezika koristimo C# i JS)
 * dodati priču o 3D štampi, VR-u
+* Dodati Ojlerove uglove primer:
+https://classroom.udacity.com/courses/cs291/lessons/91073092/concepts/1239492490923
+
 
 ---
 ### Škola koda, učimo narod programiranju!
