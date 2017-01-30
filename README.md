@@ -51,7 +51,7 @@ Za primere koji uključuju učitavanje modela i tekstura je potreban lokalni ser
 * dodati priču o 3D štampi, VR-u
 * Dodati Ojlerove uglove primer:
 https://classroom.udacity.com/courses/cs291/lessons/91073092/concepts/1239492490923
-
+http://learningthreejs.com/blog/2013/09/16/how-to-make-the-earth-in-webgl/
 
 ---
 ### Škola koda, učimo narod programiranju!
