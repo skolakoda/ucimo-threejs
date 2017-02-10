@@ -4,15 +4,7 @@
 
 Učimo Three.js, JavaScript 3D biblioteku. Crtamo geometriju, pravimo 3D scene, učitavamo modele i teksture.
 
-Primeri su preuzeti iz:
-* 3D Game Programming for Kids (Chris Strom)
-* [Three.js tutorials by example](http://stemkoski.github.io/Three.js/) (Lee Stemkoski)
-* [WebGL and Three.js Fundamentals](https://github.com/alexmackey/threeJsBasicExamples) (Alex Mackey)
-* [Examples created by Yomotsu using THREE.js](http://yomotsu.github.io/threejs-examples/) (Akihiro Oyamada)
-* [Learning Threejs](https://github.com/josdirksen/learning-threejs) (Jos Dirksen)
-* [Essential Three.js](https://github.com/josdirksen/essential-threejs) (Jos Dirksen)
-* [Three.js Cookbook](https://github.com/josdirksen/threejs-cookbook) (Jos Dirksen)
-* [Realistic Rain](https://github.com/solusipse/threejs-examples)
+3D sajtovi su zaseban repo: https://github.com/mudroljub/skolakoda-3d
 
 ## Instalacija
 
@@ -27,6 +19,17 @@ Za primere koji uključuju učitavanje modela i tekstura je potreban lokalni ser
 * [Sprites](https://en.wikipedia.org/wiki/Sprite_(computer_graphics)): Sprites are images (not attached to geometries/surfaces) displayed in a scene, always orthogonal to the camera. They can either appear in the 3D scene (useful as part of a particle effect) or rendered using screen coordinates (useful as part of a graphical user interface (GUI) or a heads-up display (HUD)).
 * [Metaballs](https://en.wikipedia.org/wiki/Metaballs): A effect where spheres move around and their surfaces merge and split; the surfaces are calculated by implicit functions and drawn using the "Marching Cubes" algorithm.
 * [Constructive solid geometry](https://en.wikipedia.org/wiki/Constructive_solid_geometry): Create a new mesh from the union, intersection, or subtraction of two meshes. Uses the [ThreeCSG](http://github.com/chandlerprall/ThreeCSG/) library.
+
+## Izvori
+Primeri su preuzeti iz:
+* 3D Game Programming for Kids (Chris Strom)
+* [Three.js tutorials by example](http://stemkoski.github.io/Three.js/) (Lee Stemkoski)
+* [WebGL and Three.js Fundamentals](https://github.com/alexmackey/threeJsBasicExamples) (Alex Mackey)
+* [Examples created by Yomotsu using THREE.js](http://yomotsu.github.io/threejs-examples/) (Akihiro Oyamada)
+* [Learning Threejs](https://github.com/josdirksen/learning-threejs) (Jos Dirksen)
+* [Essential Three.js](https://github.com/josdirksen/essential-threejs) (Jos Dirksen)
+* [Three.js Cookbook](https://github.com/josdirksen/threejs-cookbook) (Jos Dirksen)
+* [Realistic Rain](https://github.com/solusipse/threejs-examples)
 
 ## Korisni linkovi:
 * [Build a basic combat game with three.js](http://www.creativebloq.com/web-design/build-basic-combat-game-threejs-101517540)
