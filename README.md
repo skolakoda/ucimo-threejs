@@ -4,7 +4,7 @@
 
 Učimo Three.js, JavaScript 3D biblioteku. Crtamo geometriju, pravimo 3D scene, učitavamo modele i teksture.
 
-3D sajtovi su zaseban repo: https://github.com/mudroljub/skolakoda-3d
+3D sajtovi su zaseban repo: [github.com/skolakoda/pravimo-3d-sajtove](https://github.com/skolakoda/pravimo-3d-sajtove)
 
 ## Instalacija
 
