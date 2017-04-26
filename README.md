@@ -8,7 +8,13 @@ Za 3D sajtove pogledati: [github.com/skolakoda/pravimo-3d-sajtove](https://githu
 
 ## Instalacija
 
-Za neke primere dovoljno je preuzeti repo i otvoriti html fajl. Za učitavanje modela i tekstura je potreban lokalni server.
+Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura je potreban lokalni server.
+
+## Korisni linkovi:
+* [Build a basic combat game with three.js](http://www.creativebloq.com/web-design/build-basic-combat-game-threejs-101517540)
+* [Ptice](https://threejs.org/examples/canvas_geometry_birds.html)
+* [Skeletal Animation Blending](https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_skinning_blending.html)
+* [morph targets - horse](https://github.com/mrdoob/three.js/blob/master/examples/webgl_morphtargets_horse.html)
 
 ## Izvori
 Primeri su preuzeti iz:
@@ -20,12 +26,6 @@ Primeri su preuzeti iz:
 * [Essential Three.js](https://github.com/josdirksen/essential-threejs) (Jos Dirksen)
 * [Three.js Cookbook](https://github.com/josdirksen/threejs-cookbook) (Jos Dirksen)
 * [Realistic Rain](https://github.com/solusipse/threejs-examples)
-
-## Korisni linkovi:
-* [Build a basic combat game with three.js](http://www.creativebloq.com/web-design/build-basic-combat-game-threejs-101517540)
-* [Ptice](https://threejs.org/examples/canvas_geometry_birds.html)
-* [Skeletal Animation Blending](https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_skinning_blending.html)
-* [morph targets - horse](https://github.com/mrdoob/three.js/blob/master/examples/webgl_morphtargets_horse.html)
 
 ## TODO
 * mozda ubaciti nebo https://www.chromeexperiments.com/experiment/clouds
