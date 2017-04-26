@@ -2,15 +2,13 @@
 
 # Učimo Three.js
 
-Učimo Three.js, JavaScript 3D biblioteku. Crtamo geometriju, pravimo 3D scene, učitavamo modele i teksture.
+Učimo Three.js, biblioteku za 3D grafiku na webu. Crtamo geometriju, pravimo 3D scene, učitavamo modele i teksture.
 
 3D sajtovi su zaseban repo: [github.com/skolakoda/pravimo-3d-sajtove](https://github.com/skolakoda/pravimo-3d-sajtove)
 
 ## Instalacija
 
-Za osnovne primere nije potrebna nikakva instalacija, dovoljno je preuzeti repozitorij i otvoriti bilo koji html fajl.
-
-Za primere koji uključuju učitavanje modela i tekstura je potreban lokalni server.
+Za osnovne primere nije potrebna instalacija, dovoljno je preuzeti repozitorij i otvoriti html fajl. Za primere koji uključuju učitavanje modela i tekstura je potreban lokalni server.
 
 ## Izvori
 Primeri su preuzeti iz:
@@ -25,7 +23,6 @@ Primeri su preuzeti iz:
 
 ## Korisni linkovi:
 * [Build a basic combat game with three.js](http://www.creativebloq.com/web-design/build-basic-combat-game-threejs-101517540)
-* [Making of The Aviator game](https://tympanus.net/codrops/2016/04/26/the-aviator-animating-basic-3d-scene-threejs/)
 * [Ptice](https://threejs.org/examples/canvas_geometry_birds.html)
 * https://threejs.org/examples/webgl_animation_skinning_blending.html (https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_skinning_blending.html)
 * https://threejs.org/examples/webgl_morphtargets_horse.html (https://github.com/mrdoob/three.js/blob/master/examples/webgl_morphtargets_horse.html)
@@ -38,11 +35,8 @@ Primeri su preuzeti iz:
 
 ## TODO
 * mozda ubaciti nebo https://www.chromeexperiments.com/experiment/clouds
-* srediti biblioteke bower-om
-* srediti 3d sajtove primere
 * dodati uvodnu lekciju Platonova tela: https://en.wikipedia.org/wiki/Platonic_solid
 * napraviti osnovne lekcije iz fizike, algoritama, boja (heksadecimalne...)
-* naziv kursa: Učimo 3D programiranje kroz Unity i WebGL (od jezika koristimo C# i JS)
 * dodati priču o 3D štampi, VR-u
 * Dodati Ojlerove uglove primer:
 https://classroom.udacity.com/courses/cs291/lessons/91073092/concepts/1239492490923
