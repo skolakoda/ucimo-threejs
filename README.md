@@ -4,11 +4,11 @@
 
 Učimo Three.js, biblioteku za 3D grafiku na webu. Crtamo geometriju, pravimo 3D scene, učitavamo modele i teksture.
 
-3D sajtovi su zaseban repo: [github.com/skolakoda/pravimo-3d-sajtove](https://github.com/skolakoda/pravimo-3d-sajtove)
+Za 3D sajtove pogledati: [github.com/skolakoda/pravimo-3d-sajtove](https://github.com/skolakoda/pravimo-3d-sajtove)
 
 ## Instalacija
 
-Za osnovne primere nije potrebna instalacija, dovoljno je preuzeti repozitorij i otvoriti html fajl. Za primere koji uključuju učitavanje modela i tekstura je potreban lokalni server.
+Za neke primere dovoljno je preuzeti repo i otvoriti html fajl. Za učitavanje modela i tekstura je potreban lokalni server.
 
 ## Izvori
 Primeri su preuzeti iz:
@@ -24,20 +24,13 @@ Primeri su preuzeti iz:
 ## Korisni linkovi:
 * [Build a basic combat game with three.js](http://www.creativebloq.com/web-design/build-basic-combat-game-threejs-101517540)
 * [Ptice](https://threejs.org/examples/canvas_geometry_birds.html)
-* https://threejs.org/examples/webgl_animation_skinning_blending.html (https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_skinning_blending.html)
-* https://threejs.org/examples/webgl_morphtargets_horse.html (https://github.com/mrdoob/three.js/blob/master/examples/webgl_morphtargets_horse.html)
-
-## Besplatni modeli:
-* https://3dwarehouse.sketchup.com
-* http://www.turbosquid.com/
-* http://tf3dm.com/
-* https://www.cgtrader.com/
+* [Skeletal Animation Blending](https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_skinning_blending.html)
+* [morph targets - horse](https://github.com/mrdoob/three.js/blob/master/examples/webgl_morphtargets_horse.html)
 
 ## TODO
 * mozda ubaciti nebo https://www.chromeexperiments.com/experiment/clouds
 * dodati uvodnu lekciju Platonova tela: https://en.wikipedia.org/wiki/Platonic_solid
 * napraviti osnovne lekcije iz fizike, algoritama, boja (heksadecimalne...)
-* dodati priču o 3D štampi, VR-u
 * Dodati Ojlerove uglove primer:
 https://classroom.udacity.com/courses/cs291/lessons/91073092/concepts/1239492490923
 http://learningthreejs.com/blog/2013/09/16/how-to-make-the-earth-in-webgl/
