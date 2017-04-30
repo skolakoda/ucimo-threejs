@@ -37,8 +37,8 @@ const loadModel = function (src) {
   })
 }
 
-const animate = function () {
-  requestAnimationFrame(animate)
+const update = function () {
+  requestAnimationFrame(update)
   renderer.render(scene, camera)
   controls.update()
 }
@@ -57,7 +57,7 @@ document.querySelector('#izaberi-avion').addEventListener('change', function (e)
   loadModel(this.value)
 })
 
-/** LOGIC **/
+/** EXEC **/
 
 loadModel(document.querySelector('#izaberi-avion').value)
-animate()
+update()
