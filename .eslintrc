@@ -44,7 +44,6 @@
       "space-infix-ops": "warn",
       "comma-spacing": ["warn", { "before": false, "after": true }],
       "spaced-comment": ["warn", "always"],
-      "camelcase": "warn",
       "new-cap": "warn"
   },
   "parserOptions": {

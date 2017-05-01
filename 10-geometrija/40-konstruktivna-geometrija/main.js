@@ -1,85 +1,60 @@
 /* global ThreeBSP */
 
+const material = new THREE.MeshLambertMaterial({
+  shading: THREE.SmoothShading,
+  map: new THREE.TextureLoader().load('texture.png')
+})
+
+/* INIT */
+
 const scene = new THREE.Scene()
 
-const WIDTH = window.innerWidth,
-  HEIGHT = window.innerHeight
-
-const VIEW_ANGLE = 45,
-  ASPECT = WIDTH / HEIGHT,
-  NEAR = 0.1,
-  FAR = 20000
-
-const camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR)
-scene.add(camera)
-camera.position.set(0, 150, 400)
-camera.lookAt(scene.position)
-
-const renderer = new THREE.WebGLRenderer({
-  antialias: true
-})
-renderer.setSize(WIDTH, HEIGHT)
+const renderer = new THREE.WebGLRenderer({antialias: true})
+renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
 
-const controls = new THREE.OrbitControls(camera, renderer.domElement)
-
-const light = new THREE.PointLight(0xffffff)
-light.position.set(0, 250, 0)
+const light = new THREE.DirectionalLight(0xffffff)
+light.position.set(1, 1, 1).normalize()
 scene.add(light)
 
-const floorMaterial = new THREE.MeshBasicMaterial({
-  side: THREE.DoubleSide
-})
-const floorGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10)
-const floor = new THREE.Mesh(floorGeometry, floorMaterial)
-floor.position.y = -0.5
-floor.rotation.x = Math.PI / 2
-scene.add(floor)
+const camera = new THREE.PerspectiveCamera(
+	35, window.innerWidth / window.innerHeight, 1, 1000
+)
+camera.position.set(5, 5, 15)
+camera.lookAt(scene.position)
+scene.add(camera)
 
-const skyBoxGeometry = new THREE.CubeGeometry(10000, 10000, 10000)
-const skyBoxMaterial = new THREE.MeshBasicMaterial({
-  color: 0x9999ff,
-  side: THREE.BackSide
-})
-const skyBox = new THREE.Mesh(skyBoxGeometry, skyBoxMaterial)
-scene.add(skyBox)
+// Cube subtract Sphere
 
-const materialNormal = new THREE.MeshNormalMaterial()
+const cube_geometry = new THREE.CubeGeometry(3, 3, 3)
+const cube_bsp = new ThreeBSP(cube_geometry)
 
-const cubeGeometry = new THREE.CubeGeometry(100, 100, 100, 1, 1, 1)
-const cubeMesh = new THREE.Mesh(cubeGeometry)
-const cubeBSP = new ThreeBSP(cubeMesh)
+const sphere_geometry = new THREE.SphereGeometry(1.8, 32, 32)
+const sphere_bsp = new ThreeBSP(sphere_geometry)
 
-const sphereGeometry = new THREE.SphereGeometry(60, 32, 32)
-const sphereMesh = new THREE.Mesh(sphereGeometry)
-const sphereBSP = new ThreeBSP(sphereMesh)
+const subtract_bsp = cube_bsp.subtract(sphere_bsp)
+const result = subtract_bsp.toMesh(material)
+result.geometry.computeVertexNormals()
+result.position.x = -3
+scene.add(result)
 
-// Example #1 - Cube subtract Sphere
-let newBSP = cubeBSP.subtract(sphereBSP)
-let newMesh = newBSP.toMesh(materialNormal)
-newMesh.position.set(-180, 60, 0)
-scene.add(newMesh)
+// Sphere union Cube
 
-// Example #2 - Sphere subtract Cube
-newBSP = sphereBSP.subtract(cubeBSP)
-newMesh = newBSP.toMesh(materialNormal)
-newMesh.position.set(180, 60, 0)
-scene.add(newMesh)
+const sphere2_geometry = new THREE.SphereGeometry(2, 16, 16)
+const sphere2_bsp = new ThreeBSP(sphere2_geometry)
 
-// Example #3 - Cube union Sphere
-newBSP = sphereBSP.union(cubeBSP)
-newMesh = newBSP.toMesh(materialNormal)
-newMesh.position.set(70, 60, -120)
-scene.add(newMesh)
+const cube2_geometry = new THREE.CubeGeometry(7, .5, 3)
+const cube2_bsp = new ThreeBSP(cube2_geometry)
 
-// Example #4 - Cube intersect Sphere
-newBSP = sphereBSP.intersect(cubeBSP)
-newMesh = newBSP.toMesh(materialNormal)
-newMesh.position.set(-70, 60, -120)
-scene.add(newMesh)
+const union_bsp = sphere2_bsp.union(cube2_bsp)
+const result2 = union_bsp.toMesh(material)
+result2.geometry.computeVertexNormals()
+result2.position.x = 3
+scene.add(result2)
 
-void function animate() {
-  requestAnimationFrame(animate)
+/* UPDATE */
+
+void function update() {
+  requestAnimationFrame(update)
   renderer.render(scene, camera)
-  controls.update()
 }()
