@@ -19,6 +19,7 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
 ## Izvori
 Primeri su preuzeti iz:
 * 3D Game Programming for Kids (Chris Strom)
+* [Interactive 3D Graphics](https://in.udacity.com/course/interactive-3d-graphics--cs291/) (Eric Haines)
 * [Three.js tutorials by example](http://stemkoski.github.io/Three.js/) (Lee Stemkoski)
 * [WebGL and Three.js Fundamentals](https://github.com/alexmackey/threeJsBasicExamples) (Alex Mackey)
 * [Examples created by Yomotsu using THREE.js](http://yomotsu.github.io/threejs-examples/) (Akihiro Oyamada)
@@ -29,11 +30,8 @@ Primeri su preuzeti iz:
 
 ## TODO
 * mozda ubaciti nebo https://www.chromeexperiments.com/experiment/clouds
-* dodati uvodnu lekciju Platonova tela: https://en.wikipedia.org/wiki/Platonic_solid
 * napraviti osnovne lekcije iz fizike, algoritama, boja (heksadecimalne...)
-* Dodati Ojlerove uglove primer:
-https://classroom.udacity.com/courses/cs291/lessons/91073092/concepts/1239492490923
-http://learningthreejs.com/blog/2013/09/16/how-to-make-the-earth-in-webgl/
+* http://learningthreejs.com/blog/2013/09/16/how-to-make-the-earth-in-webgl/
 
 ---
 ### Škola koda, učimo narod programiranju!
