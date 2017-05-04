@@ -1,143 +1,157 @@
 /* global Ammo */
 
-let camera, controls, scene, renderer
-
-let collisionConfiguration
-let dispatcher
-let broadphase
-let solver
-let physicsWorld
-let time = 0 // eslint-disable-line no-unused-vars
 let numObjectsToRemove = 0
 
-const gravityConstant = 7.8
-const margin = 0.05
+const gravity = 7.8
+const numStones = 8
+const ballRadius = 0.4
 const rigidBodies = [] // all movable objects
 const objectsToRemove = []
 
-/* INIT */
-
 const clock = new THREE.Clock()
-const mouseCoords = new THREE.Vector2()
-const raycaster = new THREE.Raycaster()
-const ballMaterial = new THREE.MeshPhongMaterial({color: 0x202020})
-const convexBreaker = new THREE.ConvexObjectBreaker()
-
 const pos = new THREE.Vector3()
 const quat = new THREE.Quaternion()
+const mouseCoords = new THREE.Vector2()
+const raycaster = new THREE.Raycaster()
+const convexBreaker = new THREE.ConvexObjectBreaker()
 const transformAux1 = new Ammo.btTransform()
 const tempBtVec3_1 = new Ammo.btVector3(0, 0, 0)
-
-for (let i = 0; i < 500; i++) objectsToRemove[i] = null
-
 const impactPoint = new THREE.Vector3()
 const impactNormal = new THREE.Vector3()
 
+/* PURE FUNCTIONS */
+
+const phongMaterial = color => new THREE.MeshPhongMaterial({color})
+
+/* INIT */
+
+const scene = new THREE.Scene()
+
+const camera = new THREE.PerspectiveCamera(
+  60, window.innerWidth / window.innerHeight)
+camera.position.set(-14, 8, 16)
+
+const controls = new THREE.OrbitControls(camera)
+
+const renderer = new THREE.WebGLRenderer()
+renderer.setClearColor(0xbfd1e5)
+renderer.setSize(window.innerWidth, window.innerHeight)
+renderer.shadowMap.enabled = true
+document.body.appendChild(renderer.domElement)
+
+const ambientLight = new THREE.AmbientLight(0x707070)
+scene.add(ambientLight)
+
+const light = new THREE.DirectionalLight(0xffffff, 1)
+light.position.set(-10, 18, 5)
+light.castShadow = true
+scene.add(light)
+
+// Physics configuration
+const collisionConfiguration = new Ammo.btDefaultCollisionConfiguration()
+const dispatcher = new Ammo.btCollisionDispatcher(collisionConfiguration)
+const physicsWorld = new Ammo.btDiscreteDynamicsWorld(
+  dispatcher,
+  new Ammo.btDbvtBroadphase(),
+  new Ammo.btSequentialImpulseConstraintSolver(),
+  collisionConfiguration
+)
+physicsWorld.setGravity(new Ammo.btVector3(0, -gravity, 0))
+
+// Ground
+const ground = new THREE.Mesh(
+  new THREE.BoxGeometry(40, 1, 40, 1, 1, 1),
+  new THREE.MeshPhongMaterial({color: 0xFFFFFF})
+)
+const groundShape = new Ammo.btBoxShape(
+  new Ammo.btVector3(40 * 0.5, 1 * 0.5, 40 * 0.5)
+)
+createRigidBody(
+  ground,
+  groundShape, 0,
+  THREE.Vector3(0, -0.5, 0),
+  new THREE.Quaternion(0, 0, 0, 1)
+)
+ground.receiveShadow = true
+
+// Tower 1
+createObject(
+  1000,
+  new THREE.Vector3(2, 5, 2),
+  pos.set(-8, 5, 0),
+  quat.set(0, 0, 0, 1),
+  phongMaterial(0xF0A024)
+)
+
+// Tower 2
+createObject(
+  1000,
+  new THREE.Vector3(2, 5, 2),
+  pos.set(8, 5, 0),
+  quat.set(0, 0, 0, 1),
+  phongMaterial(0xF4A321)
+)
+
+// Bridge
+createObject(
+  100,
+  new THREE.Vector3(7, 0.2, 1.5),
+  pos.set(0, 10.2, 0),
+  quat.set(0, 0, 0, 1),
+  phongMaterial(0xB38835)
+)
+
+// Stones
+for (let i = 0; i < numStones; i++) {
+  const z = 15 * (0.5 - i / (numStones + 1))
+  createObject(
+    120,
+    new THREE.Vector3(1, 2, 0.15),
+    pos.set(0, 2, z),
+    quat.set(0, 0, 0, 1),
+    phongMaterial(0xB0B0B0)
+  )
+}
+
+// pyramid
+const pyramidVec = new THREE.Vector3(4, 5, 4)
+const pyramidPoints = [
+  new THREE.Vector3(pyramidVec.x, -pyramidVec.y, pyramidVec.z),
+  new THREE.Vector3(-pyramidVec.x, -pyramidVec.y, pyramidVec.z),
+  new THREE.Vector3(pyramidVec.x, -pyramidVec.y, -pyramidVec.z),
+  new THREE.Vector3(-pyramidVec.x, -pyramidVec.y, -pyramidVec.z),
+  new THREE.Vector3(0, pyramidVec.y, 0)
+]
+const pyramid = new THREE.Mesh(
+  new THREE.ConvexGeometry(pyramidPoints),
+  phongMaterial(0xFFB443)
+)
+pyramid.position.set(5, pyramidVec.y * 0.5, -7)
+convexBreaker.prepareBreakableObject(
+  pyramid,
+  860,
+  new THREE.Vector3(),
+  new THREE.Vector3(),
+  true
+)
+createDebrisFromBreakableObject(pyramid)
+
 /* FUNCTIONS */
 
-function initGraphics() {
-  scene = new THREE.Scene()
-
-  camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight)
-  camera.position.set(-14, 8, 16)
-
-  controls = new THREE.OrbitControls(camera)
-  controls.target.y = 2
-
-  renderer = new THREE.WebGLRenderer()
-  renderer.setClearColor(0xbfd1e5)
-  renderer.setPixelRatio(window.devicePixelRatio)
-  renderer.setSize(window.innerWidth, window.innerHeight)
-  renderer.shadowMap.enabled = true
-  document.body.appendChild(renderer.domElement)
-
-  const ambientLight = new THREE.AmbientLight(0x707070)
-  scene.add(ambientLight)
-
-  const light = new THREE.DirectionalLight(0xffffff, 1)
-  light.position.set(-10, 18, 5)
-  light.castShadow = true
-  scene.add(light)
-}
-
-function initPhysics() {
-  // Physics configuration
-  collisionConfiguration = new Ammo.btDefaultCollisionConfiguration()
-  dispatcher = new Ammo.btCollisionDispatcher(collisionConfiguration)
-  broadphase = new Ammo.btDbvtBroadphase()
-  solver = new Ammo.btSequentialImpulseConstraintSolver()
-  physicsWorld = new Ammo.btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration)
-  physicsWorld.setGravity(new Ammo.btVector3(0, -gravityConstant, 0))
-}
-
 function createObject(mass, halfExtents, pos, quat, material) {
-  const object = new THREE.Mesh(new THREE.BoxGeometry(halfExtents.x * 2, halfExtents.y * 2, halfExtents.z * 2), material)
+  const object = new THREE.Mesh(
+    new THREE.BoxGeometry(halfExtents.x * 2, halfExtents.y * 2, halfExtents.z * 2),
+    material
+  )
   object.position.copy(pos)
   object.quaternion.copy(quat)
   convexBreaker.prepareBreakableObject(object, mass, new THREE.Vector3(), new THREE.Vector3(), true)
   createDebrisFromBreakableObject(object)
 }
 
-function createObjects() {
-  // Ground
-  pos.set(0, -0.5, 0)
-  quat.set(0, 0, 0, 1)
-  const ground = createParalellepipedWithPhysics(40, 1, 40, 0, pos, quat, new THREE.MeshPhongMaterial({
-    color: 0xFFFFFF
-  }))
-  ground.receiveShadow = true
-
-  // Tower 1
-  const towerMass = 1000
-  const towerHalfExtents = new THREE.Vector3(2, 5, 2)
-  pos.set(-8, 5, 0)
-  quat.set(0, 0, 0, 1)
-  createObject(towerMass, towerHalfExtents, pos, quat, createMaterial(0xF0A024))
-
-  // Tower 2
-  pos.set(8, 5, 0)
-  quat.set(0, 0, 0, 1)
-  createObject(towerMass, towerHalfExtents, pos, quat, createMaterial(0xF4A321))
-
-  // Bridge
-  const bridgeMass = 100
-  const bridgeHalfExtents = new THREE.Vector3(7, 0.2, 1.5)
-  pos.set(0, 10.2, 0)
-  quat.set(0, 0, 0, 1)
-  createObject(bridgeMass, bridgeHalfExtents, pos, quat, createMaterial(0xB38835))
-
-  // Stones
-  const stoneMass = 120
-  const stoneHalfExtents = new THREE.Vector3(1, 2, 0.15)
-  const numStones = 8
-  quat.set(0, 0, 0, 1)
-  for (let i = 0; i < numStones; i++) {
-    pos.set(0, 2, 15 * (0.5 - i / (numStones + 1)))
-    createObject(stoneMass, stoneHalfExtents, pos, quat, createMaterial(0xB0B0B0))
-  }
-
-  // Mountain
-  const mountainMass = 860
-  const mountainHalfExtents = new THREE.Vector3(4, 5, 4)
-  pos.set(5, mountainHalfExtents.y * 0.5, -7)
-  quat.set(0, 0, 0, 1)
-  const mountainPoints = []
-  mountainPoints.push(new THREE.Vector3(mountainHalfExtents.x, -mountainHalfExtents.y, mountainHalfExtents.z))
-  mountainPoints.push(new THREE.Vector3(-mountainHalfExtents.x, -mountainHalfExtents.y, mountainHalfExtents.z))
-  mountainPoints.push(new THREE.Vector3(mountainHalfExtents.x, -mountainHalfExtents.y, -mountainHalfExtents.z))
-  mountainPoints.push(new THREE.Vector3(-mountainHalfExtents.x, -mountainHalfExtents.y, -mountainHalfExtents.z))
-  mountainPoints.push(new THREE.Vector3(0, mountainHalfExtents.y, 0))
-  const mountain = new THREE.Mesh(new THREE.ConvexGeometry(mountainPoints), createMaterial(0xFFB443))
-  mountain.position.copy(pos)
-  mountain.quaternion.copy(quat)
-  convexBreaker.prepareBreakableObject(mountain, mountainMass, new THREE.Vector3(), new THREE.Vector3(), true)
-  createDebrisFromBreakableObject(mountain)
-}
-
 function createParalellepipedWithPhysics(sx, sy, sz, mass, pos, quat, material) {
   const object = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, sz, 1, 1, 1), material)
   const shape = new Ammo.btBoxShape(new Ammo.btVector3(sx * 0.5, sy * 0.5, sz * 0.5))
-  shape.setMargin(margin)
   createRigidBody(object, shape, mass, pos, quat)
   return object
 }
@@ -146,7 +160,6 @@ function createDebrisFromBreakableObject(object) {
   object.castShadow = true
   object.receiveShadow = true
   const shape = createConvexHullPhysicsShape(object.geometry.vertices)
-  shape.setMargin(margin)
   const body = createRigidBody(object, shape, object.userData.mass, null, null, object.userData.velocity, object.userData.angularVelocity)
   // Set pointer back to the three object only in the debris objects
   const btVecUserData = new Ammo.btVector3(0, 0, 0)
@@ -209,45 +222,6 @@ function createRigidBody(object, physicsShape, mass, pos, quat, vel, angVel) {
   return body
 }
 
-function createRandomColor() {
-  return Math.floor(Math.random() * (1 << 24))
-}
-
-function createMaterial(color) {
-  color = color || createRandomColor()
-  return new THREE.MeshPhongMaterial({
-    color
-  })
-}
-
-function initInput() {
-  window.addEventListener('mousedown', function(event) {
-    mouseCoords.set(
-      (event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1
-    )
-    raycaster.setFromCamera(mouseCoords, camera)
-
-    // Creates a ball and throws it
-    const ballMass = 35
-    const ballRadius = 0.4
-
-    const ball = new THREE.Mesh(new THREE.SphereGeometry(ballRadius, 14, 10), ballMaterial)
-    ball.castShadow = true
-    ball.receiveShadow = true
-    const ballShape = new Ammo.btSphereShape(ballRadius)
-    ballShape.setMargin(margin)
-    pos.copy(raycaster.ray.direction)
-    pos.add(raycaster.ray.origin)
-    quat.set(0, 0, 0, 1)
-    const ballBody = createRigidBody(ball, ballShape, ballMass, pos, quat)
-
-    pos.copy(raycaster.ray.direction)
-    pos.multiplyScalar(24)
-    ballBody.setLinearVelocity(new Ammo.btVector3(pos.x, pos.y, pos.z))
-
-  }, false)
-}
-
 function updatePhysics(deltaTime) {
   // Step world
   physicsWorld.stepSimulation(deltaTime, 10)
@@ -262,7 +236,6 @@ function updatePhysics(deltaTime) {
       const q = transformAux1.getRotation()
       objThree.position.set(p.x(), p.y(), p.z())
       objThree.quaternion.set(q.x(), q.y(), q.z(), q.w())
-
       objThree.userData.collided = false
     }
   }
@@ -342,17 +315,33 @@ function render() {
   updatePhysics(deltaTime)
   controls.update(deltaTime)
   renderer.render(scene, camera)
-  time += deltaTime
 }
 
-/* EXEC */
+/* UPDATE */
 
-initGraphics()
-initPhysics()
-createObjects()
-initInput()
-
-void function animate() {
-  requestAnimationFrame(animate)
+void function update() {
+  requestAnimationFrame(update)
   render()
 }()
+
+/* EVENTS */
+
+window.addEventListener('mousedown', function throwBall(event) {
+  mouseCoords.set(
+    event.clientX / window.innerWidth * 2 - 1,
+    -event.clientY / window.innerHeight * 2 + 1
+  )
+  raycaster.setFromCamera(mouseCoords, camera)
+  const ball = new THREE.Mesh(
+    new THREE.SphereGeometry(ballRadius),
+    new THREE.MeshPhongMaterial({color: 0x202020})
+  )
+  ball.castShadow = ball.receiveShadow = true
+  const sphereShape = new Ammo.btSphereShape(ballRadius)
+  pos.copy(raycaster.ray.direction).add(raycaster.ray.origin)
+  const ballBody = createRigidBody(
+    ball, sphereShape, 35, pos, quat.set(0, 0, 0, 1)
+  )
+  pos.copy(raycaster.ray.direction).multiplyScalar(24)
+  ballBody.setLinearVelocity(new Ammo.btVector3(pos.x, pos.y, pos.z))
+})
