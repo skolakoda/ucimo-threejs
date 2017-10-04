@@ -177,12 +177,12 @@ function createTree (config) {
   })
 
   var leaveMat = new THREE.MeshLambertMaterial()
-  leaveMat.map = THREE.ImageUtils.loadTexture('../assets/teksture/leaf2.png')
+  leaveMat.map = THREE.ImageUtils.loadTexture('../../assets/teksture/leaf2.png')
   leaveMat.doubleSided = true
   leaveMat.transparent = true
 
   var trunkMat = new THREE.MeshLambertMaterial()
-  trunkMat.map = THREE.ImageUtils.loadTexture('../assets/teksture/birch.jpg')
+  trunkMat.map = THREE.ImageUtils.loadTexture('../../assets/teksture/birch.jpg')
   trunkMat.doubleSided = true
   trunkMat.transparent = true
 
