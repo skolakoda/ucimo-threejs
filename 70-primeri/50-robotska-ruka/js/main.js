@@ -4,8 +4,8 @@ var clock = new THREE.Clock()
 var gridX = true
 var gridY = false
 var gridZ = false
-var axes = true
 var ground = true
+var axes = false
 var arm, forearm
 
 function fillScene () {
