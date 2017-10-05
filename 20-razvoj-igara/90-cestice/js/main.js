@@ -1,32 +1,26 @@
-var SCREEN_WIDTH = window.innerWidth,
-  SCREEN_HEIGHT = window.innerHeight
-var VIEW_ANGLE = 45,
-  ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT,
-  NEAR = 0.1,
-  FAR = 20000
+const width = window.innerWidth
+const height = window.innerHeight
 
-var clock = new THREE.Clock()
+// INIT
+
+const clock = new THREE.Clock()
 
 const scene = new THREE.Scene()
-const camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR)
+const camera = new THREE.PerspectiveCamera(
+  45, width / height, 0.1, 20000
+)
 scene.add(camera)
 camera.position.set(0, 150, 400)
-camera.lookAt(scene.position)
+// camera.lookAt(scene.position)
 
 const renderer = window.WebGLRenderingContext
       ? new THREE.WebGLRenderer({antialias: true})
       : new THREE.CanvasRenderer()
-renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT)
+renderer.setSize(width, height)
 const container = document.getElementById('ThreeJS')
 container.appendChild(renderer.domElement)
 
 const controls = new THREE.OrbitControls(camera, renderer.domElement)
-
-const stats = new Stats()
-stats.domElement.style.position = 'absolute'
-stats.domElement.style.bottom = '0px'
-stats.domElement.style.zIndex = 100
-container.appendChild(stats.domElement)
 
 var skyBoxGeometry = new THREE.CubeGeometry(10000, 10000, 10000)
 var skyBoxMaterial = new THREE.MeshBasicMaterial({color: 0x9999ff, side: THREE.BackSide})
@@ -103,7 +97,6 @@ function update () {
   particleGroup.rotation.y = time * 0.75
   // particleGroup.rotation.z = time * 1.0;
   controls.update()
-  stats.update()
 }
 
 function render () {

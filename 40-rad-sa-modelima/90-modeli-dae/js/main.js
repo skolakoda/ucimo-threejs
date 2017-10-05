@@ -11,7 +11,7 @@ const renderer = new THREE.WebGLRenderer({
   antialias: true
 })
 renderer.setSize(WIDTH, HEIGHT)
-renderer.setClearColor(0x333F47, 1)
+renderer.setClearColor(0xffffff, 1)
 document.body.appendChild(renderer.domElement)
 
 const camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.1, 20000)
