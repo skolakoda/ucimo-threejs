@@ -3,24 +3,34 @@
 
 <head>
   <meta charset="utf-8">
-  <title>MD2 /w THREE.js</title>
+  <title>Droid</title>
+  <!-- source: http://yomotsu.github.io/threejs-examples/md2/ -->
   <style>
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #333;
-    }
-    canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-    .komande {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 100;
-      background: rgba(0, 0, 0, .6)
-    }
+  body {
+    font-family: "Proxima Nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .komande {
+    background: rgba(0, 0, 0, .6);
+    display: flex;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+  }
+  button {
+    background: #fff;
+    color: #434343;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    width: 5%;
+  }
   </style>
 </head>
 
@@ -51,7 +61,7 @@
   <script src="../../libs/Three_r49.js"></script>
   <script src="js/pokreti.js"></script>
   <script src="js/Robot.js"></script>
-  <script src="js/menja-stanja.js"></script>
+  <script src="js/main.js"></script>
 </body>
 
 </html>

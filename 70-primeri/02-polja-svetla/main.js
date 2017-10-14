@@ -1,62 +1,58 @@
-const SEPARATION = 100
-const AMOUNTX = 50
-const AMOUNTY = 50
+// originalno su crna pozadina i bele cestice
 
-let container
-let camera, scene, renderer
+const razmak = 100
+const kolicinaX = 50
+const kolicinaY = 50
+const KRUZNICA = Math.PI * 2
 
-let particles, particle, count = 0
-
+let count = 0
 let mouseX = 0,
   mouseY = 0
-
 let windowHalfX = window.innerWidth / 2
 let windowHalfY = window.innerHeight / 2
 
-init()
-animate()
+/* INIT */
 
-function init() {
-  container = document.createElement('div')
-  document.body.appendChild(container)
+const container = document.createElement('div')
+document.body.appendChild(container)
 
-  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000)
-  camera.position.z = 1000
+const camera = new THREE.PerspectiveCamera(
+  75, window.innerWidth / window.innerHeight, 1, 10000)
+camera.position.z = 1000
+camera.position.y = 100
 
-  scene = new THREE.Scene()
-  particles = new Array()
+const renderer = new THREE.CanvasRenderer()
+renderer.setClearColor (0xffffff, 1)
+renderer.setPixelRatio(window.devicePixelRatio)
+renderer.setSize(window.innerWidth, window.innerHeight)
+container.appendChild(renderer.domElement)
 
-  const PI2 = Math.PI * 2
-  const material = new THREE.SpriteCanvasMaterial({
-    color: 0xffffff,
-    program(context) {
-      context.beginPath()
-      context.arc(0, 0, 0.5, 0, PI2, true)
-      context.fill()
-    }
-  })
+const scene = new THREE.Scene()
+const cestice = new Array()
 
-  let i = 0
-  for (let ix = 0; ix < AMOUNTX; ix++) {
-    for (let iy = 0; iy < AMOUNTY; iy++) {
-      particle = particles[i++] = new THREE.Sprite(material)
-      particle.position.x = ix * SEPARATION - ((AMOUNTX * SEPARATION) / 2)
-      particle.position.z = iy * SEPARATION - ((AMOUNTY * SEPARATION) / 2)
-      scene.add(particle)
-    }
+let i = 0
+for (let ix = 0; ix < kolicinaX; ix++) {
+  for (let iy = 0; iy < kolicinaY; iy++) {
+    const nijansa = i % 255
+    const boja = new THREE.Color(`rgb(${nijansa}, ${nijansa}, ${nijansa})`)
+    const material = new THREE.SpriteCanvasMaterial({
+      color: boja,
+      program(context) {
+        context.beginPath()
+        context.arc(0, 0, 0.5, 0, KRUZNICA, true)
+        context.fill()
+      }
+    })
+    const cestica = cestice[i++] = new THREE.Sprite(material)
+    cestica.position.x = ix * razmak - (kolicinaX * razmak / 2)
+    cestica.position.z = iy * razmak - (kolicinaY * razmak / 2)
+    scene.add(cestica)
   }
-  renderer = new THREE.CanvasRenderer()
-  renderer.setPixelRatio(window.devicePixelRatio)
-  renderer.setSize(window.innerWidth, window.innerHeight)
-  container.appendChild(renderer.domElement)
-
-  document.addEventListener('mousemove', onDocumentMouseMove, false)
-  document.addEventListener('touchstart', onDocumentTouchStart, false)
-  document.addEventListener('touchmove', onDocumentTouchMove, false)
-  window.addEventListener('resize', onWindowResize, false)
 }
 
-function onWindowResize() {
+/* FUNCTIONS */
+
+function handleResize() {
   windowHalfX = window.innerWidth / 2
   windowHalfY = window.innerHeight / 2
   camera.aspect = window.innerWidth / window.innerHeight
@@ -64,12 +60,12 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight)
 }
 
-function onDocumentMouseMove(event) {
+function handleMouseMove(event) {
   mouseX = event.clientX - windowHalfX
   mouseY = event.clientY - windowHalfY
 }
 
-function onDocumentTouchStart(event) {
+function handleTouchStart(event) {
   if (event.touches.length === 1) {
     event.preventDefault()
     mouseX = event.touches[0].pageX - windowHalfX
@@ -77,7 +73,7 @@ function onDocumentTouchStart(event) {
   }
 }
 
-function onDocumentTouchMove(event) {
+function handleTouchMove(event) {
   if (event.touches.length === 1) {
     event.preventDefault()
     mouseX = event.touches[0].pageX - windowHalfX
@@ -85,26 +81,28 @@ function onDocumentTouchMove(event) {
   }
 }
 
-function animate() {
-  requestAnimationFrame(animate)
-  render()
-}
+void function update() {
+  requestAnimationFrame(update)
 
-function render() {
   camera.position.x += (mouseX - camera.position.x) * .05
-  camera.position.y += (-mouseY - camera.position.y) * .05
-  camera.lookAt(scene.position)
-
+  // camera.lookAt(scene.position)
   let i = 0
-  for (let ix = 0; ix < AMOUNTX; ix++) {
-    for (let iy = 0; iy < AMOUNTY; iy++) {
-      particle = particles[i++]
-      particle.position.y = (Math.sin((ix + count) * 0.3) * 50) +
+  for (let ix = 0; ix < kolicinaX; ix++) {
+    for (let iy = 0; iy < kolicinaY; iy++) {
+      const cestica = cestice[i++]
+      cestica.position.y = (Math.sin((ix + count) * 0.3) * 50) +
         (Math.sin((iy + count) * 0.5) * 50)
-      particle.scale.x = particle.scale.y = (Math.sin((ix + count) * 0.3) + 1) * 4 +
+      cestica.scale.x = cestica.scale.y = (Math.sin((ix + count) * 0.3) + 1) * 4 +
         (Math.sin((iy + count) * 0.5) + 1) * 4
     }
   }
   renderer.render(scene, camera)
   count += 0.1
-}
+}()
+
+/* EVENTS */
+
+document.addEventListener('mousemove', handleMouseMove, false)
+document.addEventListener('touchstart', handleTouchStart, false)
+document.addEventListener('touchmove', handleTouchMove, false)
+window.addEventListener('resize', handleResize, false)
