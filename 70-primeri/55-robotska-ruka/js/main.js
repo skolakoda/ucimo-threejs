@@ -4,22 +4,18 @@
 const sirina = window.innerWidth
 const visina = window.innerHeight
 
-const deo1 = new THREE.Object3D() // rotation limited to y
-const deo2 = new THREE.Object3D() // rotation limited to z osa
-const deo3 = new THREE.Object3D() // rotation limited to z osa
-const deo4 = new THREE.Object3D() // rotation limited to z osa
-const delovi = [deo1, deo2, deo3, deo4]
-
 /* INIT */
 
-const camera = new THREE.Camera(45, sirina / visina, 1, 20000)
-camera.position.x = 3000
-camera.position.y = 1000
-camera.position.z = 8000
+const camera = new THREE.Camera(45, sirina / visina, 1, 1000)
+camera.position.x = 40
+camera.position.y = 20
+camera.position.z = 100
 camera.useTarget = false
 
 const scene = new THREE.Scene()
+
 scene.addLight(new THREE.AmbientLight(0x333333))
+
 const light = new THREE.DirectionalLight(0xffffff)
 light.position.set(0, 0, 1)
 light.position.normalize()
@@ -27,15 +23,19 @@ scene.addLight(light)
 
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(sirina, visina)
-const container = document.getElementById('container')
-container.appendChild(renderer.domElement)
+document.body.appendChild(renderer.domElement)
+
+const deo1 = new THREE.Object3D() // rotation limited to y
+const deo2 = new THREE.Object3D() // rotation limited to z osa
+const deo3 = new THREE.Object3D() // rotation limited to z osa
+const deo4 = new THREE.Object3D() // rotation limited to z osa
+const delovi = [deo1, deo2, deo3, deo4]
 
 /* FUNCTIONS */
 
 function createBase(geometry) {
   const material = new THREE.MeshFaceMaterial()
   const base = new THREE.Mesh(geometry, material)
-  base.scale.x = base.scale.y = base.scale.z = 75
   base.addChild(deo1)
   deo1.position.y = 18
   deo1.osaRotacije = 'y'
