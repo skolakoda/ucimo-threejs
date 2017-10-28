@@ -113,9 +113,7 @@ function init () {
   renderer.gammaOutput = true
   renderer.setSize(canvasWidth, canvasHeight)
   renderer.setClearColorHex(0xAAAAAA, 1.0)
-
-  var container = document.getElementById('container')
-  container.appendChild(renderer.domElement)
+  document.body.appendChild(renderer.domElement)
 
 	// CAMERA
   camera = new THREE.PerspectiveCamera(30, canvasRatio, 1, 10000)

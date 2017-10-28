@@ -1,4 +1,4 @@
-![threejs](ucimo-threejs.png)
+![threejs](screen.png)
 
 # Učimo Three.js
 
