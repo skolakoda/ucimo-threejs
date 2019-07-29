@@ -29,7 +29,7 @@ Primeri su preuzeti iz:
 * [Realistic Rain](https://github.com/solusipse/threejs-examples)
 
 ## TODO
-* mozda ubaciti nebo https://www.chromeexperiments.com/experiment/clouds
+
 * napraviti osnovne lekcije iz fizike, algoritama, boja (heksadecimalne...)
 * http://learningthreejs.com/blog/2013/09/16/how-to-make-the-earth-in-webgl/
 
