@@ -10,7 +10,12 @@ Vidi još: [github.com/skolakoda/pravimo-3d-sajtove](https://github.com/skolakod
 
 ## Pokretanje
 
-Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura je potreban lokalni server.
+Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura je potreban lokalni server:
+
+```
+npm i
+npm start
+```
 
 ## Pojmovi
 
