@@ -4,9 +4,7 @@
   "description": "Učimo Three.js, JavaScript 3D biblioteku.",
   "main": "index.js",
   "scripts": {
-    "start": "live-server",
-    "dev": "parallelshell \"live-server\" \"node engine.js\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "live-server"
   },
   "repository": {
     "type": "git",
@@ -14,18 +12,8 @@
   },
   "author": "mudroljub",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/skolakoda/ucimo-threejs/issues"
-  },
   "homepage": "https://github.com/skolakoda/ucimo-threejs#readme",
   "devDependencies": {
-    "cheerio": "^0.22.0",
-    "chokidar": "^1.6.1",
-    "live-server": "^1.1.0",
-    "eslint": "^3.12.2",
-    "eslint-config-standard": "^6.2.1",
-    "eslint-plugin-promise": "^3.4.0",
-    "eslint-plugin-standard": "^2.0.1",
-    "parallelshell": "^2.0.0"
+    "live-server": "^1.2.1"
   }
 }
