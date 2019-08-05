@@ -66,20 +66,15 @@ function praviDrvo(x, z) {
 }
 
 function sadaHoda() {
-  if (hoda_desno)
-    return true
-  if (hoda_levo)
-    return true
-  if (hoda_nazad)
-    return true
-  if (hoda_napred)
-    return true
+  if (hoda_desno) return true
+  if (hoda_levo) return true
+  if (hoda_nazad) return true
+  if (hoda_napred) return true
   return false
 }
 
 function hodaj() {
-  if (!sadaHoda()) 
-    return
+  if (!sadaHoda()) return
   const polozaj = Math.sin(casovnik.getElapsedTime() * 5) * 100
   leva_ruka.position.z = -polozaj
   desna_ruka.position.z = polozaj
