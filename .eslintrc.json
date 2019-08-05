@@ -28,7 +28,7 @@
       "no-else-return": "error",
       "no-global-assign": "error",
       "no-invalid-this": "error",
-      "no-multiple-empty-lines": "warn",
+      "no-multiple-empty-lines": ["warn", { "max": 1, "maxEOF": 1 }],
       "no-param-reassign": "error",
       "no-redeclare": "error",
       "no-return-assign": ["warn", "always"],
