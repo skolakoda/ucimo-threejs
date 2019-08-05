@@ -10,9 +10,8 @@ renderer.setSize(window.innerWidth, window.innerHeight)
 
 const cubeGeometry = new THREE.BoxGeometry(2, 2, 2)
 const cubeMaterial = new THREE.MeshLambertMaterial({ color: 0xff2255 })
-const cube = new THREE.Mesh(cubeGeometry, cubeMaterial)
-cube.name = 'cube'
-scene.add(cube)
+const player = new THREE.Mesh(cubeGeometry, cubeMaterial)
+scene.add(player)
 
 const cubeMaterial2 = new THREE.MeshLambertMaterial({ color: 0xff0000 })
 const cube2 = new THREE.Mesh(cubeGeometry, cubeMaterial2)
@@ -76,10 +75,10 @@ document.body.appendChild(renderer.domElement)
 
 function moveCube(e) {
   const moveDistance = 0.15
-  if (e.keyCode == '37') cube.position.x -= moveDistance // left arrow
-  else if (e.keyCode == '38') cube.position.z -= moveDistance // up arrow
-  else if (e.keyCode == '39') cube.position.x += moveDistance // right arrow
-  else if (e.keyCode == '40') cube.position.z += moveDistance // down arrow
+  if (e.keyCode == '37') player.position.x -= moveDistance // left arrow
+  if (e.keyCode == '38') player.position.z -= moveDistance // up arrow
+  if (e.keyCode == '39') player.position.x += moveDistance // right arrow
+  if (e.keyCode == '40') player.position.z += moveDistance // down arrow
 }
 
 function checkCollision() {
@@ -88,13 +87,12 @@ function checkCollision() {
     cube.material.opacity = 1.0
   })
 
-  const cube = scene.getObjectByName('cube')
-  const originPoint = cube.position.clone()
+  const originPoint = player.position.clone()
 
-  for (let vertexIndex = 0; vertexIndex < cube.geometry.vertices.length; vertexIndex++) {
-    const localVertex = cube.geometry.vertices[vertexIndex].clone()
-    const globalVertex = localVertex.applyMatrix4(cube.matrix)
-    const directionVector = globalVertex.sub(cube.position)
+  for (let vertexIndex = 0; vertexIndex < player.geometry.vertices.length; vertexIndex++) {
+    const localVertex = player.geometry.vertices[vertexIndex].clone()
+    const globalVertex = localVertex.applyMatrix4(player.matrix)
+    const directionVector = globalVertex.sub(player.position)
     const ray = new THREE.Raycaster(originPoint, directionVector.clone().normalize())
     const collisionResults = ray.intersectObjects(cubes)
 
