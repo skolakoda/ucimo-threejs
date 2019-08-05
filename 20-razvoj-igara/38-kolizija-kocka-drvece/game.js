@@ -10,9 +10,6 @@ const mouse = new THREE.Vector2()
 let movements = []
 const playerSpeed = 5
 
-let indicatorTop
-let indicatorBottom
-
 const container = document.createElement('div')
 document.body.appendChild(container)
   
@@ -64,8 +61,6 @@ controls.target.copy(new THREE.Vector3(0, characterSize / 2, 0))
 
 function stopMovement() {
   movements = []
-  scene.remove(indicatorTop)
-  scene.remove(indicatorBottom)
 }
 
 function move(location, destination, speed = playerSpeed) {
@@ -204,43 +199,6 @@ function createTree(posX, posZ) {
   treeTop.add(outlineTreeTop)
 }
 
-function drawIndicator() {
-  const topSize = characterSize / 8
-  const bottomRadius = characterSize / 4
-  
-  let geometry = new THREE.TetrahedronGeometry(topSize, 0)
-  let material = new THREE.MeshToonMaterial({ color: 0x00ccff, emissive: 0x00ccff  })
-  indicatorTop = new THREE.Mesh(geometry, material)
-  indicatorTop.position.y = 100 
-  indicatorTop.position.x = movements[ 0 ].x 
-  indicatorTop.position.z = movements[ 0 ].z 
-  indicatorTop.rotation.x = -0.97
-  indicatorTop.rotation.y = Math.PI / 4
-  indicatorTop.name = 'indicator_top'
-  scene.add(indicatorTop)
-  
-  geometry = new THREE.TetrahedronGeometry(topSize + outlineSize, 0)
-  material = new THREE.MeshBasicMaterial({ color : 0x0000000, side: THREE.BackSide })
-  const outlineTop = new THREE.Mesh(geometry, material)
-  indicatorTop.add(outlineTop)
-  
-  geometry = new THREE.TorusGeometry(bottomRadius, (bottomRadius * 0.25), 2, 12)
-  geometry.dynamic = true
-  material = new THREE.MeshToonMaterial({ color: 0x00ccff, emissive: 0x00ccff })
-  indicatorBottom = new THREE.Mesh(geometry, material)
-  indicatorBottom.position.y = 2.5
-  indicatorBottom.position.x = movements[ 0 ].x
-  indicatorBottom.position.z = movements[ 0 ].z
-  indicatorBottom.rotation.x = -Math.PI / 2
-  scene.add(indicatorBottom)
-  
-  geometry = new THREE.TorusGeometry(bottomRadius + outlineSize / 10, bottomRadius / 2.5, 2, 24)
-  material = new THREE.MeshBasicMaterial({ color : 0x0000000, side: THREE.BackSide })
-  const outlineBottom = new THREE.Mesh(geometry, material)
-  outlineBottom.position.z = -2
-  indicatorBottom.add(outlineBottom)
-}
-
 function handleMouseDown(event, bypass = false) {
   event.preventDefault()
   if (event.which == 3 || bypass === true) {
@@ -262,13 +220,6 @@ function render() {
   if (camera.position.y < 10) camera.position.y = 10
   
   if (movements.length > 0) {
-    if (scene.getObjectByName('indicator_top') === undefined) 
-      drawIndicator()
-    else 
-    if (indicatorTop.position.y > 10) 
-      indicatorTop.position.y -= 3
-    else 
-      indicatorTop.position.y = 100
     move(rotationPoint, movements[ 0 ])
   }
   
