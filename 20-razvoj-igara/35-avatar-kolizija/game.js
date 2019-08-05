@@ -48,21 +48,21 @@ avatar.add(leva_noga)
 /* FUNKCIJE */
 
 function praviDrvo(x, z) {
-  const stablo = new THREE.Mesh(new THREE.CylinderGeometry(50, 50, 200), new THREE.MeshBasicMaterial({color: 0xA0522D}))
+  const tree = new THREE.Mesh(new THREE.CylinderGeometry(50, 50, 200), new THREE.MeshBasicMaterial({color: 0xA0522D}))
 
-  const krosnja = new THREE.Mesh(new THREE.SphereGeometry(150), new THREE.MeshBasicMaterial({color: 0x228b22}))
-  krosnja.position.y = 175
-  stablo.add(krosnja)
+  const crown = new THREE.Mesh(new THREE.SphereGeometry(150), new THREE.MeshBasicMaterial({color: 0x228b22}))
+  crown.position.y = 175
+  tree.add(crown)
 
   // pravi granicu drveta za koliziju
   const granica = new THREE.Mesh(new THREE.CircleGeometry(200), new THREE.MeshNormalMaterial())
   granica.position.y = -100
   granica.rotation.x = -Math.PI / 2
-  stablo.add(granica)
+  tree.add(granica)
   cvrsti_objekti.push(granica)
 
-  stablo.position.set(x, -75, z)
-  scena.add(stablo)
+  tree.position.set(x, -75, z)
+  scena.add(tree)
 }
 
 function sadaHoda() {
