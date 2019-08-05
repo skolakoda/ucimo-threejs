@@ -1,7 +1,7 @@
 /* global Physijs */
 
 Physijs.scripts.worker = '../../libs/physijs_worker.js'
-Physijs.scripts.ammo = 'ammo.js'  // relativno na gornji
+Physijs.scripts.ammo = 'ammo.js'  // relativna putanja na gornji fajl
 
 const width = window.innerWidth
 const height = window.innerHeight

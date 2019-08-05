@@ -1,9 +1,8 @@
 /* global CANNON */
 
 let i = 0
-let then = new Date().getTime()
 
-const slowness = 200
+const speed = 5
 const ballsFrequency = 30
 const ramp1Pos = [-20, 25, 0]
 const ramp2Pos = [25, 5, 0]
@@ -14,7 +13,7 @@ const balls = []
 const scene = new THREE.Scene
 
 const canvas = document.getElementById('canvas')
-const renderer = new THREE.CanvasRenderer({canvas})
+const renderer = new THREE.WebGLRenderer({canvas})
 renderer.setSize(canvas.clientWidth, canvas.clientHeight)
 
 const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight)
@@ -64,6 +63,8 @@ const floorBody = new CANNON.RigidBody(0, floorShape)
 floorBody.position.y = floor.position.y = -15
 world.add(floorBody)
 
+const clock = new THREE.Clock()
+
 /* FUNCTIONS */
 
 function addBall(radius) {
@@ -87,11 +88,9 @@ function addBall(radius) {
 
 void function update() {
   requestAnimationFrame(update)
-  const now = new Date().getTime()
-  const delta = now - then
-  then = now
+  const delta = clock.getDelta() * speed
   if (++i % ballsFrequency == 0) addBall(4)
-  world.step(delta / slowness)
+  world.step(delta)
   balls.map(ball => {
     ball.position.copy(ball.mesh.position)
     ball.quaternion.copy(ball.mesh.quaternion)
