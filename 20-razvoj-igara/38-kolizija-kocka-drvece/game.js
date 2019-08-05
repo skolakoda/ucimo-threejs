@@ -23,15 +23,15 @@ scene.add(ambient)
 const hemisphereLight = new THREE.HemisphereLight(0xdddddd, 0x000000, 0.5)
 scene.add(hemisphereLight)
 
-const rotationPoint = new THREE.Object3D()
-rotationPoint.position.set(0, 0, 0)
-scene.add(rotationPoint)
+const playerCentre = new THREE.Object3D()
+playerCentre.position.set(0, 0, 0)
+scene.add(playerCentre)
 
 const geometry = new THREE.BoxBufferGeometry(characterSize, characterSize, characterSize)
 const material = new THREE.MeshPhongMaterial({ color: 0x22dd88 })
 const player = new THREE.Mesh(geometry, material)
 player.position.y = characterSize / 2
-rotationPoint.add(player)
+playerCentre.add(player)
 
 const outline_geo = new THREE.BoxGeometry(characterSize + outlineSize, characterSize + outlineSize, characterSize + outlineSize)
 const outline_mat = new THREE.MeshBasicMaterial({ color : 0x0000000, side: THREE.BackSide })
@@ -57,6 +57,11 @@ controls.minDistance = 60
 controls.target.copy(new THREE.Vector3(0, characterSize / 2, 0))
 
 /* FUNCTIONS */
+
+const isCollide = (bounds1, bounds2) =>
+  bounds1.xMin <= bounds2.xMax && bounds1.xMax >= bounds2.xMin &&
+  bounds1.yMin <= bounds2.yMax && bounds1.yMax >= bounds2.yMin &&
+  bounds1.zMin <= bounds2.zMax && bounds1.zMax >= bounds2.zMin
 
 function stopMovement() {
   movements = []
@@ -88,48 +93,37 @@ function move(obj, destination) {
 }
 
 function detectCollisions() {
-  const bounds = {
-    xMin: rotationPoint.position.x - player.geometry.parameters.width / 2,
-    xMax: rotationPoint.position.x + player.geometry.parameters.width / 2,
-    yMin: rotationPoint.position.y - player.geometry.parameters.height / 2,
-    yMax: rotationPoint.position.y + player.geometry.parameters.height / 2,
-    zMin: rotationPoint.position.z - player.geometry.parameters.width / 2,
-    zMax: rotationPoint.position.z + player.geometry.parameters.width / 2,
+  const playerBounds = {
+    xMin: playerCentre.position.x - player.geometry.parameters.width / 2,
+    xMax: playerCentre.position.x + player.geometry.parameters.width / 2,
+    yMin: playerCentre.position.y - player.geometry.parameters.height / 2,
+    yMax: playerCentre.position.y + player.geometry.parameters.height / 2,
+    zMin: playerCentre.position.z - player.geometry.parameters.width / 2,
+    zMax: playerCentre.position.z + player.geometry.parameters.width / 2,
   }
 
-  for (let index = 0; index < collisions.length; index ++)
-
-    if (collisions[ index ].type == 'collision')
-      if ((bounds.xMin <= collisions[ index ].xMax && bounds.xMax >= collisions[ index ].xMin) &&
-         (bounds.yMin <= collisions[ index ].yMax && bounds.yMax >= collisions[ index ].yMin) &&
-         (bounds.zMin <= collisions[ index ].zMax && bounds.zMax >= collisions[ index ].zMin)) {
-
-        stopMovement()
-        let objectCenterZ, playerCenterZ
-        if (bounds.xMin <= collisions[ index ].xMax && bounds.xMax >= collisions[ index ].xMin) {
-          const objectCenterX = ((collisions[ index ].xMax - collisions[ index ].xMin) / 2) + collisions[ index ].xMin
-          const playerCenterX = ((bounds.xMax - bounds.xMin) / 2) + bounds.xMin
-          objectCenterZ = ((collisions[ index ].zMax - collisions[ index ].zMin) / 2) + collisions[ index ].zMin
-          playerCenterZ = ((bounds.zMax - bounds.zMin) / 2) + bounds.zMin
-
-          if (objectCenterX > playerCenterX)
-            rotationPoint.position.x -= 1
-          else
-            rotationPoint.position.x += 1
-        }
-        if (bounds.zMin <= collisions[ index ].zMax && bounds.zMax >= collisions[ index ].zMin)
-          if (objectCenterZ > playerCenterZ) {
-            rotationPoint.position.z -= 1
-          } else {
-            rotationPoint.position.z += 1
-          }
+  collisions.forEach(obj => {
+    if (isCollide(playerBounds, obj)) {
+      stopMovement()
+      if (playerBounds.xMin <= obj.xMax && playerBounds.xMax >= obj.xMin) {
+        const objectCenterX = ((obj.xMax - obj.xMin) / 2) + obj.xMin
+        const playerCenterX = ((playerBounds.xMax - playerBounds.xMin) / 2) + playerBounds.xMin
+        if (objectCenterX > playerCenterX) playerCentre.position.x -= 1
+        else playerCentre.position.x += 1
       }
+      if (playerBounds.zMin <= obj.zMax && playerBounds.zMax >= obj.zMin) {
+        const objectCenterZ = ((obj.zMax - obj.zMin) / 2) + obj.zMin
+        const playerCenterZ = ((playerBounds.zMax - playerBounds.zMin) / 2) + playerBounds.zMin
+        if (objectCenterZ > playerCenterZ) playerCentre.position.z -= 1
+        else playerCentre.position.z += 1
+      }
+    }
+  })
 }
 
 function addCollisionPoints(mesh) {
   const bbox = new THREE.Box3().setFromObject(mesh)
   const bounds = {
-    type: 'collision',
     xMin: bbox.min.x,
     xMax: bbox.max.x,
     yMin: bbox.min.y,
@@ -210,7 +204,7 @@ createTree(-800, -800)
 
 void function animate() {
   requestAnimationFrame(animate)
-  if (movements.length > 0) move(rotationPoint, movements[0])
+  if (movements.length > 0) move(playerCentre, movements[0])
   if (camera.position.y < 10) camera.position.y = 10
   detectCollisions()
   renderer.render(scene, camera)
