@@ -8,7 +8,7 @@ let vrtenje = false
 let salto = false
 const tacka_gledanja = 75 // blizina gledanja
 const casovnik = new THREE.Clock(true)
-const zabranjeni_prilazi = []
+const cvrsti_objekti = []
 
 const scena = new THREE.Scene()
 
@@ -59,7 +59,7 @@ function praviDrvo(x, z) {
   granica.position.y = -100
   granica.rotation.x = -Math.PI / 2
   stablo.add(granica)
-  zabranjeni_prilazi.push(granica)
+  cvrsti_objekti.push(granica)
 
   stablo.position.set(x, -75, z)
   scena.add(stablo)
@@ -115,7 +115,7 @@ function praviAkrobacije() {
 function detektujSudare() {
   const vektor = new THREE.Vector3(0, -1, 0)
   const zrak = new THREE.Raycaster(okvir.position, vektor)
-  const ukrstanja = zrak.intersectObjects(zabranjeni_prilazi)
+  const ukrstanja = zrak.intersectObjects(cvrsti_objekti)
   if (ukrstanja.length > 0) return true
   return false
 }
@@ -173,8 +173,7 @@ document.addEventListener('keydown', event => {
   
   if (event.keyCode == 65) kamera.position.x += 10
   if (event.keyCode == 68) kamera.position.x -= 10
-}
-)
+})
 
 document.addEventListener('keyup', event => {
   const tipka = event.keyCode
