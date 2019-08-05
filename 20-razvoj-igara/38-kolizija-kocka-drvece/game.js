@@ -1,10 +1,3 @@
-let camera, 
-  scene, 
-  renderer, 
-  controls, 
-  container, 
-  rotationPoint  
-
 const characterSize = 50
 const outlineSize = characterSize * 0.05
 
@@ -17,75 +10,57 @@ const mouse = new THREE.Vector2()
 let movements = []
 const playerSpeed = 5
 
-let clickTimer = null
-
 let indicatorTop
 let indicatorBottom
 
-function init() {
-  container = document.createElement('div')
-  document.body.appendChild(container)
+const container = document.createElement('div')
+document.body.appendChild(container)
   
-  scene = new THREE.Scene()
-  scene.background = new THREE.Color(0xccddff)
-  scene.fog = new THREE.Fog(0xccddff, 500, 2000)
+const scene = new THREE.Scene()
+scene.background = new THREE.Color(0xccddff)
+scene.fog = new THREE.Fog(0xccddff, 500, 2000)
   
-  const ambient = new THREE.AmbientLight(0xffffff)
-  scene.add(ambient)
+const ambient = new THREE.AmbientLight(0xffffff)
+scene.add(ambient)
   
-  const hemisphereLight = new THREE.HemisphereLight(0xdddddd, 0x000000, 0.5)
-  scene.add(hemisphereLight)
+const hemisphereLight = new THREE.HemisphereLight(0xdddddd, 0x000000, 0.5)
+scene.add(hemisphereLight)
   
-  rotationPoint = new THREE.Object3D()
-  rotationPoint.position.set(0, 0, 0)
-  scene.add(rotationPoint)
+const rotationPoint = new THREE.Object3D()
+rotationPoint.position.set(0, 0, 0)
+scene.add(rotationPoint)
   
-  createCharacter()
-  createFloor()
-  createTree(300, 300)
-  createTree(800, -300)
-  createTree(-300, 800)
-  createTree(-800, -800)
-  
-  camera = new THREE.PerspectiveCamera(
-    50, 
-    window.innerWidth / window.innerHeight, 
-    1, 
-    20000 
-  )
-  camera.position.z = -300
-  camera.position.y = 200
-  box.add(camera)
-  
-  renderer = new THREE.WebGLRenderer({ antialias: true })
-  
-  const element = renderer.domElement
-  renderer.setSize(window.innerWidth, window.innerHeight)
-  container.appendChild(element)
-  
-  controls = new THREE.OrbitControls(camera, element)
-  controls.enablePan = true
-  controls.enableZoom = true 
-  controls.maxDistance = 1000 
-  controls.minDistance = 60 
-  controls.target.copy(new THREE.Vector3(0, characterSize / 2, 0))
-  
-  document.addEventListener('mousedown', handleMouseDown, false)
-  document.addEventListener('touchstart', handleTouchStart, false)
-}
+// create character
+const geometry = new THREE.BoxBufferGeometry(characterSize, characterSize, characterSize)
+const material = new THREE.MeshPhongMaterial({ color: 0x22dd88 })
+const box = new THREE.Mesh(geometry, material)
+box.position.y = characterSize / 2
+rotationPoint.add(box)
 
-function detectDoubleTouch() {
-  if (clickTimer == null) 
-    clickTimer = setTimeout(() => {
-      clickTimer = null
-    }, 300)
-  else {
-    clearTimeout(clickTimer)
-    clickTimer = null
-    return true
-  }
-  return false
-}
+const outline_geo = new THREE.BoxGeometry(characterSize + outlineSize, characterSize + outlineSize, characterSize + outlineSize)
+const outline_mat = new THREE.MeshBasicMaterial({ color : 0x0000000, side: THREE.BackSide })
+const outline = new THREE.Mesh(outline_geo, outline_mat)
+box.add(outline)
+
+const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 20000)
+camera.position.z = -300
+camera.position.y = 200
+box.add(camera)
+  
+const renderer = new THREE.WebGLRenderer({ antialias: true })
+  
+const element = renderer.domElement
+renderer.setSize(window.innerWidth, window.innerHeight)
+container.appendChild(element)
+  
+const controls = new THREE.OrbitControls(camera, element)
+controls.enablePan = true
+controls.enableZoom = true 
+controls.maxDistance = 1000 
+controls.minDistance = 60 
+controls.target.copy(new THREE.Vector3(0, characterSize / 2, 0))
+
+/* FUNCTIONS */
 
 function stopMovement() {
   movements = []
@@ -179,19 +154,6 @@ function calculateCollisionPoints(mesh, type = 'collision') {
     zMax: bbox.max.z,
   }
   collisions.push(bounds)
-}
-
-function createCharacter() {
-  const geometry = new THREE.BoxBufferGeometry(characterSize, characterSize, characterSize)
-  const material = new THREE.MeshPhongMaterial({ color: 0x22dd88 })
-  box = new THREE.Mesh(geometry, material)
-  box.position.y = characterSize / 2
-  rotationPoint.add(box)
-  
-  const outline_geo = new THREE.BoxGeometry(characterSize + outlineSize, characterSize + outlineSize, characterSize + outlineSize)
-  const outline_mat = new THREE.MeshBasicMaterial({ color : 0x0000000, side: THREE.BackSide })
-  outline = new THREE.Mesh(outline_geo, outline_mat)
-  box.add(outline)
 }
 
 function createFloor() {
@@ -295,16 +257,6 @@ function handleMouseDown(event, bypass = false) {
   }
 }
 
-function handleTouchStart(event) {
-  event.preventDefault()
-  event.clientX = event.touches[0].clientX
-  event.clientY = event.touches[0].clientY
-  
-  const bypass = detectDoubleTouch()
-  console.log(bypass)
-  handleMouseDown(event, bypass)
-}
-
 function render() {
   renderer.render(scene, camera)
   if (camera.position.y < 10) camera.position.y = 10
@@ -323,7 +275,13 @@ function render() {
   if (collisions.length > 0) detectCollisions()
 }
 
-init()
+/* INIT */
+
+createFloor()
+createTree(300, 300)
+createTree(800, -300)
+createTree(-300, 800)
+createTree(-800, -800)
 
 void function animate() {
   requestAnimationFrame(animate)
@@ -331,3 +289,6 @@ void function animate() {
   render()
 }() 
 
+/* EVENTS */
+
+document.addEventListener('mousedown', handleMouseDown)
