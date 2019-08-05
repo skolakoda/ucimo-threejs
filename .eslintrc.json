@@ -34,6 +34,7 @@
       "no-return-assign": ["warn", "always"],
       "no-shadow-restricted-names": "error",
       "no-this-before-super": "error",
+      "no-trailing-spaces": "warn",
       "no-undef": "error",
       "no-unexpected-multiline": "error",
       "no-unreachable": "error",
