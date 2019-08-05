@@ -83,11 +83,13 @@ function hodaj() {
 }
 
 function glatkoOkreni(direction) {
-  new TWEEN.Tween({ y: avatar.rotation.y }).to({
-    y: direction
-  }, 100).onUpdate(function () {
-    avatar.rotation.y = this.y
-  }).start()
+  const start = { y: avatar.rotation.y }
+  const target = { y: direction }
+  new TWEEN.Tween(start).to(target, 300)
+    .onUpdate(() => {
+      avatar.rotation.y = start.y
+    })
+    .start()
 }
 
 function gledajPravcem() {
