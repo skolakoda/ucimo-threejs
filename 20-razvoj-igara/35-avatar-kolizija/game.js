@@ -10,44 +10,44 @@ const tacka_gledanja = 75 // blizina gledanja
 const casovnik = new THREE.Clock(true)
 const cvrsti_objekti = []
 
-const scena = new THREE.Scene()
+const scene = new THREE.Scene()
 
-const okvir = new THREE.Object3D()
-scena.add(okvir)
+const container = new THREE.Object3D()
+scene.add(container)
 
-const kamera = new THREE.PerspectiveCamera(tacka_gledanja, window.innerWidth / window.innerHeight, 1, 10000)
-kamera.position.z = 500
-okvir.add(kamera)
+const camera = new THREE.PerspectiveCamera(tacka_gledanja, window.innerWidth / window.innerHeight, 1, 10000)
+camera.position.z = 500
+container.add(camera)
 
 const renderer = new THREE.CanvasRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
 
-const tekstura = new THREE.MeshNormalMaterial()
-const telo = new THREE.SphereGeometry(100)
-const avatar = new THREE.Mesh(telo, tekstura)
-okvir.add(avatar)
+const texture = new THREE.MeshNormalMaterial()
+const body = new THREE.SphereGeometry(100)
+const avatar = new THREE.Mesh(body, texture)
+container.add(avatar)
 
 const ud = new THREE.SphereGeometry(50)
-const desna_ruka = new THREE.Mesh(ud, tekstura)
+const desna_ruka = new THREE.Mesh(ud, texture)
 desna_ruka.position.set(-150, 0, 0)
 avatar.add(desna_ruka)
 
-const leva_ruka = new THREE.Mesh(ud, tekstura)
+const leva_ruka = new THREE.Mesh(ud, texture)
 leva_ruka.position.set(150, 0, 0)
 avatar.add(leva_ruka)
 
-const desna_noga = new THREE.Mesh(ud, tekstura)
+const desna_noga = new THREE.Mesh(ud, texture)
 desna_noga.position.set(70, -120, 0)
 avatar.add(desna_noga)
 
-const leva_noga = new THREE.Mesh(ud, tekstura)
+const leva_noga = new THREE.Mesh(ud, texture)
 leva_noga.position.set(-70, -120, 0)
 avatar.add(leva_noga)
 
 /* FUNKCIJE */
 
-function praviDrvo(x, z) {
+function createTree(x, z) {
   const tree = new THREE.Mesh(new THREE.CylinderGeometry(50, 50, 200), new THREE.MeshBasicMaterial({color: 0xA0522D}))
 
   const crown = new THREE.Mesh(new THREE.SphereGeometry(150), new THREE.MeshBasicMaterial({color: 0x228b22}))
@@ -62,7 +62,7 @@ function praviDrvo(x, z) {
   cvrsti_objekti.push(granica)
 
   tree.position.set(x, -75, z)
-  scena.add(tree)
+  scene.add(tree)
 }
 
 function sadaHoda() {
@@ -82,9 +82,9 @@ function hodaj() {
   desna_noga.position.z = polozaj
 }
 
-function glatkoOkreni(direction) {
+function tweenTurn(angle) {
   const start = { y: avatar.rotation.y }
-  const target = { y: direction }
+  const target = { y: angle }
   new TWEEN.Tween(start).to(target, 300)
     .onUpdate(() => {
       avatar.rotation.y = start.y
@@ -92,87 +92,80 @@ function glatkoOkreni(direction) {
     .start()
 }
 
-function gledajPravcem() {
+function turn() {
   let pravac = 0
-  if (hoda_napred) 
-    pravac = Math.PI
-  if (hoda_nazad) 
-    pravac = 0
-  if (hoda_desno) 
-    pravac = Math.PI / 2
-  if (hoda_levo) 
-    pravac = -Math.PI / 2
-  
+  if (hoda_napred) pravac = Math.PI
+  if (hoda_nazad) pravac = 0
+  if (hoda_desno) pravac = Math.PI / 2
+  if (hoda_levo) pravac = -Math.PI / 2
   // avatar.rotation.y = pravac;
-  glatkoOkreni(pravac)
+  tweenTurn(pravac)
 }
 
 function praviAkrobacije() {
   if (vrtenje) avatar.rotation.z += 0.05
-  if (salto) avatar.rotation.x += 0.05
+  if (salto) avatar.rotation.x -= 0.05
 }
 
-function detektujSudare() {
+function isCollide() {
   const vektor = new THREE.Vector3(0, -1, 0)
-  const zrak = new THREE.Raycaster(okvir.position, vektor)
-  const ukrstanja = zrak.intersectObjects(cvrsti_objekti)
-  if (ukrstanja.length > 0) return true
+  const ray = new THREE.Raycaster(container.position, vektor)
+  const intersects = ray.intersectObjects(cvrsti_objekti)
+  if (intersects.length > 0) return true
   return false
 }
 
-function animiraj() {
-  requestAnimationFrame(animiraj)
+/* INIT */
+
+createTree(500, 0)
+createTree(-500, 0)
+createTree(300, -200)
+createTree(-200, -800)
+createTree(-750, -1000)
+createTree(500, -1000)
+
+void function animate() {
+  requestAnimationFrame(animate)
   TWEEN.update()
   hodaj()
-  gledajPravcem()
+  turn()
   praviAkrobacije()
-  renderer.render(scena, kamera)
-}
+  renderer.render(scene, camera)
+}()
 
-/* POZIVANJE FUNKCIJA */
-
-praviDrvo(500, 0)
-praviDrvo(-500, 0)
-praviDrvo(300, -200)
-praviDrvo(-200, -800)
-praviDrvo(-750, -1000)
-praviDrvo(500, -1000)
-
-animiraj()
-
-/* SLUSACI */
+/* EVENTS */
 
 document.addEventListener('keydown', event => {
   if (event.keyCode == 37) {
-    okvir.position.x -= 10
+    container.position.x -= 10
     hoda_levo = true
   }
   if (event.keyCode == 39) {
-    okvir.position.x += 10
+    container.position.x += 10
     hoda_desno = true
   }
   if (event.keyCode == 38) {
-    okvir.position.z -= 10
+    container.position.z -= 10
     hoda_napred = true
   }
   if (event.keyCode == 40) {
-    okvir.position.z += 10
+    container.position.z += 10
     hoda_nazad = true
   }
 
   // ako je sudar vraca mu korak
-  if (detektujSudare()) {
-    if (hoda_levo) okvir.position.x += 10
-    if (hoda_desno) okvir.position.x -= 10
-    if (hoda_napred) okvir.position.z += 10
-    if (hoda_nazad) okvir.position.z -= 10
+  if (isCollide()) {
+    if (hoda_levo) container.position.x += 10
+    if (hoda_desno) container.position.x -= 10
+    if (hoda_napred) container.position.z += 10
+    if (hoda_nazad) container.position.z -= 10
   }
   
   if (event.keyCode == 67) vrtenje = true
   if (event.keyCode == 70) salto = true
   
-  if (event.keyCode == 65) kamera.position.x += 10
-  if (event.keyCode == 68) kamera.position.x -= 10
+  if (event.keyCode == 65) camera.position.x += 10
+  if (event.keyCode == 68) camera.position.x -= 10
 })
 
 document.addEventListener('keyup', event => {
