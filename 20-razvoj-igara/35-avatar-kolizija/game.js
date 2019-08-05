@@ -160,10 +160,10 @@ document.addEventListener('keydown', event => {
     if (hoda_napred) container.position.z += 10
     if (hoda_nazad) container.position.z -= 10
   }
-  
+
   if (event.keyCode == 67) vrtenje = true
   if (event.keyCode == 70) salto = true
-  
+
   if (event.keyCode == 65) camera.position.x += 10
   if (event.keyCode == 68) camera.position.x -= 10
 })
@@ -174,7 +174,7 @@ document.addEventListener('keyup', event => {
   if (tipka == 39) hoda_desno = false
   if (tipka == 38) hoda_napred = false
   if (tipka == 40) hoda_nazad = false
-  
+
   if (tipka == 67) vrtenje = false
   if (tipka == 70) salto = false
 })

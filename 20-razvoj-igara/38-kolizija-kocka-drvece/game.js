@@ -1,4 +1,5 @@
 /* Metod kolizije: rucno pravljenje box-a drveca i rucna provera sudara (isCollide) */
+// TODO: dodati avatara umesto kutije
 const characterSize = 50
 const outlineSize = characterSize * 0.05
 
