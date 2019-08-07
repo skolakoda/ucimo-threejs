@@ -3,8 +3,7 @@
 const characterSize = 50
 const outlineSize = characterSize * 0.05
 
-const objects = []
-const collisions = []
+const colliders = []
 
 const raycaster = new THREE.Raycaster()
 const mouse = new THREE.Vector2()
@@ -65,10 +64,6 @@ const isCollide = (bounds1, bounds2) =>
   bounds1.yMin <= bounds2.yMax && bounds1.yMax >= bounds2.yMin &&
   bounds1.zMin <= bounds2.zMax && bounds1.zMax >= bounds2.zMin
 
-function stopMovement() {
-  movements = []
-}
-
 function move(obj, destination) {
   const {position} = obj
   const newPosX = destination.x
@@ -90,7 +85,7 @@ function move(obj, destination) {
   ) {
     position.x = Math.floor(position.x)
     position.z = Math.floor(position.z)
-    stopMovement()
+    movements = []
   }
 }
 
@@ -104,21 +99,20 @@ function detectCollisions() {
     zMax: playerCentre.position.z + player.geometry.parameters.width / 2,
   }
 
-  collisions.forEach(obj => {
-    if (isCollide(playerBounds, obj)) {
-      stopMovement()
-      if (playerBounds.xMin <= obj.xMax && playerBounds.xMax >= obj.xMin) {
-        const objectCenterX = ((obj.xMax - obj.xMin) / 2) + obj.xMin
-        const playerCenterX = ((playerBounds.xMax - playerBounds.xMin) / 2) + playerBounds.xMin
-        if (objectCenterX > playerCenterX) playerCentre.position.x -= 1
-        else playerCentre.position.x += 1
-      }
-      if (playerBounds.zMin <= obj.zMax && playerBounds.zMax >= obj.zMin) {
-        const objectCenterZ = ((obj.zMax - obj.zMin) / 2) + obj.zMin
-        const playerCenterZ = ((playerBounds.zMax - playerBounds.zMin) / 2) + playerBounds.zMin
-        if (objectCenterZ > playerCenterZ) playerCentre.position.z -= 1
-        else playerCentre.position.z += 1
-      }
+  colliders.forEach(obj => {
+    if (!isCollide(playerBounds, obj)) return
+    movements = []
+    if (playerBounds.xMin <= obj.xMax && playerBounds.xMax >= obj.xMin) {
+      const objectCenterX = ((obj.xMax - obj.xMin) / 2) + obj.xMin
+      const playerCenterX = ((playerBounds.xMax - playerBounds.xMin) / 2) + playerBounds.xMin
+      if (objectCenterX > playerCenterX) playerCentre.position.x -= 1
+      else playerCentre.position.x += 1
+    }
+    if (playerBounds.zMin <= obj.zMax && playerBounds.zMax >= obj.zMin) {
+      const objectCenterZ = ((obj.zMax - obj.zMin) / 2) + obj.zMin
+      const playerCenterZ = ((playerBounds.zMax - playerBounds.zMin) / 2) + playerBounds.zMin
+      if (objectCenterZ > playerCenterZ) playerCentre.position.z -= 1
+      else playerCentre.position.z += 1
     }
   })
 }
@@ -133,7 +127,7 @@ function addCollisionPoints(mesh) {
     zMin: bbox.min.z,
     zMax: bbox.max.z,
   }
-  collisions.push(bounds)
+  colliders.push(bounds)
 }
 
 function createFloor() {
@@ -142,8 +136,7 @@ function createFloor() {
   const plane = new THREE.Mesh(geometry, material)
   plane.rotation.x = -1 * Math.PI / 2
   plane.position.y = 0
-  scene.add(plane)
-  objects.push(plane)
+  return plane
 }
 
 function createTree(posX, posZ) {
@@ -155,8 +148,6 @@ function createTree(posX, posZ) {
   const trunk = new THREE.Mesh(geometry, material)
   trunk.position.set(posX, ((characterSize * 1.3 * randomScale) / 2), posZ)
   trunk.scale.x = trunk.scale.y = trunk.scale.z = randomScale
-  scene.add(trunk)
-
   addCollisionPoints(trunk)
 
   let outline_geo = new THREE.CylinderGeometry(characterSize / 3.5 + outlineSize, characterSize / 2.5 + outlineSize, characterSize * 1.3 + outlineSize, 8)
@@ -170,10 +161,10 @@ function createTree(posX, posZ) {
   geometry = new THREE.DodecahedronGeometry(characterSize)
   material = new THREE.MeshToonMaterial({ color: 0x44aa44 })
   const treeTop = new THREE.Mesh(geometry, material)
-  treeTop.position.set(posX, ((characterSize * 1.3 * randomScale) / 2) + characterSize * randomScale, posZ)
+  treeTop.position.y = characterSize * randomScale + randomScale
   treeTop.scale.x = treeTop.scale.y = treeTop.scale.z = randomScale
   treeTop.rotation.y = randomRotateY
-  scene.add(treeTop)
+  trunk.add(treeTop)
 
   outline_geo = new THREE.DodecahedronGeometry(characterSize + outlineSize)
   outline_mat = new THREE.MeshBasicMaterial({
@@ -182,27 +173,17 @@ function createTree(posX, posZ) {
   })
   const outlineTreeTop = new THREE.Mesh(outline_geo, outline_mat)
   treeTop.add(outlineTreeTop)
-}
-
-function handleMouseDown(event) {
-  event.preventDefault()
-  stopMovement()
-
-  mouse.x = (event.clientX / renderer.domElement.clientWidth) * 2 - 1
-  mouse.y = - (event.clientY / renderer.domElement.clientHeight) * 2 + 1
-
-  raycaster.setFromCamera(mouse, camera)
-  const intersects = raycaster.intersectObjects(objects)
-  if (intersects.length > 0) movements.push(intersects[0].point)
+  return trunk
 }
 
 /* INIT */
 
-createFloor()
-createTree(300, 300)
-createTree(800, -300)
-createTree(-300, 800)
-createTree(-800, -800)
+const plane = createFloor()
+scene.add(plane)
+scene.add(createTree(300, 300))
+scene.add(createTree(800, -300))
+scene.add(createTree(-300, 800))
+scene.add(createTree(-800, -800))
 
 void function animate() {
   requestAnimationFrame(animate)
@@ -213,5 +194,17 @@ void function animate() {
 }()
 
 /* EVENTS */
+
+function handleMouseDown(event) {
+  event.preventDefault()
+  movements = []
+
+  mouse.x = (event.clientX / renderer.domElement.clientWidth) * 2 - 1
+  mouse.y = - (event.clientY / renderer.domElement.clientHeight) * 2 + 1
+
+  raycaster.setFromCamera(mouse, camera)
+  const intersects = raycaster.intersectObjects([plane]) // must be array
+  if (intersects.length > 0) movements.push(intersects[0].point)
+}
 
 document.addEventListener('mousedown', handleMouseDown)
