@@ -1,14 +1,6 @@
-/* global chroma */
-let renderer
-let scene
-let camera
-let control
-let context
-let sourceNode
-let analyser
-let javascriptNode
-
+/* global chroma, noise */
 const scale = chroma.scale(['white', 'blue', 'red']).domain([0, 20])
+let context, sourceNode
 
 const pm = new THREE.ParticleBasicMaterial()
 pm.map = THREE.ImageUtils.loadTexture('../../assets/teksture/ball.png')
@@ -21,28 +13,27 @@ const particleWidth = 100
 const spacing = 0.26
 let centerParticle
 
-scene = new THREE.Scene()
+const scene = new THREE.Scene()
 
-camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
-
-renderer = new THREE.WebGLRenderer()
+const renderer = new THREE.WebGLRenderer()
 renderer.setClearColor(0xffffff, 1.0)
 renderer.setSize(window.innerWidth, window.innerHeight)
 renderer.shadowMapEnabled = true
 
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
 camera.position.x = 200
 camera.position.y = 200
 camera.position.z = 200
 camera.lookAt(scene.position)
 
-control = {
+const control = {
   rotationSpeed: 0.001,
   opacity: 0.6,
 }
 
 document.body.appendChild(renderer.domElement)
 
-create3DTerrain(100, 100, 2.5, 2.5, 10)
+create3DTerrain(100, 100, 2.5, 2.5)
 setupSound()
 loadSound('../../assets/audio/wagner-short.ogg')
 
@@ -50,18 +41,16 @@ function getHighPoint(geometry, face) {
   const v1 = geometry.vertices[face.a].y
   const v2 = geometry.vertices[face.b].y
   const v3 = geometry.vertices[face.c].y
-
   return Math.max(v1, v2, v3)
 }
 
-function create3DTerrain(width, depth, spacingX, spacingZ, height) {
+function create3DTerrain(width, depth, spacingX, spacingZ) {
   const date = new Date()
   noise.seed(date.getMilliseconds())
-
   const geometry = new THREE.Geometry()
+
   for (let z = 0; z < depth; z++)
     for (let x = 0; x < width; x++) {
-
       const yValue = 0
       const vertex = new THREE.Vector3(x * spacingX, yValue, z * spacingZ)
       geometry.vertices.push(vertex)
@@ -69,7 +58,6 @@ function create3DTerrain(width, depth, spacingX, spacingZ, height) {
 
   for (let z = 0; z < depth - 1; z++)
     for (let x = 0; x < width - 1; x++) {
-
       const a = x + z * width
       const b = (x + 1) + (z * width)
       const c = x + ((z + 1) * width)
@@ -82,13 +70,11 @@ function create3DTerrain(width, depth, spacingX, spacingZ, height) {
 
       const face1 = new THREE.Face3(b, a, c)
       const face2 = new THREE.Face3(c, d, b)
-
       face1.color = new THREE.Color(scale(getHighPoint(geometry, face1)).hex())
       face2.color = new THREE.Color(scale(getHighPoint(geometry, face2)).hex())
 
       geometry.faces.push(face1)
       geometry.faces.push(face2)
-
       geometry.faceVertexUvs[0].push([uvb, uva, uvc])
       geometry.faceVertexUvs[0].push([uvc, uvd, uvb])
     }
@@ -99,7 +85,6 @@ function create3DTerrain(width, depth, spacingX, spacingZ, height) {
   geometry.computeFaceNormals()
 
   const mat = new THREE.MeshBasicMaterial()
-
   mat.map = THREE.ImageUtils.loadTexture('../../assets/teksture/wood_1-1024x1024.png')
 
   const groundMesh = new THREE.Mesh(geometry, mat)
@@ -114,7 +99,7 @@ function create3DTerrain(width, depth, spacingX, spacingZ, height) {
 function setupSound() {
   context = new AudioContext()
 
-  javascriptNode = context.createScriptProcessor(1024, 1, 1)
+  const javascriptNode = context.createScriptProcessor(1024, 1, 1)
   javascriptNode.connect(context.destination)
   javascriptNode.onaudioprocess = function() {
 
