@@ -43,16 +43,16 @@ function generateBuildingTexture() {
 }
 
 function createCity(buildingCount, rangeX, rangeY, scale) {
-  const buildingBlock = new THREE.BoxGeometry(1, 1, 1)
-  buildingBlock.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0.5, 0))
+  const block = new THREE.BoxGeometry(1, 1, 1)
+  block.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0.5, 0))
 
   const uvPixel = 0.0
-  buildingBlock.faceVertexUvs[0][4][0] = new THREE.Vector2(uvPixel, uvPixel)
-  buildingBlock.faceVertexUvs[0][4][1] = new THREE.Vector2(uvPixel, uvPixel)
-  buildingBlock.faceVertexUvs[0][4][2] = new THREE.Vector2(uvPixel, uvPixel)
-  buildingBlock.faceVertexUvs[0][5][0] = new THREE.Vector2(uvPixel, uvPixel)
-  buildingBlock.faceVertexUvs[0][5][1] = new THREE.Vector2(uvPixel, uvPixel)
-  buildingBlock.faceVertexUvs[0][5][2] = new THREE.Vector2(uvPixel, uvPixel)
+  block.faceVertexUvs[0][4][0] = new THREE.Vector2(uvPixel, uvPixel)
+  block.faceVertexUvs[0][4][1] = new THREE.Vector2(uvPixel, uvPixel)
+  block.faceVertexUvs[0][4][2] = new THREE.Vector2(uvPixel, uvPixel)
+  block.faceVertexUvs[0][5][0] = new THREE.Vector2(uvPixel, uvPixel)
+  block.faceVertexUvs[0][5][1] = new THREE.Vector2(uvPixel, uvPixel)
+  block.faceVertexUvs[0][5][2] = new THREE.Vector2(uvPixel, uvPixel)
 
   for (let i = 0; i < buildingCount; i++) {
     const material = new THREE.MeshLambertMaterial()
@@ -61,7 +61,7 @@ function createCity(buildingCount, rangeX, rangeY, scale) {
     material.map.anisotropy = renderer.getMaxAnisotropy()
     material.map.needsUpdate = true
 
-    const building = new THREE.Mesh(buildingBlock, material)
+    const building = new THREE.Mesh(block, material)
     const randomScale = (Math.random() / 1.2 + 0.5) * scale
 
     building.scale.x = randomScale
