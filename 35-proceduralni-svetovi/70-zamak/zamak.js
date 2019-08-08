@@ -1,37 +1,48 @@
-const duzinaZida = 7
+const brojCigli = 20
 const brojSpratova = 13
 const razmak = 10.2
+const d = razmak * brojCigli
 
 /** SCENA **/
 
-const t  = THREE
-const scena = new t.Scene()
+const scene = new THREE.Scene()
 
-const kamera = new t.PerspectiveCamera()
-kamera.position.set(55, 50, 250)
+const camera = new THREE.PerspectiveCamera()
+camera.position.set(55, 50, 250)
 
-const kontrole = new t.OrbitControls(kamera)
+const controls = new THREE.OrbitControls(camera)
 
-const renderer = new t.WebGLRenderer()
+const renderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
 
 /** GEOMETRIJA **/
 
 function praviCiglu(x, y, z) {
-  const blok = new t.Mesh(new t.BoxGeometry(10, 10, 10), new t.MeshNormalMaterial())
+  const blok = new THREE.Mesh(new THREE.BoxGeometry(10, 10, 10), new THREE.MeshNormalMaterial())
   blok.position.set(x, y, z)
-  scena.add(blok)
+  scene.add(blok)
 }
 
 function praviSprat(y, i) {
-  if (i > razmak * duzinaZida + 1) return
-  praviCiglu(i, y, 0) // zadnji
-  praviCiglu(i, y, razmak * duzinaZida) // prednji
-  praviCiglu(0, y, i) // levi
-  praviCiglu(razmak * duzinaZida, y, i) // desni
+  if (i > d + 1) return
+  ;[[i, y, 0], [i, y, d], [0, y, i], [d, y, i]].map(kord => praviCiglu(...kord))
   praviSprat(y, i + razmak)
 }
+
+function praviKulu(x, z) {
+  const precnik = 15
+  const kula = new THREE.Mesh(new THREE.CylinderGeometry(precnik, precnik, 150, 100), new THREE.MeshNormalMaterial())
+  kula.position.set(x, 70, z)
+  scene.add(kula)
+  const krov = new THREE.Mesh(new THREE.CylinderGeometry(0, precnik, 50, 100), new THREE.MeshNormalMaterial())
+  krov.position.set(x, 170, z)
+  scene.add(krov)
+}
+
+;[[0, 0], [0, d], [d, 0], [d, d]].map(kord => praviKulu(...kord))
+
+/** UPDATE **/
 
 void function praviZgradu(y) {
   if (y > razmak * brojSpratova) return
@@ -40,25 +51,8 @@ void function praviZgradu(y) {
   praviZgradu(y + razmak)
 }(0)
 
-function praviKulu(x, z) {
-  const precnik = 15
-  const kula = new t.Mesh(new t.CylinderGeometry(precnik, precnik, 150, 100), new t.MeshNormalMaterial())
-  kula.position.set(x, 70, z)
-  scena.add(kula)
-  const krov = new t.Mesh(new t.CylinderGeometry(0, precnik, 50, 100), new t.MeshNormalMaterial())
-  krov.position.set(x, 170, z)
-  scena.add(krov)
-}
-
-praviKulu(0, 0)
-praviKulu(0, razmak * duzinaZida)
-praviKulu(razmak * duzinaZida, 0)
-praviKulu(razmak * duzinaZida, razmak * duzinaZida)
-
-/** UPDATE **/
-
 void function update() {
   window.requestAnimationFrame(update)
-  kontrole.update()
-  renderer.render(scena, kamera)
+  controls.update()
+  renderer.render(scene, camera)
 }()
