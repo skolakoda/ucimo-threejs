@@ -2,13 +2,6 @@
 const scale = chroma.scale(['white', 'blue', 'red']).domain([0, 20])
 let context, sourceNode, analyser
 
-const pm = new THREE.ParticleBasicMaterial()
-pm.map = THREE.ImageUtils.loadTexture('../../assets/teksture/ball.png')
-pm.transparent = true
-pm.opacity = 0.4
-pm.size = 0.9
-pm.vertexColors = true
-
 const particleWidth = 100
 const spacing = 0.26
 let centerParticle
@@ -16,20 +9,11 @@ let centerParticle
 const scene = new THREE.Scene()
 
 const renderer = new THREE.WebGLRenderer()
-renderer.setClearColor(0xffffff, 1.0)
 renderer.setSize(window.innerWidth, window.innerHeight)
-renderer.shadowMapEnabled = true
 
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
-camera.position.x = 200
-camera.position.y = 200
-camera.position.z = 200
+camera.position.set(150, 150, 150)
 camera.lookAt(scene.position)
-
-const control = {
-  rotationSpeed: 0.001,
-  opacity: 0.6,
-}
 
 document.body.appendChild(renderer.domElement)
 
@@ -37,8 +21,7 @@ document.body.appendChild(renderer.domElement)
 
 function getCenterParticle() {
   const center = Math.ceil(particleWidth / 2)
-  const centerParticle = center + (center * particleWidth)
-  return centerParticle
+  return center + (center * particleWidth)
 }
 
 function getAverageVolume(array, start, end) {
@@ -136,11 +119,9 @@ function create3DTerrain(width, depth, spacingX, spacingZ) {
 
 function setupSound() {
   context = new AudioContext()
-
   const javascriptNode = context.createScriptProcessor(1024, 1, 1)
   javascriptNode.connect(context.destination)
   javascriptNode.onaudioprocess = function() {
-
     const array = new Uint8Array(analyser.frequencyBinCount)
     analyser.getByteFrequencyData(array)
 
@@ -201,7 +182,6 @@ function setupSound() {
     for (let i = 0; i < highRings; i++)
       renderRing(geom, highParticles[i], highValue, highOffsets[i], highVolumeDownScale)
   }
-
   analyser = context.createAnalyser()
   analyser.smoothingTimeConstant = 0.1
   analyser.fftSize = 2048
@@ -237,18 +217,14 @@ setupSound()
 loadSound('../../assets/audio/wagner-short.ogg')
 
 void function render() {
-  const rotSpeed = control.rotationSpeed
-  camera.position.x = camera.position.x * Math.cos(rotSpeed) + camera.position.z * Math.sin(rotSpeed)
+  const rotSpeed = 0.001
   camera.position.z = camera.position.z * Math.cos(rotSpeed) - camera.position.x * Math.sin(rotSpeed)
   camera.lookAt(scene.position)
 
   renderer.render(scene, camera)
 
-  if (scene.getObjectByName('terrain')) {
+  if (scene.getObjectByName('terrain')) 
     scene.getObjectByName('terrain').geometry.verticesNeedUpdate = true
-    scene.getObjectByName('terrain').geometry.computeVertexNormals(true)
-    scene.getObjectByName('terrain').geometry.computeFaceNormals()
-  }
 
-  window.requestAnimationFrame(render)
+  requestAnimationFrame(render)
 }()
