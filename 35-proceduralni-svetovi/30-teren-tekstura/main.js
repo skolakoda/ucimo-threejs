@@ -1,7 +1,6 @@
-/* global noise, chroma, dat */
+/* global noise */
 // https://github.com/josdirksen/essential-threejs/blob/master/chapter-05/05.02-3D-plane-from-scratch-perlin.html
 const MAX_HEIGHT = 10
-const scale = chroma.scale(['blue', 'green', 'red']).domain([0, MAX_HEIGHT])
 
 const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
@@ -21,32 +20,7 @@ spotLight.position.set(10, 300, 10)
 scene.add(spotLight)
 scene.add(new THREE.AmbientLight(0x252525))
 
-const control = {
-  smoothShading: false,
-  toFaceMaterial() {
-    const mesh = scene.getObjectByName('terrain')
-    const mat = new THREE.MeshLambertMaterial()
-    mat.vertexColors = THREE.FaceColors
-    mat.shading = THREE.NoShading
-    mesh.material = mat
-  },
-  toNormalMaterial() {
-    const mesh = scene.getObjectByName('terrain')
-    const mat = new THREE.MeshNormalMaterial()
-    mesh.material = mat
-  },
-  onSmoothShadingChange() {
-    const {material} = scene.getObjectByName('terrain')
-    const geom = scene.getObjectByName('terrain').geometry
-    material.shading = this.object.smoothShading ? THREE.SmoothShading : THREE.NoShading
-    material.needsUpdate = true
-    geom.normalsNeedUpdate = true
-  }
-}
-
-addControlGui(control)
 document.body.appendChild(renderer.domElement)
-create3DTerrain(140, 140, 2.5, 2.5, MAX_HEIGHT)
 
 /* FUNCTIONS */
 
@@ -77,12 +51,8 @@ function create3DTerrain(width, depth, spacingX, spacingZ, height) {
       const face1 = new THREE.Face3(b, a, c)
       const face2 = new THREE.Face3(c, d, b)
 
-      face1.color = new THREE.Color(scale(getHighPoint(geometry, face1)).hex())
-      face2.color = new THREE.Color(scale(getHighPoint(geometry, face2)).hex())
-
       geometry.faces.push(face1)
       geometry.faces.push(face2)
-
       geometry.faceVertexUvs[0].push([uvb, uva, uvc])
       geometry.faceVertexUvs[0].push([uvc, uvd, uvb])
     }
@@ -98,25 +68,12 @@ function create3DTerrain(width, depth, spacingX, spacingZ, height) {
   groundMesh.translateZ(-depth / 4)
   groundMesh.translateY(50)
   groundMesh.name = 'terrain'
-
-  scene.add(groundMesh)
-}
-
-function getHighPoint(geometry, face) {
-  const v1 = geometry.vertices[face.a].y
-  const v2 = geometry.vertices[face.b].y
-  const v3 = geometry.vertices[face.c].y
-  return Math.max(v1, v2, v3)
-}
-
-function addControlGui(controlObject) {
-  const gui = new dat.GUI()
-  gui.add(controlObject, 'toFaceMaterial')
-  gui.add(controlObject, 'toNormalMaterial')
-  gui.add(controlObject, 'smoothShading').onChange(controlObject.onSmoothShadingChange)
+  return groundMesh
 }
 
 /* INIT */
+
+scene.add(create3DTerrain(140, 140, 2.5, 2.5, MAX_HEIGHT))
 
 void function render() {
   renderer.render(scene, camera)
