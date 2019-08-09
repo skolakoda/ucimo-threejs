@@ -13,7 +13,7 @@
   "author": "mudroljub",
   "license": "ISC",
   "homepage": "https://github.com/skolakoda/ucimo-threejs#readme",
-  "devDependencies": {
-    "live-server": "^1.2.1"
+  "dependencies": {
+    "three": "^0.107.0"
   }
 }
