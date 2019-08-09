@@ -1,6 +1,6 @@
 /* global chroma, noise */
 const scale = chroma.scale(['white', 'blue', 'red']).domain([0, 20])
-let context, sourceNode
+let context, sourceNode, analyser
 
 const pm = new THREE.ParticleBasicMaterial()
 pm.map = THREE.ImageUtils.loadTexture('../../assets/teksture/ball.png')
@@ -33,15 +33,54 @@ const control = {
 
 document.body.appendChild(renderer.domElement)
 
-create3DTerrain(100, 100, 2.5, 2.5)
-setupSound()
-loadSound('../../assets/audio/wagner-short.ogg')
+/* FUNCTIONS */
+
+function getCenterParticle() {
+  const center = Math.ceil(particleWidth / 2)
+  const centerParticle = center + (center * particleWidth)
+  return centerParticle
+}
+
+function getAverageVolume(array, start, end) {
+  let values = 0
+  const length = end - start
+  for (let i = start; i < end; i++)
+    values += array[i]
+  return values / length
+}
 
 function getHighPoint(geometry, face) {
   const v1 = geometry.vertices[face.a].y
   const v2 = geometry.vertices[face.b].y
   const v3 = geometry.vertices[face.c].y
   return Math.max(v1, v2, v3)
+}
+
+function getFallOffParticles(center, radiusStart, radiusEnd) {
+  const result = []
+  const ps = scene.getObjectByName('terrain')
+  const geom = ps.geometry
+  const centerParticle = geom.vertices[center]
+  const dStart = Math.sqrt(radiusStart * radiusStart + radiusStart * radiusStart)
+  const dEnd = Math.sqrt(radiusEnd * radiusEnd + radiusEnd * radiusEnd)
+
+  for (let i = 0; i < geom.vertices.length; i++) {
+    const point = geom.vertices[i]
+    const xDistance = Math.abs(centerParticle.x - point.x)
+    const zDistance = Math.abs(centerParticle.z - point.z)
+    const dParticle = Math.sqrt(xDistance * xDistance + zDistance * zDistance)
+    if (dParticle < dStart && dParticle >= dEnd && i !== center)
+      result.push(i)
+  }
+  return result
+}
+
+function renderRing(geom, particles, value, distanceOffset, volumeDownScale) {
+  for (let i = 0; i < particles.length; i++)
+    if (geom.vertices[i]) {
+      geom.vertices[particles[i]].y = distanceOffset * value / volumeDownScale
+      geom.colors[particles[i]] = new THREE.Color(scale(distanceOffset * value).hex())
+    }
 }
 
 function create3DTerrain(width, depth, spacingX, spacingZ) {
@@ -78,7 +117,6 @@ function create3DTerrain(width, depth, spacingX, spacingZ) {
       geometry.faceVertexUvs[0].push([uvb, uva, uvc])
       geometry.faceVertexUvs[0].push([uvc, uvd, uvb])
     }
-
   centerParticle = getCenterParticle()
 
   geometry.computeVertexNormals(true)
@@ -177,49 +215,6 @@ function setupSound() {
   context = new AudioContext()
 }
 
-function renderRing(geom, particles, value, distanceOffset, volumeDownScale) {
-  for (let i = 0; i < particles.length; i++)
-    if (geom.vertices[i]) {
-      geom.vertices[particles[i]].y = distanceOffset * value / volumeDownScale
-      geom.colors[particles[i]] = new THREE.Color(scale(distanceOffset * value).hex())
-    }
-}
-
-function getCenterParticle() {
-  const center = Math.ceil(particleWidth / 2)
-  const centerParticle = center + (center * particleWidth)
-  return centerParticle
-}
-
-function getFallOffParticles(center, radiusStart, radiusEnd) {
-  const result = []
-  const ps = scene.getObjectByName('terrain')
-  const geom = ps.geometry
-  const centerParticle = geom.vertices[center]
-  const dStart = Math.sqrt(radiusStart * radiusStart + radiusStart * radiusStart)
-  const dEnd = Math.sqrt(radiusEnd * radiusEnd + radiusEnd * radiusEnd)
-
-  for (let i = 0; i < geom.vertices.length; i++) {
-    const point = geom.vertices[i]
-    const xDistance = Math.abs(centerParticle.x - point.x)
-    const zDistance = Math.abs(centerParticle.z - point.z)
-    const dParticle = Math.sqrt(xDistance * xDistance + zDistance * zDistance)
-    if (dParticle < dStart && dParticle >= dEnd && i !== center)
-      result.push(i)
-  }
-  return result
-}
-
-function getAverageVolume(array, start, end) {
-  let values = 0
-  let average
-  const length = end - start
-  for (let i = start; i < end; i++)
-    values += array[i]
-  average = values / length
-  return average
-}
-
 function playSound(buffer) {
   sourceNode.buffer = buffer
   sourceNode.start(0)
@@ -234,6 +229,12 @@ function loadSound(url) {
   })
   http.send()
 }
+
+/* INIT */
+
+create3DTerrain(100, 100, 2.5, 2.5)
+setupSound()
+loadSound('../../assets/audio/wagner-short.ogg')
 
 void function render() {
   const rotSpeed = control.rotationSpeed
