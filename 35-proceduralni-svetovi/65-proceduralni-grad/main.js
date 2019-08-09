@@ -22,9 +22,8 @@ const plane = new THREE.Mesh(
 plane.rotation.x = -90 * Math.PI / 180
 scene.add(plane)
 
-const city = new THREE.Geometry()
-
 function generateBuildings(num = 10000) {
+  const city = new THREE.Geometry()
   const lightColor = new THREE.Color(0xffffff)
   const shadow = new THREE.Color(0x303050)
   const box = new THREE.CubeGeometry(1, 1, 1)
@@ -59,6 +58,7 @@ function generateBuildings(num = 10000) {
 
     THREE.GeometryUtils.merge(city, building)
   }
+  return city
 }
 
 function generateTexture() {
@@ -86,17 +86,16 @@ function generateTexture() {
   return canvas2
 }
 
-generateBuildings(10000)
-
+const city = generateBuildings(10000)
 const texture = new THREE.Texture(generateTexture())
 texture.anisotropy = renderer.getMaxAnisotropy()
 texture.needsUpdate = true
 
-const mesh = new THREE.Mesh(city, new THREE.MeshLambertMaterial({
+const cityMesh = new THREE.Mesh(city, new THREE.MeshLambertMaterial({
   map: texture,
   vertexColors: THREE.VertexColors
 }))
-scene.add(mesh)
+scene.add(cityMesh)
 
 const clock = new THREE.Clock()
 
