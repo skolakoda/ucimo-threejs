@@ -25,14 +25,13 @@ npm start
 * [Metaballs](https://en.wikipedia.org/wiki/Metaballs): A effect where spheres move around and their surfaces merge and split; the surfaces are calculated by implicit functions and drawn using the "Marching Cubes" algorithm.
 * [Constructive solid geometry](https://en.wikipedia.org/wiki/Constructive_solid_geometry): Create a new mesh from the union, intersection, or subtraction of two meshes. Uses the [ThreeCSG](http://github.com/chandlerprall/ThreeCSG/) library.
 
-## TODO
+## Primeri
 
-* [Build a basic combat game with three.js](http://www.creativebloq.com/web-design/build-basic-combat-game-threejs-101517540)
-* [Ptice](https://threejs.org/examples/canvas_geometry_birds.html)
-* [Skeletal Animation Blending](https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_skinning_blending.html)
+* [Ptice](https://threejs.org/examples/webgl_gpgpu_birds.html)
+* [Skeletal Animation Blending](https://threejs.org/examples/#webgl_animation_skinning_blending)
 * [morph targets - horse](https://github.com/mrdoob/three.js/blob/master/examples/webgl_morphtargets_horse.html)
-* napraviti lekcije
-* http://learningthreejs.com/blog/2013/09/16/how-to-make-the-earth-in-webgl/
+- https://threejs.org/examples/#webgl_geometry_terrain
+- https://threejs.org/examples/#webgl_terrain_dynamic
 
 ## Izvori
 
