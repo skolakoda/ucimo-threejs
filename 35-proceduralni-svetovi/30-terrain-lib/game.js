@@ -1,4 +1,6 @@
-let camera, scene, renderer, clock, terrainScene, decoScene, skyLight, sand, water
+// https://github.com/IceCreamYou/THREE.Terrain
+let camera, scene, renderer, terrainScene, decoScene, skyLight, sand, water
+const widthLengthRatio = 1
 
 function setupThreeJS() {
   scene = new THREE.Scene()
@@ -16,8 +18,6 @@ function setupThreeJS() {
   camera.rotation.x = -52 * Math.PI / 180
   camera.rotation.y = 35 * Math.PI / 180
   camera.rotation.z = 37 * Math.PI / 180
-
-  clock = new THREE.Clock(false)
 }
 
 function setupWorld() {
@@ -79,24 +79,13 @@ function setupDatGui() {
     this.size = 1024
     this.sky = true
     this.texture = 'Blended'
-    this.edgeDirection = 'Normal'
     this.edgeType = 'Box'
     this.edgeDistance = 256
     this.edgeCurve = 'EaseInOut'
-    this['width:length ratio'] = 1.0
     this['Light color'] = '#' + skyLight.color.getHexString()
     this.spread = 60
     this.scattering = 'PerlinAltitude'
-    this.after = function(vertices, options) {
-      if (that.edgeDirection !== 'Normal')
-        (that.edgeType === 'Box' ? THREE.Terrain.Edges : THREE.Terrain.RadialEdges)(
-          vertices,
-          options,
-          that.edgeDirection === 'Up' ? true : false,
-          that.edgeType === 'Box' ? that.edgeDistance : Math.min(options.xSize, options.ySize) * 0.5 - that.edgeDistance,
-          THREE.Terrain[that.edgeCurve]
-        )
-    }
+
     window.rebuild = this.Regenerate = function() {
       const s = parseInt(that.segments, 10),
         h = that.heightmap === 'heightmap.png'
@@ -111,9 +100,9 @@ function setupDatGui() {
         turbulent: that.turbulent,
         useBufferGeometry: false,
         xSize: that.size,
-        ySize: Math.round(that.size * that['width:length ratio']),
+        ySize: Math.round(that.size * widthLengthRatio),
         xSegments: s,
-        ySegments: Math.round(s * that['width:length ratio']),
+        ySegments: Math.round(s * widthLengthRatio),
         _mesh: typeof terrainScene === 'undefined' ? null : terrainScene.children[0], // internal only
       }
       scene.remove(terrainScene)
@@ -146,7 +135,7 @@ function setupDatGui() {
         randomness
       const o = {
         xSegments: s,
-        ySegments: Math.round(s * that['width:length ratio']),
+        ySegments: Math.round(s * widthLengthRatio),
       }
       if (that.scattering === 'Linear') {
         spread = that.spread * 0.0005
@@ -181,7 +170,7 @@ function setupDatGui() {
       decoScene = THREE.Terrain.ScatterMeshes(geo, {
         mesh,
         w: s,
-        h: Math.round(s * that['width:length ratio']),
+        h: Math.round(s * widthLengthRatio),
         spread,
         smoothSpread: that.scattering === 'Linear' ? 0 : 0.2,
         randomness,
@@ -217,10 +206,8 @@ function setupDatGui() {
   const sizeFolder = gui.addFolder('Size')
   sizeFolder.add(settings, 'size', 1024, 3072).step(256).onFinishChange(settings.Regenerate)
   sizeFolder.add(settings, 'maxHeight', 2, 300).step(2).onFinishChange(settings.Regenerate)
-  sizeFolder.add(settings, 'width:length ratio', 0.2, 2).step(0.05).onFinishChange(settings.Regenerate)
   const edgesFolder = gui.addFolder('Edges')
   edgesFolder.add(settings, 'edgeType', ['Box', 'Radial']).onFinishChange(settings.Regenerate)
-  edgesFolder.add(settings, 'edgeDirection', ['Normal', 'Up', 'Down']).onFinishChange(settings.Regenerate)
   edgesFolder.add(settings, 'edgeCurve', ['Linear', 'EaseIn', 'EaseOut', 'EaseInOut']).onFinishChange(settings.Regenerate)
   edgesFolder.add(settings, 'edgeDistance', 0, 512).step(32).onFinishChange(settings.Regenerate)
   gui.add(settings, 'Scatter meshes')
@@ -273,7 +260,6 @@ function buildTree() {
 setupThreeJS()
 setupWorld()
 setupDatGui()
-clock.start()
 
 void function animate() {
   draw()
