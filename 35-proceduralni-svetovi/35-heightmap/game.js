@@ -1,144 +1,114 @@
 
-// global variables
-var renderer;
-var scene;
-var camera;
+let renderer
+let scene
+let camera
 
-var control;
-var scale = chroma.scale(['blue', 'green', 'red']).domain([0, 50]);
+const scale = chroma.scale(['blue', 'green', 'red']).domain([0, 50])
 
 function init() {
+  scene = new THREE.Scene()
 
-    // create a scene, that will hold all our elements such as objects, cameras and lights.
-    scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 10000)
 
-    // create a camera, which defines where we're looking at.
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 10000);
+  renderer = new THREE.WebGLRenderer()
+  renderer.setClearColor(0x000000, 1.0)
+  renderer.setSize(window.innerWidth, window.innerHeight)
 
-    // create a render, sets the background color and the size
-    renderer = new THREE.WebGLRenderer();
-    renderer.setClearColor(0x000000, 1.0);
-    renderer.setSize(window.innerWidth, window.innerHeight);
+  const light = new THREE.DirectionalLight()
+  light.position.set(1200, 1200, 1200)
+  scene.add(light)
 
-    // add light
-    var light = new THREE.DirectionalLight();
-    light.position.set(1200, 1200, 1200);
-    scene.add(light);
+  camera.position.x = 1200
+  camera.position.y = 500
+  camera.position.z = 1200
+  camera.lookAt(scene.position)
 
-    // position and point the camera to the center of the scene
-    camera.position.x = 1200;
-    camera.position.y = 500;
-    camera.position.z = 1200;
-    camera.lookAt(scene.position);
+  document.body.appendChild(renderer.domElement)
 
-    // add the output of the renderer to the html element
-    document.body.appendChild(renderer.domElement);
-
-    control = new function () {
-        this.rotationSpeed = 0.005;
-        this.scale = 1;
-    };
-    addControls(control);
-
-    createGeometryFromMap();
-
-    // call the render function
-    render();
+  control = new function() {
+    this.rotationSpeed = 0.005
+    this.scale = 1
+  }
+  createGeometryFromMap()
+  render()
 }
 
 function createGeometryFromMap() {
-    var depth = 512;
-    var width = 512;
+  const depth = 512
+  const width = 512
 
-    var spacingX = 3;
-    var spacingZ = 3;
-    var heightOffset = 2;
+  const spacingX = 3
+  const spacingZ = 3
+  const heightOffset = 2
 
-    var canvas = document.createElement('canvas');
-    canvas.width = 512;
-    canvas.height = 512;
-    var ctx = canvas.getContext('2d');
+  const canvas = document.createElement('canvas')
+  canvas.width = 512
+  canvas.height = 512
+  const ctx = canvas.getContext('2d')
 
-    var img = new Image();
-    img.src = "../../assets/heightmap.png";
-    img.onload = function () {
-        // draw on canvas
-        ctx.drawImage(img, 0, 0);
-        var pixel = ctx.getImageData(0, 0, width, depth);
+  const img = new Image()
+  img.src = '../../assets/heightmap.png'
+  img.onload = function() {
 
-        var geom = new THREE.Geometry;
-        var output = [];
-        for (var x = 0; x < depth; x++) {
-            for (var z = 0; z < width; z++) {
-                // get pixel
-                // since we're grayscale, we only need one element
+    ctx.drawImage(img, 0, 0)
+    const pixel = ctx.getImageData(0, 0, width, depth)
 
-                var yValue = pixel.data[z * 4 + (depth * x * 4)] / heightOffset;
-                var vertex = new THREE.Vector3(x * spacingX, yValue, z * spacingZ);
-                geom.vertices.push(vertex);
-            }
-        }
+    const geom = new THREE.Geometry
+    const output = []
+    for (var x = 0; x < depth; x++)
+      for (var z = 0; z < width; z++) {
 
-        // we create a rectangle between four vertices, and we do
-        // that as two triangles.
-        for (var z = 0; z < depth - 1; z++) {
-            for (var x = 0; x < width - 1; x++) {
-                // we need to point to the position in the array
-                // a - - b
-                // |  x  |
-                // c - - d
-                var a = x + z * width;
-                var b = (x + 1) + (z * width);
-                var c = x + ((z + 1) * width);
-                var d = (x + 1) + ((z + 1) * width);
+        const yValue = pixel.data[z * 4 + (depth * x * 4)] / heightOffset
+        const vertex = new THREE.Vector3(x * spacingX, yValue, z * spacingZ)
+        geom.vertices.push(vertex)
+      }
 
-                var face1 = new THREE.Face3(a, b, d);
-                var face2 = new THREE.Face3(d, c, a);
+    for (var z = 0; z < depth - 1; z++)
+      for (var x = 0; x < width - 1; x++) {
 
-                face1.color = new THREE.Color(scale(getHighPoint(geom, face1)).hex());
-                face2.color = new THREE.Color(scale(getHighPoint(geom, face2)).hex())
+        const a = x + z * width
+        const b = (x + 1) + (z * width)
+        const c = x + ((z + 1) * width)
+        const d = (x + 1) + ((z + 1) * width)
 
-                geom.faces.push(face1);
-                geom.faces.push(face2);
-            }
-        }
+        const face1 = new THREE.Face3(a, b, d)
+        const face2 = new THREE.Face3(d, c, a)
+        face1.color = new THREE.Color(scale(getHighPoint(geom, face1)).hex())
+        face2.color = new THREE.Color(scale(getHighPoint(geom, face2)).hex())
 
-        geom.computeVertexNormals(true);
-        geom.computeFaceNormals();
-        geom.computeBoundingBox();
+        geom.faces.push(face1)
+        geom.faces.push(face2)
+      }
 
-        var zMax = geom.boundingBox.max.z;
-        var xMax = geom.boundingBox.max.x;
+    geom.computeVertexNormals(true)
+    geom.computeFaceNormals()
+    geom.computeBoundingBox()
 
-        var mesh = new THREE.Mesh(geom, new THREE.MeshLambertMaterial({
-            vertexColors: THREE.FaceColors,
-            color: 0x666666,
-            shading: THREE.NoShading
-        }));
-        mesh.translateX(-xMax / 2);
-        mesh.translateZ(-zMax / 2);
-        scene.add(mesh);
-        mesh.name = 'valley';
-    };
+    const zMax = geom.boundingBox.max.z
+    const xMax = geom.boundingBox.max.x
 
+    const mesh = new THREE.Mesh(geom, new THREE.MeshLambertMaterial({
+      vertexColors: THREE.FaceColors,
+      color: 0x666666,
+      shading: THREE.NoShading
+    }))
+    mesh.translateX(-xMax / 2)
+    mesh.translateZ(-zMax / 2)
+    scene.add(mesh)
+    mesh.name = 'valley'
+  }
 }
 
 function getHighPoint(geometry, face) {
-
-    var v1 = geometry.vertices[face.a].y;
-    var v2 = geometry.vertices[face.b].y;
-    var v3 = geometry.vertices[face.c].y;
-
-    return Math.max(v1, v2, v3);
-}
-
-function addControls(controlObject) {
-
+  const v1 = geometry.vertices[face.a].y
+  const v2 = geometry.vertices[face.b].y
+  const v3 = geometry.vertices[face.c].y
+  return Math.max(v1, v2, v3)
 }
 
 function render() {
-    renderer.render(scene, camera);
-    requestAnimationFrame(render);
+  renderer.render(scene, camera)
+  requestAnimationFrame(render)
 }
 
 init()
