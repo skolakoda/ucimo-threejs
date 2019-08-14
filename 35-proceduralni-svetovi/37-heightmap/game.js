@@ -33,12 +33,12 @@ scene.addLight(ambient)
 // const textureCube = new THREE.Texture(images)
 // SceneUtils.addPanoramaCubeWebGL(scene, 10000, textureCube)
 
-const cube = new Cube(1, 1, 1, 1, 1)
+const cube = new THREE.Cube(1, 1, 1, 1, 1)
 const cubeMesh = addMesh(cube, 1, 0, FLOOR, 0, 0, 0, 0, new THREE.MeshLambertMaterial({ color: 0xFF3333 }))
 cubeMesh.visible = false
 camera.target = cubeMesh
 
-const water = new Plane(100, 100, 1, 1)
+const water = new THREE.Plane(100, 100, 1, 1)
 // for (let i = 0; i < water.uvs.length; i++) {
 //   const uvs = water.uvs[i]
 //   for (let j = 0, jl = uvs.length; j < jl; j++) {
@@ -57,7 +57,7 @@ container.appendChild(webglRenderer.domElement)
 const img = new Image()
 img.onload = function () {
   const data = getHeightData(img)
-  const plane = new Plane(100, 100, 127, 127)
+  const plane = new THREE.Plane(100, 100, 127, 127)
 
   for (let i = 0, l = plane.vertices.length; i < l; i++)
     plane.vertices[i].position.z = data[i]
