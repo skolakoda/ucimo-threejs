@@ -7,19 +7,19 @@ let r = 0
 const container = document.createElement('div')
 document.body.appendChild(container)
 
-const aspect = SCREEN_WIDTH / SCREEN_HEIGHT
-
-const camera = new THREE.Camera(75, aspect, 1, 100000)
-camera.position.z = 650
-camera.position.x = 0
-camera.position.y = FLOOR + 2750
-
 const scene = new THREE.Scene()
 scene.fog = new THREE.Fog(0x34583e, 0, 10000)
 
+const aspect = SCREEN_WIDTH / SCREEN_HEIGHT
+const camera = new THREE.PerspectiveCamera(75, aspect, 1, 100000)
+camera.position.z = 650
+camera.position.x = 0
+camera.position.y = FLOOR + 2750
+scene.add(camera)
+
 // LIGHTS
 const ambient = new THREE.AmbientLight(0xffffff)
-scene.addLight(ambient)
+scene.add(ambient)
 
 // const path = 'textures/'
 // const format = '.jpg'
@@ -78,7 +78,7 @@ function addMesh(geometry, scale, x, y, z, rx, ry, rz, material) {
   mesh.overdraw = true
   mesh.doubleSided = false
   mesh.updateMatrix()
-  scene.addObject(mesh)
+  scene.add(mesh)
   return mesh
 }
 
