@@ -1,22 +1,19 @@
-
-let container, scene, camera, renderer, controls
-
-scene = new THREE.Scene()
+const scene = new THREE.Scene()
 
 const SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight
 const VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000
-camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR)
+const camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR)
 scene.add(camera)
 camera.position.set(0, 100, 400)
 camera.lookAt(scene.position)
 
-renderer = new THREE.WebGLRenderer({ antialias: true })
+const renderer = new THREE.WebGLRenderer({ antialias: true })
 
 renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT)
-container = document.getElementById('ThreeJS')
+const container = document.getElementById('ThreeJS')
 container.appendChild(renderer.domElement)
 
-controls = new THREE.OrbitControls(camera, renderer.domElement)
+const controls = new THREE.OrbitControls(camera, renderer.domElement)
 
 const light = new THREE.PointLight(0xffffff)
 light.position.set(100, 250, 100)
