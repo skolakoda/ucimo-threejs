@@ -39,13 +39,13 @@ cubeMesh.visible = false
 camera.target = cubeMesh
 
 const water = new Plane(100, 100, 1, 1)
-for (let i = 0; i < water.uvs.length; i++) {
-  const uvs = water.uvs[i]
-  for (let j = 0, jl = uvs.length; j < jl; j++) {
-    uvs[j].u *= 10
-    uvs[j].v *= 10
-  }
-}
+// for (let i = 0; i < water.uvs.length; i++) {
+//   const uvs = water.uvs[i]
+//   for (let j = 0, jl = uvs.length; j < jl; j++) {
+//     uvs[j].u *= 10
+//     uvs[j].v *= 10
+//   }
+// }
 const waterMesh = addMesh(water, 63, -1000, FLOOR + 620, 1000, -1.57, 0, 0, getWaterMaterial())
 waterMesh.visible = false
 
