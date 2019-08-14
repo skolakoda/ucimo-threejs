@@ -1,4 +1,3 @@
-/* global Plane, Cube */
 const SCREEN_WIDTH = window.innerWidth
 const SCREEN_HEIGHT = window.innerHeight
 const FLOOR = -1000
