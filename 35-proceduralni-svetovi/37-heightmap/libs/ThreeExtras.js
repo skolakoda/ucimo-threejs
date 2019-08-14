@@ -16,17 +16,17 @@ THREE.Vector2.prototype = {
 THREE.Vector3.prototype = {
   set: function (a, c, d) { this.x = a; this.y = c; this.z = d; return this }, copy: function (a) { this.x = a.x; this.y = a.y; this.z = a.z; return this }, add: function (a, c) { this.x = a.x + c.x; this.y = a.y + c.y; this.z = a.z + c.z; return this }, addSelf: function (a) { this.x += a.x; this.y += a.y; this.z += a.z; return this }, addScalar: function (a) { this.x += a; this.y += a; this.z += a; return this }, sub: function (a, c) { this.x = a.x - c.x; this.y = a.y - c.y; this.z = a.z - c.z; return this }, subSelf: function (a) { this.x -= a.x; this.y -= a.y; this.z -= a.z; return this },
   cross: function (a, c) { this.x = a.y * c.z - a.z * c.y; this.y = a.z * c.x - a.x * c.z; this.z = a.x * c.y - a.y * c.x; return this }, crossSelf: function (a) { var c = this.x, d = this.y, e = this.z; this.x = d * a.z - e * a.y; this.y = e * a.x - c * a.z; this.z = c * a.y - d * a.x; return this }, multiply: function (a, c) { this.x = a.x * c.x; this.y = a.y * c.y; this.z = a.z * c.z; return this }, multiplySelf: function (a) { this.x *= a.x; this.y *= a.y; this.z *= a.z; return this }, multiplyScalar: function (a) { this.x *= a; this.y *= a; this.z *= a; return this }, divideSelf: function (a) {
-  this.x /= a.x; this.y /= a.y; this.z /=
-    a.z; return this
+    this.x /= a.x; this.y /= a.y; this.z /=
+      a.z; return this
   }, divideScalar: function (a) { this.x /= a; this.y /= a; this.z /= a; return this }, dot: function (a) { return this.x * a.x + this.y * a.y + this.z * a.z }, distanceTo: function (a) { var c = this.x - a.x, d = this.y - a.y; a = this.z - a.z; return Math.sqrt(c * c + d * d + a * a) }, distanceToSquared: function (a) { var c = this.x - a.x, d = this.y - a.y; a = this.z - a.z; return c * c + d * d + a * a }, length: function () { return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z) }, lengthSq: function () { return this.x * this.x + this.y * this.y + this.z * this.z }, negate: function () {
-  this.x =
-    -this.x; this.y = -this.y; this.z = -this.z; return this
+    this.x =
+      -this.x; this.y = -this.y; this.z = -this.z; return this
   }, normalize: function () { var a = Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z); a > 0 ? this.multiplyScalar(1 / a) : this.set(0, 0, 0); return this }, setLength: function (a) { return this.normalize().multiplyScalar(a) }, isZero: function () { return Math.abs(this.x) < 1.0E-4 && Math.abs(this.y) < 1.0E-4 && Math.abs(this.z) < 1.0E-4 }, clone: function () { return new THREE.Vector3(this.x, this.y, this.z) }, toString: function () { return "THREE.Vector3 ( " + this.x + ", " + this.y + ", " + this.z + " )" }
 };
 THREE.Vector4 = function (a, c, d, e) { this.x = a || 0; this.y = c || 0; this.z = d || 0; this.w = e || 1 };
 THREE.Vector4.prototype = {
   set: function (a, c, d, e) { this.x = a; this.y = c; this.z = d; this.w = e; return this }, copy: function (a) { this.x = a.x; this.y = a.y; this.z = a.z; this.w = a.w || 1; return this }, add: function (a, c) { this.x = a.x + c.x; this.y = a.y + c.y; this.z = a.z + c.z; this.w = a.w + c.w; return this }, addSelf: function (a) { this.x += a.x; this.y += a.y; this.z += a.z; this.w += a.w; return this }, sub: function (a, c) { this.x = a.x - c.x; this.y = a.y - c.y; this.z = a.z - c.z; this.w = a.w - c.w; return this }, subSelf: function (a) {
-  this.x -= a.x; this.y -= a.y; this.z -= a.z; this.w -= a.w;
+    this.x -= a.x; this.y -= a.y; this.z -= a.z; this.w -= a.w;
     return this
   }, multiplyScalar: function (a) { this.x *= a; this.y *= a; this.z *= a; this.w *= a; return this }, divideScalar: function (a) { this.x /= a; this.y /= a; this.z /= a; this.w /= a; return this }, lerpSelf: function (a, c) { this.x += (a.x - this.x) * c; this.y += (a.y - this.y) * c; this.z += (a.z - this.z) * c; this.w += (a.w - this.w) * c }, clone: function () { return new THREE.Vector4(this.x, this.y, this.z, this.w) }, toString: function () { return "THREE.Vector4 (" + this.x + ", " + this.y + ", " + this.z + ", " + this.w + ")" }
 };
@@ -59,8 +59,8 @@ THREE.Rectangle = function () {
 THREE.Matrix4 = function (a, c, d, e, g, f, h, b, j, l, p, A, q, m, B, E) { this.n11 = a || 1; this.n12 = c || 0; this.n13 = d || 0; this.n14 = e || 0; this.n21 = g || 0; this.n22 = f || 1; this.n23 = h || 0; this.n24 = b || 0; this.n31 = j || 0; this.n32 = l || 0; this.n33 = p || 1; this.n34 = A || 0; this.n41 = q || 0; this.n42 = m || 0; this.n43 = B || 0; this.n44 = E || 1; this.flat = Array(16); this.m33 = new THREE.Matrix3 };
 THREE.Matrix4.prototype = {
   identity: function () { this.n11 = 1; this.n21 = this.n14 = this.n13 = this.n12 = 0; this.n22 = 1; this.n32 = this.n31 = this.n24 = this.n23 = 0; this.n33 = 1; this.n43 = this.n42 = this.n41 = this.n34 = 0; this.n44 = 1; return this }, set: function (a, c, d, e, g, f, h, b, j, l, p, A, q, m, B, E) { this.n11 = a; this.n12 = c; this.n13 = d; this.n14 = e; this.n21 = g; this.n22 = f; this.n23 = h; this.n24 = b; this.n31 = j; this.n32 = l; this.n33 = p; this.n34 = A; this.n41 = q; this.n42 = m; this.n43 = B; this.n44 = E; return this }, copy: function (a) {
-  this.n11 = a.n11; this.n12 = a.n12; this.n13 =
-    a.n13; this.n14 = a.n14; this.n21 = a.n21; this.n22 = a.n22; this.n23 = a.n23; this.n24 = a.n24; this.n31 = a.n31; this.n32 = a.n32; this.n33 = a.n33; this.n34 = a.n34; this.n41 = a.n41; this.n42 = a.n42; this.n43 = a.n43; this.n44 = a.n44; return this
+    this.n11 = a.n11; this.n12 = a.n12; this.n13 =
+      a.n13; this.n14 = a.n14; this.n21 = a.n21; this.n22 = a.n22; this.n23 = a.n23; this.n24 = a.n24; this.n31 = a.n31; this.n32 = a.n32; this.n33 = a.n33; this.n34 = a.n34; this.n41 = a.n41; this.n42 = a.n42; this.n43 = a.n43; this.n44 = a.n44; return this
   }, lookAt: function (a, c, d) {
     var e = THREE.Matrix4.__tmpVec1, g = THREE.Matrix4.__tmpVec2, f = THREE.Matrix4.__tmpVec3; f.sub(a, c).normalize(); e.cross(d, f).normalize(); g.cross(f, e).normalize(); this.n11 = e.x; this.n12 = e.y; this.n13 = e.z; this.n14 = -e.dot(a); this.n21 = g.x; this.n22 = g.y; this.n23 = g.z; this.n24 = -g.dot(a);
     this.n31 = f.x; this.n32 = f.y; this.n33 = f.z; this.n34 = -f.dot(a); this.n43 = this.n42 = this.n41 = 0; this.n44 = 1; return this
@@ -69,8 +69,8 @@ THREE.Matrix4.prototype = {
       e + this.n24 * g; a.z = this.n31 * c + this.n32 * d + this.n33 * e + this.n34 * g; a.w = this.n41 * c + this.n42 * d + this.n43 * e + this.n44 * g; return a
   }, crossVector: function (a) { var c = new THREE.Vector4; c.x = this.n11 * a.x + this.n12 * a.y + this.n13 * a.z + this.n14 * a.w; c.y = this.n21 * a.x + this.n22 * a.y + this.n23 * a.z + this.n24 * a.w; c.z = this.n31 * a.x + this.n32 * a.y + this.n33 * a.z + this.n34 * a.w; c.w = a.w ? this.n41 * a.x + this.n42 * a.y + this.n43 * a.z + this.n44 * a.w : 1; return c }, multiply: function (a, c) {
     var d = a.n11, e = a.n12, g = a.n13, f = a.n14, h = a.n21, b = a.n22, j = a.n23, l = a.n24, p = a.n31,
-    A = a.n32, q = a.n33, m = a.n34, B = a.n41, E = a.n42, H = a.n43, x = a.n44, I = c.n11, t = c.n12, k = c.n13, w = c.n14, u = c.n21, n = c.n22, o = c.n23, v = c.n24, D = c.n31, y = c.n32, C = c.n33, z = c.n34, F = c.n41, J = c.n42, M = c.n43, Q = c.n44; this.n11 = d * I + e * u + g * D + f * F; this.n12 = d * t + e * n + g * y + f * J; this.n13 = d * k + e * o + g * C + f * M; this.n14 = d * w + e * v + g * z + f * Q; this.n21 = h * I + b * u + j * D + l * F; this.n22 = h * t + b * n + j * y + l * J; this.n23 = h * k + b * o + j * C + l * M; this.n24 = h * w + b * v + j * z + l * Q; this.n31 = p * I + A * u + q * D + m * F; this.n32 = p * t + A * n + q * y + m * J; this.n33 = p * k + A * o + q * C + m * M; this.n34 = p * w + A * v + q * z + m * Q; this.n41 = B * I + E * u +
-      H * D + x * F; this.n42 = B * t + E * n + H * y + x * J; this.n43 = B * k + E * o + H * C + x * M; this.n44 = B * w + E * v + H * z + x * Q; return this
+      A = a.n32, q = a.n33, m = a.n34, B = a.n41, E = a.n42, H = a.n43, x = a.n44, I = c.n11, t = c.n12, k = c.n13, w = c.n14, u = c.n21, n = c.n22, o = c.n23, v = c.n24, D = c.n31, y = c.n32, C = c.n33, z = c.n34, F = c.n41, J = c.n42, M = c.n43, Q = c.n44; this.n11 = d * I + e * u + g * D + f * F; this.n12 = d * t + e * n + g * y + f * J; this.n13 = d * k + e * o + g * C + f * M; this.n14 = d * w + e * v + g * z + f * Q; this.n21 = h * I + b * u + j * D + l * F; this.n22 = h * t + b * n + j * y + l * J; this.n23 = h * k + b * o + j * C + l * M; this.n24 = h * w + b * v + j * z + l * Q; this.n31 = p * I + A * u + q * D + m * F; this.n32 = p * t + A * n + q * y + m * J; this.n33 = p * k + A * o + q * C + m * M; this.n34 = p * w + A * v + q * z + m * Q; this.n41 = B * I + E * u +
+        H * D + x * F; this.n42 = B * t + E * n + H * y + x * J; this.n43 = B * k + E * o + H * C + x * M; this.n44 = B * w + E * v + H * z + x * Q; return this
   }, multiplyToArray: function (a, c, d) {
     var e = a.n11, g = a.n12, f = a.n13, h = a.n14, b = a.n21, j = a.n22, l = a.n23, p = a.n24, A = a.n31, q = a.n32, m = a.n33, B = a.n34, E = a.n41, H = a.n42, x = a.n43; a = a.n44; var I = c.n11, t = c.n12, k = c.n13, w = c.n14, u = c.n21, n = c.n22, o = c.n23, v = c.n24, D = c.n31, y = c.n32, C = c.n33, z = c.n34, F = c.n41, J = c.n42, M = c.n43; c = c.n44; this.n11 = e * I + g * u + f * D + h * F; this.n12 = e * t + g * n + f * y + h * J; this.n13 = e * k + g * o + f * C + h * M; this.n14 = e * w + g * v + f * z + h * c; this.n21 =
       b * I + j * u + l * D + p * F; this.n22 = b * t + j * n + l * y + p * J; this.n23 = b * k + j * o + l * C + p * M; this.n24 = b * w + j * v + l * z + p * c; this.n31 = A * I + q * u + m * D + B * F; this.n32 = A * t + q * n + m * y + B * J; this.n33 = A * k + q * o + m * C + B * M; this.n34 = A * w + q * v + m * z + B * c; this.n41 = E * I + H * u + x * D + a * F; this.n42 = E * t + H * n + x * y + a * J; this.n43 = E * k + H * o + x * C + a * M; this.n44 = E * w + H * v + x * z + a * c; d[0] = this.n11; d[1] = this.n21; d[2] = this.n31; d[3] = this.n41; d[4] = this.n12; d[5] = this.n22; d[6] = this.n32; d[7] = this.n42; d[8] = this.n13; d[9] = this.n23; d[10] = this.n33; d[11] = this.n43; d[12] = this.n14; d[13] = this.n24; d[14] = this.n34;
@@ -90,7 +90,7 @@ THREE.Matrix4.prototype = {
       1); return this
   }, setScale: function (a, c, d) { this.set(a, 0, 0, 0, 0, c, 0, 0, 0, 0, d, 0, 0, 0, 0, 1); return this }, setRotX: function (a) { var c = Math.cos(a); a = Math.sin(a); this.set(1, 0, 0, 0, 0, c, -a, 0, 0, a, c, 0, 0, 0, 0, 1); return this }, setRotY: function (a) { var c = Math.cos(a); a = Math.sin(a); this.set(c, 0, a, 0, 0, 1, 0, 0, -a, 0, c, 0, 0, 0, 0, 1); return this }, setRotZ: function (a) { var c = Math.cos(a); a = Math.sin(a); this.set(c, -a, 0, 0, a, c, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); return this }, setRotAxis: function (a, c) {
     var d = Math.cos(c), e = Math.sin(c), g = 1 - d, f = a.x, h = a.y, b = a.z,
-    j = g * f, l = g * h; this.set(j * f + d, j * h - e * b, j * b + e * h, 0, j * h + e * b, l * h + d, l * b - e * f, 0, j * b - e * h, l * b + e * f, g * b * b + d, 0, 0, 0, 0, 1); return this
+      j = g * f, l = g * h; this.set(j * f + d, j * h - e * b, j * b + e * h, 0, j * h + e * b, l * h + d, l * b - e * f, 0, j * b - e * h, l * b + e * f, g * b * b + d, 0, 0, 0, 0, 1); return this
   }, toString: function () { return "| " + this.n11 + " " + this.n12 + " " + this.n13 + " " + this.n14 + " |\n| " + this.n21 + " " + this.n22 + " " + this.n23 + " " + this.n24 + " |\n| " + this.n31 + " " + this.n32 + " " + this.n33 + " " + this.n34 + " |\n| " + this.n41 + " " + this.n42 + " " + this.n43 + " " + this.n44 + " |" }
 }; THREE.Matrix4.translationMatrix = function (a, c, d) { var e = new THREE.Matrix4; e.setTranslation(a, c, d); return e };
 THREE.Matrix4.scaleMatrix = function (a, c, d) { var e = new THREE.Matrix4; e.setScale(a, c, d); return e }; THREE.Matrix4.rotationXMatrix = function (a) { var c = new THREE.Matrix4; c.setRotX(a); return c }; THREE.Matrix4.rotationYMatrix = function (a) { var c = new THREE.Matrix4; c.setRotY(a); return c }; THREE.Matrix4.rotationZMatrix = function (a) { var c = new THREE.Matrix4; c.setRotZ(a); return c }; THREE.Matrix4.rotationAxisAngleMatrix = function (a, c) { var d = new THREE.Matrix4; d.setRotAxis(a, c); return d };
@@ -141,13 +141,13 @@ THREE.Geometry.prototype = {
     } c = 0; for (d = this.vertices.length; c < d; c++) { C.copy(this.vertices[c].normal); e = u[c]; D.copy(e); D.subSelf(C.multiplyScalar(C.dot(e))).normalize(); y.cross(this.vertices[c].normal, e); e = y.dot(n[c]); e = e < 0 ? -1 : 1; this.vertices[c].tangent.set(D.x, D.y, D.z, e) } this.hasTangents = true
   }, computeBoundingBox: function () {
     var a; if (this.vertices.length > 0) {
-    this.boundingBox = {
-      x: [this.vertices[0].position.x, this.vertices[0].position.x], y: [this.vertices[0].position.y, this.vertices[0].position.y],
-      z: [this.vertices[0].position.z, this.vertices[0].position.z]
-    }; for (var c = 1, d = this.vertices.length; c < d; c++) {
-      a = this.vertices[c]; if (a.position.x < this.boundingBox.x[0]) this.boundingBox.x[0] = a.position.x; else if (a.position.x > this.boundingBox.x[1]) this.boundingBox.x[1] = a.position.x; if (a.position.y < this.boundingBox.y[0]) this.boundingBox.y[0] = a.position.y; else if (a.position.y > this.boundingBox.y[1]) this.boundingBox.y[1] = a.position.y; if (a.position.z < this.boundingBox.z[0]) this.boundingBox.z[0] = a.position.z; else if (a.position.z >
-        this.boundingBox.z[1]) this.boundingBox.z[1] = a.position.z
-    }
+      this.boundingBox = {
+        x: [this.vertices[0].position.x, this.vertices[0].position.x], y: [this.vertices[0].position.y, this.vertices[0].position.y],
+        z: [this.vertices[0].position.z, this.vertices[0].position.z]
+      }; for (var c = 1, d = this.vertices.length; c < d; c++) {
+        a = this.vertices[c]; if (a.position.x < this.boundingBox.x[0]) this.boundingBox.x[0] = a.position.x; else if (a.position.x > this.boundingBox.x[1]) this.boundingBox.x[1] = a.position.x; if (a.position.y < this.boundingBox.y[0]) this.boundingBox.y[0] = a.position.y; else if (a.position.y > this.boundingBox.y[1]) this.boundingBox.y[1] = a.position.y; if (a.position.z < this.boundingBox.z[0]) this.boundingBox.z[0] = a.position.z; else if (a.position.z >
+          this.boundingBox.z[1]) this.boundingBox.z[1] = a.position.z
+      }
     }
   }, computeBoundingSphere: function () { for (var a = this.boundingSphere === null ? 0 : this.boundingSphere.radius, c = 0, d = this.vertices.length; c < d; c++)a = Math.max(a, this.vertices[c].position.length()); this.boundingSphere = { radius: a } }, sortFacesByMaterial: function () {
     function a(p) { var A = []; c = 0; for (d = p.length; c < d; c++)p[c] == undefined ? A.push("undefined") : A.push(p[c].toString()); return A.join("_") } var c, d, e, g, f, h, b, j, l = {}; e = 0; for (g = this.faces.length; e < g; e++) {
@@ -160,7 +160,7 @@ THREE.Geometry.prototype = {
   }
 };
 THREE.Camera = function (a, c, d, e) {
-this.fov = a; this.aspect = c; this.near = d; this.far = e; this.position = new THREE.Vector3; this.target = { position: new THREE.Vector3 }; this.autoUpdateMatrix = true; this.projectionMatrix = null; this.matrix = new THREE.Matrix4; this.up = new THREE.Vector3(0, 1, 0); this.tmpVec = new THREE.Vector3; this.translateX = function (g) { this.tmpVec.sub(this.target.position, this.position).normalize().multiplyScalar(g); this.tmpVec.crossSelf(this.up); this.position.addSelf(this.tmpVec); this.target.position.addSelf(this.tmpVec) };
+  this.fov = a; this.aspect = c; this.near = d; this.far = e; this.position = new THREE.Vector3; this.target = { position: new THREE.Vector3 }; this.autoUpdateMatrix = true; this.projectionMatrix = null; this.matrix = new THREE.Matrix4; this.up = new THREE.Vector3(0, 1, 0); this.tmpVec = new THREE.Vector3; this.translateX = function (g) { this.tmpVec.sub(this.target.position, this.position).normalize().multiplyScalar(g); this.tmpVec.crossSelf(this.up); this.position.addSelf(this.tmpVec); this.target.position.addSelf(this.tmpVec) };
   this.translateZ = function (g) { this.tmpVec.sub(this.target.position, this.position).normalize().multiplyScalar(g); this.position.subSelf(this.tmpVec); this.target.position.subSelf(this.tmpVec) }; this.updateMatrix = function () { this.matrix.lookAt(this.position, this.target.position, this.up) }; this.updateProjectionMatrix = function () { this.projectionMatrix = THREE.Matrix4.makePerspective(this.fov, this.aspect, this.near, this.far) }; this.updateProjectionMatrix()
 };
 THREE.Camera.prototype = { toString: function () { return "THREE.Camera ( " + this.position + ", " + this.target.position + " )" } }; THREE.Light = function (a) { this.color = new THREE.Color(a) }; THREE.AmbientLight = function (a) { THREE.Light.call(this, a) }; THREE.AmbientLight.prototype = new THREE.Light; THREE.AmbientLight.prototype.constructor = THREE.AmbientLight; THREE.DirectionalLight = function (a, c) { THREE.Light.call(this, a); this.position = new THREE.Vector3(0, 1, 0); this.intensity = c || 1 }; THREE.DirectionalLight.prototype = new THREE.Light;
@@ -171,18 +171,18 @@ THREE.Particle = function (a) { THREE.Object3D.call(this); this.materials = a in
 THREE.Line = function (a, c, d) { THREE.Object3D.call(this); this.geometry = a; this.materials = c instanceof Array ? c : [c]; this.type = d != undefined ? d : THREE.LineStrip }; THREE.LineStrip = 0; THREE.LinePieces = 1; THREE.Line.prototype = new THREE.Object3D; THREE.Line.prototype.constructor = THREE.Line; THREE.Mesh = function (a, c) { THREE.Object3D.call(this); this.geometry = a; this.materials = c instanceof Array ? c : [c]; this.overdraw = this.doubleSided = this.flipSided = false; this.geometry.boundingSphere || this.geometry.computeBoundingSphere() };
 THREE.Mesh.prototype = new THREE.Object3D; THREE.Mesh.prototype.constructor = THREE.Mesh; THREE.FlatShading = 0; THREE.SmoothShading = 1; THREE.NormalBlending = 0; THREE.AdditiveBlending = 1; THREE.SubtractiveBlending = 2; THREE.BillboardBlending = 3;
 THREE.LineBasicMaterial = function (a) {
-this.id = THREE.LineBasicMaterialCounter.value++; this.color = new THREE.Color(16777215); this.opacity = 1; this.blending = THREE.NormalBlending; this.depth_test = true; this.linewidth = 1; this.linejoin = this.linecap = "round"; this.vertex_colors = false; if (a) {
-a.color !== undefined && this.color.setHex(a.color); if (a.opacity !== undefined) this.opacity = a.opacity; if (a.blending !== undefined) this.blending = a.blending; if (a.depth_test !== undefined) this.depth_test = a.depth_test; if (a.linewidth !== undefined) this.linewidth =
-  a.linewidth; if (a.linecap !== undefined) this.linecap = a.linecap; if (a.linejoin !== undefined) this.linejoin = a.linejoin; if (a.vertex_colors !== undefined) this.vertex_colors = a.vertex_colors
-}
+  this.id = THREE.LineBasicMaterialCounter.value++; this.color = new THREE.Color(16777215); this.opacity = 1; this.blending = THREE.NormalBlending; this.depth_test = true; this.linewidth = 1; this.linejoin = this.linecap = "round"; this.vertex_colors = false; if (a) {
+    a.color !== undefined && this.color.setHex(a.color); if (a.opacity !== undefined) this.opacity = a.opacity; if (a.blending !== undefined) this.blending = a.blending; if (a.depth_test !== undefined) this.depth_test = a.depth_test; if (a.linewidth !== undefined) this.linewidth =
+      a.linewidth; if (a.linecap !== undefined) this.linecap = a.linecap; if (a.linejoin !== undefined) this.linejoin = a.linejoin; if (a.vertex_colors !== undefined) this.vertex_colors = a.vertex_colors
+  }
 };
 THREE.LineBasicMaterial.prototype = { toString: function () { return "THREE.LineBasicMaterial (<br/>id: " + this.id + "<br/>color: " + this.color + "<br/>opacity: " + this.opacity + "<br/>blending: " + this.blending + "<br/>depth_test: " + this.depth_test + "<br/>linewidth: " + this.linewidth + "<br/>linecap: " + this.linecap + "<br/>linejoin: " + this.linejoin + "<br/>vertex_colors: " + this.vertex_colors + "<br/>)" } }; THREE.LineBasicMaterialCounter = { value: 0 };
 THREE.MeshBasicMaterial = function (a) {
-this.id = THREE.MeshBasicMaterialCounter.value++; this.color = new THREE.Color(16777215); this.opacity = 1; this.env_map = this.light_map = this.map = null; this.combine = THREE.MultiplyOperation; this.reflectivity = 1; this.refraction_ratio = 0.98; this.fog = true; this.shading = THREE.SmoothShading; this.blending = THREE.NormalBlending; this.depth_test = true; this.wireframe = false; this.wireframe_linewidth = 1; this.wireframe_linejoin = this.wireframe_linecap = "round"; this.vertex_colors = false; if (a) {
-a.color !==
-  undefined && this.color.setHex(a.color); if (a.opacity !== undefined) this.opacity = a.opacity; if (a.map !== undefined) this.map = a.map; if (a.light_map !== undefined) this.light_map = a.light_map; if (a.env_map !== undefined) this.env_map = a.env_map; if (a.combine !== undefined) this.combine = a.combine; if (a.reflectivity !== undefined) this.reflectivity = a.reflectivity; if (a.refraction_ratio !== undefined) this.refraction_ratio = a.refraction_ratio; if (a.fog !== undefined) this.fog = a.fog; if (a.shading !== undefined) this.shading = a.shading; if (a.blending !==
-    undefined) this.blending = a.blending; if (a.depth_test !== undefined) this.depth_test = a.depth_test; if (a.wireframe !== undefined) this.wireframe = a.wireframe; if (a.wireframe_linewidth !== undefined) this.wireframe_linewidth = a.wireframe_linewidth; if (a.wireframe_linecap !== undefined) this.wireframe_linecap = a.wireframe_linecap; if (a.wireframe_linejoin !== undefined) this.wireframe_linejoin = a.wireframe_linejoin; if (a.vertex_colors !== undefined) this.vertex_colors = a.vertex_colors
-}
+  this.id = THREE.MeshBasicMaterialCounter.value++; this.color = new THREE.Color(16777215); this.opacity = 1; this.env_map = this.light_map = this.map = null; this.combine = THREE.MultiplyOperation; this.reflectivity = 1; this.refraction_ratio = 0.98; this.fog = true; this.shading = THREE.SmoothShading; this.blending = THREE.NormalBlending; this.depth_test = true; this.wireframe = false; this.wireframe_linewidth = 1; this.wireframe_linejoin = this.wireframe_linecap = "round"; this.vertex_colors = false; if (a) {
+    a.color !==
+      undefined && this.color.setHex(a.color); if (a.opacity !== undefined) this.opacity = a.opacity; if (a.map !== undefined) this.map = a.map; if (a.light_map !== undefined) this.light_map = a.light_map; if (a.env_map !== undefined) this.env_map = a.env_map; if (a.combine !== undefined) this.combine = a.combine; if (a.reflectivity !== undefined) this.reflectivity = a.reflectivity; if (a.refraction_ratio !== undefined) this.refraction_ratio = a.refraction_ratio; if (a.fog !== undefined) this.fog = a.fog; if (a.shading !== undefined) this.shading = a.shading; if (a.blending !==
+        undefined) this.blending = a.blending; if (a.depth_test !== undefined) this.depth_test = a.depth_test; if (a.wireframe !== undefined) this.wireframe = a.wireframe; if (a.wireframe_linewidth !== undefined) this.wireframe_linewidth = a.wireframe_linewidth; if (a.wireframe_linecap !== undefined) this.wireframe_linecap = a.wireframe_linecap; if (a.wireframe_linejoin !== undefined) this.wireframe_linejoin = a.wireframe_linejoin; if (a.vertex_colors !== undefined) this.vertex_colors = a.vertex_colors
+  }
 };
 THREE.MeshBasicMaterial.prototype = {
   toString: function () {
@@ -191,11 +191,11 @@ THREE.MeshBasicMaterial.prototype = {
   }
 }; THREE.MeshBasicMaterialCounter = { value: 0 };
 THREE.MeshLambertMaterial = function (a) {
-this.id = THREE.MeshLambertMaterialCounter.value++; this.color = new THREE.Color(16777215); this.opacity = 1; this.env_map = this.light_map = this.map = null; this.combine = THREE.MultiplyOperation; this.reflectivity = 1; this.refraction_ratio = 0.98; this.fog = true; this.shading = THREE.SmoothShading; this.blending = THREE.NormalBlending; this.depth_test = true; this.wireframe = false; this.wireframe_linewidth = 1; this.wireframe_linejoin = this.wireframe_linecap = "round"; this.vertex_colors = false; if (a) {
-a.color !==
-  undefined && this.color.setHex(a.color); if (a.opacity !== undefined) this.opacity = a.opacity; if (a.map !== undefined) this.map = a.map; if (a.light_map !== undefined) this.light_map = a.light_map; if (a.env_map !== undefined) this.env_map = a.env_map; if (a.combine !== undefined) this.combine = a.combine; if (a.reflectivity !== undefined) this.reflectivity = a.reflectivity; if (a.refraction_ratio !== undefined) this.refraction_ratio = a.refraction_ratio; if (a.fog !== undefined) this.fog = a.fog; if (a.shading !== undefined) this.shading = a.shading; if (a.blending !==
-    undefined) this.blending = a.blending; if (a.depth_test !== undefined) this.depth_test = a.depth_test; if (a.wireframe !== undefined) this.wireframe = a.wireframe; if (a.wireframe_linewidth !== undefined) this.wireframe_linewidth = a.wireframe_linewidth; if (a.wireframe_linecap !== undefined) this.wireframe_linecap = a.wireframe_linecap; if (a.wireframe_linejoin !== undefined) this.wireframe_linejoin = a.wireframe_linejoin; if (a.vertex_colors !== undefined) this.vertex_colors = a.vertex_colors
-}
+  this.id = THREE.MeshLambertMaterialCounter.value++; this.color = new THREE.Color(16777215); this.opacity = 1; this.env_map = this.light_map = this.map = null; this.combine = THREE.MultiplyOperation; this.reflectivity = 1; this.refraction_ratio = 0.98; this.fog = true; this.shading = THREE.SmoothShading; this.blending = THREE.NormalBlending; this.depth_test = true; this.wireframe = false; this.wireframe_linewidth = 1; this.wireframe_linejoin = this.wireframe_linecap = "round"; this.vertex_colors = false; if (a) {
+    a.color !==
+      undefined && this.color.setHex(a.color); if (a.opacity !== undefined) this.opacity = a.opacity; if (a.map !== undefined) this.map = a.map; if (a.light_map !== undefined) this.light_map = a.light_map; if (a.env_map !== undefined) this.env_map = a.env_map; if (a.combine !== undefined) this.combine = a.combine; if (a.reflectivity !== undefined) this.reflectivity = a.reflectivity; if (a.refraction_ratio !== undefined) this.refraction_ratio = a.refraction_ratio; if (a.fog !== undefined) this.fog = a.fog; if (a.shading !== undefined) this.shading = a.shading; if (a.blending !==
+        undefined) this.blending = a.blending; if (a.depth_test !== undefined) this.depth_test = a.depth_test; if (a.wireframe !== undefined) this.wireframe = a.wireframe; if (a.wireframe_linewidth !== undefined) this.wireframe_linewidth = a.wireframe_linewidth; if (a.wireframe_linecap !== undefined) this.wireframe_linecap = a.wireframe_linecap; if (a.wireframe_linejoin !== undefined) this.wireframe_linejoin = a.wireframe_linejoin; if (a.vertex_colors !== undefined) this.vertex_colors = a.vertex_colors
+  }
 };
 THREE.MeshLambertMaterial.prototype = {
   toString: function () {
@@ -204,12 +204,12 @@ THREE.MeshLambertMaterial.prototype = {
   }
 }; THREE.MeshLambertMaterialCounter = { value: 0 };
 THREE.MeshPhongMaterial = function (a) {
-this.id = THREE.MeshPhongMaterialCounter.value++; this.color = new THREE.Color(16777215); this.ambient = new THREE.Color(328965); this.specular = new THREE.Color(1118481); this.shininess = 30; this.opacity = 1; this.env_map = this.light_map = this.map = null; this.combine = THREE.MultiplyOperation; this.reflectivity = 1; this.refraction_ratio = 0.98; this.fog = true; this.shading = THREE.SmoothShading; this.blending = THREE.NormalBlending; this.depth_test = true; this.wireframe = false; this.wireframe_linewidth =
-  1; this.wireframe_linejoin = this.wireframe_linecap = "round"; this.vertex_colors = false; if (a) {
-    if (a.color !== undefined) this.color = new THREE.Color(a.color); if (a.ambient !== undefined) this.ambient = new THREE.Color(a.ambient); if (a.specular !== undefined) this.specular = new THREE.Color(a.specular); if (a.shininess !== undefined) this.shininess = a.shininess; if (a.opacity !== undefined) this.opacity = a.opacity; if (a.light_map !== undefined) this.light_map = a.light_map; if (a.map !== undefined) this.map = a.map; if (a.env_map !== undefined) this.env_map =
-      a.env_map; if (a.combine !== undefined) this.combine = a.combine; if (a.reflectivity !== undefined) this.reflectivity = a.reflectivity; if (a.refraction_ratio !== undefined) this.refraction_ratio = a.refraction_ratio; if (a.fog !== undefined) this.fog = a.fog; if (a.shading !== undefined) this.shading = a.shading; if (a.blending !== undefined) this.blending = a.blending; if (a.depth_test !== undefined) this.depth_test = a.depth_test; if (a.wireframe !== undefined) this.wireframe = a.wireframe; if (a.wireframe_linewidth !== undefined) this.wireframe_linewidth =
-        a.wireframe_linewidth; if (a.wireframe_linecap !== undefined) this.wireframe_linecap = a.wireframe_linecap; if (a.wireframe_linejoin !== undefined) this.wireframe_linejoin = a.wireframe_linejoin; if (a.vertex_colors !== undefined) this.vertex_colors = a.vertex_colors
-  }
+  this.id = THREE.MeshPhongMaterialCounter.value++; this.color = new THREE.Color(16777215); this.ambient = new THREE.Color(328965); this.specular = new THREE.Color(1118481); this.shininess = 30; this.opacity = 1; this.env_map = this.light_map = this.map = null; this.combine = THREE.MultiplyOperation; this.reflectivity = 1; this.refraction_ratio = 0.98; this.fog = true; this.shading = THREE.SmoothShading; this.blending = THREE.NormalBlending; this.depth_test = true; this.wireframe = false; this.wireframe_linewidth =
+    1; this.wireframe_linejoin = this.wireframe_linecap = "round"; this.vertex_colors = false; if (a) {
+      if (a.color !== undefined) this.color = new THREE.Color(a.color); if (a.ambient !== undefined) this.ambient = new THREE.Color(a.ambient); if (a.specular !== undefined) this.specular = new THREE.Color(a.specular); if (a.shininess !== undefined) this.shininess = a.shininess; if (a.opacity !== undefined) this.opacity = a.opacity; if (a.light_map !== undefined) this.light_map = a.light_map; if (a.map !== undefined) this.map = a.map; if (a.env_map !== undefined) this.env_map =
+        a.env_map; if (a.combine !== undefined) this.combine = a.combine; if (a.reflectivity !== undefined) this.reflectivity = a.reflectivity; if (a.refraction_ratio !== undefined) this.refraction_ratio = a.refraction_ratio; if (a.fog !== undefined) this.fog = a.fog; if (a.shading !== undefined) this.shading = a.shading; if (a.blending !== undefined) this.blending = a.blending; if (a.depth_test !== undefined) this.depth_test = a.depth_test; if (a.wireframe !== undefined) this.wireframe = a.wireframe; if (a.wireframe_linewidth !== undefined) this.wireframe_linewidth =
+          a.wireframe_linewidth; if (a.wireframe_linecap !== undefined) this.wireframe_linecap = a.wireframe_linecap; if (a.wireframe_linejoin !== undefined) this.wireframe_linejoin = a.wireframe_linejoin; if (a.vertex_colors !== undefined) this.vertex_colors = a.vertex_colors
+    }
 };
 THREE.MeshPhongMaterial.prototype = {
   toString: function () {
@@ -218,30 +218,30 @@ THREE.MeshPhongMaterial.prototype = {
   }
 }; THREE.MeshPhongMaterialCounter = { value: 0 };
 THREE.MeshDepthMaterial = function (a) {
-this.id = THREE.MeshDepthMaterialCounter.value++; this.opacity = 1; this.shading = THREE.SmoothShading; this.blending = THREE.NormalBlending; this.depth_test = true; this.wireframe = false; this.wireframe_linewidth = 1; if (a) {
-  if (a.opacity !== undefined) this.opacity = a.opacity; if (a.shading !== undefined) this.shading = a.shading; if (a.blending !== undefined) this.blending = a.blending; if (a.depth_test !== undefined) this.depth_test = a.depth_test; if (a.wireframe !== undefined) this.wireframe = a.wireframe; if (a.wireframe_linewidth !==
-    undefined) this.wireframe_linewidth = a.wireframe_linewidth
-}
+  this.id = THREE.MeshDepthMaterialCounter.value++; this.opacity = 1; this.shading = THREE.SmoothShading; this.blending = THREE.NormalBlending; this.depth_test = true; this.wireframe = false; this.wireframe_linewidth = 1; if (a) {
+    if (a.opacity !== undefined) this.opacity = a.opacity; if (a.shading !== undefined) this.shading = a.shading; if (a.blending !== undefined) this.blending = a.blending; if (a.depth_test !== undefined) this.depth_test = a.depth_test; if (a.wireframe !== undefined) this.wireframe = a.wireframe; if (a.wireframe_linewidth !==
+      undefined) this.wireframe_linewidth = a.wireframe_linewidth
+  }
 }; THREE.MeshDepthMaterial.prototype = { toString: function () { return "THREE.MeshDepthMaterial (<br/>id: " + this.id + "<br/>opacity: " + this.opacity + "<br/>blending: " + this.blending + "<br/>depth_test: " + this.depth_test + "<br/>wireframe: " + this.wireframe + "<br/>wireframe_linewidth: " + this.wireframe_linewidth + "<br/>)" } }; THREE.MeshDepthMaterialCounter = { value: 0 };
 THREE.MeshNormalMaterial = function (a) {
-this.id = THREE.MeshNormalMaterialCounter.value++; this.opacity = 1; this.shading = THREE.FlatShading; this.blending = THREE.NormalBlending; this.depth_test = true; this.wireframe = false; this.wireframe_linewidth = 1; if (a) {
-  if (a.opacity !== undefined) this.opacity = a.opacity; if (a.shading !== undefined) this.shading = a.shading; if (a.blending !== undefined) this.blending = a.blending; if (a.depth_test !== undefined) this.depth_test = a.depth_test; if (a.wireframe !== undefined) this.wireframe = a.wireframe; if (a.wireframe_linewidth !==
-    undefined) this.wireframe_linewidth = a.wireframe_linewidth
-}
+  this.id = THREE.MeshNormalMaterialCounter.value++; this.opacity = 1; this.shading = THREE.FlatShading; this.blending = THREE.NormalBlending; this.depth_test = true; this.wireframe = false; this.wireframe_linewidth = 1; if (a) {
+    if (a.opacity !== undefined) this.opacity = a.opacity; if (a.shading !== undefined) this.shading = a.shading; if (a.blending !== undefined) this.blending = a.blending; if (a.depth_test !== undefined) this.depth_test = a.depth_test; if (a.wireframe !== undefined) this.wireframe = a.wireframe; if (a.wireframe_linewidth !==
+      undefined) this.wireframe_linewidth = a.wireframe_linewidth
+  }
 }; THREE.MeshNormalMaterial.prototype = { toString: function () { return "THREE.MeshNormalMaterial (<br/>id: " + this.id + "<br/>opacity: " + this.opacity + "<br/>blending: " + this.blending + "<br/>depth_test: " + this.depth_test + "<br/>wireframe: " + this.wireframe + "<br/>wireframe_linewidth: " + this.wireframe_linewidth + "<br/>)" } }; THREE.MeshNormalMaterialCounter = { value: 0 }; THREE.MeshFaceMaterial = function () { }; THREE.MeshFaceMaterial.prototype = { toString: function () { return "THREE.MeshFaceMaterial" } };
 THREE.MeshShaderMaterial = function (a) {
-this.id = THREE.MeshShaderMaterialCounter.value++; this.vertex_shader = this.fragment_shader = "void main() {}"; this.uniforms = {}; this.opacity = 1; this.shading = THREE.SmoothShading; this.blending = THREE.NormalBlending; this.depth_test = true; this.wireframe = false; this.wireframe_linewidth = 1; this.wireframe_linejoin = this.wireframe_linecap = "round"; this.vertex_colors = false; if (a) {
-  if (a.fragment_shader !== undefined) this.fragment_shader = a.fragment_shader; if (a.vertex_shader !== undefined) this.vertex_shader =
-    a.vertex_shader; if (a.uniforms !== undefined) this.uniforms = a.uniforms; if (a.opacity !== undefined) this.opacity = a.opacity; if (a.shading !== undefined) this.shading = a.shading; if (a.blending !== undefined) this.blending = a.blending; if (a.depth_test !== undefined) this.depth_test = a.depth_test; if (a.wireframe !== undefined) this.wireframe = a.wireframe; if (a.wireframe_linewidth !== undefined) this.wireframe_linewidth = a.wireframe_linewidth; if (a.wireframe_linecap !== undefined) this.wireframe_linecap = a.wireframe_linecap; if (a.wireframe_linejoin !==
-      undefined) this.wireframe_linejoin = a.wireframe_linejoin; if (a.vertex_colors !== undefined) this.vertex_colors = a.vertex_colors
-}
+  this.id = THREE.MeshShaderMaterialCounter.value++; this.vertex_shader = this.fragment_shader = "void main() {}"; this.uniforms = {}; this.opacity = 1; this.shading = THREE.SmoothShading; this.blending = THREE.NormalBlending; this.depth_test = true; this.wireframe = false; this.wireframe_linewidth = 1; this.wireframe_linejoin = this.wireframe_linecap = "round"; this.vertex_colors = false; if (a) {
+    if (a.fragment_shader !== undefined) this.fragment_shader = a.fragment_shader; if (a.vertex_shader !== undefined) this.vertex_shader =
+      a.vertex_shader; if (a.uniforms !== undefined) this.uniforms = a.uniforms; if (a.opacity !== undefined) this.opacity = a.opacity; if (a.shading !== undefined) this.shading = a.shading; if (a.blending !== undefined) this.blending = a.blending; if (a.depth_test !== undefined) this.depth_test = a.depth_test; if (a.wireframe !== undefined) this.wireframe = a.wireframe; if (a.wireframe_linewidth !== undefined) this.wireframe_linewidth = a.wireframe_linewidth; if (a.wireframe_linecap !== undefined) this.wireframe_linecap = a.wireframe_linecap; if (a.wireframe_linejoin !==
+        undefined) this.wireframe_linejoin = a.wireframe_linejoin; if (a.vertex_colors !== undefined) this.vertex_colors = a.vertex_colors
+  }
 };
 THREE.MeshShaderMaterial.prototype = { toString: function () { return "THREE.MeshShaderMaterial (<br/>id: " + this.id + "<br/>blending: " + this.blending + "<br/>depth_test: " + this.depth_test + "<br/>wireframe: " + this.wireframe + "<br/>wireframe_linewidth: " + this.wireframe_linewidth + "<br/>wireframe_linecap: " + this.wireframe_linecap + "<br/>wireframe_linejoin: " + this.wireframe_linejoin + "<br/>vertex_colors: " + this.vertex_colors + "<br/>)" } }; THREE.MeshShaderMaterialCounter = { value: 0 };
 THREE.ParticleBasicMaterial = function (a) {
-this.id = THREE.ParticleBasicMaterialCounter.value++; this.color = new THREE.Color(16777215); this.opacity = 1; this.map = null; this.size = 1; this.blending = THREE.NormalBlending; this.depth_test = true; this.offset = new THREE.Vector2; this.vertex_colors = false; if (a) {
-a.color !== undefined && this.color.setHex(a.color); if (a.opacity !== undefined) this.opacity = a.opacity; if (a.map !== undefined) this.map = a.map; if (a.size !== undefined) this.size = a.size; if (a.blending !== undefined) this.blending = a.blending;
-  if (a.depth_test !== undefined) this.depth_test = a.depth_test; if (a.vertex_colors !== undefined) this.vertex_colors = a.vertex_colors
-}
+  this.id = THREE.ParticleBasicMaterialCounter.value++; this.color = new THREE.Color(16777215); this.opacity = 1; this.map = null; this.size = 1; this.blending = THREE.NormalBlending; this.depth_test = true; this.offset = new THREE.Vector2; this.vertex_colors = false; if (a) {
+    a.color !== undefined && this.color.setHex(a.color); if (a.opacity !== undefined) this.opacity = a.opacity; if (a.map !== undefined) this.map = a.map; if (a.size !== undefined) this.size = a.size; if (a.blending !== undefined) this.blending = a.blending;
+    if (a.depth_test !== undefined) this.depth_test = a.depth_test; if (a.vertex_colors !== undefined) this.vertex_colors = a.vertex_colors
+  }
 }; THREE.ParticleBasicMaterial.prototype = { toString: function () { return "THREE.ParticleBasicMaterial (<br/>id: " + this.id + "<br/>color: " + this.color + "<br/>opacity: " + this.opacity + "<br/>map: " + this.map + "<br/>size: " + this.size + "<br/>blending: " + this.blending + "<br/>depth_test: " + this.depth_test + "<br/>vertex_colors: " + this.vertex_colors + "<br/>)" } }; THREE.ParticleBasicMaterialCounter = { value: 0 };
 THREE.ParticleCircleMaterial = function (a) { this.color = new THREE.Color(16777215); this.opacity = 1; this.blending = THREE.NormalBlending; if (a) { a.color !== undefined && this.color.setHex(a.color); if (a.opacity !== undefined) this.opacity = a.opacity; if (a.blending !== undefined) this.blending = a.blending } }; THREE.ParticleCircleMaterial.prototype = { toString: function () { return "THREE.ParticleCircleMaterial (<br/>color: " + this.color + "<br/>opacity: " + this.opacity + "<br/>blending: " + this.blending + "<br/>)" } };
 THREE.ParticleDOMMaterial = function (a) { this.domElement = a }; THREE.ParticleDOMMaterial.prototype = { toString: function () { return "THREE.ParticleDOMMaterial ( domElement: " + this.domElement + " )" } }; THREE.Texture = function (a, c, d, e, g, f) { this.image = a; this.mapping = c !== undefined ? c : new THREE.UVMapping; this.wrap_s = d !== undefined ? d : THREE.ClampToEdgeWrapping; this.wrap_t = e !== undefined ? e : THREE.ClampToEdgeWrapping; this.mag_filter = g !== undefined ? g : THREE.LinearFilter; this.min_filter = f !== undefined ? f : THREE.LinearMipMapLinearFilter };
@@ -259,19 +259,19 @@ THREE.Projector = function () {
         x.n33, x.n44 - x.n34); t[5] = new THREE.Vector4(x.n41 + x.n31, x.n42 + x.n32, x.n43 + x.n33, x.n44 + x.n34); o = 0; for (y = t.length; o < y; o++) { C = t[o]; C.divideScalar(Math.sqrt(C.x * C.x + C.y * C.y + C.z * C.z)) } y = n.objects; n = 0; for (o = y.length; n < o; n++) {
           C = y[n]; var z; if (!(z = !C.visible)) { if (z = C instanceof THREE.Mesh) { a: { z = void 0; for (var F = C.position, J = -C.geometry.boundingSphere.radius * Math.max(C.scale.x, Math.max(C.scale.y, C.scale.z)), M = 0; M < 6; M++) { z = t[M].x * F.x + t[M].y * F.y + t[M].z * F.z + t[M].w; if (z <= J) { z = false; break a } } z = true } z = !z } z = z } if (!z) {
             d =
-            g[e] = g[e] || new THREE.RenderableObject; E.copy(C.position); x.multiplyVector3(E); d.object = C; d.z = E.z; D.push(d); e++
+              g[e] = g[e] || new THREE.RenderableObject; E.copy(C.position); x.multiplyVector3(E); d.object = C; d.z = E.z; D.push(d); e++
           }
         } v && D.sort(a); return D
     }; this.projectScene = function (n, o, v) {
       var D = [], y = o.near, C = o.far, z, F, J, M, Q, S, U, ca, da, T, O, Z, V, K, W, ba; b = p = m = 0; o.autoUpdateMatrix && o.updateMatrix(); x.multiply(o.projectionMatrix, o.matrix); S = this.projectObjects(n, o, true); n = 0; for (z = S.length; n < z; n++) {
         U = S[n].object; if (U.visible) {
-        U.autoUpdateMatrix && U.updateMatrix(); ca = U.matrix; da = U.rotationMatrix; T = U.materials; O = U.overdraw; if (U instanceof
-          THREE.Mesh) {
+          U.autoUpdateMatrix && U.updateMatrix(); ca = U.matrix; da = U.rotationMatrix; T = U.materials; O = U.overdraw; if (U instanceof
+            THREE.Mesh) {
             Z = U.geometry; V = Z.vertices; F = 0; for (J = V.length; F < J; F++) { K = V[F]; K.positionWorld.copy(K.position); ca.multiplyVector3(K.positionWorld); M = K.positionScreen; M.copy(K.positionWorld); x.multiplyVector4(M); M.x /= M.w; M.y /= M.w; K.__visible = M.z > y && M.z < C } Z = Z.faces; F = 0; for (J = Z.length; F < J; F++) {
               K = Z[F]; if (K instanceof THREE.Face3) {
                 M = V[K.a]; Q = V[K.b]; W = V[K.c]; if (M.__visible && Q.__visible && W.__visible) if (U.doubleSided || U.flipSided != (W.positionScreen.x - M.positionScreen.x) * (Q.positionScreen.y - M.positionScreen.y) -
                   (W.positionScreen.y - M.positionScreen.y) * (Q.positionScreen.x - M.positionScreen.x) < 0) {
-                    f = j[b] = j[b] || new THREE.RenderableFace3; f.v1.positionWorld.copy(M.positionWorld); f.v2.positionWorld.copy(Q.positionWorld); f.v3.positionWorld.copy(W.positionWorld); f.v1.positionScreen.copy(M.positionScreen); f.v2.positionScreen.copy(Q.positionScreen); f.v3.positionScreen.copy(W.positionScreen); f.normalWorld.copy(K.normal); da.multiplyVector3(f.normalWorld); f.centroidWorld.copy(K.centroid); ca.multiplyVector3(f.centroidWorld);
+                  f = j[b] = j[b] || new THREE.RenderableFace3; f.v1.positionWorld.copy(M.positionWorld); f.v2.positionWorld.copy(Q.positionWorld); f.v3.positionWorld.copy(W.positionWorld); f.v1.positionScreen.copy(M.positionScreen); f.v2.positionScreen.copy(Q.positionScreen); f.v3.positionScreen.copy(W.positionScreen); f.normalWorld.copy(K.normal); da.multiplyVector3(f.normalWorld); f.centroidWorld.copy(K.centroid); ca.multiplyVector3(f.centroidWorld);
                   f.centroidScreen.copy(f.centroidWorld); x.multiplyVector3(f.centroidScreen); W = K.vertexNormals; u = f.vertexNormalsWorld; M = 0; for (Q = W.length; M < Q; M++) { ba = u[M] = u[M] || new THREE.Vector3; ba.copy(W[M]); da.multiplyVector3(ba) } f.z = f.centroidScreen.z; f.meshMaterials = T; f.faceMaterials = K.materials; f.overdraw = O; if (U.geometry.uvs[F]) { f.uvs[0] = U.geometry.uvs[F][0]; f.uvs[1] = U.geometry.uvs[F][1]; f.uvs[2] = U.geometry.uvs[F][2] } D.push(f); b++
                 }
               } else if (K instanceof THREE.Face4) {
@@ -279,24 +279,24 @@ THREE.Projector = function () {
                   Q.__visible && W.__visible && ba.__visible) if (U.doubleSided || U.flipSided != ((ba.positionScreen.x - M.positionScreen.x) * (Q.positionScreen.y - M.positionScreen.y) - (ba.positionScreen.y - M.positionScreen.y) * (Q.positionScreen.x - M.positionScreen.x) < 0 || (Q.positionScreen.x - W.positionScreen.x) * (ba.positionScreen.y - W.positionScreen.y) - (Q.positionScreen.y - W.positionScreen.y) * (ba.positionScreen.x - W.positionScreen.x) < 0)) {
                     f = j[b] = j[b] || new THREE.RenderableFace3; f.v1.positionWorld.copy(M.positionWorld); f.v2.positionWorld.copy(Q.positionWorld);
                     f.v3.positionWorld.copy(ba.positionWorld); f.v1.positionScreen.copy(M.positionScreen); f.v2.positionScreen.copy(Q.positionScreen); f.v3.positionScreen.copy(ba.positionScreen); f.normalWorld.copy(K.normal); da.multiplyVector3(f.normalWorld); f.centroidWorld.copy(K.centroid); ca.multiplyVector3(f.centroidWorld); f.centroidScreen.copy(f.centroidWorld); x.multiplyVector3(f.centroidScreen); f.z = f.centroidScreen.z; f.meshMaterials = T; f.faceMaterials = K.materials; f.overdraw = O; if (U.geometry.uvs[F]) {
-                    f.uvs[0] = U.geometry.uvs[F][0];
+                      f.uvs[0] = U.geometry.uvs[F][0];
                       f.uvs[1] = U.geometry.uvs[F][1]; f.uvs[2] = U.geometry.uvs[F][3]
                     } D.push(f); b++; h = j[b] = j[b] || new THREE.RenderableFace3; h.v1.positionWorld.copy(Q.positionWorld); h.v2.positionWorld.copy(W.positionWorld); h.v3.positionWorld.copy(ba.positionWorld); h.v1.positionScreen.copy(Q.positionScreen); h.v2.positionScreen.copy(W.positionScreen); h.v3.positionScreen.copy(ba.positionScreen); h.normalWorld.copy(f.normalWorld); h.centroidWorld.copy(f.centroidWorld); h.centroidScreen.copy(f.centroidScreen); h.z = h.centroidScreen.z;
                     h.meshMaterials = T; h.faceMaterials = K.materials; h.overdraw = O; if (U.geometry.uvs[F]) { h.uvs[0] = U.geometry.uvs[F][1]; h.uvs[1] = U.geometry.uvs[F][2]; h.uvs[2] = U.geometry.uvs[F][3] } D.push(h); b++
                   }
               }
             }
-        } else if (U instanceof THREE.Line) {
-          I.multiply(x, ca); V = U.geometry.vertices; K = V[0]; K.positionScreen.copy(K.position); I.multiplyVector4(K.positionScreen); F = 1; for (J = V.length; F < J; F++) {
-            M = V[F]; M.positionScreen.copy(M.position); I.multiplyVector4(M.positionScreen); Q = V[F - 1]; k.copy(M.positionScreen); w.copy(Q.positionScreen);
-            if (c(k, w)) { k.multiplyScalar(1 / k.w); w.multiplyScalar(1 / w.w); l = A[p] = A[p] || new THREE.RenderableLine; l.v1.positionScreen.copy(k); l.v2.positionScreen.copy(w); l.z = Math.max(k.z, w.z); l.materials = U.materials; D.push(l); p++ }
+          } else if (U instanceof THREE.Line) {
+            I.multiply(x, ca); V = U.geometry.vertices; K = V[0]; K.positionScreen.copy(K.position); I.multiplyVector4(K.positionScreen); F = 1; for (J = V.length; F < J; F++) {
+              M = V[F]; M.positionScreen.copy(M.position); I.multiplyVector4(M.positionScreen); Q = V[F - 1]; k.copy(M.positionScreen); w.copy(Q.positionScreen);
+              if (c(k, w)) { k.multiplyScalar(1 / k.w); w.multiplyScalar(1 / w.w); l = A[p] = A[p] || new THREE.RenderableLine; l.v1.positionScreen.copy(k); l.v2.positionScreen.copy(w); l.z = Math.max(k.z, w.z); l.materials = U.materials; D.push(l); p++ }
+            }
+          } else if (U instanceof THREE.Particle) {
+            H.set(U.position.x, U.position.y, U.position.z, 1); x.multiplyVector4(H); H.z /= H.w; if (H.z > 0 && H.z < 1) {
+              q = B[m] = B[m] || new THREE.RenderableParticle; q.x = H.x / H.w; q.y = H.y / H.w; q.z = H.z; q.rotation = U.rotation.z; q.scale.x = U.scale.x * Math.abs(q.x - (H.x + o.projectionMatrix.n11) /
+                (H.w + o.projectionMatrix.n14)); q.scale.y = U.scale.y * Math.abs(q.y - (H.y + o.projectionMatrix.n22) / (H.w + o.projectionMatrix.n24)); q.materials = U.materials; D.push(q); m++
+            }
           }
-        } else if (U instanceof THREE.Particle) {
-          H.set(U.position.x, U.position.y, U.position.z, 1); x.multiplyVector4(H); H.z /= H.w; if (H.z > 0 && H.z < 1) {
-            q = B[m] = B[m] || new THREE.RenderableParticle; q.x = H.x / H.w; q.y = H.y / H.w; q.z = H.z; q.rotation = U.rotation.z; q.scale.x = U.scale.x * Math.abs(q.x - (H.x + o.projectionMatrix.n11) /
-              (H.w + o.projectionMatrix.n14)); q.scale.y = U.scale.y * Math.abs(q.y - (H.y + o.projectionMatrix.n22) / (H.w + o.projectionMatrix.n24)); q.materials = U.materials; D.push(q); m++
-          }
-        }
         }
       } v && D.sort(a); return D
     }; this.unprojectVector = function (n, o) { var v = THREE.Matrix4.makeInvert(o.matrix); v.multiplySelf(THREE.Matrix4.makeInvert(o.projectionMatrix)); v.multiplyVector3(n); return n }
@@ -338,8 +338,8 @@ THREE.CanvasRenderer = function () {
               } else Y.wireframe ? Ga(Y.color.__styleString, Y.wireframe_linewidth) : Ha(Y.color.__styleString); else if (Y instanceof THREE.MeshLambertMaterial) {
                 if (Y.map &&
                   !Y.wireframe) { Y.map.mapping instanceof THREE.UVMapping && Ca(k, w, u, n, o, v, Y.map.image, R.uvs[0].u, R.uvs[0].v, R.uvs[1].u, R.uvs[1].v, R.uvs[2].u, R.uvs[2].v); c(THREE.SubtractiveBlending) } if (W) if (!Y.wireframe && Y.shading == THREE.SmoothShading && R.vertexNormalsWorld.length == 3) {
-                  y.r = C.r = z.r = ha.r; y.g = C.g = z.g = ha.g; y.b = C.b = z.b = ha.b; Aa(ga, R.v1.positionWorld, R.vertexNormalsWorld[0], y); Aa(ga, R.v2.positionWorld, R.vertexNormalsWorld[1], C); Aa(ga, R.v3.positionWorld, R.vertexNormalsWorld[2], z); F.r = (C.r + z.r) * 0.5; F.g = (C.g + z.g) *
-                    0.5; F.b = (C.b + z.b) * 0.5; Q = Pa(y, C, z, F); Ca(k, w, u, n, o, v, Q, 0, 0, 1, 0, 0, 1)
+                    y.r = C.r = z.r = ha.r; y.g = C.g = z.g = ha.g; y.b = C.b = z.b = ha.b; Aa(ga, R.v1.positionWorld, R.vertexNormalsWorld[0], y); Aa(ga, R.v2.positionWorld, R.vertexNormalsWorld[1], C); Aa(ga, R.v3.positionWorld, R.vertexNormalsWorld[2], z); F.r = (C.r + z.r) * 0.5; F.g = (C.g + z.g) *
+                      0.5; F.b = (C.b + z.b) * 0.5; Q = Pa(y, C, z, F); Ca(k, w, u, n, o, v, Q, 0, 0, 1, 0, 0, 1)
                   } else { ba.r = ha.r; ba.g = ha.g; ba.b = ha.b; Aa(ga, R.centroidWorld, R.normalWorld, ba); D.r = Y.color.r * ba.r; D.g = Y.color.g * ba.g; D.b = Y.color.b * ba.b; D.updateStyleString(); Y.wireframe ? Ga(D.__styleString, Y.wireframe_linewidth) : Ha(D.__styleString) } else Y.wireframe ? Ga(Y.color.__styleString, Y.wireframe_linewidth) : Ha(Y.color.__styleString)
               } else if (Y instanceof THREE.MeshDepthMaterial) {
                 J = ja.near; M = ja.far; y.r = y.g = y.b = 1 - La(P.positionScreen.z, J, M); C.r = C.g = C.b =
@@ -363,7 +363,7 @@ THREE.CanvasRenderer = function () {
                   wa = 0; for (Ba = la.meshMaterials.length; wa < Ba;) {
                     Ea = la.meshMaterials[wa++]; if (Ea instanceof THREE.MeshFaceMaterial) {
                       Oa =
-                      0; for (Ra = la.faceMaterials.length; Oa < Ra;)(Ea = la.faceMaterials[Oa++]) && ra(x, I, t, la, Ea, ka)
+                        0; for (Ra = la.faceMaterials.length; Oa < Ra;)(Ea = la.faceMaterials[Oa++]) && ra(x, I, t, la, Ea, ka)
                     } else ra(x, I, t, la, Ea, ka)
                   }
                 }
@@ -380,9 +380,9 @@ THREE.SVGRenderer = function () {
       } else T instanceof THREE.MeshNormalMaterial && t.setRGB(g(da.normalWorld.x), g(da.normalWorld.y), g(da.normalWorld.z)); T.wireframe ? z.setAttribute("style", "fill: none; stroke: " + t.__styleString + "; stroke-width: " + T.wireframe_linewidth + "; stroke-opacity: " + T.opacity + "; stroke-linecap: " + T.wireframe_linecap + "; stroke-linejoin: " + T.wireframe_linejoin) : z.setAttribute("style", "fill: " + t.__styleString + "; fill-opacity: " + T.opacity); b.appendChild(z)
   } function d(S, U, ca, da, T,
     O, Z) {
-      z = e(F++); z.setAttribute("d", "M " + S.positionScreen.x + " " + S.positionScreen.y + " L " + U.positionScreen.x + " " + U.positionScreen.y + " L " + ca.positionScreen.x + "," + ca.positionScreen.y + " L " + da.positionScreen.x + "," + da.positionScreen.y + "z"); if (O instanceof THREE.MeshBasicMaterial) t.__styleString = O.color.__styleString; else if (O instanceof THREE.MeshLambertMaterial) if (I) { k.r = w.r; k.g = w.g; k.b = w.b; a(Z, T, k); t.r = O.color.r * k.r; t.g = O.color.g * k.g; t.b = O.color.b * k.b; t.updateStyleString() } else t.__styleString = O.color.__styleString;
-      else if (O instanceof THREE.MeshDepthMaterial) { o = 1 - O.__2near / (O.__farPlusNear - T.z * O.__farMinusNear); t.setRGB(o, o, o) } else O instanceof THREE.MeshNormalMaterial && t.setRGB(g(T.normalWorld.x), g(T.normalWorld.y), g(T.normalWorld.z)); O.wireframe ? z.setAttribute("style", "fill: none; stroke: " + t.__styleString + "; stroke-width: " + O.wireframe_linewidth + "; stroke-opacity: " + O.opacity + "; stroke-linecap: " + O.wireframe_linecap + "; stroke-linejoin: " + O.wireframe_linejoin) : z.setAttribute("style", "fill: " + t.__styleString +
-        "; fill-opacity: " + O.opacity); b.appendChild(z)
+    z = e(F++); z.setAttribute("d", "M " + S.positionScreen.x + " " + S.positionScreen.y + " L " + U.positionScreen.x + " " + U.positionScreen.y + " L " + ca.positionScreen.x + "," + ca.positionScreen.y + " L " + da.positionScreen.x + "," + da.positionScreen.y + "z"); if (O instanceof THREE.MeshBasicMaterial) t.__styleString = O.color.__styleString; else if (O instanceof THREE.MeshLambertMaterial) if (I) { k.r = w.r; k.g = w.g; k.b = w.b; a(Z, T, k); t.r = O.color.r * k.r; t.g = O.color.g * k.g; t.b = O.color.b * k.b; t.updateStyleString() } else t.__styleString = O.color.__styleString;
+    else if (O instanceof THREE.MeshDepthMaterial) { o = 1 - O.__2near / (O.__farPlusNear - T.z * O.__farMinusNear); t.setRGB(o, o, o) } else O instanceof THREE.MeshNormalMaterial && t.setRGB(g(T.normalWorld.x), g(T.normalWorld.y), g(T.normalWorld.z)); O.wireframe ? z.setAttribute("style", "fill: none; stroke: " + t.__styleString + "; stroke-width: " + O.wireframe_linewidth + "; stroke-opacity: " + O.opacity + "; stroke-linecap: " + O.wireframe_linecap + "; stroke-linejoin: " + O.wireframe_linejoin) : z.setAttribute("style", "fill: " + t.__styleString +
+      "; fill-opacity: " + O.opacity); b.appendChild(z)
   } function e(S) { if (D[S] == null) { D[S] = document.createElementNS("http://www.w3.org/2000/svg", "path"); Q == 0 && D[S].setAttribute("shape-rendering", "crispEdges"); return D[S] } return D[S] } function g(S) { return S < 0 ? Math.min((1 + S) * 0.5, 0.5) : 0.5 + Math.min(S * 0.5, 0.5) } var f = null, h = new THREE.Projector, b = document.createElementNS("http://www.w3.org/2000/svg", "svg"), j, l, p, A, q, m, B, E, H = new THREE.Rectangle, x = new THREE.Rectangle, I = false, t = new THREE.Color(16777215), k = new THREE.Color(16777215),
     w = new THREE.Color(0), u = new THREE.Color(0), n = new THREE.Color(0), o, v = new THREE.Vector3, D = [], y = [], C = [], z, F, J, M, Q = 1; this.domElement = b; this.sortElements = this.sortObjects = this.autoClear = true; this.setQuality = function (S) { switch (S) { case "high": Q = 1; break; case "low": Q = 0 } }; this.setSize = function (S, U) { j = S; l = U; p = j / 2; A = l / 2; b.setAttribute("viewBox", -p + " " + -A + " " + j + " " + l); b.setAttribute("width", j); b.setAttribute("height", l); H.set(-p, -A, p, A) }; this.clear = function () { for (; b.childNodes.length > 0;)b.removeChild(b.childNodes[0]) };
   this.render = function (S, U) {
@@ -392,7 +392,7 @@ THREE.SVGRenderer = function () {
         q = K; q.x *= p; q.y *= -A; T = 0; for (O = K.materials.length; T < O; T++)if (W = K.materials[T]) {
           Z = q; V = K; W = W; var ba = J++; if (y[ba] == null) { y[ba] = document.createElementNS("http://www.w3.org/2000/svg", "circle"); Q == 0 && y[ba].setAttribute("shape-rendering", "crispEdges") } z = y[ba]; z.setAttribute("cx", Z.x); z.setAttribute("cy", Z.y); z.setAttribute("r", V.scale.x * p); if (W instanceof THREE.ParticleCircleMaterial) {
             if (I) {
-            k.r = w.r + u.r + n.r; k.g = w.g + u.g + n.g; k.b = w.b + u.b + n.b; t.r = W.color.r * k.r;
+              k.r = w.r + u.r + n.r; k.g = w.g + u.g + n.g; k.b = w.b + u.b + n.b; t.r = W.color.r * k.r;
               t.g = W.color.g * k.g; t.b = W.color.b * k.b; t.updateStyleString()
             } else t = W.color; z.setAttribute("style", "fill: " + t.__styleString)
           } b.appendChild(z)
@@ -401,11 +401,11 @@ THREE.SVGRenderer = function () {
         q = K.v1; m = K.v2; q.positionScreen.x *= p; q.positionScreen.y *= -A; m.positionScreen.x *= p; m.positionScreen.y *= -A; x.addPoint(q.positionScreen.x, q.positionScreen.y); x.addPoint(m.positionScreen.x, m.positionScreen.y); if (H.instersects(x)) {
           T = 0; for (O = K.materials.length; T < O;)if (W = K.materials[T++]) {
             Z = q; V = m; W = W; ba = M++; if (C[ba] == null) {
-            C[ba] =
-              document.createElementNS("http://www.w3.org/2000/svg", "line"); Q == 0 && C[ba].setAttribute("shape-rendering", "crispEdges")
+              C[ba] =
+                document.createElementNS("http://www.w3.org/2000/svg", "line"); Q == 0 && C[ba].setAttribute("shape-rendering", "crispEdges")
             } z = C[ba]; z.setAttribute("x1", Z.positionScreen.x); z.setAttribute("y1", Z.positionScreen.y); z.setAttribute("x2", V.positionScreen.x); z.setAttribute("y2", V.positionScreen.y); if (W instanceof THREE.LineBasicMaterial) {
-            t.__styleString = W.color.__styleString; z.setAttribute("style", "fill: none; stroke: " + t.__styleString + "; stroke-width: " + W.linewidth + "; stroke-opacity: " + W.opacity + "; stroke-linecap: " +
-              W.linecap + "; stroke-linejoin: " + W.linejoin); b.appendChild(z)
+              t.__styleString = W.color.__styleString; z.setAttribute("style", "fill: none; stroke: " + t.__styleString + "; stroke-width: " + W.linewidth + "; stroke-opacity: " + W.opacity + "; stroke-linecap: " +
+                W.linecap + "; stroke-linejoin: " + W.linejoin); b.appendChild(z)
             }
           }
         }
@@ -497,7 +497,7 @@ THREE.WebGLRenderer = function (a) {
           var n, o, v, D = k.vertices, y = D.length, C = k.colors, z = C.length, F = k.__vertexArray, J = k.__colorArray, M = k.__sortArray, Q = k.__dirtyVertices, S = k.__dirtyColors; if (u.sortParticles) {
             m.multiplySelf(u.matrix); for (n = 0; n < y; n++) { o = D[n].position; H.copy(o); m.multiplyVector3(H); M[n] = [H.z, n] } M.sort(function (U, ca) { return ca[0] - U[0] }); for (n = 0; n < y; n++) { o = D[M[n][1]].position; v = n * 3; F[v] = o.x; F[v + 1] = o.y; F[v + 2] = o.z } for (n = 0; n < z; n++) {
               v =
-              n * 3; color = C[M[n][1]]; J[v] = color.r; J[v + 1] = color.g; J[v + 2] = color.b
+                n * 3; color = C[M[n][1]]; J[v] = color.r; J[v + 1] = color.g; J[v + 2] = color.b
             }
           } else { if (Q) for (n = 0; n < y; n++) { o = D[n].position; v = n * 3; F[v] = o.x; F[v + 1] = o.y; F[v + 2] = o.z } if (S) for (n = 0; n < z; n++) { color = C[n]; v = n * 3; J[v] = color.r; J[v + 1] = color.g; J[v + 2] = color.b } } if (Q || u.sortParticles) { b.bindBuffer(b.ARRAY_BUFFER, k.__webGLVertexBuffer); b.bufferData(b.ARRAY_BUFFER, F, w) } if (S || u.sortParticles) { b.bindBuffer(b.ARRAY_BUFFER, k.__webGLColorBuffer); b.bufferData(b.ARRAY_BUFFER, J, w) }
         }; this.initMaterial = function (k, w, u) {
@@ -511,36 +511,36 @@ THREE.WebGLRenderer = function (a) {
                         b.getAttribLocation(k, w)
                     }
         }; this.setProgram = function (k, w, u, n, o) {
-        n.program || this.initMaterial(n, w, u); var v = n.program, D = v.uniforms, y = n.uniforms; if (v != j) { b.useProgram(v); j = v; b.uniformMatrix4fv(D.projectionMatrix, false, B) } if (u && (n instanceof THREE.MeshBasicMaterial || n instanceof THREE.MeshLambertMaterial || n instanceof THREE.MeshPhongMaterial || n instanceof THREE.LineBasicMaterial || n instanceof THREE.ParticleBasicMaterial)) {
-          y.fogColor.value.setHex(u.color.hex); if (u instanceof THREE.Fog) {
-            y.fogNear.value =
-            u.near; y.fogFar.value = u.far
-          } else if (u instanceof THREE.FogExp2) y.fogDensity.value = u.density
-        } if (n instanceof THREE.MeshPhongMaterial || n instanceof THREE.MeshLambertMaterial) { this.setupLights(v, w); w = this.lights; y.enableLighting.value = w.directional.length + w.point.length; y.ambientLightColor.value = w.ambient; y.directionalLightColor.value = w.directional.colors; y.directionalLightDirection.value = w.directional.positions; y.pointLightColor.value = w.point.colors; y.pointLightPosition.value = w.point.positions } if (n instanceof
-          THREE.MeshBasicMaterial || n instanceof THREE.MeshLambertMaterial || n instanceof THREE.MeshPhongMaterial) { y.diffuse.value.setRGB(n.color.r * n.opacity, n.color.g * n.opacity, n.color.b * n.opacity); y.opacity.value = n.opacity; y.map.texture = n.map; y.light_map.texture = n.light_map; y.env_map.texture = n.env_map; y.reflectivity.value = n.reflectivity; y.refraction_ratio.value = n.refraction_ratio; y.combine.value = n.combine; y.useRefract.value = n.env_map && n.env_map.mapping instanceof THREE.CubeRefractionMapping } if (n instanceof
-            THREE.LineBasicMaterial) { y.diffuse.value.setRGB(n.color.r * n.opacity, n.color.g * n.opacity, n.color.b * n.opacity); y.opacity.value = n.opacity } else if (n instanceof THREE.ParticleBasicMaterial) { y.psColor.value.setRGB(n.color.r * n.opacity, n.color.g * n.opacity, n.color.b * n.opacity); y.opacity.value = n.opacity; y.size.value = n.size; y.map.texture = n.map } else if (n instanceof THREE.MeshPhongMaterial) {
-              y.ambient.value.setRGB(n.ambient.r, n.ambient.g, n.ambient.b); y.specular.value.setRGB(n.specular.r, n.specular.g, n.specular.b);
-              y.shininess.value = n.shininess
-            } else if (n instanceof THREE.MeshDepthMaterial) { y.mNear.value = k.near; y.mFar.value = k.far; y.opacity.value = n.opacity } else if (n instanceof THREE.MeshNormalMaterial) y.opacity.value = n.opacity; var C, z, F; for (C in y) if (F = v.uniforms[C]) {
-              u = y[C]; z = u.type; w = u.value; if (z == "i") b.uniform1i(F, w); else if (z == "f") b.uniform1f(F, w); else if (z == "fv1") b.uniform1fv(F, w); else if (z == "fv") b.uniform3fv(F, w); else if (z == "v2") b.uniform2f(F, w.x, w.y); else if (z == "v3") b.uniform3f(F, w.x, w.y, w.z); else if (z ==
-                "c") b.uniform3f(F, w.r, w.g, w.b); else if (z == "t") {
-                  b.uniform1i(F, w); if (u = u.texture) if (u.image instanceof Array && u.image.length == 6) {
-                    u = u; w = w; if (u.image.length == 6) {
-                      if (!u.image.__webGLTextureCube && !u.image.__cubeMapInitialized && u.image.loadCount == 6) {
-                        u.image.__webGLTextureCube = b.createTexture(); b.bindTexture(b.TEXTURE_CUBE_MAP, u.image.__webGLTextureCube); b.texParameteri(b.TEXTURE_CUBE_MAP, b.TEXTURE_WRAP_S, b.CLAMP_TO_EDGE); b.texParameteri(b.TEXTURE_CUBE_MAP, b.TEXTURE_WRAP_T, b.CLAMP_TO_EDGE); b.texParameteri(b.TEXTURE_CUBE_MAP,
-                          b.TEXTURE_MAG_FILTER, b.LINEAR); b.texParameteri(b.TEXTURE_CUBE_MAP, b.TEXTURE_MIN_FILTER, b.LINEAR_MIPMAP_LINEAR); for (z = 0; z < 6; ++z)b.texImage2D(b.TEXTURE_CUBE_MAP_POSITIVE_X + z, 0, b.RGBA, b.RGBA, b.UNSIGNED_BYTE, u.image[z]); b.generateMipmap(b.TEXTURE_CUBE_MAP); b.bindTexture(b.TEXTURE_CUBE_MAP, null); u.image.__cubeMapInitialized = true
-                      } b.activeTexture(b.TEXTURE0 + w); b.bindTexture(b.TEXTURE_CUBE_MAP, u.image.__webGLTextureCube)
+          n.program || this.initMaterial(n, w, u); var v = n.program, D = v.uniforms, y = n.uniforms; if (v != j) { b.useProgram(v); j = v; b.uniformMatrix4fv(D.projectionMatrix, false, B) } if (u && (n instanceof THREE.MeshBasicMaterial || n instanceof THREE.MeshLambertMaterial || n instanceof THREE.MeshPhongMaterial || n instanceof THREE.LineBasicMaterial || n instanceof THREE.ParticleBasicMaterial)) {
+            y.fogColor.value.setHex(u.color.hex); if (u instanceof THREE.Fog) {
+              y.fogNear.value =
+                u.near; y.fogFar.value = u.far
+            } else if (u instanceof THREE.FogExp2) y.fogDensity.value = u.density
+          } if (n instanceof THREE.MeshPhongMaterial || n instanceof THREE.MeshLambertMaterial) { this.setupLights(v, w); w = this.lights; y.enableLighting.value = w.directional.length + w.point.length; y.ambientLightColor.value = w.ambient; y.directionalLightColor.value = w.directional.colors; y.directionalLightDirection.value = w.directional.positions; y.pointLightColor.value = w.point.colors; y.pointLightPosition.value = w.point.positions } if (n instanceof
+            THREE.MeshBasicMaterial || n instanceof THREE.MeshLambertMaterial || n instanceof THREE.MeshPhongMaterial) { y.diffuse.value.setRGB(n.color.r * n.opacity, n.color.g * n.opacity, n.color.b * n.opacity); y.opacity.value = n.opacity; y.map.texture = n.map; y.light_map.texture = n.light_map; y.env_map.texture = n.env_map; y.reflectivity.value = n.reflectivity; y.refraction_ratio.value = n.refraction_ratio; y.combine.value = n.combine; y.useRefract.value = n.env_map && n.env_map.mapping instanceof THREE.CubeRefractionMapping } if (n instanceof
+              THREE.LineBasicMaterial) { y.diffuse.value.setRGB(n.color.r * n.opacity, n.color.g * n.opacity, n.color.b * n.opacity); y.opacity.value = n.opacity } else if (n instanceof THREE.ParticleBasicMaterial) { y.psColor.value.setRGB(n.color.r * n.opacity, n.color.g * n.opacity, n.color.b * n.opacity); y.opacity.value = n.opacity; y.size.value = n.size; y.map.texture = n.map } else if (n instanceof THREE.MeshPhongMaterial) {
+                y.ambient.value.setRGB(n.ambient.r, n.ambient.g, n.ambient.b); y.specular.value.setRGB(n.specular.r, n.specular.g, n.specular.b);
+                y.shininess.value = n.shininess
+              } else if (n instanceof THREE.MeshDepthMaterial) { y.mNear.value = k.near; y.mFar.value = k.far; y.opacity.value = n.opacity } else if (n instanceof THREE.MeshNormalMaterial) y.opacity.value = n.opacity; var C, z, F; for (C in y) if (F = v.uniforms[C]) {
+                u = y[C]; z = u.type; w = u.value; if (z == "i") b.uniform1i(F, w); else if (z == "f") b.uniform1f(F, w); else if (z == "fv1") b.uniform1fv(F, w); else if (z == "fv") b.uniform3fv(F, w); else if (z == "v2") b.uniform2f(F, w.x, w.y); else if (z == "v3") b.uniform3f(F, w.x, w.y, w.z); else if (z ==
+                  "c") b.uniform3f(F, w.r, w.g, w.b); else if (z == "t") {
+                    b.uniform1i(F, w); if (u = u.texture) if (u.image instanceof Array && u.image.length == 6) {
+                      u = u; w = w; if (u.image.length == 6) {
+                        if (!u.image.__webGLTextureCube && !u.image.__cubeMapInitialized && u.image.loadCount == 6) {
+                          u.image.__webGLTextureCube = b.createTexture(); b.bindTexture(b.TEXTURE_CUBE_MAP, u.image.__webGLTextureCube); b.texParameteri(b.TEXTURE_CUBE_MAP, b.TEXTURE_WRAP_S, b.CLAMP_TO_EDGE); b.texParameteri(b.TEXTURE_CUBE_MAP, b.TEXTURE_WRAP_T, b.CLAMP_TO_EDGE); b.texParameteri(b.TEXTURE_CUBE_MAP,
+                            b.TEXTURE_MAG_FILTER, b.LINEAR); b.texParameteri(b.TEXTURE_CUBE_MAP, b.TEXTURE_MIN_FILTER, b.LINEAR_MIPMAP_LINEAR); for (z = 0; z < 6; ++z)b.texImage2D(b.TEXTURE_CUBE_MAP_POSITIVE_X + z, 0, b.RGBA, b.RGBA, b.UNSIGNED_BYTE, u.image[z]); b.generateMipmap(b.TEXTURE_CUBE_MAP); b.bindTexture(b.TEXTURE_CUBE_MAP, null); u.image.__cubeMapInitialized = true
+                        } b.activeTexture(b.TEXTURE0 + w); b.bindTexture(b.TEXTURE_CUBE_MAP, u.image.__webGLTextureCube)
+                      }
+                    } else {
+                      u = u; w = w; if (!u.__webGLTexture && u.image.loaded) {
+                        u.__webGLTexture = b.createTexture();
+                        b.bindTexture(b.TEXTURE_2D, u.__webGLTexture); b.texImage2D(b.TEXTURE_2D, 0, b.RGBA, b.RGBA, b.UNSIGNED_BYTE, u.image); b.texParameteri(b.TEXTURE_2D, b.TEXTURE_WRAP_S, f(u.wrap_s)); b.texParameteri(b.TEXTURE_2D, b.TEXTURE_WRAP_T, f(u.wrap_t)); b.texParameteri(b.TEXTURE_2D, b.TEXTURE_MAG_FILTER, f(u.mag_filter)); b.texParameteri(b.TEXTURE_2D, b.TEXTURE_MIN_FILTER, f(u.min_filter)); b.generateMipmap(b.TEXTURE_2D); b.bindTexture(b.TEXTURE_2D, null)
+                      } b.activeTexture(b.TEXTURE0 + w); b.bindTexture(b.TEXTURE_2D, u.__webGLTexture)
                     }
-                  } else {
-                    u = u; w = w; if (!u.__webGLTexture && u.image.loaded) {
-                    u.__webGLTexture = b.createTexture();
-                      b.bindTexture(b.TEXTURE_2D, u.__webGLTexture); b.texImage2D(b.TEXTURE_2D, 0, b.RGBA, b.RGBA, b.UNSIGNED_BYTE, u.image); b.texParameteri(b.TEXTURE_2D, b.TEXTURE_WRAP_S, f(u.wrap_s)); b.texParameteri(b.TEXTURE_2D, b.TEXTURE_WRAP_T, f(u.wrap_t)); b.texParameteri(b.TEXTURE_2D, b.TEXTURE_MAG_FILTER, f(u.mag_filter)); b.texParameteri(b.TEXTURE_2D, b.TEXTURE_MIN_FILTER, f(u.min_filter)); b.generateMipmap(b.TEXTURE_2D); b.bindTexture(b.TEXTURE_2D, null)
-                    } b.activeTexture(b.TEXTURE0 + w); b.bindTexture(b.TEXTURE_2D, u.__webGLTexture)
                   }
-                }
-            } b.uniformMatrix4fv(D.modelViewMatrix,
-              false, o._modelViewMatrixArray); b.uniformMatrix3fv(D.normalMatrix, false, o._normalMatrixArray); if (n instanceof THREE.MeshShaderMaterial || n instanceof THREE.MeshPhongMaterial || n.env_map) b.uniform3f(D.cameraPosition, k.position.x, k.position.y, k.position.z); if (n instanceof THREE.MeshShaderMaterial || n.env_map) b.uniformMatrix4fv(D.objectMatrix, false, o._objectMatrixArray); if (n instanceof THREE.MeshPhongMaterial || n instanceof THREE.MeshLambertMaterial || n instanceof THREE.MeshShaderMaterial) b.uniformMatrix4fv(D.viewMatrix,
-                false, E); return v
+              } b.uniformMatrix4fv(D.modelViewMatrix,
+                false, o._modelViewMatrixArray); b.uniformMatrix3fv(D.normalMatrix, false, o._normalMatrixArray); if (n instanceof THREE.MeshShaderMaterial || n instanceof THREE.MeshPhongMaterial || n.env_map) b.uniform3f(D.cameraPosition, k.position.x, k.position.y, k.position.z); if (n instanceof THREE.MeshShaderMaterial || n.env_map) b.uniformMatrix4fv(D.objectMatrix, false, o._objectMatrixArray); if (n instanceof THREE.MeshPhongMaterial || n instanceof THREE.MeshLambertMaterial || n instanceof THREE.MeshShaderMaterial) b.uniformMatrix4fv(D.viewMatrix,
+                  false, E); return v
         }; this.renderBuffer = function (k, w, u, n, o, v) {
           k = this.setProgram(k, w, u, n, v).attributes; b.bindBuffer(b.ARRAY_BUFFER, o.__webGLVertexBuffer); b.vertexAttribPointer(k.position, 3, b.FLOAT, false, 0, 0); b.enableVertexAttribArray(k.position); if (k.color >= 0) { b.bindBuffer(b.ARRAY_BUFFER, o.__webGLColorBuffer); b.vertexAttribPointer(k.color, 3, b.FLOAT, false, 0, 0); b.enableVertexAttribArray(k.color) } if (k.normal >= 0) {
             b.bindBuffer(b.ARRAY_BUFFER, o.__webGLNormalBuffer); b.vertexAttribPointer(k.normal, 3, b.FLOAT,
@@ -570,34 +570,34 @@ THREE.WebGLRenderer = function (a) {
           }
         }; this.render = function (k, w, u, n) {
           var o, v, D, y,
-          C = k.lights, z = k.fog; w.autoUpdateMatrix && w.updateMatrix(); w.matrix.flattenToArray(E); w.projectionMatrix.flattenToArray(B); m.multiply(w.projectionMatrix, w.matrix); q[0].set(m.n41 - m.n11, m.n42 - m.n12, m.n43 - m.n13, m.n44 - m.n14); q[1].set(m.n41 + m.n11, m.n42 + m.n12, m.n43 + m.n13, m.n44 + m.n14); q[2].set(m.n41 + m.n21, m.n42 + m.n22, m.n43 + m.n23, m.n44 + m.n24); q[3].set(m.n41 - m.n21, m.n42 - m.n22, m.n43 - m.n23, m.n44 - m.n24); q[4].set(m.n41 - m.n31, m.n42 - m.n32, m.n43 - m.n33, m.n44 - m.n34); q[5].set(m.n41 + m.n31, m.n42 + m.n32, m.n43 + m.n33, m.n44 +
-            m.n34); for (o = 0; o < 5; o++) { y = q[o]; y.divideScalar(Math.sqrt(y.x * y.x + y.y * y.y + y.z * y.z)) } this.initWebGLObjects(k, w); n = n !== undefined ? n : true; if (u && !u.__webGLFramebuffer) {
-            u.__webGLFramebuffer = b.createFramebuffer(); u.__webGLRenderbuffer = b.createRenderbuffer(); u.__webGLTexture = b.createTexture(); b.bindRenderbuffer(b.RENDERBUFFER, u.__webGLRenderbuffer); b.renderbufferStorage(b.RENDERBUFFER, b.DEPTH_COMPONENT16, u.width, u.height); b.bindTexture(b.TEXTURE_2D, u.__webGLTexture); b.texParameteri(b.TEXTURE_2D, b.TEXTURE_WRAP_S,
-              f(u.wrap_s)); b.texParameteri(b.TEXTURE_2D, b.TEXTURE_WRAP_T, f(u.wrap_t)); b.texParameteri(b.TEXTURE_2D, b.TEXTURE_MAG_FILTER, f(u.mag_filter)); b.texParameteri(b.TEXTURE_2D, b.TEXTURE_MIN_FILTER, f(u.min_filter)); b.texImage2D(b.TEXTURE_2D, 0, f(u.format), u.width, u.height, 0, f(u.format), f(u.type), null); b.bindFramebuffer(b.FRAMEBUFFER, u.__webGLFramebuffer); b.framebufferTexture2D(b.FRAMEBUFFER, b.COLOR_ATTACHMENT0, b.TEXTURE_2D, u.__webGLTexture, 0); b.framebufferRenderbuffer(b.FRAMEBUFFER, b.DEPTH_ATTACHMENT, b.RENDERBUFFER,
-                u.__webGLRenderbuffer); b.bindTexture(b.TEXTURE_2D, null); b.bindRenderbuffer(b.RENDERBUFFER, null); b.bindFramebuffer(b.FRAMEBUFFER, null)
-            } if (u) { o = u.__webGLFramebuffer; y = u.width; D = u.height } else { o = null; y = h.width; D = h.height } if (o != l) { b.bindFramebuffer(b.FRAMEBUFFER, o); b.viewport(0, 0, y, D); n && b.clear(b.COLOR_BUFFER_BIT | b.DEPTH_BUFFER_BIT); l = o } this.autoClear && this.clear(); o = k.__webGLObjects.length; for (n = 0; n < o; n++) {
-              D = k.__webGLObjects[n]; y = D.object; if (v = y.visible) {
-                if (!(v = !(y instanceof THREE.Mesh))) a: {
-                  v = void 0;
-                  for (var F = y.matrix, J = -y.geometry.boundingSphere.radius * Math.max(y.scale.x, Math.max(y.scale.y, y.scale.z)), M = 0; M < 6; M++) { v = q[M].x * F.n14 + q[M].y * F.n24 + q[M].z * F.n34 + q[M].w; if (v <= J) { v = false; break a } } v = true
-                } v = v
-              } if (v) { if (y.autoUpdateMatrix) { y.updateMatrix(); y.matrix.flattenToArray(y._objectMatrixArray) } this.setupMatrices(y, w); D.render = true } else D.render = false
-            } v = k.__webGLObjectsImmediate.length; for (n = 0; n < v; n++) {
-              y = k.__webGLObjectsImmediate[n].object; if (y.visible) {
-                if (y.autoUpdateMatrix) { y.updateMatrix(); y.matrix.flattenToArray(y._objectMatrixArray) } this.setupMatrices(y,
-                  w)
-              }
-            } for (n = 0; n < o; n++) { D = k.__webGLObjects[n]; if (D.render) { y = D.object; D = D.buffer; d(y); this.renderPass(w, C, z, y, D, THREE.NormalBlending, false) } } for (n = 0; n < v; n++) { y = k.__webGLObjectsImmediate[n].object; if (y.visible) { d(y); this.renderPassImmediate(w, C, z, y, THREE.NormalBlending, false) } } for (n = 0; n < o; n++) {
-              D = k.__webGLObjects[n]; if (D.render) {
-                y = D.object; D = D.buffer; d(y); this.renderPass(w, C, z, y, D, THREE.AdditiveBlending, false); this.renderPass(w, C, z, y, D, THREE.SubtractiveBlending, false); this.renderPass(w, C, z, y, D, THREE.AdditiveBlending,
-                  true); this.renderPass(w, C, z, y, D, THREE.SubtractiveBlending, true); this.renderPass(w, C, z, y, D, THREE.NormalBlending, true); this.renderPass(w, C, z, y, D, THREE.BillboardBlending, false)
-              }
-            } for (n = 0; n < v; n++) { y = k.__webGLObjectsImmediate[n].object; if (y.visible) { d(y); this.renderPassImmediate(w, C, z, y, THREE.NormalBlending, true) } } if (u && u.min_filter !== THREE.NearestFilter && u.min_filter !== THREE.LinearFilter) { b.bindTexture(b.TEXTURE_2D, u.__webGLTexture); b.generateMipmap(b.TEXTURE_2D); b.bindTexture(b.TEXTURE_2D, null) }
+            C = k.lights, z = k.fog; w.autoUpdateMatrix && w.updateMatrix(); w.matrix.flattenToArray(E); w.projectionMatrix.flattenToArray(B); m.multiply(w.projectionMatrix, w.matrix); q[0].set(m.n41 - m.n11, m.n42 - m.n12, m.n43 - m.n13, m.n44 - m.n14); q[1].set(m.n41 + m.n11, m.n42 + m.n12, m.n43 + m.n13, m.n44 + m.n14); q[2].set(m.n41 + m.n21, m.n42 + m.n22, m.n43 + m.n23, m.n44 + m.n24); q[3].set(m.n41 - m.n21, m.n42 - m.n22, m.n43 - m.n23, m.n44 - m.n24); q[4].set(m.n41 - m.n31, m.n42 - m.n32, m.n43 - m.n33, m.n44 - m.n34); q[5].set(m.n41 + m.n31, m.n42 + m.n32, m.n43 + m.n33, m.n44 +
+              m.n34); for (o = 0; o < 5; o++) { y = q[o]; y.divideScalar(Math.sqrt(y.x * y.x + y.y * y.y + y.z * y.z)) } this.initWebGLObjects(k, w); n = n !== undefined ? n : true; if (u && !u.__webGLFramebuffer) {
+                u.__webGLFramebuffer = b.createFramebuffer(); u.__webGLRenderbuffer = b.createRenderbuffer(); u.__webGLTexture = b.createTexture(); b.bindRenderbuffer(b.RENDERBUFFER, u.__webGLRenderbuffer); b.renderbufferStorage(b.RENDERBUFFER, b.DEPTH_COMPONENT16, u.width, u.height); b.bindTexture(b.TEXTURE_2D, u.__webGLTexture); b.texParameteri(b.TEXTURE_2D, b.TEXTURE_WRAP_S,
+                  f(u.wrap_s)); b.texParameteri(b.TEXTURE_2D, b.TEXTURE_WRAP_T, f(u.wrap_t)); b.texParameteri(b.TEXTURE_2D, b.TEXTURE_MAG_FILTER, f(u.mag_filter)); b.texParameteri(b.TEXTURE_2D, b.TEXTURE_MIN_FILTER, f(u.min_filter)); b.texImage2D(b.TEXTURE_2D, 0, f(u.format), u.width, u.height, 0, f(u.format), f(u.type), null); b.bindFramebuffer(b.FRAMEBUFFER, u.__webGLFramebuffer); b.framebufferTexture2D(b.FRAMEBUFFER, b.COLOR_ATTACHMENT0, b.TEXTURE_2D, u.__webGLTexture, 0); b.framebufferRenderbuffer(b.FRAMEBUFFER, b.DEPTH_ATTACHMENT, b.RENDERBUFFER,
+                    u.__webGLRenderbuffer); b.bindTexture(b.TEXTURE_2D, null); b.bindRenderbuffer(b.RENDERBUFFER, null); b.bindFramebuffer(b.FRAMEBUFFER, null)
+              } if (u) { o = u.__webGLFramebuffer; y = u.width; D = u.height } else { o = null; y = h.width; D = h.height } if (o != l) { b.bindFramebuffer(b.FRAMEBUFFER, o); b.viewport(0, 0, y, D); n && b.clear(b.COLOR_BUFFER_BIT | b.DEPTH_BUFFER_BIT); l = o } this.autoClear && this.clear(); o = k.__webGLObjects.length; for (n = 0; n < o; n++) {
+                D = k.__webGLObjects[n]; y = D.object; if (v = y.visible) {
+                  if (!(v = !(y instanceof THREE.Mesh))) a: {
+                    v = void 0;
+                    for (var F = y.matrix, J = -y.geometry.boundingSphere.radius * Math.max(y.scale.x, Math.max(y.scale.y, y.scale.z)), M = 0; M < 6; M++) { v = q[M].x * F.n14 + q[M].y * F.n24 + q[M].z * F.n34 + q[M].w; if (v <= J) { v = false; break a } } v = true
+                  } v = v
+                } if (v) { if (y.autoUpdateMatrix) { y.updateMatrix(); y.matrix.flattenToArray(y._objectMatrixArray) } this.setupMatrices(y, w); D.render = true } else D.render = false
+              } v = k.__webGLObjectsImmediate.length; for (n = 0; n < v; n++) {
+                y = k.__webGLObjectsImmediate[n].object; if (y.visible) {
+                  if (y.autoUpdateMatrix) { y.updateMatrix(); y.matrix.flattenToArray(y._objectMatrixArray) } this.setupMatrices(y,
+                    w)
+                }
+              } for (n = 0; n < o; n++) { D = k.__webGLObjects[n]; if (D.render) { y = D.object; D = D.buffer; d(y); this.renderPass(w, C, z, y, D, THREE.NormalBlending, false) } } for (n = 0; n < v; n++) { y = k.__webGLObjectsImmediate[n].object; if (y.visible) { d(y); this.renderPassImmediate(w, C, z, y, THREE.NormalBlending, false) } } for (n = 0; n < o; n++) {
+                D = k.__webGLObjects[n]; if (D.render) {
+                  y = D.object; D = D.buffer; d(y); this.renderPass(w, C, z, y, D, THREE.AdditiveBlending, false); this.renderPass(w, C, z, y, D, THREE.SubtractiveBlending, false); this.renderPass(w, C, z, y, D, THREE.AdditiveBlending,
+                    true); this.renderPass(w, C, z, y, D, THREE.SubtractiveBlending, true); this.renderPass(w, C, z, y, D, THREE.NormalBlending, true); this.renderPass(w, C, z, y, D, THREE.BillboardBlending, false)
+                }
+              } for (n = 0; n < v; n++) { y = k.__webGLObjectsImmediate[n].object; if (y.visible) { d(y); this.renderPassImmediate(w, C, z, y, THREE.NormalBlending, true) } } if (u && u.min_filter !== THREE.NearestFilter && u.min_filter !== THREE.LinearFilter) { b.bindTexture(b.TEXTURE_2D, u.__webGLTexture); b.generateMipmap(b.TEXTURE_2D); b.bindTexture(b.TEXTURE_2D, null) }
         }; this.initWebGLObjects =
           function (k, w) {
             function u(J, M, Q, S) { if (J[M] == undefined) { k.__webGLObjects.push({ buffer: Q, object: S }); J[M] = 1 } } function n(J, M, Q) { if (J[M] == undefined) { k.__webGLObjectsImmediate.push({ object: Q }); J[M] = 1 } } var o, v, D, y, C, z, F; if (!k.__webGLObjects) { k.__webGLObjects = []; k.__webGLObjectsMap = {}; k.__webGLObjectsImmediate = [] } o = 0; for (v = k.objects.length; o < v; o++) {
               D = k.objects[o]; C = D.geometry; if (k.__webGLObjectsMap[D.id] == undefined) {
-              k.__webGLObjectsMap[D.id] = {}; D._modelViewMatrix = new THREE.Matrix4; D._normalMatrixArray = new Float32Array(9);
+                k.__webGLObjectsMap[D.id] = {}; D._modelViewMatrix = new THREE.Matrix4; D._normalMatrixArray = new Float32Array(9);
                 D._modelViewMatrixArray = new Float32Array(16); D._objectMatrixArray = new Float32Array(16); D.matrix.flattenToArray(D._objectMatrixArray)
               } F = k.__webGLObjectsMap[D.id]; if (D instanceof THREE.Mesh) {
                 for (y in C.geometryChunks) {
@@ -616,7 +616,7 @@ THREE.WebGLRenderer = function (a) {
             }
           }; this.setupMatrices = function (k, w) { k._modelViewMatrix.multiplyToArray(w.matrix, k.matrix, k._modelViewMatrixArray); k._normalMatrix = THREE.Matrix4.makeInvert3x3(k._modelViewMatrix).transposeIntoArray(k._normalMatrixArray) }; this.setDepthTest = function (k) { k ? b.enable(b.DEPTH_TEST) : b.disable(b.DEPTH_TEST) }; this.setFaceCulling = function (k, w) {
             if (k) {
-            !w || w == "ccw" ? b.frontFace(b.CCW) : b.frontFace(b.CW); if (k == "back") b.cullFace(b.BACK); else k == "front" ? b.cullFace(b.FRONT) : b.cullFace(b.FRONT_AND_BACK);
+              !w || w == "ccw" ? b.frontFace(b.CCW) : b.frontFace(b.CW); if (k == "back") b.cullFace(b.BACK); else k == "front" ? b.cullFace(b.FRONT) : b.cullFace(b.FRONT_AND_BACK);
               b.enable(b.CULL_FACE)
             } else b.disable(b.CULL_FACE)
           }; this.supportsVertexTextures = function () { return b.getParameter(b.MAX_VERTEX_TEXTURE_IMAGE_UNITS) > 0 }
@@ -784,8 +784,8 @@ var Sphere = function (a, c, d) {
   } this.computeCentroids(); this.computeFaceNormals(); this.computeVertexNormals(); this.sortFacesByMaterial(); this.boundingSphere = { radius: a }
 }; Sphere.prototype = new THREE.Geometry; Sphere.prototype.constructor = Sphere;
 var Torus = function (a, c, d, e) {
-this.radius = a || 100; this.tube = c || 40; this.segmentsR = d || 8; this.segmentsT = e || 6; a = []; THREE.Geometry.call(this); for (c = 0; c <= this.segmentsR; ++c)for (d = 0; d <= this.segmentsT; ++d) { e = d / this.segmentsT * 2 * Math.PI; var g = c / this.segmentsR * 2 * Math.PI; this.vertices.push(new THREE.Vertex(new THREE.Vector3((this.radius + this.tube * Math.cos(g)) * Math.cos(e), (this.radius + this.tube * Math.cos(g)) * Math.sin(e), this.tube * Math.sin(g)))); a.push([d / this.segmentsT, 1 - c / this.segmentsR]) } for (c = 1; c <= this.segmentsR; ++c)for (d =
-  1; d <= this.segmentsT; ++d) { e = (this.segmentsT + 1) * c + d; g = (this.segmentsT + 1) * c + d - 1; var f = (this.segmentsT + 1) * (c - 1) + d - 1, h = (this.segmentsT + 1) * (c - 1) + d; this.faces.push(new THREE.Face4(e, g, f, h)); this.uvs.push([new THREE.UV(a[e][0], a[e][1]), new THREE.UV(a[g][0], a[g][1]), new THREE.UV(a[f][0], a[f][1]), new THREE.UV(a[h][0], a[h][1])]) } delete a; this.computeCentroids(); this.computeFaceNormals(); this.computeVertexNormals(); this.sortFacesByMaterial()
+  this.radius = a || 100; this.tube = c || 40; this.segmentsR = d || 8; this.segmentsT = e || 6; a = []; THREE.Geometry.call(this); for (c = 0; c <= this.segmentsR; ++c)for (d = 0; d <= this.segmentsT; ++d) { e = d / this.segmentsT * 2 * Math.PI; var g = c / this.segmentsR * 2 * Math.PI; this.vertices.push(new THREE.Vertex(new THREE.Vector3((this.radius + this.tube * Math.cos(g)) * Math.cos(e), (this.radius + this.tube * Math.cos(g)) * Math.sin(e), this.tube * Math.sin(g)))); a.push([d / this.segmentsT, 1 - c / this.segmentsR]) } for (c = 1; c <= this.segmentsR; ++c)for (d =
+    1; d <= this.segmentsT; ++d) { e = (this.segmentsT + 1) * c + d; g = (this.segmentsT + 1) * c + d - 1; var f = (this.segmentsT + 1) * (c - 1) + d - 1, h = (this.segmentsT + 1) * (c - 1) + d; this.faces.push(new THREE.Face4(e, g, f, h)); this.uvs.push([new THREE.UV(a[e][0], a[e][1]), new THREE.UV(a[g][0], a[g][1]), new THREE.UV(a[f][0], a[f][1]), new THREE.UV(a[h][0], a[h][1])]) } delete a; this.computeCentroids(); this.computeFaceNormals(); this.computeVertexNormals(); this.sortFacesByMaterial()
 }; Torus.prototype = new THREE.Geometry; Torus.prototype.constructor = Torus;
 var Icosahedron = function (a) {
   function c(A, q, m) { var B = Math.sqrt(A * A + q * q + m * m); return g.vertices.push(new THREE.Vertex(new THREE.Vector3(A / B, q / B, m / B))) - 1 } function d(A, q, m, B) { B.faces.push(new THREE.Face3(A, q, m)) } function e(A, q) { var m = g.vertices[A].position, B = g.vertices[q].position; return c((m.x + B.x) / 2, (m.y + B.y) / 2, (m.z + B.z) / 2) } var g = this, f = new THREE.Geometry, h; this.subdivisions = a || 0; THREE.Geometry.call(this); a = (1 + Math.sqrt(5)) / 2; c(-1, a, 0); c(1, a, 0); c(-1, -a, 0); c(1, -a, 0); c(0, -1, a); c(0, 1, a); c(0, -1, -a); c(0,
@@ -806,15 +806,15 @@ function LathedObject(a, c, d) {
 } LathedObject.prototype = new THREE.Geometry; LathedObject.prototype.constructor = LathedObject; if (!window.Int32Array) { window.Int32Array = Array; window.Float32Array = Array }
 THREE.MarchingCubes = function (a, c) {
   THREE.Object3D.call(this); this.materials = c instanceof Array ? c : [c]; this.init = function (d) {
-  this.isolation = 80; this.size = d; this.size2 = this.size * this.size; this.size3 = this.size2 * this.size; this.halfsize = this.size / 2; this.delta = 2 / this.size; this.yd = this.size; this.zd = this.size2; this.field = new Float32Array(this.size3); this.normal_cache = new Float32Array(this.size3 * 3); this.vlist = new Float32Array(36); this.nlist = new Float32Array(36); this.firstDraw = true; this.maxCount = 4096; this.count =
-    0; this.hasNormal = this.hasPos = false; this.positionArray = new Float32Array(this.maxCount * 3); this.normalArray = new Float32Array(this.maxCount * 3)
+    this.isolation = 80; this.size = d; this.size2 = this.size * this.size; this.size3 = this.size2 * this.size; this.halfsize = this.size / 2; this.delta = 2 / this.size; this.yd = this.size; this.zd = this.size2; this.field = new Float32Array(this.size3); this.normal_cache = new Float32Array(this.size3 * 3); this.vlist = new Float32Array(36); this.nlist = new Float32Array(36); this.firstDraw = true; this.maxCount = 4096; this.count =
+      0; this.hasNormal = this.hasPos = false; this.positionArray = new Float32Array(this.maxCount * 3); this.normalArray = new Float32Array(this.maxCount * 3)
   }; this.lerp = function (d, e, g) { return d + (e - d) * g }; this.VIntX = function (d, e, g, f, h, b, j, l, p, A) { h = (h - p) / (A - p); p = this.normal_cache; e[f] = b + h * this.delta; e[f + 1] = j; e[f + 2] = l; g[f] = this.lerp(p[d], p[d + 3], h); g[f + 1] = this.lerp(p[d + 1], p[d + 4], h); g[f + 2] = this.lerp(p[d + 2], p[d + 5], h) }; this.VIntY = function (d, e, g, f, h, b, j, l, p, A) {
     h = (h - p) / (A - p); p = this.normal_cache; e[f] = b; e[f + 1] = j + h * this.delta; e[f +
       2] = l; e = d + this.yd * 3; g[f] = this.lerp(p[d], p[e], h); g[f + 1] = this.lerp(p[d + 1], p[e + 1], h); g[f + 2] = this.lerp(p[d + 2], p[e + 2], h)
   }; this.VIntZ = function (d, e, g, f, h, b, j, l, p, A) { h = (h - p) / (A - p); p = this.normal_cache; e[f] = b; e[f + 1] = j; e[f + 2] = l + h * this.delta; e = d + this.zd * 3; g[f] = this.lerp(p[d], p[e], h); g[f + 1] = this.lerp(p[d + 1], p[e + 1], h); g[f + 2] = this.lerp(p[d + 2], p[e + 2], h) }; this.compNorm = function (d) {
     var e = d * 3; if (this.normal_cache[e] == 0) {
-    this.normal_cache[e] = this.field[d - 1] - this.field[d + 1]; this.normal_cache[e + 1] = this.field[d - this.yd] -
-      this.field[d + this.yd]; this.normal_cache[e + 2] = this.field[d - this.zd] - this.field[d + this.zd]
+      this.normal_cache[e] = this.field[d - 1] - this.field[d + 1]; this.normal_cache[e + 1] = this.field[d - this.yd] -
+        this.field[d + this.yd]; this.normal_cache[e + 2] = this.field[d - this.zd] - this.field[d + this.zd]
     }
   }; this.polygonize = function (d, e, g, f, h, b) {
     var j = f + 1, l = f + this.yd, p = f + this.zd, A = j + this.yd, q = j + this.zd, m = f + this.yd + this.zd, B = j + this.yd + this.zd, E = 0, H = this.field[f], x = this.field[j], I = this.field[l], t = this.field[A], k = this.field[p], w = this.field[q], u = this.field[m], n = this.field[B]; if (H < h) E |= 1; if (x < h) E |= 2; if (I < h) E |= 8; if (t < h) E |= 4; if (k < h) E |= 16; if (w < h) E |= 32; if (u < h) E |= 128; if (n < h) E |= 64; var o = THREE.edgeTable[E]; if (o == 0) return 0;
@@ -834,7 +834,7 @@ THREE.MarchingCubes = function (a, c) {
       if (b > this.size - 1) b = this.size - 1; var B, E, H, x, I, t; for (A = A; A < j; A++) { p = this.size2 * A; E = A / this.size - g; I = E * E; for (E = q; E < l; E++) { H = p + this.size * E; B = E / this.size - e; t = B * B; for (B = m; B < b; B++) { x = B / this.size - d; x = f / (1.0E-6 + x * x + t + I) - h; if (x > 0) this.field[H + B] += x } } }
     }; this.addPlaneX = function (d, e) { var g, f, h, b, j, l = this.size, p = this.yd, A = this.zd, q = this.field, m = l * Math.sqrt(d / e); if (m > l) m = l; for (g = 0; g < m; g++) { f = g / l; f = f * f; b = d / (1.0E-4 + f) - e; if (b > 0) for (f = 0; f < l; f++) { j = g + f * p; for (h = 0; h < l; h++)q[A * h + j] += b } } }; this.addPlaneY = function (d, e) {
       var g,
-      f, h, b, j, l, p = this.size, A = this.yd, q = this.zd, m = this.field, B = p * Math.sqrt(d / e); if (B > p) B = p; for (f = 0; f < B; f++) { g = f / p; g = g * g; b = d / (1.0E-4 + g) - e; if (b > 0) { j = f * A; for (g = 0; g < p; g++) { l = j + g; for (h = 0; h < p; h++)m[q * h + l] += b } } }
+        f, h, b, j, l, p = this.size, A = this.yd, q = this.zd, m = this.field, B = p * Math.sqrt(d / e); if (B > p) B = p; for (f = 0; f < B; f++) { g = f / p; g = g * g; b = d / (1.0E-4 + g) - e; if (b > 0) { j = f * A; for (g = 0; g < p; g++) { l = j + g; for (h = 0; h < p; h++)m[q * h + l] += b } } }
     }; this.addPlaneZ = function (d, e) { var g, f, h, b, j, l; size = this.size; yd = this.yd; zd = this.zd; field = this.field; dist = size * Math.sqrt(d / e); if (dist > size) dist = size; for (h = 0; h < dist; h++) { g = h / size; g = g * g; b = d / (1.0E-4 + g) - e; if (b > 0) { j = zd * h; for (f = 0; f < size; f++) { l = j + f * yd; for (g = 0; g < size; g++)field[l + g] += b } } } }; this.reset = function () {
       var d;
       for (d = 0; d < this.size3; d++) { this.normal_cache[d * 3] = 0; this.field[d] = 0 }
@@ -931,14 +931,14 @@ THREE.Loader.prototype = {
     }; e.prototype = new THREE.Geometry; e.prototype.constructor = e; c(new e(d))
   }, v: function (a, c, d, e) { a.vertices.push(new THREE.Vertex(new THREE.Vector3(c, d, e))) }, f3: function (a, c, d, e, g) { a.faces.push(new THREE.Face3(c, d, e, null, a.materials[g])) }, f4: function (a, c, d, e, g, f) { a.faces.push(new THREE.Face4(c, d, e, g, null, a.materials[f])) }, f3n: function (a, c, d, e, g, f, h, b, j) {
     f =
-    a.materials[f]; var l = c[b * 3], p = c[b * 3 + 1]; b = c[b * 3 + 2]; var A = c[j * 3], q = c[j * 3 + 1]; j = c[j * 3 + 2]; a.faces.push(new THREE.Face3(d, e, g, [new THREE.Vector3(c[h * 3], c[h * 3 + 1], c[h * 3 + 2]), new THREE.Vector3(l, p, b), new THREE.Vector3(A, q, j)], f))
+      a.materials[f]; var l = c[b * 3], p = c[b * 3 + 1]; b = c[b * 3 + 2]; var A = c[j * 3], q = c[j * 3 + 1]; j = c[j * 3 + 2]; a.faces.push(new THREE.Face3(d, e, g, [new THREE.Vector3(c[h * 3], c[h * 3 + 1], c[h * 3 + 2]), new THREE.Vector3(l, p, b), new THREE.Vector3(A, q, j)], f))
   }, f4n: function (a, c, d, e, g, f, h, b, j, l, p) {
     h = a.materials[h]; var A = c[j * 3], q = c[j * 3 + 1]; j = c[j * 3 + 2]; var m = c[l * 3], B = c[l * 3 + 1]; l = c[l * 3 + 2]; var E = c[p * 3], H = c[p * 3 + 1]; p = c[p * 3 + 2]; a.faces.push(new THREE.Face4(d, e, g, f, [new THREE.Vector3(c[b * 3], c[b * 3 + 1], c[b * 3 + 2]), new THREE.Vector3(A, q, j), new THREE.Vector3(m,
       B, l), new THREE.Vector3(E, H, p)], h))
   }, uv3: function (a, c, d, e, g, f, h) { var b = []; b.push(new THREE.UV(c, d)); b.push(new THREE.UV(e, g)); b.push(new THREE.UV(f, h)); a.push(b) }, uv4: function (a, c, d, e, g, f, h, b, j) { var l = []; l.push(new THREE.UV(c, d)); l.push(new THREE.UV(e, g)); l.push(new THREE.UV(f, h)); l.push(new THREE.UV(b, j)); a.push(l) }, init_materials: function (a, c, d) { a.materials = []; for (var e = 0; e < c.length; ++e)a.materials[e] = [THREE.Loader.prototype.createMaterial(c[e], d)] }, createMaterial: function (a, c) {
     function d(h) {
       h = Math.log(h) /
-      Math.LN2; return Math.floor(h) == h
+        Math.LN2; return Math.floor(h) == h
     } function e(h, b) { var j = new Image; j.onload = function () { if (!d(this.width) || !d(this.height)) { var l = Math.pow(2, Math.round(Math.log(this.width) / Math.LN2)), p = Math.pow(2, Math.round(Math.log(this.height) / Math.LN2)); h.image.width = l; h.image.height = p; h.image.getContext("2d").drawImage(this, 0, 0, l, p) } else h.image = this; h.image.loaded = 1 }; j.src = b } var g, f; if (a.map_diffuse && c) {
       f = document.createElement("canvas"); g = new THREE.MeshLambertMaterial({ map: new THREE.Texture(f) }); e(g.map, c + "/" +
         a.map_diffuse)
