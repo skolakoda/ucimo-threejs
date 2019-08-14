@@ -1,10 +1,8 @@
-/* global Plane, Cube, ImageUtils, SceneUtils */
+/* global Plane, Cube */
 const SCREEN_WIDTH = window.innerWidth
 const SCREEN_HEIGHT = window.innerHeight
 const FLOOR = -1000
 
-const render_gl = 1
-let has_gl = 0
 let r = 0
 
 const container = document.createElement('div')
@@ -24,18 +22,16 @@ scene.fog = new THREE.Fog(0x34583e, 0, 10000)
 const ambient = new THREE.AmbientLight(0xffffff)
 scene.addLight(ambient)
 
-const path = 'textures/'
-const format = '.jpg'
-const urls = [
-  path + 'px' + format, path + 'nx' + format,
-  path + 'py' + format, path + 'ny' + format,
-  path + 'pz' + format, path + 'nz' + format
-]
-
-const images = ImageUtils.loadArray(urls)
-const textureCube = new THREE.Texture(images)
-
-SceneUtils.addPanoramaCubeWebGL(scene, 10000, textureCube)
+// const path = 'textures/'
+// const format = '.jpg'
+// const urls = [
+//   path + 'px' + format, path + 'nx' + format,
+//   path + 'py' + format, path + 'ny' + format,
+//   path + 'pz' + format, path + 'nz' + format
+// ]
+// const images = ImageUtils.loadArray(urls)
+// const textureCube = new THREE.Texture(images)
+// SceneUtils.addPanoramaCubeWebGL(scene, 10000, textureCube)
 
 const cube = new Cube(1, 1, 1, 1, 1)
 const cubeMesh = addMesh(cube, 1, 0, FLOOR, 0, 0, 0, 0, new THREE.MeshLambertMaterial({ color: 0xFF3333 }))
@@ -57,13 +53,10 @@ const webglRenderer = new THREE.WebGLRenderer({ scene, clearColor: 0x34583e, cle
 webglRenderer.setFaceCulling(0)
 webglRenderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT)
 container.appendChild(webglRenderer.domElement)
-has_gl = 1
 
-// terrain
 const img = new Image()
 img.onload = function () {
   const data = getHeightData(img)
-  // plane
   const plane = new Plane(100, 100, 127, 127)
 
   for (let i = 0, l = plane.vertices.length; i < l; i++)
@@ -98,8 +91,7 @@ function getHeightData(img) {
   const size = 128 * 128, data = new Float32Array(size)
   context.drawImage(img, 0, 0)
 
-  for (let i = 0; i < size; i++)
-    data[i] = 0
+  for (let i = 0; i < size; i++) data[i] = 0
 
   const imgd = context.getImageData(0, 0, 128, 128)
   const pix = imgd.data
@@ -109,12 +101,21 @@ function getHeightData(img) {
     const all = pix[i] + pix[i + 1] + pix[i + 2]
     data[j++] = all / 30
   }
-
   return data
 }
 
 function getWaterMaterial() {
-  const waterMaterial = new THREE.MeshPhongMaterial({ map: new THREE.Texture(null, THREE.UVMapping, THREE.RepeatWrapping, THREE.RepeatWrapping), ambient: 0x666666, specular: 0xffffff, env_map: textureCube, combine: THREE.Mix, reflectivity: 0.15, opacity: 0.8, shininess: 10, shading: THREE.SmoothShading })
+  const waterMaterial = new THREE.MeshPhongMaterial({
+    map: new THREE.Texture(null, THREE.UVMapping, THREE.RepeatWrapping, THREE.RepeatWrapping),
+    ambient: 0x666666,
+    specular: 0xffffff,
+    // env_map: textureCube,
+    combine: THREE.Mix,
+    reflectivity: 0.15,
+    opacity: 0.8,
+    shininess: 10,
+    shading: THREE.SmoothShading
+  })
 
   const img = new Image()
   waterMaterial.map.image = img
@@ -141,20 +142,13 @@ function loop() {
   const dist = 4000
   camera.position.x = dist * Math.cos(r)
   camera.position.z = dist * Math.sin(r)
-
-  cubeMesh.position.y = FLOOR + 1500 - (Math.sin(r * 5) * 1000)
-  cubeMesh.position.x = 500 - (Math.cos(r * 5) * 1000)
-  cubeMesh.position.z = 500 - (Math.sin(r * 5) * 1000)
-
-  r += 0.005
-
-  if (render_gl && has_gl)
-    webglRenderer.render(scene, camera)
+  r += 0.001
+  webglRenderer.render(scene, camera)
 }
 
-function animate() {
+/* INIT */
+
+void function animate() {
   requestAnimationFrame(animate)
   loop()
-}
-
-animate()
+}()
