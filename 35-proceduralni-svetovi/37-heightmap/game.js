@@ -19,20 +19,19 @@ renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT)
 document.body.appendChild(renderer.domElement)
 
 function getHeightData(img, size = 128) {
+  const heightOffset = 10
   const canvas = document.createElement('canvas')
   canvas.width = size
   canvas.height = size
   const context = canvas.getContext('2d')
   const data = new Float32Array(size * size)
   context.drawImage(img, 0, 0)
-
   const pixel = context.getImageData(0, 0, size, size)
-  const pix = pixel.data
 
-  let j = 0 // i je kvadriran
-  for (let i = 0, n = pix.length; i < n; i += (4)) {
-    const all = pix[i] + pix[i + 1] + pix[i + 2]
-    data[j++] = all / 30
+  let j = 0
+  for (let i = 0; i < pixel.data.length; i += 4) { // indices are r,g,b,a
+    const yValue = pixel.data[i] / heightOffset
+    data[j++] = yValue
   }
   return data
 }
