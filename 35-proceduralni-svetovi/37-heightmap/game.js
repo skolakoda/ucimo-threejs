@@ -11,9 +11,8 @@ camera.position.y = FLOOR + 2750
 const scene = new THREE.Scene()
 scene.fog = new THREE.Fog(0x34583e, 0, 10000)
 
-// LIGHTS
-const ambient = new THREE.AmbientLight(0xffffff)
-scene.addLight(ambient)
+const light = new THREE.AmbientLight(0xffffff)
+scene.addLight(light)
 
 const renderer = new THREE.WebGLRenderer({ scene, clearColor: 0x34583e, clearAlpha: 0.5 })
 renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT)
