@@ -1,13 +1,10 @@
-/** KONFIG **/
-
 const scale = 0.1
-const ugaoKamere = 45
 
 /** INIT **/
 
 const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(
-  ugaoKamere, window.innerWidth / window.innerHeight, 1, 1000)
+  45, window.innerWidth / window.innerHeight, 1, 1000)
 camera.position.set(-6, 6, 9)
 
 const renderer = new THREE.WebGLRenderer()

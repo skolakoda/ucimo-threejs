@@ -1,14 +1,9 @@
-let misX = 0
-let misY = 0
-const polaEkranaX = window.innerWidth / 2
-const polaEkranaY = window.innerHeight / 2
-
-/** INIT **/
-
 const scene = new THREE.Scene()
 
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000)
 camera.position.z = 250
+
+const controls = new THREE.OrbitControls(camera)
 
 const ambijent = new THREE.AmbientLight(0x101030)
 scene.add(ambijent)
@@ -29,25 +24,11 @@ document.body.appendChild(renderer.domElement)
 
 /** FUNKCIJE **/
 
-const onDocumentMouseMove = event => {
-  misX = (event.clientX - polaEkranaX) / 2
-  misY = (event.clientY - polaEkranaY) / 2
-}
-
-const render = () => {
-  camera.position.x += (misX - camera.position.x) * 0.05
-  camera.position.y += (-misY - camera.position.y) * 0.05
+const update = () => {
+  requestAnimationFrame(update)
+  controls.update()
   camera.lookAt(scene.position)
   renderer.render(scene, camera)
 }
 
-const update = () => {
-  requestAnimationFrame(update)
-  render()
-}
-
-/** LOGIKA **/
-
 update()
-
-document.addEventListener('mousemove', onDocumentMouseMove)
