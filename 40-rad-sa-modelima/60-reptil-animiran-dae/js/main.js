@@ -9,12 +9,12 @@ const skaliranje = 1 // 0.004
 
 const clock = new THREE.Clock()
 
-const scena = new THREE.Scene()
-const kamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000)
-kamera.position.set(2, 2, 3)
+const scene = new THREE.Scene()
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000)
+camera.position.set(2, 2, 3)
 
-let ucitavac = new THREE.ColladaLoader()
-ucitavac.options.convertUpAxis = true
+let loader = new THREE.ColladaLoader()
+loader.options.convertUpAxis = true
 
 const renderer = new THREE.WebGLRenderer()
 renderer.setPixelRatio(window.devicePixelRatio)
@@ -42,35 +42,35 @@ function crtajResetku () {
   }
   const materijal = new THREE.LineBasicMaterial({color: 0x303030})
   const resetka = new THREE.Line(oblik, materijal, THREE.LinePieces)
-  scena.add(resetka)
+  scene.add(resetka)
 }
 
 function dodajSvetla () {
   const usmerenoSvetlo = new THREE.DirectionalLight(Math.random() * 0xffffff)
   usmerenoSvetlo.position.set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5)
   usmerenoSvetlo.position.normalize()
-  scena.add(usmerenoSvetlo)
-  scena.add(new THREE.AmbientLight(0xcccccc))
+  scene.add(usmerenoSvetlo)
+  scene.add(new THREE.AmbientLight(0xcccccc))
 }
 
 function animiraj () {
   requestAnimationFrame(animiraj)
   const brojac = Date.now() * 0.0005
-  kamera.position.x = Math.cos(brojac) * 10
-  kamera.position.y = 2
-  kamera.position.z = Math.sin(brojac) * 10
-  kamera.lookAt(scena.position)
+  camera.position.x = Math.cos(brojac) * 10
+  camera.position.y = 2
+  camera.position.z = Math.sin(brojac) * 10
+  camera.lookAt(scene.position)
   THREE.AnimationHandler.update(clock.getDelta())
-  renderer.render(scena, kamera)
+  renderer.render(scene, camera)
 }
 
 /** LOGIC **/
 
-ucitavac.load('modeli/zmaj/dragon.dae', data => {
+loader.load('modeli/zmaj/dragon.dae', data => {
   const model = data.scene
   pustiAnimaciju(model)
   model.scale.set(skaliranje, skaliranje, skaliranje)
-  scena.add(model)
+  scene.add(model)
 })
 
 crtajResetku()
@@ -81,6 +81,6 @@ animiraj()
 
 window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight)
-  kamera.aspect = window.innerWidth / window.innerHeight
-  kamera.updateProjectionMatrix()
+  camera.aspect = window.innerWidth / window.innerHeight
+  camera.updateProjectionMatrix()
 })

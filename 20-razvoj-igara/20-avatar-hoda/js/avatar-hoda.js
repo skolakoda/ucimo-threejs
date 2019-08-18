@@ -9,15 +9,15 @@ let salto = false
 const tacka_gledanja = 75 // blizina gledanja
 const casovnik = new THREE.Clock(true)
 
-const scena = new THREE.Scene()
+const scene = new THREE.Scene()
 
 // pravi marker za kameru i avatara
 const marker = new THREE.Object3D()
-scena.add(marker)
+scene.add(marker)
 
-const kamera = new THREE.PerspectiveCamera(tacka_gledanja, window.innerWidth / window.innerHeight, 1, 10000)
-kamera.position.z = 500
-marker.add(kamera)
+const camera = new THREE.PerspectiveCamera(tacka_gledanja, window.innerWidth / window.innerHeight, 1, 10000)
+camera.position.z = 500
+marker.add(camera)
 
 const renderer = new THREE.CanvasRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
@@ -55,7 +55,7 @@ function praviDrvo(x, z) {
   stablo.add(krosnja)
 
   stablo.position.set(x, -75, z)
-  scena.add(stablo)
+  scene.add(stablo)
 }
 
 function jelHoda() {
@@ -110,7 +110,7 @@ function animiraj() {
   hodaj()
   gledajPravcem()
   praviAkrobacije()
-  renderer.render(scena, kamera)
+  renderer.render(scene, camera)
 }
 
 /* POZIVANJE FUNKCIJA */
@@ -152,9 +152,9 @@ document.addEventListener('keydown', event => {
     salto = true
 
   if (event.keyCode == 65)
-    kamera.position.x += 10
+    camera.position.x += 10
   if (event.keyCode == 68)
-    kamera.position.x -= 10
+    camera.position.x -= 10
 }
 )
 

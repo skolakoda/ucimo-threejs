@@ -8,17 +8,17 @@ let polaEkranaY = window.innerHeight / 2
 
 /** INIT **/
 
-const kamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000)
-kamera.position.z = 250
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000)
+camera.position.z = 250
 
-const scena = new THREE.Scene()
+const scene = new THREE.Scene()
 
 const ambijent = new THREE.AmbientLight(0x444444)
-scena.add(ambijent)
+scene.add(ambijent)
 
 const usmerenoSvetlo = new THREE.DirectionalLight(0xffeedd)
 usmerenoSvetlo.position.set(0, 0, 1).normalize()
-scena.add(usmerenoSvetlo)
+scene.add(usmerenoSvetlo)
 
 const renderer = new THREE.WebGLRenderer()
 renderer.setPixelRatio(window.devicePixelRatio)
@@ -39,8 +39,8 @@ const onError = function (xhr) {}
 const onWindowResize = function () {
   polaEkranaX = window.innerWidth / 2
   polaEkranaY = window.innerHeight / 2
-  kamera.aspect = window.innerWidth / window.innerHeight
-  kamera.updateProjectionMatrix()
+  camera.aspect = window.innerWidth / window.innerHeight
+  camera.updateProjectionMatrix()
   renderer.setSize(window.innerWidth, window.innerHeight)
 }
 
@@ -50,10 +50,10 @@ const onDocumentMouseMove = function (event) {
 }
 
 const render = function () {
-  kamera.position.x += (misX - kamera.position.x) * 0.05
-  kamera.position.y += (-misY - kamera.position.y) * 0.05
-  kamera.lookAt(scena.position)
-  renderer.render(scena, kamera)
+  camera.position.x += (misX - camera.position.x) * 0.05
+  camera.position.y += (-misY - camera.position.y) * 0.05
+  camera.lookAt(scene.position)
+  renderer.render(scene, camera)
 }
 
 const update = function () {
@@ -68,7 +68,7 @@ const ucitavacTeksture = new THREE.MTLLoader()
 
 ucitavacModela.load('modeli/vojnik/model.obj', model => {
   model.position.y = -95
-  scena.add(model)
+  scene.add(model)
 }, onProgress, onError)
 
 ucitavacTeksture.setPath('modeli/vojnik/')

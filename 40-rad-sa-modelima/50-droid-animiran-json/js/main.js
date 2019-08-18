@@ -10,14 +10,14 @@ let ugaoKamere = 0
 
 /** INIT **/
 
-const scena = new THREE.Scene()
+const scene = new THREE.Scene()
 
-const kamera = new THREE.PerspectiveCamera(40, sirinaScene / visinaScene, 1, 1000)
-scena.add(kamera)
+const camera = new THREE.PerspectiveCamera(40, sirinaScene / visinaScene, 1, 1000)
+scene.add(camera)
 
 const svetlo = new THREE.DirectionalLight(0xffffff, 0.8)
 svetlo.position.set(1, 1, 1).normalize()
-scena.add(svetlo)
+scene.add(svetlo)
 
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(sirinaScene, visinaScene)
@@ -29,11 +29,11 @@ const materijal = new THREE.MeshPhongMaterial({
   morphTargets: true
 })
 
-const ucitavac = new THREE.JSONLoader()
-ucitavac.load('model/droid.json', function (oblik) {
+const loader = new THREE.JSONLoader()
+loader.load('model/droid.json', function (oblik) {
   igrac.mesh = new THREE.MorphAnimMesh(oblik, materijal)
   igrac.promeniPokret('stand')
-  scena.add(igrac.mesh)
+  scene.add(igrac.mesh)
 })
 
 const clock = new THREE.Clock()
@@ -53,12 +53,12 @@ function azurirajIgraca (deltaVreme) {
 
 function update () {
   azurirajIgraca(clock.getDelta())
-  kamera.position.x = 150 * Math.sin(ugaoKamere / 2 * Math.PI / 360)
-  kamera.position.y = 150 * Math.sin(ugaoKamere / 2 * Math.PI / 360)
-  kamera.position.z = 150 * Math.cos(ugaoKamere / 2 * Math.PI / 360)
-  kamera.lookAt(scena.position)
+  camera.position.x = 150 * Math.sin(ugaoKamere / 2 * Math.PI / 360)
+  camera.position.y = 150 * Math.sin(ugaoKamere / 2 * Math.PI / 360)
+  camera.position.z = 150 * Math.cos(ugaoKamere / 2 * Math.PI / 360)
+  camera.lookAt(scene.position)
   ugaoKamere++
-  renderer.render(scena, kamera)
+  renderer.render(scene, camera)
   requestAnimationFrame(update)
 }
 

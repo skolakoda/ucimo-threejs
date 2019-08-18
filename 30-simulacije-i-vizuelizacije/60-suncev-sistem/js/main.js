@@ -1,4 +1,4 @@
-var scena = new THREE.Scene();
+var scene = new THREE.Scene();
 document.body.style.backgroundColor = 'black';
 var vreme = 0,
   brzina = 1,
@@ -8,8 +8,8 @@ var vreme = 0,
 var razmera_slike = window.innerWidth / window.innerHeight;
 var glavna_kamera = new THREE.PerspectiveCamera(75, razmera_slike, 1, 1e6);
 glavna_kamera.position.z = 1000;
-scena.add(glavna_kamera);
-var kamera = glavna_kamera; // default kamera
+scene.add(glavna_kamera);
+var camera = glavna_kamera; // default camera
 
 var kamera_zemlja_sunce = new THREE.PerspectiveCamera(75, razmera_slike, 1, 1e6);
 var kamera_zemlja_mesec = new THREE.PerspectiveCamera(75, razmera_slike, 1, 1e6);
@@ -23,9 +23,9 @@ document.body.appendChild(renderer.domElement);
 var surface = new THREE.MeshPhongMaterial({ambient: 0xFFD700});
 var zvezda = new THREE.SphereGeometry(50, 28, 21);
 var sunce = new THREE.Mesh(zvezda, surface);
-scena.add(sunce);
+scene.add(sunce);
 var ambijent = new THREE.AmbientLight(0xffffff);
-scena.add(ambijent);
+scene.add(ambijent);
 var sunceva_svetlost = new THREE.PointLight(0xffffff, 5, 1000);
 sunce.add(sunceva_svetlost);
 
@@ -66,7 +66,7 @@ while (zvezde.vertices.length < 1e4) {
 var zvezdica = new THREE.ParticleBasicMaterial({size: 500});
 var zvezdani_sistem = new THREE.ParticleSystem(zvezde, zvezdica);
 
-scena.add(zvezdani_sistem);
+scene.add(zvezdani_sistem);
 
 // FUNKCIJE
 
@@ -88,7 +88,7 @@ function racunajUgao() {
 
 function animiraj() {
   requestAnimationFrame(animiraj);
-  renderer.render(scena, kamera);
+  renderer.render(scene, camera);
 
   if (pauza)
     return;
@@ -105,13 +105,13 @@ document.addEventListener("keydown", function(event) {
   var code = event.keyCode;
 
   if (code == 81) { // Q
-    kamera = kamera_zemlja_sunce;
+    camera = kamera_zemlja_sunce;
   }
   if (code == 87) { // W
-    kamera = kamera_zemlja_mesec;
+    camera = kamera_zemlja_mesec;
   }
   if (code == 69) { // E
-    kamera = glavna_kamera;
+    camera = glavna_kamera;
   }
 
   if (code == 80)
