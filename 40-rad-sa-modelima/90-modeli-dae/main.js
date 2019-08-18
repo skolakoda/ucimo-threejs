@@ -37,27 +37,18 @@ const loadModel = function(src) {
   })
 }
 
-const update = function() {
-  requestAnimationFrame(update)
-  renderer.render(scene, camera)
-  controls.update()
-}
-
 /** EVENTS **/
 
-window.addEventListener('resize', () => {
-  const WIDTH = window.innerWidth
-  const HEIGHT = window.innerHeight
-  renderer.setSize(WIDTH, HEIGHT)
-  camera.aspect = WIDTH / HEIGHT
-  camera.updateProjectionMatrix()
-})
-
-document.querySelector('#izaberi-avion').addEventListener('change', function(e) {
-  loadModel(this.value)
+document.querySelector('#izaberi-avion').addEventListener('change', e => {
+  loadModel(e.target.value)
 })
 
 /** EXEC **/
 
 loadModel(document.querySelector('#izaberi-avion').value)
-update()
+
+void function update() {
+  requestAnimationFrame(update)
+  renderer.render(scene, camera)
+  controls.update()
+}()
