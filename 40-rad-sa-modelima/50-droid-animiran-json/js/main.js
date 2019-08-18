@@ -1,9 +1,8 @@
-import Robot from './Robot.js'
-import {movements} from './movements.js'
+import Droid from './Droid.js'
 
 const scene = new THREE.Scene()
 
-const robot = new Robot(scene)
+const robot = new Droid(scene)
 const {innerWidth, innerHeight} = window
 
 const camera = new THREE.PerspectiveCamera(40, innerWidth / innerHeight, 1, 1000)
@@ -20,17 +19,13 @@ document.body.appendChild(renderer.domElement)
 
 const clock = new THREE.Clock()
 
-/** FUNCTIONS **/
+/** INIT **/
 
-function update() {
+void function update() {
+  requestAnimationFrame(update)
   robot.update(clock.getDelta())
   renderer.render(scene, camera)
-  requestAnimationFrame(update)
-}
+}()
 
-/** EXEC **/
-
-update()
-
-const buttons = [...document.querySelectorAll('.js-state')]
-buttons.map(btn => btn.addEventListener('click', () => robot.changeMovement(btn.value)))
+document.querySelectorAll('.js-state').forEach(btn =>
+  btn.addEventListener('click', () => robot.changeMovement(btn.value)))

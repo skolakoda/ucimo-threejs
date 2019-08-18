@@ -1,4 +1,4 @@
-export const movements = {
+const movements = {
   stand: {
     animMin: 0,
     animMax: 39,
@@ -138,5 +138,63 @@ export const movements = {
     animFps: 7,
     state: 'freeze',
     action: true
+  }
+}
+
+const loader = new THREE.JSONLoader()
+
+export default class Droid {
+  constructor(scene) {
+    this.scene = scene
+    this.mesh = null
+    this.movement = 'stand'
+    this.state = 'stand'
+    this.loadModel()
+  }
+
+  loadModel() {
+    const material = new THREE.MeshPhongMaterial({
+      map: THREE.ImageUtils.loadTexture('model/teksture/droid-tekstura.png'),
+      morphTargets: true
+    })
+    loader.load('model/droid.json', geometry => {
+      this.mesh = new THREE.MorphAnimMesh(geometry, material)
+      this.changeMovement('stand')
+      this.scene.add(this.mesh)
+    })
+  }
+
+  changeMovement(movement) {
+    this.movement = movement
+    if (!movements[movement]) return
+    this.state = movements[movement].state
+    const {animMin, animMax, animFps} = movements[movement]
+    this.mesh.time = 0
+    this.mesh.duration = 1000 * ((animMax - animMin) / animFps)
+    this.mesh.setFrameRange(animMin, animMax)
+  }
+
+  get isEndFrame() {
+    return movements[this.movement].animMax === this.mesh.currentKeyframe
+  }
+
+  get isAction() {
+    return movements[this.movement].action
+  }
+
+  get shouldUpdateAnimation() {
+    return !this.isAction || (this.isAction && !this.isEndFrame)
+  }
+
+  get isFrozen() {
+    return movements[this.movement].state == 'freeze'
+  }
+
+  update(delta) {
+    if (!this.mesh) return
+    if (this.shouldUpdateAnimation)
+      this.mesh.updateAnimation(1000 * delta)
+    else if (!this.isFrozen)
+      this.changeMovement(this.state)
   }
 }
