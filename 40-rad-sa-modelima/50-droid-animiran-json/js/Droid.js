@@ -141,7 +141,8 @@ const movements = {
   }
 }
 
-const loader = new THREE.JSONLoader()
+const jsonLoader = new THREE.JSONLoader()
+const textureLoader = new THREE.TextureLoader()
 
 export default class Droid {
   constructor(scene) {
@@ -154,10 +155,10 @@ export default class Droid {
 
   loadModel() {
     const material = new THREE.MeshPhongMaterial({
-      map: THREE.ImageUtils.loadTexture('model/teksture/droid-tekstura.png'),
+      map: textureLoader.load('model/teksture/droid-tekstura.png'),
       morphTargets: true
     })
-    loader.load('model/droid.json', geometry => {
+    jsonLoader.load('model/droid.json', geometry => {
       this.mesh = new THREE.MorphAnimMesh(geometry, material)
       this.changeMovement('stand')
       this.scene.add(this.mesh)
