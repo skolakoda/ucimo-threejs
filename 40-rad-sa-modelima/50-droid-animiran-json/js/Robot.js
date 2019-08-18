@@ -1,6 +1,6 @@
-/* global movements */
+import {movements} from './movements.js'
 
-class Robot {
+export default class Robot {
   constructor() {
     this.mesh = null
     this.movement = 'stand'

@@ -1,4 +1,4 @@
-const movements = {
+export const movements = {
   stand: {
     animMin: 0,
     animMax: 39,

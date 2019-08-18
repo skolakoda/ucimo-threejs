@@ -1,4 +1,5 @@
-/* global movements, Robot */
+import Robot from './Robot.js'
+import {movements} from './movements.js'
 
 const player = new Robot()
 const {innerWidth, innerHeight} = window
@@ -33,18 +34,18 @@ const clock = new THREE.Clock()
 
 /** FUNCTIONS **/
 
-function azurirajIgraca(deltaVreme) {
+function updatePlayer(delta) {
   if (!player.mesh) return
   const isEndFrame = (movements[player.movement].animMax === player.mesh.currentKeyframe)
   const isAction = movements[player.movement].action
   if (!isAction || (isAction && !isEndFrame))
-    player.mesh.updateAnimation(1000 * deltaVreme)
+    player.mesh.updateAnimation(1000 * delta)
   else if (movements[player.movement].state !== 'freeze')
     player.changeMovement(player.state)
 }
 
 function update() {
-  azurirajIgraca(clock.getDelta())
+  updatePlayer(clock.getDelta())
   renderer.render(scene, camera)
   requestAnimationFrame(update)
 }
