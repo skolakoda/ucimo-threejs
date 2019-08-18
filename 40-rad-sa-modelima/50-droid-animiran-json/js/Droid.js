@@ -141,7 +141,7 @@ const movements = {
   }
 }
 
-const jsonLoader = new THREE.JSONLoader()
+const jsonLoader = new THREE.LegacyJSONLoader()
 const textureLoader = new THREE.TextureLoader()
 
 export default class Droid {
