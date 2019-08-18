@@ -37,9 +37,9 @@ document.body.appendChild(renderer.domElement)
 
 /** FUNCTIONS **/
 
-function loadModel () {
+function loadModel() {
   const loader = new THREE.JSONLoader()
-  loader.load('modeli/dino.json', function (model, loadedMat) {
+  loader.load('modeli/dino.json', (model, loadedMat) => {
     console.log(model)
     loadedMat[0].skinning = true
     THREE.AnimationHandler.add(model.animations[0])
@@ -51,12 +51,12 @@ function loadModel () {
   }, 'teksture/')
 }
 
-function addControlGui (controlObject) {
+function addControlGui(controlObject) {
   const gui = new dat.GUI()
   gui.add(controlObject, 'rotationSpeed', -0.01, 0.01)
 }
 
-function addStatsObject () {
+function addStatsObject() {
   const stats = new Stats()
   stats.setMode(0)
 
@@ -67,7 +67,7 @@ function addStatsObject () {
   return stats
 }
 
-function render () {
+function render() {
   // update the camera
   const rotSpeed = control.rotationSpeed
   camera.position.x = camera.position.x * Math.cos(rotSpeed) + camera.position.z * Math.sin(rotSpeed)
@@ -84,7 +84,7 @@ function render () {
   requestAnimationFrame(render)
 }
 
-function handleResize () {
+function handleResize() {
   camera.aspect = window.innerWidth / window.innerHeight
   camera.updateProjectionMatrix()
   renderer.setSize(window.innerWidth, window.innerHeight)

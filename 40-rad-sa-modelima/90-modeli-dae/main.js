@@ -18,7 +18,7 @@ const camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.1, 20000)
 camera.position.set(-6, 2, 9)
 scene.add(camera)
 
-var light = new THREE.PointLight(0xffffff)
+const light = new THREE.PointLight(0xffffff)
 light.position.set(-100, 200, 100)
 scene.add(light)
 
@@ -26,8 +26,8 @@ const controls = new THREE.OrbitControls(camera, renderer.domElement)
 
 /** FUNCTIONS **/
 
-const loadModel = function (src) {
-  let loader = new THREE.ColladaLoader()
+const loadModel = function(src) {
+  const loader = new THREE.ColladaLoader()
   loader.options.convertUpAxis = true
   loader.load(src, collada => {
     scene.remove(scene.getObjectById(currentId))
@@ -37,7 +37,7 @@ const loadModel = function (src) {
   })
 }
 
-const update = function () {
+const update = function() {
   requestAnimationFrame(update)
   renderer.render(scene, camera)
   controls.update()
@@ -53,7 +53,7 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix()
 })
 
-document.querySelector('#izaberi-avion').addEventListener('change', function (e) {
+document.querySelector('#izaberi-avion').addEventListener('change', function(e) {
   loadModel(this.value)
 })
 

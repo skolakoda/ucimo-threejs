@@ -27,16 +27,16 @@ document.body.appendChild(renderer.domElement)
 
 /** FUNKCIJE **/
 
-const onProgress = function (xhr) {
+const onProgress = function(xhr) {
   if (xhr.lengthComputable) {
     const percentComplete = xhr.loaded / xhr.total * 100
     console.log(Math.round(percentComplete, 2) + '% ucitano')
   }
 }
 
-const onError = function (xhr) {}
+const onError = function(xhr) {}
 
-const onWindowResize = function () {
+const onWindowResize = function() {
   polaEkranaX = window.innerWidth / 2
   polaEkranaY = window.innerHeight / 2
   camera.aspect = window.innerWidth / window.innerHeight
@@ -44,19 +44,19 @@ const onWindowResize = function () {
   renderer.setSize(window.innerWidth, window.innerHeight)
 }
 
-const onDocumentMouseMove = function (event) {
+const onDocumentMouseMove = function(event) {
   misX = (event.clientX - polaEkranaX) / 2
   misY = (event.clientY - polaEkranaY) / 2
 }
 
-const render = function () {
+const render = function() {
   camera.position.x += (misX - camera.position.x) * 0.05
   camera.position.y += (-misY - camera.position.y) * 0.05
   camera.lookAt(scene.position)
   renderer.render(scene, camera)
 }
 
-const update = function () {
+const update = function() {
   requestAnimationFrame(update)
   render()
 }

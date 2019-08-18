@@ -4,95 +4,91 @@
  * @author angelxuanchang
  */
 
-THREE.MTLLoader = function( baseUrl, options, crossOrigin ) {
+THREE.MTLLoader = function(baseUrl, options, crossOrigin) {
 
-	this.baseUrl = baseUrl;
-	this.options = options;
-	this.crossOrigin = crossOrigin;
+  this.baseUrl = baseUrl
+  this.options = options
+  this.crossOrigin = crossOrigin
 
-};
+}
 
 THREE.MTLLoader.prototype = {
 
-	constructor: THREE.MTLLoader,
+  constructor: THREE.MTLLoader,
 
-	load: function ( url, onLoad, onProgress, onError ) {
+  load(url, onLoad, onProgress, onError) {
 
-		var scope = this;
+    const scope = this
 
-		var loader = new THREE.XHRLoader();
-		loader.setCrossOrigin( this.crossOrigin );
-		loader.load( url, function ( text ) {
+    const loader = new THREE.XHRLoader()
+    loader.setCrossOrigin(this.crossOrigin)
+    loader.load(url, text => {
 
-			onLoad( scope.parse( text ) );
+      onLoad(scope.parse(text))
 
-		} );
+    })
 
-	},
+  },
 
-	/**
+  /**
 	 * Parses loaded MTL file
 	 * @param text - Content of MTL file
 	 * @return {THREE.MTLLoader.MaterialCreator}
 	 */
-	parse: function ( text ) {
+  parse(text) {
 
-		var lines = text.split( "\n" );
-		var info = {};
-		var delimiter_pattern = /\s+/;
-		var materialsInfo = {};
+    const lines = text.split('\n')
+    let info = {}
+    const delimiter_pattern = /\s+/
+    const materialsInfo = {}
 
-		for ( var i = 0; i < lines.length; i ++ ) {
+    for (let i = 0; i < lines.length; i ++) {
 
-			var line = lines[ i ];
-			line = line.trim();
+      let line = lines[ i ]
+      line = line.trim()
 
-			if ( line.length === 0 || line.charAt( 0 ) === '#' ) {
+      if (line.length === 0 || line.charAt(0) === '#')
 
-				// Blank line or comment ignore
-				continue;
+      // Blank line or comment ignore
+        continue
 
-			}
+      const pos = line.indexOf(' ')
 
-			var pos = line.indexOf( ' ' );
+      let key = (pos >= 0) ? line.substring(0, pos) : line
+      key = key.toLowerCase()
 
-			var key = ( pos >= 0 ) ? line.substring( 0, pos ) : line;
-			key = key.toLowerCase();
+      let value = (pos >= 0) ? line.substring(pos + 1) : ''
+      value = value.trim()
 
-			var value = ( pos >= 0 ) ? line.substring( pos + 1 ) : "";
-			value = value.trim();
+      if (key === 'newmtl') {
 
-			if ( key === "newmtl" ) {
+        // New material
 
-				// New material
+        info = { name: value }
+        materialsInfo[ value ] = info
 
-				info = { name: value };
-				materialsInfo[ value ] = info;
+      } else if (info)
 
-			} else if ( info ) {
+        if (key === 'ka' || key === 'kd' || key === 'ks') {
 
-				if ( key === "ka" || key === "kd" || key === "ks" ) {
+          const ss = value.split(delimiter_pattern, 3)
+          info[ key ] = [ parseFloat(ss[0]), parseFloat(ss[1]), parseFloat(ss[2]) ]
 
-					var ss = value.split( delimiter_pattern, 3 );
-					info[ key ] = [ parseFloat( ss[0] ), parseFloat( ss[1] ), parseFloat( ss[2] ) ];
+        } else {
 
-				} else {
+          info[ key ] = value
 
-					info[ key ] = value;
+        }
 
-				}
+    }
 
-			}
+    const materialCreator = new THREE.MTLLoader.MaterialCreator(this.baseUrl, this.options)
+    materialCreator.setMaterials(materialsInfo)
+    return materialCreator
 
-		}
+  }
 
-		var materialCreator = new THREE.MTLLoader.MaterialCreator( this.baseUrl, this.options );
-		materialCreator.setMaterials( materialsInfo );
-		return materialCreator;
-
-	}
-
-};
+}
 
 /**
  * Create a new THREE-MTLLoader.MaterialCreator
@@ -111,318 +107,304 @@ THREE.MTLLoader.prototype = {
  * @constructor
  */
 
-THREE.MTLLoader.MaterialCreator = function( baseUrl, options ) {
+THREE.MTLLoader.MaterialCreator = function(baseUrl, options) {
 
-	this.baseUrl = baseUrl;
-	this.options = options;
-	this.materialsInfo = {};
-	this.materials = {};
-	this.materialsArray = [];
-	this.nameLookup = {};
+  this.baseUrl = baseUrl
+  this.options = options
+  this.materialsInfo = {}
+  this.materials = {}
+  this.materialsArray = []
+  this.nameLookup = {}
 
-	this.side = ( this.options && this.options.side )? this.options.side: THREE.FrontSide;
-	this.wrap = ( this.options && this.options.wrap )? this.options.wrap: THREE.RepeatWrapping;
+  this.side = (this.options && this.options.side) ? this.options.side : THREE.FrontSide
+  this.wrap = (this.options && this.options.wrap) ? this.options.wrap : THREE.RepeatWrapping
 
-};
+}
 
 THREE.MTLLoader.MaterialCreator.prototype = {
 
-	constructor: THREE.MTLLoader.MaterialCreator,
+  constructor: THREE.MTLLoader.MaterialCreator,
 
-	setMaterials: function( materialsInfo ) {
+  setMaterials(materialsInfo) {
 
-		this.materialsInfo = this.convert( materialsInfo );
-		this.materials = {};
-		this.materialsArray = [];
-		this.nameLookup = {};
+    this.materialsInfo = this.convert(materialsInfo)
+    this.materials = {}
+    this.materialsArray = []
+    this.nameLookup = {}
 
-	},
+  },
 
-	convert: function( materialsInfo ) {
+  convert(materialsInfo) {
 
-		if ( !this.options ) return materialsInfo;
+    if (!this.options) return materialsInfo
 
-		var converted = {};
+    const converted = {}
 
-		for ( var mn in materialsInfo ) {
+    for (const mn in materialsInfo) {
 
-			// Convert materials info into normalized form based on options
+      // Convert materials info into normalized form based on options
 
-			var mat = materialsInfo[ mn ];
+      const mat = materialsInfo[ mn ]
 
-			var covmat = {};
+      const covmat = {}
 
-			converted[ mn ] = covmat;
+      converted[ mn ] = covmat
 
-			for ( var prop in mat ) {
+      for (const prop in mat) {
 
-				var save = true;
-				var value = mat[ prop ];
-				var lprop = prop.toLowerCase();
+        let save = true
+        let value = mat[ prop ]
+        const lprop = prop.toLowerCase()
 
-				switch ( lprop ) {
+        switch (lprop) {
 
-					case 'kd':
-					case 'ka':
-					case 'ks':
+          case 'kd':
+          case 'ka':
+          case 'ks':
 
-						// Diffuse color (color under white light) using RGB values
+            // Diffuse color (color under white light) using RGB values
 
-						if ( this.options && this.options.normalizeRGB ) {
+            if (this.options && this.options.normalizeRGB)
 
-							value = [ value[ 0 ] / 255, value[ 1 ] / 255, value[ 2 ] / 255 ];
+              value = [ value[ 0 ] / 255, value[ 1 ] / 255, value[ 2 ] / 255 ]
 
-						}
+            if (this.options && this.options.ignoreZeroRGBs)
 
-						if ( this.options && this.options.ignoreZeroRGBs ) {
+              if (value[ 0 ] === 0 && value[ 1 ] === 0 && value[ 1 ] === 0) {
 
-							if ( value[ 0 ] === 0 && value[ 1 ] === 0 && value[ 1 ] === 0 ) {
+                // ignore
 
-								// ignore
+                save = false
 
-								save = false;
+              }
 
-							}
-						}
+            break
 
-						break;
+          case 'd':
 
-					case 'd':
+            // According to MTL format (http://paulbourke.net/dataformats/mtl/):
+            //   d is dissolve for current material
+            //   factor of 1.0 is fully opaque, a factor of 0 is fully dissolved (completely transparent)
 
-						// According to MTL format (http://paulbourke.net/dataformats/mtl/):
-						//   d is dissolve for current material
-						//   factor of 1.0 is fully opaque, a factor of 0 is fully dissolved (completely transparent)
+            if (this.options && this.options.invertTransparency)
 
-						if ( this.options && this.options.invertTransparency ) {
+              value = 1 - value
 
-							value = 1 - value;
+            break
 
-						}
+          default:
 
-						break;
+            break
+        }
 
-					default:
+        if (save)
 
-						break;
-				}
+          covmat[ lprop ] = value
 
-				if ( save ) {
+      }
 
-					covmat[ lprop ] = value;
+    }
 
-				}
+    return converted
 
-			}
+  },
 
-		}
+  preload() {
 
-		return converted;
+    for (const mn in this.materialsInfo)
 
-	},
+      this.create(mn)
 
-	preload: function () {
+  },
 
-		for ( var mn in this.materialsInfo ) {
+  getIndex(materialName) {
 
-			this.create( mn );
+    return this.nameLookup[ materialName ]
 
-		}
+  },
 
-	},
+  getAsArray() {
 
-	getIndex: function( materialName ) {
+    let index = 0
 
-		return this.nameLookup[ materialName ];
+    for (const mn in this.materialsInfo) {
 
-	},
+      this.materialsArray[ index ] = this.create(mn)
+      this.nameLookup[ mn ] = index
+      index ++
 
-	getAsArray: function() {
+    }
 
-		var index = 0;
+    return this.materialsArray
 
-		for ( var mn in this.materialsInfo ) {
+  },
 
-			this.materialsArray[ index ] = this.create( mn );
-			this.nameLookup[ mn ] = index;
-			index ++;
+  create(materialName) {
 
-		}
+    if (this.materials[ materialName ] === undefined)
 
-		return this.materialsArray;
+      this.createMaterial_(materialName)
 
-	},
+    return this.materials[ materialName ]
 
-	create: function ( materialName ) {
+  },
 
-		if ( this.materials[ materialName ] === undefined ) {
+  createMaterial_(materialName) {
 
-			this.createMaterial_( materialName );
+    // Create material
 
-		}
+    const mat = this.materialsInfo[ materialName ]
+    const params = {
 
-		return this.materials[ materialName ];
+      name: materialName,
+      side: this.side
 
-	},
+    }
 
-	createMaterial_: function ( materialName ) {
+    for (const prop in mat) {
 
-		// Create material
+      const value = mat[ prop ]
 
-		var mat = this.materialsInfo[ materialName ];
-		var params = {
+      switch (prop.toLowerCase()) {
 
-			name: materialName,
-			side: this.side
+        // Ns is material specular exponent
 
-		};
+        case 'kd':
 
-		for ( var prop in mat ) {
+          // Diffuse color (color under white light) using RGB values
 
-			var value = mat[ prop ];
+          params.diffuse = new THREE.Color().fromArray(value)
 
-			switch ( prop.toLowerCase() ) {
+          break
 
-				// Ns is material specular exponent
+        case 'ka':
 
-				case 'kd':
+          // Ambient color (color under shadow) using RGB values
 
-					// Diffuse color (color under white light) using RGB values
+          params.ambient = new THREE.Color().fromArray(value)
 
-					params[ 'diffuse' ] = new THREE.Color().fromArray( value );
+          break
 
-					break;
+        case 'ks':
 
-				case 'ka':
+          // Specular color (color when light is reflected from shiny surface) using RGB values
+          params.specular = new THREE.Color().fromArray(value)
 
-					// Ambient color (color under shadow) using RGB values
+          break
 
-					params[ 'ambient' ] = new THREE.Color().fromArray( value );
+        case 'map_kd':
 
-					break;
+          // Diffuse texture map
 
-				case 'ks':
+          params.map = this.loadTexture(this.baseUrl + value)
+          params.map.wrapS = this.wrap
+          params.map.wrapT = this.wrap
 
-					// Specular color (color when light is reflected from shiny surface) using RGB values
-					params[ 'specular' ] = new THREE.Color().fromArray( value );
+          break
 
-					break;
+        case 'ns':
 
-				case 'map_kd':
+          // The specular exponent (defines the focus of the specular highlight)
+          // A high exponent results in a tight, concentrated highlight. Ns values normally range from 0 to 1000.
 
-					// Diffuse texture map
+          params.shininess = value
 
-					params[ 'map' ] = this.loadTexture( this.baseUrl + value );
-					params[ 'map' ].wrapS = this.wrap;
-					params[ 'map' ].wrapT = this.wrap;
+          break
 
-					break;
+        case 'd':
 
-				case 'ns':
+          // According to MTL format (http://paulbourke.net/dataformats/mtl/):
+          //   d is dissolve for current material
+          //   factor of 1.0 is fully opaque, a factor of 0 is fully dissolved (completely transparent)
 
-					// The specular exponent (defines the focus of the specular highlight)
-					// A high exponent results in a tight, concentrated highlight. Ns values normally range from 0 to 1000.
+          if (value < 1) {
 
-					params['shininess'] = value;
+            params.transparent = true
+            params.opacity = value
 
-					break;
+          }
 
-				case 'd':
+          break
 
-					// According to MTL format (http://paulbourke.net/dataformats/mtl/):
-					//   d is dissolve for current material
-					//   factor of 1.0 is fully opaque, a factor of 0 is fully dissolved (completely transparent)
+        default:
+          break
 
-					if ( value < 1 ) {
+      }
 
-						params['transparent'] = true;
-						params['opacity'] = value;
+    }
 
-					}
+    if (params.diffuse) {
 
-					break;
+      if (!params.ambient) params.ambient = params.diffuse
+      params.color = params.diffuse
 
-				default:
-					break;
+    }
 
-			}
+    this.materials[ materialName ] = new THREE.MeshPhongMaterial(params)
+    return this.materials[ materialName ]
 
-		}
+  },
 
-		if ( params[ 'diffuse' ] ) {
+  loadTexture(url, mapping, onLoad, onError) {
 
-			if ( !params[ 'ambient' ]) params[ 'ambient' ] = params[ 'diffuse' ];
-			params[ 'color' ] = params[ 'diffuse' ];
+    const isCompressed = /\.dds$/i.test(url)
 
-		}
+    if (isCompressed)
 
-		this.materials[ materialName ] = new THREE.MeshPhongMaterial( params );
-		return this.materials[ materialName ];
+      var texture = THREE.ImageUtils.loadCompressedTexture(url, mapping, onLoad, onError)
 
-	},
+		 else {
 
+      const image = new Image()
+      var texture = new THREE.Texture(image, mapping)
 
-	loadTexture: function ( url, mapping, onLoad, onError ) {
+      const loader = new THREE.ImageLoader()
+      loader.crossOrigin = this.crossOrigin
+      loader.load(url, image => {
 
-		var isCompressed = /\.dds$/i.test( url );
+        texture.image = THREE.MTLLoader.ensurePowerOfTwo_(image)
+        texture.needsUpdate = true
 
-		if ( isCompressed ) {
+        if (onLoad) onLoad(texture)
 
-			var texture = THREE.ImageUtils.loadCompressedTexture( url, mapping, onLoad, onError );
+      })
 
-		} else {
+    }
 
-			var image = new Image();
-			var texture = new THREE.Texture( image, mapping );
+    return texture
 
-			var loader = new THREE.ImageLoader();
-			loader.crossOrigin = this.crossOrigin;
-			loader.load( url, function ( image ) {
+  }
 
-				texture.image = THREE.MTLLoader.ensurePowerOfTwo_( image );
-				texture.needsUpdate = true;
+}
 
-				if ( onLoad ) onLoad( texture );
+THREE.MTLLoader.ensurePowerOfTwo_ = function(image) {
 
-			} );
+  if (! THREE.Math.isPowerOfTwo(image.width) || ! THREE.Math.isPowerOfTwo(image.height)) {
 
-		}
+    const canvas = document.createElement('canvas')
+    canvas.width = THREE.MTLLoader.nextHighestPowerOfTwo_(image.width)
+    canvas.height = THREE.MTLLoader.nextHighestPowerOfTwo_(image.height)
 
-		return texture;
+    const ctx = canvas.getContext('2d')
+    ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, canvas.width, canvas.height)
+    return canvas
 
-	}
+  }
 
-};
+  return image
 
-THREE.MTLLoader.ensurePowerOfTwo_ = function ( image ) {
+}
 
-	if ( ! THREE.Math.isPowerOfTwo( image.width ) || ! THREE.Math.isPowerOfTwo( image.height ) ) {
+THREE.MTLLoader.nextHighestPowerOfTwo_ = function(x) {
 
-		var canvas = document.createElement( "canvas" );
-		canvas.width = THREE.MTLLoader.nextHighestPowerOfTwo_( image.width );
-		canvas.height = THREE.MTLLoader.nextHighestPowerOfTwo_( image.height );
+  --x
 
-		var ctx = canvas.getContext("2d");
-		ctx.drawImage( image, 0, 0, image.width, image.height, 0, 0, canvas.width, canvas.height );
-		return canvas;
+  for (let i = 1; i < 32; i <<= 1)
 
-	}
+    x |= x >> i
 
-	return image;
+  return x + 1
 
-};
+}
 
-THREE.MTLLoader.nextHighestPowerOfTwo_ = function( x ) {
-
-	--x;
-
-	for ( var i = 1; i < 32; i <<= 1 ) {
-
-		x = x | x >> i;
-
-	}
-
-	return x + 1;
-
-};
-
-THREE.EventDispatcher.prototype.apply( THREE.MTLLoader.prototype );
+THREE.EventDispatcher.prototype.apply(THREE.MTLLoader.prototype)

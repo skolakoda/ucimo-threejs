@@ -21,7 +21,7 @@ scene.add(svetlo)
 
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(sirinaScene, visinaScene)
-renderer.setClearColorHex(0xffffff, 1 )
+renderer.setClearColorHex(0xffffff, 1)
 document.body.appendChild(renderer.domElement)
 
 const materijal = new THREE.MeshPhongMaterial({
@@ -30,7 +30,7 @@ const materijal = new THREE.MeshPhongMaterial({
 })
 
 const loader = new THREE.JSONLoader()
-loader.load('model/droid.json', function (oblik) {
+loader.load('model/droid.json', oblik => {
   igrac.mesh = new THREE.MorphAnimMesh(oblik, materijal)
   igrac.promeniPokret('stand')
   scene.add(igrac.mesh)
@@ -40,18 +40,18 @@ const clock = new THREE.Clock()
 
 /** FUNCTIONS **/
 
-function azurirajIgraca (deltaVreme) {
+function azurirajIgraca(deltaVreme) {
   if (!igrac.mesh) return
   const isEndFrame = (pokreti[igrac.pokret].animMax === igrac.mesh.currentKeyframe)
   const isAction = pokreti[igrac.pokret].action
-  if (!isAction || (isAction && !isEndFrame)) {
+  if (!isAction || (isAction && !isEndFrame))
     igrac.mesh.updateAnimation(1000 * deltaVreme)
-  } else if (pokreti[igrac.pokret].stanje !== 'freeze') {
+  else if (pokreti[igrac.pokret].stanje !== 'freeze')
     igrac.promeniPokret(igrac.stanje)
-  }
+
 }
 
-function update () {
+function update() {
   azurirajIgraca(clock.getDelta())
   camera.position.x = 150 * Math.sin(ugaoKamere / 2 * Math.PI / 360)
   camera.position.y = 150 * Math.sin(ugaoKamere / 2 * Math.PI / 360)

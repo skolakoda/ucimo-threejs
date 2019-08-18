@@ -16,7 +16,7 @@ document.body.appendChild(renderer.domElement)
 
 const controls = new THREE.OrbitControls(camera)
 
-let loader = new THREE.ColladaLoader()
+const loader = new THREE.ColladaLoader()
 loader.load('modeli/tvrdjava.dae', data => {
   const model = data.scene
   model.scale.set(scale, scale, scale)

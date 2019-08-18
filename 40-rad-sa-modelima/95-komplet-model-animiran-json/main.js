@@ -1,17 +1,17 @@
 /* global BlendCharacterGui */
-var container
+let container
 
-var blendMesh, helper, camera, scene, renderer, controls
+let blendMesh, helper, camera, scene, renderer, controls
 
-var clock = new THREE.Clock()
-var gui = null
+const clock = new THREE.Clock()
+let gui = null
 
-var isFrameStepping = false
-var timeToStep = 0
+let isFrameStepping = false
+let timeToStep = 0
 
 init()
 
-function init () {
+function init() {
   container = document.getElementById('container')
 
   scene = new THREE.Scene()
@@ -45,53 +45,52 @@ function init () {
   blendMesh.load('modeli/vojnik/model.json', start)
 }
 
-function onWindowResize () {
+function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight
   camera.updateProjectionMatrix()
 
   renderer.setSize(window.innerWidth, window.innerHeight)
 }
 
-function onStartAnimation (event) {
-  var data = event.detail
+function onStartAnimation(event) {
+  const data = event.detail
 
   blendMesh.stopAll()
   blendMesh.unPauseAll()
 
   // the blend mesh will combine 1 or more animations
-  for (var i = 0; i < data.anims.length; ++i) {
+  for (let i = 0; i < data.anims.length; ++i)
     blendMesh.play(data.anims[i], data.weights[i])
-  }
 
   isFrameStepping = false
 }
 
-function onStopAnimation (event) {
+function onStopAnimation(event) {
   blendMesh.stopAll()
   isFrameStepping = false
 }
 
-function onPauseAnimation (event) {
+function onPauseAnimation(event) {
   (isFrameStepping) ? blendMesh.unPauseAll() : blendMesh.pauseAll()
 
   isFrameStepping = false
 }
 
-function onStepAnimation (event) {
+function onStepAnimation(event) {
   blendMesh.unPauseAll()
   isFrameStepping = true
   timeToStep = event.detail.stepSize
 }
 
-function onWeightAnimation (event) {
-  var data = event.detail
-  for (var i = 0; i < data.anims.length; ++i) {
+function onWeightAnimation(event) {
+  const data = event.detail
+  for (let i = 0; i < data.anims.length; ++i)
     blendMesh.applyWeight(data.anims[i], data.weights[i])
-  }
+
 }
 
-function onCrossfade (event) {
-  var data = event.detail
+function onCrossfade(event) {
+  const data = event.detail
 
   blendMesh.stopAll()
   blendMesh.crossfade(data.from, data.to, data.time)
@@ -99,8 +98,8 @@ function onCrossfade (event) {
   isFrameStepping = false
 }
 
-function onWarp (event) {
-  var data = event.detail
+function onWarp(event) {
+  const data = event.detail
 
   blendMesh.stopAll()
   blendMesh.warp(data.from, data.to, data.time)
@@ -108,22 +107,22 @@ function onWarp (event) {
   isFrameStepping = false
 }
 
-function onShowSkeleton (event) {
-  var shouldShow = event.detail.shouldShow
+function onShowSkeleton(event) {
+  const {shouldShow} = event.detail
   helper.visible = shouldShow
 }
 
-function onShowModel (event) {
-  var shouldShow = event.detail.shouldShow
+function onShowModel(event) {
+  const {shouldShow} = event.detail
   blendMesh.showModel(shouldShow)
 }
 
-function start () {
+function start() {
   blendMesh.rotation.y = Math.PI * -135 / 180
   scene.add(blendMesh)
 
-  var aspect = window.innerWidth / window.innerHeight
-  var radius = blendMesh.geometry.boundingSphere.radius
+  const aspect = window.innerWidth / window.innerHeight
+  const {radius} = blendMesh.geometry.boundingSphere
 
   camera = new THREE.PerspectiveCamera(45, aspect, 1, 10000)
   camera.position.set(0.0, radius, radius * 3.5)
@@ -150,13 +149,13 @@ function start () {
   animate()
 }
 
-function animate () {
+function animate() {
   requestAnimationFrame(animate, renderer.domElement)
 
   // step forward in time based on whether we're stepping and scale
-  var scale = gui.getTimeScale()
-  var delta = clock.getDelta()
-  var stepSize = (!isFrameStepping) ? delta * scale : timeToStep
+  const scale = gui.getTimeScale()
+  const delta = clock.getDelta()
+  const stepSize = (!isFrameStepping) ? delta * scale : timeToStep
 
   // modify blend weights
   blendMesh.update(stepSize)

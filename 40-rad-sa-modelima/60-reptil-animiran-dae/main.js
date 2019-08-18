@@ -13,7 +13,7 @@ const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000)
 camera.position.set(2, 2, 3)
 
-let loader = new THREE.ColladaLoader()
+const loader = new THREE.ColladaLoader()
 loader.options.convertUpAxis = true
 
 const renderer = new THREE.WebGLRenderer()
@@ -23,7 +23,7 @@ document.body.appendChild(renderer.domElement)
 
 /** FUNCTIONS **/
 
-function pustiAnimaciju (model) {
+function pustiAnimaciju(model) {
   console.log(model)
   model.traverse(child => {
     if (!(child instanceof THREE.SkinnedMesh)) return
@@ -32,7 +32,7 @@ function pustiAnimaciju (model) {
   })
 }
 
-function crtajResetku () {
+function crtajResetku() {
   const oblik = new THREE.Geometry()
   for (let i = -brojResetki; i <= brojResetki; i += razmakResetki) {
     oblik.vertices.push(new THREE.Vector3(-brojResetki, visinaTla, i))
@@ -45,7 +45,7 @@ function crtajResetku () {
   scene.add(resetka)
 }
 
-function dodajSvetla () {
+function dodajSvetla() {
   const usmerenoSvetlo = new THREE.DirectionalLight(Math.random() * 0xffffff)
   usmerenoSvetlo.position.set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5)
   usmerenoSvetlo.position.normalize()
@@ -53,7 +53,7 @@ function dodajSvetla () {
   scene.add(new THREE.AmbientLight(0xcccccc))
 }
 
-function animiraj () {
+function animiraj() {
   requestAnimationFrame(animiraj)
   const brojac = Date.now() * 0.0005
   camera.position.x = Math.cos(brojac) * 10
