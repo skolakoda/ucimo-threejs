@@ -22,12 +22,8 @@ loader.load('modeli/tvrdjava.dae', data => {
 
 /** FUNCTIONS **/
 
-const update = () => {
+void function update() {
   requestAnimationFrame(update)
   controls.update()
   renderer.render(scene, camera)
-}
-
-/** LOGIC **/
-
-update()
+}()

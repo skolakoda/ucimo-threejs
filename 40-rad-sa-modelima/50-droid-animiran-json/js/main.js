@@ -1,10 +1,10 @@
 import Robot from './Robot.js'
 import {movements} from './movements.js'
 
-const player = new Robot()
-const {innerWidth, innerHeight} = window
-
 const scene = new THREE.Scene()
+
+const robot = new Robot(scene)
+const {innerWidth, innerHeight} = window
 
 const camera = new THREE.PerspectiveCamera(40, innerWidth / innerHeight, 1, 1000)
 camera.position.set(75, 75, 75)
@@ -18,34 +18,12 @@ const renderer = new THREE.WebGLRenderer()
 renderer.setSize(innerWidth, innerHeight)
 document.body.appendChild(renderer.domElement)
 
-const materijal = new THREE.MeshPhongMaterial({
-  map: THREE.ImageUtils.loadTexture('model/teksture/droid-tekstura.png'),
-  morphTargets: true
-})
-
-const loader = new THREE.JSONLoader()
-loader.load('model/droid.json', oblik => {
-  player.mesh = new THREE.MorphAnimMesh(oblik, materijal)
-  player.changeMovement('stand')
-  scene.add(player.mesh)
-})
-
 const clock = new THREE.Clock()
 
 /** FUNCTIONS **/
 
-function updatePlayer(delta) {
-  if (!player.mesh) return
-  const isEndFrame = (movements[player.movement].animMax === player.mesh.currentKeyframe)
-  const isAction = movements[player.movement].action
-  if (!isAction || (isAction && !isEndFrame))
-    player.mesh.updateAnimation(1000 * delta)
-  else if (movements[player.movement].state !== 'freeze')
-    player.changeMovement(player.state)
-}
-
 function update() {
-  updatePlayer(clock.getDelta())
+  robot.update(clock.getDelta())
   renderer.render(scene, camera)
   requestAnimationFrame(update)
 }
@@ -55,4 +33,4 @@ function update() {
 update()
 
 const buttons = [...document.querySelectorAll('.js-state')]
-buttons.map(btn => btn.addEventListener('click', () => player.changeMovement(btn.value)))
+buttons.map(btn => btn.addEventListener('click', () => robot.changeMovement(btn.value)))

@@ -19,8 +19,8 @@ ucitavacSlika.load('../../assets/teksture/crate.gif', slika => {
 
 const loader = new THREE.OBJLoader()
 loader.load('modeli/carobni-zamak.obj', model => {
-  model.traverse(part => {
-    if (part instanceof THREE.Mesh) part.material.map = texture
+  model.traverse(child => {
+    if (child instanceof THREE.Mesh) child.material.map = texture
   })
   scene.add(model)
 })
