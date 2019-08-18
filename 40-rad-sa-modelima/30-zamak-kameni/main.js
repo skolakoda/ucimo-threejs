@@ -1,28 +1,19 @@
 const scene = new THREE.Scene()
-scene.fog = new THREE.FogExp2(0xcce0ff, 0.0003)
 
 const SCREEN_WIDTH = window.innerWidth,
   SCREEN_HEIGHT = window.innerHeight
 
-const VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 1, FAR = 2000
-const camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR)
+const camera = new THREE.PerspectiveCamera(45, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 2000)
 scene.add(camera)
 camera.position.set(0, 100, 300)
 camera.lookAt(new THREE.Vector3(0, 0, 0))
 
 const renderer = new THREE.WebGLRenderer({ antialias:true })
 renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT)
-renderer.setClearColor(scene.fog.color)
-renderer.shadowMapEnabled = true
-renderer.shadowMapSoft = true
-
-const container = document.createElement('div')
-document.body.appendChild(container)
-container.appendChild(renderer.domElement)
+document.body.appendChild(renderer.domElement)
 
 const controls = new THREE.OrbitControls(camera, renderer.domElement)
 controls.target = new THREE.Vector3(0, 0, 0)
-controls.maxDistance = 2000
 
 const clock = new THREE.Clock()
 
@@ -46,17 +37,8 @@ function loadModel() {
 
 function animate() {
   requestAnimationFrame(animate)
-  render()
-  update()
-}
-
-function update() {
   controls.update(clock.getDelta())
-}
-
-function render() {
-  if (renderer)
-    renderer.render(scene, camera)
+  renderer.render(scene, camera)
 }
 
 window.onload = animate

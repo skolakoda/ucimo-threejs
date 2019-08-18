@@ -1,27 +1,20 @@
-/* global pokreti, Robot */
+/* global movements, Robot */
 
-/** KONFIG **/
-
-const igrac = new Robot()
-const sirinaScene = window.innerWidth
-const visinaScene = window.innerHeight
-
-let ugaoKamere = 0
-
-/** INIT **/
+const player = new Robot()
+const {innerWidth, innerHeight} = window
 
 const scene = new THREE.Scene()
 
-const camera = new THREE.PerspectiveCamera(40, sirinaScene / visinaScene, 1, 1000)
+const camera = new THREE.PerspectiveCamera(40, innerWidth / innerHeight, 1, 1000)
+camera.position.set(75, 75, 75)
+camera.lookAt(scene.position)
 scene.add(camera)
 
-const svetlo = new THREE.DirectionalLight(0xffffff, 0.8)
-svetlo.position.set(1, 1, 1).normalize()
-scene.add(svetlo)
+const light = new THREE.DirectionalLight(0xffffff, 0.8)
+scene.add(light)
 
 const renderer = new THREE.WebGLRenderer()
-renderer.setSize(sirinaScene, visinaScene)
-renderer.setClearColorHex(0xffffff, 1)
+renderer.setSize(innerWidth, innerHeight)
 document.body.appendChild(renderer.domElement)
 
 const materijal = new THREE.MeshPhongMaterial({
@@ -31,9 +24,9 @@ const materijal = new THREE.MeshPhongMaterial({
 
 const loader = new THREE.JSONLoader()
 loader.load('model/droid.json', oblik => {
-  igrac.mesh = new THREE.MorphAnimMesh(oblik, materijal)
-  igrac.promeniPokret('stand')
-  scene.add(igrac.mesh)
+  player.mesh = new THREE.MorphAnimMesh(oblik, materijal)
+  player.changeMovement('stand')
+  scene.add(player.mesh)
 })
 
 const clock = new THREE.Clock()
@@ -41,23 +34,17 @@ const clock = new THREE.Clock()
 /** FUNCTIONS **/
 
 function azurirajIgraca(deltaVreme) {
-  if (!igrac.mesh) return
-  const isEndFrame = (pokreti[igrac.pokret].animMax === igrac.mesh.currentKeyframe)
-  const isAction = pokreti[igrac.pokret].action
+  if (!player.mesh) return
+  const isEndFrame = (movements[player.movement].animMax === player.mesh.currentKeyframe)
+  const isAction = movements[player.movement].action
   if (!isAction || (isAction && !isEndFrame))
-    igrac.mesh.updateAnimation(1000 * deltaVreme)
-  else if (pokreti[igrac.pokret].stanje !== 'freeze')
-    igrac.promeniPokret(igrac.stanje)
-
+    player.mesh.updateAnimation(1000 * deltaVreme)
+  else if (movements[player.movement].state !== 'freeze')
+    player.changeMovement(player.state)
 }
 
 function update() {
   azurirajIgraca(clock.getDelta())
-  camera.position.x = 150 * Math.sin(ugaoKamere / 2 * Math.PI / 360)
-  camera.position.y = 150 * Math.sin(ugaoKamere / 2 * Math.PI / 360)
-  camera.position.z = 150 * Math.cos(ugaoKamere / 2 * Math.PI / 360)
-  camera.lookAt(scene.position)
-  ugaoKamere++
   renderer.render(scene, camera)
   requestAnimationFrame(update)
 }
@@ -66,5 +53,5 @@ function update() {
 
 update()
 
-const buttons = [...document.querySelectorAll('.js-stanje')]
-buttons.map(btn => btn.addEventListener('click', () => igrac.promeniPokret(btn.value)))
+const buttons = [...document.querySelectorAll('.js-state')]
+buttons.map(btn => btn.addEventListener('click', () => player.changeMovement(btn.value)))
