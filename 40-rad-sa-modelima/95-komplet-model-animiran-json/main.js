@@ -65,14 +65,13 @@ function onStartAnimation(event) {
   isFrameStepping = false
 }
 
-function onStopAnimation(event) {
+function onStopAnimation() {
   blendMesh.stopAll()
   isFrameStepping = false
 }
 
-function onPauseAnimation(event) {
-  (isFrameStepping) ? blendMesh.unPauseAll() : blendMesh.pauseAll()
-
+function onPauseAnimation() {
+  isFrameStepping ? blendMesh.unPauseAll() : blendMesh.pauseAll()
   isFrameStepping = false
 }
 
@@ -86,7 +85,6 @@ function onWeightAnimation(event) {
   const data = event.detail
   for (let i = 0; i < data.anims.length; ++i)
     blendMesh.applyWeight(data.anims[i], data.weights[i])
-
 }
 
 function onCrossfade(event) {
@@ -138,14 +136,6 @@ function start() {
 
   gui = new BlendCharacterGui(blendMesh)
 
-  // Create the debug visualization
-
-  helper = new THREE.SkeletonHelper(blendMesh)
-  helper.material.linewidth = 3
-  scene.add(helper)
-
-  helper.visible = false
-
   animate()
 }
 
@@ -159,7 +149,6 @@ function animate() {
 
   // modify blend weights
   blendMesh.update(stepSize)
-  helper.update()
   gui.update(blendMesh.mixer.time)
 
   renderer.render(scene, camera)
