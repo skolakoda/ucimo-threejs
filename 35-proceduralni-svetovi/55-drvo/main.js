@@ -42,7 +42,7 @@ const branchTexture = THREE.ImageUtils.loadTexture('img/treebark.jpg')
 branchTexture.wrapS = branchTexture.wrapT = THREE.RepeatWrapping
 const branchMaterial = new THREE.MeshPhongMaterial({ map:branchTexture, shininess: 2, ambient:0x998822})
 
-const tree = new Tree(branchMaterial, -1, 25, 0, 1)
+const tree = new Tree(branchMaterial, -1, 40, 0, 1)
 tree.position = new THREE.Vector3(0, 970, 0)
 tree.rotation.x = -90 * Math.PI / 180
 
