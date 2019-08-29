@@ -63,9 +63,9 @@ function createGUI(model, animations) {
   actions = {}
 
   for (let i = 0; i < animations.length; i ++) {
-    const clip = animations[ i ]
+    const clip = animations[i]
     const action = mixer.clipAction(clip)
-    actions[ clip.name ] = action
+    actions[clip.name] = action
     if (emotes.indexOf(clip.name) >= 0 || states.indexOf(clip.name) >= 4) {
       action.clampWhenFinished = true
       action.loop = THREE.LoopOnce
@@ -83,7 +83,7 @@ function createGUI(model, animations) {
   // emotes
   const emoteFolder = gui.addFolder('Emotes')
   function createEmoteCallback(name) {
-    api[ name ] = function() {
+    api[name] = function() {
       fadeToAction(name, 0.2)
       mixer.addEventListener('finished', restoreState)
     }
@@ -115,7 +115,7 @@ function createGUI(model, animations) {
 
 function fadeToAction(name, duration) {
   previousAction = activeAction
-  activeAction = actions[ name ]
+  activeAction = actions[name]
 
   if (previousAction !== activeAction)
     previousAction.fadeOut(duration)
