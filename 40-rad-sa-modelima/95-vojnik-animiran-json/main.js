@@ -28,8 +28,6 @@ function init() {
 
   container.appendChild(renderer.domElement)
 
-  window.addEventListener('resize', onWindowResize, false)
-
   // listen for messages from the gui
   window.addEventListener('start-animation', onStartAnimation)
   window.addEventListener('stop-animation', onStopAnimation)
@@ -45,19 +43,10 @@ function init() {
   blendMesh.load('modeli/vojnik/model.json', start)
 }
 
-function onWindowResize() {
-  camera.aspect = window.innerWidth / window.innerHeight
-  camera.updateProjectionMatrix()
-
-  renderer.setSize(window.innerWidth, window.innerHeight)
-}
-
 function onStartAnimation(event) {
   const data = event.detail
-
   blendMesh.stopAll()
   blendMesh.unPauseAll()
-
   // the blend mesh will combine 1 or more animations
   for (let i = 0; i < data.anims.length; ++i)
     blendMesh.play(data.anims[i], data.weights[i])
@@ -141,19 +130,11 @@ function start() {
 
 function animate() {
   requestAnimationFrame(animate, renderer.domElement)
-
-  // step forward in time based on whether we're stepping and scale
   const scale = gui.getTimeScale()
   const delta = clock.getDelta()
   const stepSize = (!isFrameStepping) ? delta * scale : timeToStep
-
-  // modify blend weights
   blendMesh.update(stepSize)
   gui.update(blendMesh.mixer.time)
-
   renderer.render(scene, camera)
-  // if we are stepping, consume time
-  // ( will equal step size next time a single step is desired )
-
   timeToStep = 0
 }
