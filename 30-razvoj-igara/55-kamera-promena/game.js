@@ -19,10 +19,8 @@ topCamera.lookAt(scene.position)
 // camera 2
 const chaseCamera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR)
 scene.add(chaseCamera)
-// RENDERER
-const renderer = new THREE.WebGLRenderer({
-  antialias: true
-})
+
+const renderer = new THREE.WebGLRenderer({antialias: true})
 renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT)
 const container = document.getElementById('ThreeJS')
 container.appendChild(renderer.domElement)
@@ -31,19 +29,13 @@ const light = new THREE.PointLight(0xffffff)
 light.position.set(0, 250, 0)
 scene.add(light)
 
-const floorTexture = new THREE.ImageUtils.loadTexture('images/checkerboard.jpg')
-floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping
-floorTexture.repeat.set(10, 10)
-const floorMaterial = new THREE.MeshBasicMaterial({
-  map: floorTexture,
-  side: THREE.DoubleSide
-})
+const floorMaterial = new THREE.MeshBasicMaterial({ color: 0xcccccc })
 const floorGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10)
 const floor = new THREE.Mesh(floorGeometry, floorMaterial)
 floor.position.y = -0.5
-floor.rotation.x = Math.PI / 2
+floor.rotation.x = -Math.PI / 2
 scene.add(floor)
-  
+
 // create an array with six textures for a cool cube
 const geometry = new THREE.CubeGeometry(1, 1, 1)
 const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
@@ -93,14 +85,11 @@ shape = THREE.SceneUtils.createMultiMaterialObject(
 shape.position.set(-200, 50, 200)
 scene.add(shape)
 
-
 /* FUNCTIONS */
 
 function render() {
-  if (chaseCameraActive)
-    renderer.render(scene, chaseCamera)
-  else
-    renderer.render(scene, topCamera)
+  if (chaseCameraActive) renderer.render(scene, chaseCamera)
+  else renderer.render(scene, topCamera)
 }
 
 function update() {
