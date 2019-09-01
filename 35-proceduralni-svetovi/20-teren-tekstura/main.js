@@ -61,7 +61,7 @@ function create3DTerrain(width, depth, spacingX, spacingZ, height) {
   geometry.computeFaceNormals()
 
   const mat = new THREE.MeshPhongMaterial()
-  mat.map = THREE.ImageUtils.loadTexture('../../assets/teksture/wood_1-1024x1024.png')
+  mat.map = THREE.ImageUtils.loadTexture('../../assets/textures/wood_1-1024x1024.png')
 
   const groundMesh = new THREE.Mesh(geometry, mat)
   groundMesh.translateX(-width / 1.5)

@@ -29,19 +29,19 @@ bumpTexture.wrapS = bumpTexture.wrapT = THREE.RepeatWrapping
 
 const bumpScale = 200.0
 
-const oceanTexture = new THREE.ImageUtils.loadTexture('../../assets/teksture/dirt-512.jpg')
+const oceanTexture = new THREE.ImageUtils.loadTexture('../../assets/textures/dirt-512.jpg')
 oceanTexture.wrapS = oceanTexture.wrapT = THREE.RepeatWrapping
 
-const sandyTexture = new THREE.ImageUtils.loadTexture('../../assets/teksture/sand-512.jpg')
+const sandyTexture = new THREE.ImageUtils.loadTexture('../../assets/textures/sand-512.jpg')
 sandyTexture.wrapS = sandyTexture.wrapT = THREE.RepeatWrapping
 
-const grassTexture = new THREE.ImageUtils.loadTexture('../../assets/teksture/grass-512.jpg')
+const grassTexture = new THREE.ImageUtils.loadTexture('../../assets/textures/grass-512.jpg')
 grassTexture.wrapS = grassTexture.wrapT = THREE.RepeatWrapping
 
-const rockyTexture = new THREE.ImageUtils.loadTexture('../../assets/teksture/rock-512.jpg')
+const rockyTexture = new THREE.ImageUtils.loadTexture('../../assets/textures/rock-512.jpg')
 rockyTexture.wrapS = rockyTexture.wrapT = THREE.RepeatWrapping
 
-const snowyTexture = new THREE.ImageUtils.loadTexture('../../assets/teksture/snow-512.jpg')
+const snowyTexture = new THREE.ImageUtils.loadTexture('../../assets/textures/snow-512.jpg')
 snowyTexture.wrapS = snowyTexture.wrapT = THREE.RepeatWrapping
 
 const customUniforms = {
@@ -67,7 +67,7 @@ plane.rotation.x = -Math.PI / 2
 plane.position.y = -100
 scene.add(plane)
 
-const waterTex = new THREE.ImageUtils.loadTexture('../../assets/teksture/water512.jpg')
+const waterTex = new THREE.ImageUtils.loadTexture('../../assets/textures/water512.jpg')
 waterTex.wrapS = waterTex.wrapT = THREE.RepeatWrapping
 waterTex.repeat.set(5, 5)
 const waterMat = new THREE.MeshBasicMaterial({ map: waterTex, transparent: true, opacity: 0.40 })

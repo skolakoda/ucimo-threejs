@@ -12,7 +12,7 @@ scene.add(usmerenoSvetlo)
 
 const texture = new THREE.Texture()
 const ucitavacSlika = new THREE.ImageLoader()
-ucitavacSlika.load('../../assets/teksture/crate.gif', slika => {
+ucitavacSlika.load('../../assets/textures/crate.gif', slika => {
   texture.image = slika
   texture.needsUpdate = true
 })

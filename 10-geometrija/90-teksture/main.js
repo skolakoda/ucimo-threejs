@@ -7,7 +7,7 @@ const scene = new THREE.Scene()
 
 const loader = new THREE.TextureLoader()
 const moonTexture = loader.load('img/moon.jpg')
-const crateTexture = loader.load('../../assets/teksture/crate.gif')
+const crateTexture = loader.load('../../assets/textures/crate.gif')
 
 const camera = new THREE.PerspectiveCamera(
   45, SCREEN_WIDTH / SCREEN_HEIGHT, 0.1, 1000

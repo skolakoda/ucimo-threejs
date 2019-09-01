@@ -27,7 +27,7 @@ const light = new THREE.PointLight(0xffffff)
 light.position.set(0, 250, 0)
 scene.add(light)
 // FLOOR
-const floorTexture = new THREE.ImageUtils.loadTexture('../../assets/teksture/checkerboard.jpg')
+const floorTexture = new THREE.ImageUtils.loadTexture('../../assets/textures/checkerboard.jpg')
 floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping
 floorTexture.repeat.set(10, 10)
 const floorMaterial = new THREE.MeshBasicMaterial({map: floorTexture, side: THREE.DoubleSide})
