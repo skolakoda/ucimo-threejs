@@ -2,12 +2,11 @@
 Physijs.scripts.worker = '../../libs/physijs_worker.js'
 Physijs.scripts.ammo = 'ammo.js' // relativno u odnosu na worker
 
-let initScene, initEventHandling, render, createTower,
-  renderer, scene, dir_light, am_light, camera,
+let renderer, scene, dir_light, am_light, camera,
   table, blocks = [], table_material, block_material, intersect_plane,
   selected_block = null, mouse_position = new THREE.Vector3, block_offset = new THREE.Vector3, _i, _v3 = new THREE.Vector3
 
-initScene = function() {
+function initScene() {
   renderer = new THREE.WebGLRenderer({ antialias: true })
   renderer.setSize(window.innerWidth, window.innerHeight)
   renderer.shadowMapEnabled = true
@@ -42,11 +41,9 @@ initScene = function() {
   camera.lookAt(new THREE.Vector3(0, 7, 0))
   scene.add(camera)
 
-  // ambient light
   am_light = new THREE.AmbientLight(0x444444)
   scene.add(am_light)
 
-  // directional light
   dir_light = new THREE.DirectionalLight(0xFFFFFF)
   dir_light.position.set(20, 30, -5)
   dir_light.target.position.copy(scene.position)
@@ -100,43 +97,40 @@ initScene = function() {
   scene.simulate()
 }
 
-render = function() {
+function render() {
   requestAnimationFrame(render)
   renderer.render(scene, camera)
 }
 
-createTower = (function() {
+function createTower() {
   const block_length = 6, block_height = 1, block_width = 1.5, block_offset = 2,
     block_geometry = new THREE.BoxGeometry(block_length, block_height, block_width)
 
-  return function() {
-    let i, j, rows = 16,
-      block
+  let i, j, rows = 16, block
 
-    for (i = 0; i < rows; i++)
-      for (j = 0; j < 3; j++) {
-        block = new Physijs.BoxMesh(block_geometry, block_material)
-        block.position.y = (block_height / 2) + block_height * i
-        if (i % 2 === 0) {
-          block.rotation.y = Math.PI / 2.01 // #TODO: There's a bug somewhere when this is to close to 2
-          block.position.x = block_offset * j - (block_offset * 3 / 2 - block_offset / 2)
-        } else
-          block.position.z = block_offset * j - (block_offset * 3 / 2 - block_offset / 2)
+  for (i = 0; i < rows; i++)
+    for (j = 0; j < 3; j++) {
+      block = new Physijs.BoxMesh(block_geometry, block_material)
+      block.position.y = (block_height / 2) + block_height * i
+      if (i % 2 === 0) {
+        block.rotation.y = Math.PI / 2.01 // #TODO: There's a bug somewhere when this is to close to 2
+        block.position.x = block_offset * j - (block_offset * 3 / 2 - block_offset / 2)
+      } else
+        block.position.z = block_offset * j - (block_offset * 3 / 2 - block_offset / 2)
 
-        block.receiveShadow = true
-        block.castShadow = true
-        scene.add(block)
-        blocks.push(block)
-      }
-  }
-})()
+      block.receiveShadow = true
+      block.castShadow = true
+      scene.add(block)
+      blocks.push(block)
+    }
 
-initEventHandling = (function() {
+}
+
+function initEventHandling() {
   let _vector = new THREE.Vector3,
-    projector = new THREE.Projector(),
-    handleMouseDown, handleMouseMove, handleMouseUp
+    projector = new THREE.Projector()
 
-  handleMouseDown = function(evt) {
+  function handleMouseDown(evt) {
     let ray, intersections
     _vector.set(
       (evt.clientX / window.innerWidth) * 2 - 1,
@@ -164,7 +158,7 @@ initEventHandling = (function() {
     }
   }
 
-  handleMouseMove = function(evt) {
+  function handleMouseMove(evt) {
     let ray, intersection
     if (selected_block !== null) {
 
@@ -181,7 +175,7 @@ initEventHandling = (function() {
     }
   }
 
-  handleMouseUp = function(evt) {
+  function handleMouseUp(evt) {
     if (selected_block !== null) {
       _vector.set(1, 1, 1)
       selected_block.setAngularFactor(_vector)
@@ -190,11 +184,10 @@ initEventHandling = (function() {
     }
   }
 
-  return function() {
     renderer.domElement.addEventListener('mousedown', handleMouseDown)
     renderer.domElement.addEventListener('mousemove', handleMouseMove)
     renderer.domElement.addEventListener('mouseup', handleMouseUp)
-  }
-})()
+ 
+}
 
 window.onload = initScene
