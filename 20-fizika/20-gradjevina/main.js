@@ -2,7 +2,7 @@
 Physijs.scripts.worker = '../../libs/physijs_worker.js'
 Physijs.scripts.ammo = 'ammo.js' // relativno u odnosu na worker
 
-let blocks = [], selected_block = null, mouse_position = new THREE.Vector3, block_offset = new THREE.Vector3, _i, _v3 = new THREE.Vector3
+let blocks = [], selected_block = null, mouse_position = new THREE.Vector3, block_offset = new THREE.Vector3, v3 = new THREE.Vector3
 
 const renderer = new THREE.WebGLRenderer({ antialias: true })
 renderer.setSize(window.innerWidth, window.innerHeight)
@@ -12,22 +12,6 @@ document.body.appendChild(renderer.domElement)
 
 const scene = new Physijs.Scene({ fixedTimeStep: 1 / 120 })
 scene.setGravity(new THREE.Vector3(0, -30, 0))
-
-scene.addEventListener(
-  'update',
-  () => {
-    if (selected_block) {
-      _v3.copy(mouse_position).add(block_offset).sub(selected_block.position).multiplyScalar(5)
-      _v3.y = 0
-      selected_block.setLinearVelocity(_v3)
-      // Reactivate all of the blocks
-      _v3.set(0, 0, 0)
-      for (_i = 0; _i < blocks.length; _i++)
-        blocks[_i].applyCentralImpulse(_v3)
-    }
-    scene.simulate(undefined, 1)
-  }
-)
 
 const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 1000)
 camera.position.set(25, 20, 25)
@@ -78,13 +62,23 @@ const intersect_plane = new THREE.Mesh(
 intersect_plane.rotation.x = Math.PI / -2
 scene.add(intersect_plane)
 
-requestAnimationFrame(render)
-scene.simulate()
-
-function render() {
-  requestAnimationFrame(render)
-  renderer.render(scene, camera)
+function updateBlocks() {
+  if (selected_block) {
+    v3.copy(mouse_position).add(block_offset).sub(selected_block.position).multiplyScalar(5)
+    v3.y = 0
+    selected_block.setLinearVelocity(v3)
+    // reactivate all blocks
+    v3.set(0, 0, 0)
+    blocks.forEach(block => block.applyCentralImpulse(v3))
+  }
 }
+
+void function render() {
+  requestAnimationFrame(render)
+  scene.simulate()
+  updateBlocks()
+  renderer.render(scene, camera)
+}()
 
 function createTower() {
   const block_length = 6, block_height = 1, block_width = 1.5, block_offset = 2,
