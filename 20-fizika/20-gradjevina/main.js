@@ -6,8 +6,6 @@ let blocks = [], selected_block = null, mouse_position = new THREE.Vector3, bloc
 
 const renderer = new THREE.WebGLRenderer({ antialias: true })
 renderer.setSize(window.innerWidth, window.innerHeight)
-renderer.shadowMapEnabled = true
-renderer.shadowMapSoft = true
 document.body.appendChild(renderer.domElement)
 
 const scene = new Physijs.Scene({ fixedTimeStep: 1 / 120 })
@@ -21,14 +19,6 @@ scene.add(camera)
 const dir_light = new THREE.DirectionalLight(0xFFFFFF)
 dir_light.position.set(20, 30, -5)
 dir_light.target.position.copy(scene.position)
-dir_light.castShadow = true
-dir_light.shadowCameraLeft = -30
-dir_light.shadowCameraTop = -30
-dir_light.shadowCameraRight = 30
-dir_light.shadowCameraBottom = 30
-dir_light.shadowCameraNear = 20
-dir_light.shadowCameraFar = 200
-dir_light.shadowBias = -.001
 scene.add(dir_light)
 
 const table_material = Physijs.createMaterial(
