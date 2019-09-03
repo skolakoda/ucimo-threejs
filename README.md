@@ -12,7 +12,7 @@ Vidi još: [github.com/skolakoda/pravimo-3d-sajtove](https://github.com/skolakod
 
 Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura je potreban lokalni server.
 
-## Primeri
+## TODO
 
 - fizika:
   - http://schteppe.github.io/ammo.js-demos/
@@ -24,6 +24,7 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
 - https://threejs.org/examples/#webgl_geometry_terrain
 - https://threejs.org/examples/#webgl_terrain_dynamic
 - https://codepen.io/zadvorsky/pen/VaXqRW (cestice slika)
+- svetlo (learning-threejs poglavlje 3)
 
 ## Izvori
 
