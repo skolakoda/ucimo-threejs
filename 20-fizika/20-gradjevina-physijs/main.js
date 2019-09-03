@@ -2,7 +2,11 @@
 Physijs.scripts.worker = '../../libs/physijs_worker.js'
 Physijs.scripts.ammo = 'ammo.js' // relativno u odnosu na worker
 
-let blocks = [], selected_block = null, mouse_position = new THREE.Vector3, block_offset = new THREE.Vector3, v3 = new THREE.Vector3
+let selected_block = null
+const blocks = []
+const mouse_position = new THREE.Vector3
+const block_offset = new THREE.Vector3
+const v3 = new THREE.Vector3
 
 const renderer = new THREE.WebGLRenderer({ antialias: true })
 renderer.setSize(window.innerWidth, window.innerHeight)

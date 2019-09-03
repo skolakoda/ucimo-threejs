@@ -1,3 +1,4 @@
+/* global Ammo */
 import {OrbitControls} from '../../node_modules/three/examples/jsm/controls/OrbitControls.js'
 
 Ammo().then(Ammo => {
@@ -32,11 +33,8 @@ Ammo().then(Ammo => {
   }
 
   function initGraphics() {
-
     container = document.getElementById('container')
-
     camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.2, 2000)
-
     scene = new THREE.Scene()
 
     camera.position.x = -7
@@ -73,17 +71,12 @@ Ammo().then(Ammo => {
     light.shadow.mapSize.y = 1024
 
     scene.add(light)
-
     container.innerHTML = ''
-
     container.appendChild(renderer.domElement)
-
     window.addEventListener('resize', onWindowResize, false)
-
   }
 
   function initPhysics() {
-
     collisionConfiguration = new Ammo.btSoftBodyRigidBodyCollisionConfiguration()
     dispatcher = new Ammo.btCollisionDispatcher(collisionConfiguration)
     broadphase = new Ammo.btDbvtBroadphase()
@@ -92,11 +85,9 @@ Ammo().then(Ammo => {
     physicsWorld = new Ammo.btSoftRigidDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration, softBodySolver)
     physicsWorld.setGravity(new Ammo.btVector3(0, gravityConstant, 0))
     physicsWorld.getWorldInfo().set_m_gravity(new Ammo.btVector3(0, gravityConstant, 0))
-
   }
 
   function createObjects() {
-
     const pos = new THREE.Vector3()
     const quat = new THREE.Quaternion()
 
@@ -136,16 +127,14 @@ Ammo().then(Ammo => {
     pos.set(0, brickHeight * 0.5, z0)
     quat.set(0, 0, 0, 1)
     for (let j = 0; j < numBricksHeight; j ++) {
-
       const oddRow = (j % 2) == 1
-
       pos.z = z0
 
       if (oddRow)
         pos.z -= 0.25 * brickLength
 
       const nRow = oddRow ? numBricksLength + 1 : numBricksLength
-      for (var i = 0; i < nRow; i ++) {
+      for (let i = 0; i < nRow; i ++) {
 
         let brickLengthCurrent = brickLength
         let brickMassCurrent = brickMass
@@ -163,7 +152,6 @@ Ammo().then(Ammo => {
 
         else
           pos.z += brickLength
-
       }
       pos.y += brickHeight
     }
@@ -180,10 +168,10 @@ Ammo().then(Ammo => {
     const ropePositions = []
     const ropeIndices = []
 
-    for (var i = 0; i < ropeNumSegments + 1; i++)
+    for (let i = 0; i < ropeNumSegments + 1; i++)
       ropePositions.push(ropePos.x, ropePos.y + i * segmentLength, ropePos.z)
 
-    for (var i = 0; i < ropeNumSegments; i++)
+    for (let i = 0; i < ropeNumSegments; i++)
       ropeIndices.push(i, i + 1)
 
     ropeGeometry.setIndex(new THREE.BufferAttribute(new Uint16Array(ropeIndices), 1))
@@ -239,7 +227,6 @@ Ammo().then(Ammo => {
   }
 
   function createParalellepiped(sx, sy, sz, mass, pos, quat, material) {
-
     const threeObject = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, sz, 1, 1, 1), material)
     const shape = new Ammo.btBoxShape(new Ammo.btVector3(sx * 0.5, sy * 0.5, sz * 0.5))
     shape.setMargin(margin)
@@ -247,7 +234,6 @@ Ammo().then(Ammo => {
     createRigidBody(threeObject, shape, mass, pos, quat)
 
     return threeObject
-
   }
 
   function createRigidBody(threeObject, physicsShape, mass, pos, quat) {
@@ -273,12 +259,9 @@ Ammo().then(Ammo => {
 
     if (mass > 0) {
       rigidBodies.push(threeObject)
-
       body.setActivationState(4)
     }
-
     physicsWorld.addRigidBody(body)
-
   }
 
   function createRandomColor() {
@@ -325,7 +308,6 @@ Ammo().then(Ammo => {
     updatePhysics(deltaTime)
     controls.update(deltaTime)
     renderer.render(scene, camera)
-    time += deltaTime
   }
 
   function updatePhysics(deltaTime) {
@@ -339,23 +321,20 @@ Ammo().then(Ammo => {
     const numVerts = ropePositions.length / 3
     const nodes = softBody.get_m_nodes()
     let indexFloat = 0
-    for (var i = 0; i < numVerts; i ++) {
-
+    for (let i = 0; i < numVerts; i ++) {
       const node = nodes.at(i)
       const nodePos = node.get_m_x()
       ropePositions[ indexFloat++ ] = nodePos.x()
       ropePositions[ indexFloat++ ] = nodePos.y()
       ropePositions[ indexFloat++ ] = nodePos.z()
-
     }
     rope.geometry.attributes.position.needsUpdate = true
 
-    for (var i = 0, il = rigidBodies.length; i < il; i++) {
+    for (let i = 0, il = rigidBodies.length; i < il; i++) {
       const objThree = rigidBodies[ i ]
       const objPhys = objThree.userData.physicsBody
       const ms = objPhys.getMotionState()
       if (ms) {
-
         ms.getWorldTransform(transformAux1)
         const p = transformAux1.getOrigin()
         const q = transformAux1.getRotation()

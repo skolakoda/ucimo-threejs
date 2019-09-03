@@ -14,14 +14,16 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
 
 ## Primeri
 
+- fizika:
+  - http://schteppe.github.io/ammo.js-demos/
+  - https://threejs.org/examples/?q=physics#webgl_physics_terrain
+  - https://discourse.threejs.org/t/driving-demo-using-ammo-js/5217 (voznja)
 * [Ptice](https://threejs.org/examples/webgl_gpgpu_birds.html)
 * [Skeletal Animation Blending](https://threejs.org/examples/#webgl_animation_skinning_blending)
 * [morph targets - horse](https://github.com/mrdoob/three.js/blob/master/examples/webgl_morphtargets_horse.html)
 - https://threejs.org/examples/#webgl_geometry_terrain
 - https://threejs.org/examples/#webgl_terrain_dynamic
 - https://codepen.io/zadvorsky/pen/VaXqRW (cestice slika)
-- https://threejs.org/examples/?q=physics#webgl_physics_terrain
-* [Realistic Rain](https://github.com/solusipse/threejs-examples)
 
 ## Izvori
 
