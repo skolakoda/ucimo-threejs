@@ -18,6 +18,7 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
   - http://schteppe.github.io/ammo.js-demos/
   - https://threejs.org/examples/?q=physics#webgl_physics_terrain
   - https://discourse.threejs.org/t/driving-demo-using-ammo-js/5217 (voznja)
+- uzeti kamion model (truck dae from learning-threejs)
 * [Ptice](https://threejs.org/examples/webgl_gpgpu_birds.html)
 * [Skeletal Animation Blending](https://threejs.org/examples/#webgl_animation_skinning_blending)
 * [morph targets - horse](https://github.com/mrdoob/three.js/blob/master/examples/webgl_morphtargets_horse.html)

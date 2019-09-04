@@ -42,7 +42,7 @@ function createGeometryFromMap() {
   const ctx = canvas.getContext('2d')
 
   const img = new Image()
-  img.src = '../../assets/heightmap.png'
+  img.src = '../../assets/heightmaps/heightmap2.png'
   img.onload = function() {
     ctx.drawImage(img, 0, 0)
     const pixel = ctx.getImageData(0, 0, width, depth)
