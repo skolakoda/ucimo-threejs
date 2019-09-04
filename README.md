@@ -24,8 +24,17 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
 * [morph targets - horse](https://github.com/mrdoob/three.js/blob/master/examples/webgl_morphtargets_horse.html)
 - https://threejs.org/examples/#webgl_geometry_terrain
 - https://threejs.org/examples/#webgl_terrain_dynamic
-- https://codepen.io/zadvorsky/pen/VaXqRW (cestice slika)
-- svetlo (learning-threejs poglavlje 3)
+cestice:
+  - https://codepen.io/zadvorsky/pen/VaXqRW
+  - https://codepen.io/teolitto/pen/KwOVvL
+  - https://codepen.io/seanseansean/pen/EaBZEY
+  - https://codepen.io/eltonkamami/pen/ECrKd
+- svetlo:
+  - learning-threejs poglavlje 3
+- razno:
+  - https://codepen.io/Mombasa/pen/leiGu
+  - https://codepen.io/devildrey33/pen/zKBpmq
+  - https://codepen.io/zadvorsky/pen/xPKBBJ
 
 ## Izvori
 
