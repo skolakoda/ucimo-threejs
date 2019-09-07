@@ -1,7 +1,7 @@
 // https://threejs.org/examples/webgl_physics_convex_break.html
-import { OrbitControls } from '../../node_modules/three/examples/jsm/controls/OrbitControls.js'
-import { ConvexObjectBreaker } from '../../node_modules/three/examples/jsm/misc/ConvexObjectBreaker.js'
-import { ConvexBufferGeometry } from '../../node_modules/three/examples/jsm/geometries/ConvexGeometry.js'
+import { OrbitControls } from '/node_modules/three/examples/jsm/controls/OrbitControls.js'
+import { ConvexObjectBreaker } from '/node_modules/three/examples/jsm/misc/ConvexObjectBreaker.js'
+import { ConvexBufferGeometry } from '/node_modules/three/examples/jsm/geometries/ConvexGeometry.js'
 
 let container
 let camera, controls, scene, renderer

@@ -1,5 +1,5 @@
 // http://kripken.github.io/ammo.js/examples/webgl_demo_vehicle/index.html
-import {OrbitControls} from '../../node_modules/three/examples/jsm/controls/OrbitControls.js'
+import {OrbitControls} from '/node_modules/three/examples/jsm/controls/OrbitControls.js'
 
 Ammo().then(Ammo => {
   const DISABLE_DEACTIVATION = 4

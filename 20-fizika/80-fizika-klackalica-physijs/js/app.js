@@ -1,7 +1,7 @@
 (function () {
   'use strict'
 
-  Physijs.scripts.worker = '../../libs/physijs_worker.js'
+  Physijs.scripts.worker = '/libs/physijs_worker.js'
   Physijs.scripts.ammo = 'ammo.js'
 
   var scene = new Physijs.Scene(),

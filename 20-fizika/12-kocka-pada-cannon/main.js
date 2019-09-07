@@ -1,5 +1,5 @@
 /* global Physijs */
-Physijs.scripts.worker = '../../libs/physijs_worker.js'
+Physijs.scripts.worker = '/libs/physijs_worker.js'
 Physijs.scripts.ammo = 'ammo.js' // relativno u odnosu na worker
 
 const {innerWidth, innerHeight} = window
