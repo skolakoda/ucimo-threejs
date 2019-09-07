@@ -1,25 +1,8 @@
-const SCREEN_WIDTH = window.innerWidth,
-  SCREEN_HEIGHT = window.innerHeight
+import * as THREE from '/node_modules/three/build/three.module.js'
+import {camera, scene, renderer, createOrbitControls} from '/utils/scene.js'
 
-/* INIT */
-
-const scene = new THREE.Scene()
-
-const loader = new THREE.TextureLoader()
-const moonTexture = loader.load('img/moon.jpg')
-const crateTexture = loader.load('../../assets/textures/crate.gif')
-
-const camera = new THREE.PerspectiveCamera(
-  45, SCREEN_WIDTH / SCREEN_HEIGHT, 0.1, 1000
-)
-scene.add(camera)
 camera.position.set(0, 150, 400)
-
-const renderer = new THREE.WebGLRenderer({antialias: true})
-renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT)
-document.body.appendChild(renderer.domElement)
-
-const controls = new THREE.OrbitControls(camera, renderer.domElement)
+createOrbitControls()
 
 const light = new THREE.PointLight(0xffffff)
 light.position.set(0, 150, 100)
@@ -27,19 +10,19 @@ scene.add(light)
 const light2 = new THREE.AmbientLight(0x444444)
 scene.add(light2)
 
+const loader = new THREE.TextureLoader()
+const moonTexture = loader.load('/assets/textures/moon.jpg')
+const crateTexture = loader.load('/assets/textures/crate.gif')
+
 /* GEOMETRIES */
 
-const floorMaterial = new THREE.MeshBasicMaterial({
-  map: moonTexture
-})
+const floorMaterial = new THREE.MeshBasicMaterial({map: moonTexture})
 const floorGeometry = new THREE.CircleGeometry(500, 32)
 const floor = new THREE.Mesh(floorGeometry, floorMaterial)
-floor.position.y = -0.5
 floor.rotation.x = -Math.PI / 2
 scene.add(floor)
 
 const sphereGeom = new THREE.SphereGeometry(40, 32, 32)
-
 const moon = new THREE.Mesh(
   sphereGeom,
   new THREE.MeshBasicMaterial({map: moonTexture})
@@ -74,5 +57,4 @@ scene.add(crate)
 void function update() {
   requestAnimationFrame(update)
   renderer.render(scene, camera)
-  controls.update()
 }()

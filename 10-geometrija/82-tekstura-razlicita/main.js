@@ -1,23 +1,15 @@
-const scene = new THREE.Scene()
+import * as THREE from '/node_modules/three/build/three.module.js'
+import {camera, scene, renderer} from '/utils/scene.js'
+
+camera.position.z = 100
+
 const loader = new THREE.TextureLoader()
-
-const renderer = new THREE.WebGLRenderer()
-renderer.setSize(window.innerWidth, window.innerHeight)
-document.body.appendChild(renderer.domElement)
-
-const camera = new THREE.PerspectiveCamera(
-  35, window.innerWidth / window.innerHeight, 1, 1000
-)
-camera.position.z = 170
-scene.add(camera)
 
 /* CUBE */
 
 const materials = []
 for (let i = 1; i < 7; i++) materials.push(
-  new THREE.MeshBasicMaterial({
-    map: loader.load(`img/Dice-Blue-${i}.png`)
-  })
+  new THREE.MeshBasicMaterial({map: loader.load(`img/Dice-Blue-${i}.png`)})
 )
 const cube = new THREE.Mesh(
   new THREE.BoxGeometry(40, 40, 40),
@@ -25,7 +17,7 @@ const cube = new THREE.Mesh(
 )
 scene.add(cube)
 
-/* UPDATE */
+/* LOOP */
 
 void function update() {
   window.requestAnimationFrame(update)

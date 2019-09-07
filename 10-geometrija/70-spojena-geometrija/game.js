@@ -1,20 +1,11 @@
-/* mnogo sporije renderuje kada ima mnogo objekata koji nisu spojeni */
+import * as THREE from '/node_modules/three/build/three.module.js'
+import {camera, scene, renderer} from '/utils/scene.js'
+
 const cubesNum = 2000
 const rotationSpeed = 0.002
-const shouldMerge = true
+const shouldMerge = true // mnogo sporije renderuje sa puno objekata koji nisu spojeni
 
-const scene = new THREE.Scene()
-
-const renderer = new THREE.WebGLRenderer()
-renderer.setClearColor(0x000000, 1.0)
-renderer.setSize(window.innerWidth, window.innerHeight)
-document.body.appendChild(renderer.domElement)
-
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
-camera.position.x = 50
-camera.position.y = 50
-camera.position.z = 50
-camera.lookAt(scene.position)
+camera.position.set(25, 25, 25)
 
 if (shouldMerge) scene.add(createMergedCubes())
 else for (let i = 0; i < cubesNum; i++) scene.add(createCube())
