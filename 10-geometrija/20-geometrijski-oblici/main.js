@@ -1,36 +1,12 @@
+import * as THREE from '/node_modules/three/build/three.module.js'
+import {camera, scene, renderer, createOrbitControls} from '/utils/scene.js'
+
 const distance = 11
 
-const WIDTH = window.innerWidth,
-  HEIGHT = window.innerHeight
-const VIEW_ANGLE = 45,
-  ASPECT = WIDTH / HEIGHT,
-  NEAR = 0.1,
-  FAR = 20000
+createOrbitControls()
 
-/* SCENA */
-
-const scene = new THREE.Scene()
-const camera = new THREE.PerspectiveCamera(
-  VIEW_ANGLE, ASPECT, NEAR, FAR
-)
 camera.position.set(0, 15, 40)
 camera.lookAt(scene.position)
-scene.add(camera)
-
-const renderer = new THREE.WebGLRenderer()
-renderer.setSize(WIDTH, HEIGHT)
-document.body.appendChild(renderer.domElement)
-
-const controls = new THREE.OrbitControls(camera, renderer.domElement)
-
-const floorMaterial = new THREE.MeshBasicMaterial({
-  side: THREE.DoubleSide
-})
-const floorGeometry = new THREE.PlaneGeometry(100, 100)
-const floor = new THREE.Mesh(floorGeometry, floorMaterial)
-floor.rotation.x = Math.PI / 2
-floor.position.y = -5
-scene.add(floor)
 
 /* OBLICI */
 
@@ -71,5 +47,4 @@ scene.add(icosahedron)
 void function update() {
   requestAnimationFrame(update)
   renderer.render(scene, camera)
-  controls.update()
 }()

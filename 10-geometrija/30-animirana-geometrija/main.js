@@ -1,36 +1,27 @@
-const scene = new THREE.Scene()
-const casovnik = new THREE.Clock()
-const materijal = new THREE.MeshNormalMaterial()
+import * as THREE from '/node_modules/three/build/three.module.js'
+import {camera, scene, renderer, clock, createOrbitControls} from '/utils/scene.js'
 
-const camera = new THREE.PerspectiveCamera(
-  70, window.innerWidth / window.innerHeight, 1, 10000
-)
-camera.position.z = 500
-scene.add(camera)
-
-const renderer = new THREE.WebGLRenderer({alpha: true})
-renderer.setSize(window.innerWidth, window.innerHeight)
-document.body.appendChild(renderer.domElement)
+const material = new THREE.MeshNormalMaterial()
 
 const lopta = new THREE.Mesh(
-  new THREE.SphereGeometry(150, 20, 20), materijal
+  new THREE.SphereGeometry(150, 20, 20), material
 )
 scene.add(lopta)
 lopta.position.set(-250, 250, -250)
 
 const kocka = new THREE.Mesh(
-  new THREE.CubeGeometry(100, 100, 100), materijal
+  new THREE.CubeGeometry(100, 100, 100), material
 )
 scene.add(kocka)
 kocka.position.set(250, 250, -250)
 
 const valjak = new THREE.Mesh(
-  new THREE.CylinderGeometry(40, 40, 160), materijal)
+  new THREE.CylinderGeometry(40, 40, 160), material)
 valjak.position.set(250, 0, 0)
 scene.add(valjak)
 
 const piramida = new THREE.Mesh(
-  new THREE.CylinderGeometry(1, 100, 150, 4), materijal)
+  new THREE.CylinderGeometry(1, 100, 150, 4), material)
 scene.add(piramida)
 
 const ravan = new THREE.Mesh(
@@ -42,14 +33,16 @@ scene.add(ravan)
 
 const torus = new THREE.Mesh(
   new THREE.TorusGeometry(100, 25, 15, 30),
-  materijal
+  material
 )
 torus.position.set(100, -200, 0)
 scene.add(torus)
 
+/* LOOP */
+
 void function animiraj() {
   window.requestAnimationFrame(animiraj)
-  const vreme = casovnik.getElapsedTime()
+  const vreme = clock.getElapsedTime()
   lopta.rotation.set(vreme, 2 * vreme, 0)
   kocka.rotation.set(vreme, 2 * vreme, 0)
   valjak.rotation.set(vreme, 2 * vreme, 0)

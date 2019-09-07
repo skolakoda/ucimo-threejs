@@ -12,6 +12,7 @@ camera.position.z = 250
 camera.lookAt(scene.position)
 
 export const renderer = new THREE.WebGLRenderer()
+renderer.setPixelRatio(window.devicePixelRatio)
 renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.style.margin = 0
 document.body.appendChild(renderer.domElement)

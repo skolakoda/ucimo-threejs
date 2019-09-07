@@ -1,27 +1,24 @@
 <!DOCTYPE HTML>
 <html lang="en">
-	<head>
-		<title>three.js webgl - dynamic procedural terrain</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-	</head>
 
-	<body>
+<head>
+  <title>three.js webgl - dynamic procedural terrain</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+</head>
 
-    <!-- https://threejs.org/examples/#webgl_terrain_dynamic -->
-		<div id="container"></div>
+<body>
 
-		<div id="info">
-			<a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> - dynamic procedural terrain using
-			<a href="https://github.com/ashima/webgl-noise" target="_blank" rel="noopener">3d simplex noise</a><br/>
-			textures by <a href="http://opengameart.org/content/dark-grass">qubodup</a> and
-			<a href="http://opengameart.org/content/backgrounds-topdown-games">davis123</a>
-			<br/>
-			day / night: <strong>n</strong>&nbsp;&nbsp;
-			animate terrain: <strong>m</strong>
-		</div>
+  <!-- https://threejs.org/examples/#webgl_terrain_dynamic -->
 
-		<script id="fragmentShaderNoise" type="x-shader/x-fragment">
+  <div id="info">
+    <a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> - dynamic procedural terrain using
+    <a href="https://github.com/ashima/webgl-noise" target="_blank" rel="noopener">3d simplex noise</a><br />
+    textures by <a href="http://opengameart.org/content/dark-grass">qubodup</a> and
+    <a href="http://opengameart.org/content/backgrounds-topdown-games">davis123</a>
+  </div>
+
+  <script id="fragmentShaderNoise" type="x-shader/x-fragment">
 
 			//
 			// Description : Array and textureless GLSL 3D simplex noise function.
@@ -149,7 +146,7 @@
 
 		</script>
 
-		<script id="vertexShader" type="x-shader/x-vertex">
+  <script id="vertexShader" type="x-shader/x-vertex">
 
 			varying vec2 vUv;
 			uniform vec2 scale;
@@ -164,7 +161,8 @@
 
 		</script>
 
-		<script type="module" src="game.js"></script>
+  <script type="module" src="game.js"></script>
 
-	</body>
+</body>
+
 </html>
