@@ -14,10 +14,7 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
 
 ## TODO
 
-* [Ptice](https://threejs.org/examples/webgl_gpgpu_birds.html)
-* [Skeletal Animation Blending](https://threejs.org/examples/#webgl_animation_skinning_blending)
-* [morph targets - horse](https://github.com/mrdoob/three.js/blob/master/examples/webgl_morphtargets_horse.html)
-- https://threejs.org/examples/#webgl_geometry_terrain
+- https://threejs.org/examples/webgl_geometry_terrain.html
 - https://threejs.org/examples/#webgl_terrain_dynamic
 cestice:
   - https://codepen.io/zadvorsky/pen/VaXqRW
@@ -31,6 +28,7 @@ cestice:
 modeli:
   - uzeti kamion model (truck dae from learning-threejs)
   - http://server1.lazy-kitty.com/tests/camera_shake_2019_08_09/
+  * [morph targets - horse](https://github.com/mrdoob/three.js/blob/master/examples/webgl_morphtargets_horse.html)
 - razno:
   - https://codepen.io/Mombasa/pen/leiGu
   - https://codepen.io/devildrey33/pen/zKBpmq
