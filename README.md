@@ -14,8 +14,6 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
 
 ## TODO
 
-- https://threejs.org/examples/webgl_geometry_terrain.html
-- https://threejs.org/examples/#webgl_terrain_dynamic
 cestice:
   - https://codepen.io/zadvorsky/pen/VaXqRW
   - https://codepen.io/teolitto/pen/KwOVvL
