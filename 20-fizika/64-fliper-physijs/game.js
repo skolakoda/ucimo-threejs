@@ -1,14 +1,16 @@
-/* global Physijs */
+/* global THREE, Physijs */
+import { initDefaultLighting } from '../../utils/dirk.js'
+import {renderer, camera } from '../../utils/scene.js'
+
 Physijs.scripts.worker = '/libs/physijs/physijs_worker.js'
 Physijs.scripts.ammo = './ammo.js'
-import {initRenderer, initCamera, initDefaultLighting } from '../../utils/dirk.js'
 
-const renderer = initRenderer()
-const camera = initCamera(new THREE.Vector3(0, 50, 100))
+camera.position.set(0, 30, 80)
 const scene = new Physijs.Scene({reportSize: 10, fixedTimeStep: 1 / 60})
 scene.setGravity(new THREE.Vector3(0, -100, 20))
 
 initDefaultLighting(scene)
+
 const flip_material = Physijs.createMaterial(new THREE.MeshStandardMaterial({color: 0x44ff44}), 0,  0)
 const slider_material = Physijs.createMaterial(new THREE.MeshStandardMaterial({color: 0x4444ff}), 0,  0)
 
@@ -21,12 +23,14 @@ createGroundAndWalls(scene)
 const velocity = 10
 const acceleration = 20
 
+/* FUNCTIONS */
+
 function addBall() {
   const rangeXMin = -10
   const rangeXMax = 10
   const rangeZMin = -30
   const rangeZMax = 10
-  const sphere = new THREE.SphereGeometry(2.5)
+  const sphere = new THREE.SphereGeometry(2)
   const sphereMesh = new Physijs.SphereMesh(sphere, Physijs.createMaterial(new THREE.MeshStandardMaterial({color: 0xff4444}, 0, 0), 0.001))
   sphereMesh.position.set(Math.random() * (-rangeXMin + rangeXMax) + rangeXMin, 10, Math.random() * (-rangeZMin + rangeZMax) + rangeZMin)
   scene.add(sphereMesh)
