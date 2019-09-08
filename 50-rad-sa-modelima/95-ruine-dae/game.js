@@ -1,41 +1,28 @@
-const container = document.getElementById('container')
-const {offsetWidth, offsetHeight} = container
+import * as THREE from '/node_modules/three/build/three.module.js'
+import { ColladaLoader } from '/node_modules/three/examples/jsm/loaders/ColladaLoader.js'
+import {scene, camera, renderer, createOrbitControls, addLights} from '/utils/scene.js'
 
-const scene = new THREE.Scene()
+scene.background = new THREE.Color('lightblue')
+camera.position.set(1, .2, 0)
+
+addLights()
+createOrbitControls()
 
 addGround()
 loadScene()
 
-const renderer = new THREE.WebGLRenderer({ antialias: true })
-renderer.shadowMapEnabled = true
-renderer.setSize(offsetWidth, offsetHeight)
-container.appendChild(renderer.domElement)
-
-const headlight = new THREE.DirectionalLight
-headlight.position.set(0, 0, 1)
-scene.add(headlight)
-const ambient = new THREE.AmbientLight(0x222222)
-scene.add(ambient)
-
-const camera = new THREE.PerspectiveCamera(45, offsetWidth / offsetHeight, 0.001, 10000)
-camera.position.set(1, .2, 0)
-scene.add(camera)
-
-const controls = new THREE.OrbitControls(camera, renderer.domElement)
+/* FUNCTIONS */
 
 function loadScene() {
   // http://www.turbosquid.com/Search/Artists/ERLHN
-  const loader = new THREE.ColladaLoader()
-  loader.load('ruins/Ruins_dae.dae', data => {
+  const loader = new ColladaLoader()
+  loader.load('/assets/models/ruins/Ruins_dae.dae', data => {
     scene.add(data.scene)
   })
 }
 
 function addGround() {
-  const material = new THREE.MeshPhongMaterial({
-    color: 0xffffff,
-    ambient: 0x555555,
-  })
+  const material = new THREE.MeshPhongMaterial({color: 0x555555})
   const ground = new THREE.Mesh(new THREE.PlaneGeometry(1024, 1024, 32, 32), material)
   ground.rotation.x = -Math.PI / 2
   scene.add(ground)
@@ -45,7 +32,5 @@ function addGround() {
 
 void function run() {
   requestAnimationFrame(run)
-  controls.update()
-  headlight.position.copy(camera.position)
   renderer.render(scene, camera)
 }()
