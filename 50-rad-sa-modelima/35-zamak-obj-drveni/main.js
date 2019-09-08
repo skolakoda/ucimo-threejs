@@ -6,10 +6,10 @@ addLights()
 createOrbitControls()
 camera.position.set(-2, 6, 20)
 
-const texture = new THREE.TextureLoader().load('../../assets/textures/crate.gif')
+const texture = new THREE.TextureLoader().load('/assets/textures/crate.gif')
 
 const loader = new OBJLoader()
-loader.load('modeli/carobni-zamak.obj', model => {
+loader.load('/assets/models/carobni-zamak.obj', model => {
   model.traverse(child => {
     if (child instanceof THREE.Mesh) child.material.map = texture
   })

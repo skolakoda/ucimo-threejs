@@ -2,57 +2,27 @@
 import * as THREE from '/node_modules/three/build/three.module.js'
 import { GUI } from '/node_modules/three/examples/jsm/libs/dat.gui.module.js'
 import { GLTFLoader } from '/node_modules/three/examples/jsm/loaders/GLTFLoader.js'
+import {scene, camera, renderer, clock, createOrbitControls, addLights} from '/utils/scene.js'
 
 let gui, mixer, actions, activeAction, previousAction, model, face
 
 const api = { state: 'Walking' }
 
-const container = document.createElement('div')
-document.body.appendChild(container)
+addLights()
+createOrbitControls()
 
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 100)
 camera.position.set(- 5, 3, 10)
 camera.lookAt(new THREE.Vector3(0, 2, 0))
 
-const scene = new THREE.Scene()
 scene.background = new THREE.Color(0xe0e0e0)
-scene.fog = new THREE.Fog(0xe0e0e0, 20, 100)
-
-const clock = new THREE.Clock()
-
-let light = new THREE.HemisphereLight(0xffffff, 0x444444)
-light.position.set(0, 20, 0)
-scene.add(light)
-light = new THREE.DirectionalLight(0xffffff)
-light.position.set(0, 20, 10)
-scene.add(light)
-
-// ground
-const mesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0x999999, depthWrite: false }))
-mesh.rotation.x = - Math.PI / 2
-scene.add(mesh)
-
-const grid = new THREE.GridHelper(200, 40, 0x000000, 0x000000)
-grid.material.opacity = 0.2
-grid.material.transparent = true
-scene.add(grid)
 
 // model
 const loader = new GLTFLoader()
-loader.load('models/RobotExpressive.glb', gltf => {
+loader.load('/assets/models/RobotExpressive.glb', gltf => {
   model = gltf.scene
   scene.add(model)
   createGUI(model, gltf.animations)
-}, undefined, e => {
-  console.error(e)
 })
-
-const renderer = new THREE.WebGLRenderer({ antialias: true })
-renderer.setPixelRatio(window.devicePixelRatio)
-renderer.setSize(window.innerWidth, window.innerHeight)
-renderer.gammaOutput = true
-renderer.gammaFactor = 2.2
-container.appendChild(renderer.domElement)
 
 function createGUI(model, animations) {
   const states = [ 'Idle', 'Walking', 'Running', 'Dance', 'Death', 'Sitting', 'Standing' ]
@@ -100,7 +70,6 @@ function createGUI(model, animations) {
   emoteFolder.open()
 
   // expressions
-
   face = model.getObjectByName('Head_2')
   const expressions = Object.keys(face.morphTargetDictionary)
   const expressionFolder = gui.addFolder('Expressions')
@@ -127,6 +96,8 @@ function fadeToAction(name, duration) {
     .fadeIn(duration)
     .play()
 }
+
+/* LOOP */
 
 void function animate() {
   const dt = clock.getDelta()
