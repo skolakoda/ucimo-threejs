@@ -1,29 +1,23 @@
+import { ColladaLoader } from '/node_modules/three/examples/jsm/loaders/ColladaLoader.js'
+import {scene, camera, renderer, createOrbitControls, addLights} from '/utils/scene.js'
+
 const scale = 0.1
 
-/** INIT **/
+addLights()
+createOrbitControls()
+camera.position.set(3, 2, 10)
 
-const scene = new THREE.Scene()
-const camera = new THREE.PerspectiveCamera(
-  45, window.innerWidth / window.innerHeight, 1, 1000)
-camera.position.set(-6, 6, 9)
-
-const renderer = new THREE.WebGLRenderer()
-renderer.setSize(window.innerWidth, window.innerHeight)
-document.body.appendChild(renderer.domElement)
-
-const controls = new THREE.OrbitControls(camera)
-
-const loader = new THREE.ColladaLoader()
-loader.load('modeli/tvrdjava.dae', data => {
+const loader = new ColladaLoader()
+loader.load('/assets/models/tvrdjava.dae', data => {
   const model = data.scene
   model.scale.set(scale, scale, scale)
+  model.rotateX(Math.PI / 2)
   scene.add(model)
 })
 
-/** FUNCTIONS **/
+/** LOOP **/
 
 void function update() {
   requestAnimationFrame(update)
-  controls.update()
   renderer.render(scene, camera)
 }()

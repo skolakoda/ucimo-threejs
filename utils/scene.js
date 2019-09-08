@@ -32,3 +32,21 @@ export function createOrbitControls() {
   controls.enableKeys = false
   return controls
 }
+
+export function addLights() {
+  const position = new THREE.Vector3(-10, 30, 40)
+  const spotLight = new THREE.SpotLight(0xffffff)
+  spotLight.position.copy(position)
+  spotLight.shadow.mapSize.width = 2048
+  spotLight.shadow.mapSize.height = 2048
+  spotLight.shadow.camera.fov = 15
+  spotLight.castShadow = true
+  spotLight.decay = 2
+  spotLight.penumbra = 0.05
+  spotLight.name = 'spotLight'
+  scene.add(spotLight)
+
+  const ambientLight = new THREE.AmbientLight(0x343434)
+  ambientLight.name = 'ambientLight'
+  scene.add(ambientLight)
+}

@@ -1,3 +1,5 @@
+import * as THREE from '/node_modules/three/build/three.module.js'
+
 /**
  * Initialize the statistics domelement
  *
@@ -84,7 +86,6 @@ export function initDefaultLighting(scene, initialPosition) {
   const ambientLight = new THREE.AmbientLight(0x343434)
   ambientLight.name = 'ambientLight'
   scene.add(ambientLight)
-
 }
 
 export function initDefaultDirectionalLighting(scene, initialPosition) {
