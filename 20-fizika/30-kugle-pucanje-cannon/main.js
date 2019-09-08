@@ -67,12 +67,11 @@ function addBox() {
   boxMeshes.push(mesh)
 }
 
-function updateShootDirection(targetVec) {
-  const vector = targetVec
-  targetVec.set(0, 0, 1)
+function getShootDirection() {
+  const vector = new THREE.Vector3(0, 0, 1)
   vector.unproject(camera)
   const ray = new THREE.Ray(player.position, vector.sub(player.position).normalize())
-  targetVec.copy(ray.direction)
+  return ray.direction
 }
 
 function shootBall(velocity = 15) {
@@ -81,9 +80,7 @@ function shootBall(velocity = 15) {
   ball.addShape(ballShape)
   world.addBody(ball)
   balls.push(ball)
-  const direction = new THREE.Vector3()
-  updateShootDirection(direction)
-  const {x, y, z} = direction
+  const {x, y, z} = getShootDirection()
   ball.position.set(
     player.position.x + x,
     player.position.y + y,
