@@ -1,5 +1,5 @@
 /* global CANNON, THREE, PointerLockControls */
-import {camera, scene, renderer, clock} from '/utils/scene.js'
+import {camera, scene, renderer} from '/utils/scene.js'
 
 const step = 1 / 60
 const balls = []
@@ -17,15 +17,15 @@ light.position.set(10, 30, 20)
 light.castShadow = true
 scene.add(light)
 
-const controls = new PointerLockControls(camera, player)
-controls.enabled = true
-scene.add(controls.getObject())
-
 const playerShape = new CANNON.Sphere(1.3)  // radius
 const player = new CANNON.Body({mass: 5})
 player.addShape(playerShape)
 player.position.set(0, 3, 0)
 world.addBody(player)
+
+const controls = new PointerLockControls(camera, player)
+controls.enabled = true
+scene.add(controls.getObject())
 
 addGround()
 
@@ -67,12 +67,10 @@ function addBox() {
   boxMeshes.push(mesh)
 }
 
-// TODO: ukloniti Projector
 function updateShootDirection(targetVec) {
   const vector = targetVec
   targetVec.set(0, 0, 1)
-  const projector = new THREE.Projector()
-  projector.unprojectVector(vector, camera)
+  vector.unproject(camera)
   const ray = new THREE.Ray(player.position, vector.sub(player.position).normalize())
   targetVec.copy(ray.direction)
 }
@@ -104,7 +102,6 @@ function shootBall(velocity = 15) {
 
 void function update() {
   requestAnimationFrame(update)
-  const delta = clock.getDelta()
   world.step(step)
   balls.forEach((b, i) => {
     ballMeshes[i].position.copy(b.position)
@@ -114,13 +111,12 @@ void function update() {
     boxMeshes[i].position.copy(b.position)
     boxMeshes[i].quaternion.copy(b.quaternion)
   })
-  controls.update(delta)
+  controls.update()
   renderer.render(scene, camera)
-  // time = Date.now()
 }()
 
 /* EVENTS */
 
 document.body.addEventListener('click', document.body.requestPointerLock)
 
-window.addEventListener('click', shootBall)
+window.addEventListener('click', () => shootBall())
