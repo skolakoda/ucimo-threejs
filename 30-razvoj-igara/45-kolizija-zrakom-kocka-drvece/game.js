@@ -1,20 +1,15 @@
-/* Metod kolizije: rucno pravljenje box-a drveca i rucna provera sudara (isCollide) */
-// TODO: dodati avatara umesto kutije
+import * as THREE from '/node_modules/three/build/three.module.js'
+import {scene, camera, renderer, createOrbitControls} from '/utils/scene.js'
+
 const characterSize = 50
 const outlineSize = characterSize * 0.05
-
 const colliders = []
+const playerSpeed = 5
+let movements = []
 
 const raycaster = new THREE.Raycaster()
 const mouse = new THREE.Vector2()
 
-let movements = []
-const playerSpeed = 5
-
-const container = document.createElement('div')
-document.body.appendChild(container)
-
-const scene = new THREE.Scene()
 scene.background = new THREE.Color(0xccddff)
 scene.fog = new THREE.Fog(0xccddff, 500, 2000)
 
@@ -39,23 +34,19 @@ const outline_mat = new THREE.MeshBasicMaterial({ color : 0x0000000, side: THREE
 const outline = new THREE.Mesh(outline_geo, outline_mat)
 player.add(outline)
 
-const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 20000)
-camera.position.z = -300
-camera.position.y = 200
+camera.position.z = -150
+camera.position.y = 100
 player.add(camera)
 
-const renderer = new THREE.WebGLRenderer({ antialias: true })
-
-const element = renderer.domElement
-renderer.setSize(window.innerWidth, window.innerHeight)
-container.appendChild(element)
-
-const controls = new THREE.OrbitControls(camera, element)
-controls.enablePan = true
-controls.enableZoom = true
-controls.maxDistance = 1000
-controls.minDistance = 60
+const controls = createOrbitControls()
 controls.target.copy(new THREE.Vector3(0, characterSize / 2, 0))
+
+const plane = createFloor()
+scene.add(plane)
+scene.add(createTree(300, 300))
+scene.add(createTree(800, -300))
+scene.add(createTree(-300, 800))
+scene.add(createTree(-800, -800))
 
 /* FUNCTIONS */
 
@@ -176,14 +167,7 @@ function createTree(posX, posZ) {
   return trunk
 }
 
-/* INIT */
-
-const plane = createFloor()
-scene.add(plane)
-scene.add(createTree(300, 300))
-scene.add(createTree(800, -300))
-scene.add(createTree(-300, 800))
-scene.add(createTree(-800, -800))
+/* LOOP */
 
 void function animate() {
   requestAnimationFrame(animate)

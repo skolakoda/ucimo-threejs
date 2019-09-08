@@ -4,30 +4,22 @@
 <head>
 	<title>Chase Camera (Three.js)</title>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="viewport" content="width=device-width">
 </head>
 
 <body>
 
-	<script src="/libs/Three.js"></script>
-	<script src="/libs/OrbitControls.js"></script>
-	<script src="/libs/THREEx.KeyboardState.js"></script>
-
-	<div id="infoButton"></div>
-	<div id="infoBox" title="Demo Information">
-		Movement controls: <br />
-		<ul>
-			<li>W/S: Translate Forward/Backward
-			<li>A/D: Rotate Left/Right
-			<li>Q/E: Translate Left/Right
-			<li>R/F: Rotate Up/Down
-			<li>Z: Reset position and rotation.
-		</ul>
+	<ul>
+		<li>W/S: Translate Forward/Backward
+		<li>A/D: Rotate Left/Right
+		<li>Q/E: Translate Left/Right
+		<li>R/F: Rotate Up/Down
+		<li>Z: Reset position and rotation.
+	</ul>
 	</div>
 
-	<div id="ThreeJS"></div>
-	<script src="main.js"></script>
-
+	<script src="/libs/THREEx.KeyboardState.js"></script>
+	<script src="main.js" type="module"></script>
 </body>
 
 </html>

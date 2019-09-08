@@ -1,12 +1,9 @@
-const scene = new THREE.Scene()
+/* global dat */
+import * as THREE from '/node_modules/three/build/three.module.js'
+import {scene, camera, renderer} from '/utils/scene.js'
 
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
-const camControl = new THREE.TrackballControls(camera)
-
-const renderer = new THREE.WebGLRenderer()
-renderer.setClearColor(0xeeeeee, 1.0)
-renderer.setSize(window.innerWidth, window.innerHeight)
-document.body.appendChild(renderer.domElement)
+camera.position.set(10, 5, 7)
+camera.lookAt(scene.position)
 
 const cubeGeometry = new THREE.BoxGeometry(1, 1, 7)
 const cubeMaterial = new THREE.MeshLambertMaterial({color: 'blue'})
@@ -41,11 +38,6 @@ const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial)
 boxMesh.position.set(2, 4, 8)
 scene.add(boxMesh)
 
-camera.position.x = 20
-camera.position.y = 5
-camera.position.z = 13
-camera.lookAt(scene.position)
-
 const control = new function() {
   this.lookAtCube = function() {
     cube.lookAt(boxMesh.position)
@@ -72,6 +64,5 @@ function addControls(controlObject) {
 
 void function render() {
   renderer.render(scene, camera)
-  camControl.update()
   requestAnimationFrame(render)
 }()

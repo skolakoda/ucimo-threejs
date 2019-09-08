@@ -1,8 +1,9 @@
+/* global THREE, THREEx */
+import {scene, renderer} from '/utils/scene.js'
+
 const keyboard = new THREEx.KeyboardState()
 
 let chaseCameraActive = false
-
-const scene = new THREE.Scene()
 
 const SCREEN_WIDTH = window.innerWidth,
   SCREEN_HEIGHT = window.innerHeight
@@ -11,19 +12,13 @@ const VIEW_ANGLE = 45,
   NEAR = 0.1,
   FAR = 20000
 
-// camera 1
 const topCamera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR)
 scene.add(topCamera)
 topCamera.position.set(0, 200, 550)
 topCamera.lookAt(scene.position)
-// camera 2
+
 const chaseCamera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR)
 scene.add(chaseCamera)
-
-const renderer = new THREE.WebGLRenderer({antialias: true})
-renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT)
-const container = document.getElementById('ThreeJS')
-container.appendChild(renderer.domElement)
 
 const light = new THREE.PointLight(0xffffff)
 light.position.set(0, 250, 0)
@@ -36,7 +31,6 @@ floor.position.y = -0.5
 floor.rotation.x = -Math.PI / 2
 scene.add(floor)
 
-// create an array with six textures for a cool cube
 const geometry = new THREE.CubeGeometry(1, 1, 1)
 const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
 const cube = new THREE.Mesh(geometry, material)
