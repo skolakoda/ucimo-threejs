@@ -2,6 +2,7 @@ import * as THREE from '/node_modules/three/build/three.module.js'
 import { OrbitControls } from '/node_modules/three/examples/jsm/controls/OrbitControls.js'
 
 export const scene = new THREE.Scene()
+scene.background = new THREE.Color(0xe0e0e0)
 
 // const light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 1)
 // light.position.set(0.5, 1, 0.75)

@@ -4,70 +4,56 @@
 <head>
     <title>Modeli</title>
     <meta charset="utf-8">
-    <style media="screen">
-        body {
-            margin: 0;
-            overflow: hidden;
-        }
-
-        .izaberi-avion {
-            position: absolute;
-        }
-    </style>
 </head>
 
 <body>
 
-    <select name="izaberi-avion" id="izaberi-avion" class="izaberi-avion">
+    <select id="izaberi-model">
         <optgroup label="fantasy">
-            <option value="modeli/wizards-tower/model.dae">Wizards Tower House</option>
+            <option value="wizards-tower/model.dae">Wizards Tower House</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=e6b498a19539404bbca1f0ee09a7c4e0 -->
-            <option value="modeli/nightelf-priest/model.dae">World of Warcraft - Nightelf Priest</option>
+            <option value="nightelf-priest/model.dae">World of Warcraft - Nightelf Priest</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=35c94a7dde651c8812d8d820b7b8189d -->
-            <option value="modeli/aerial-screw/model.dae">Leonardo Da Vinci&apos;s aerial screw</option>
+            <option value="aerial-screw/model.dae">Leonardo Da Vinci&apos;s aerial screw</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=218813089ecf0fa45c351e299b24e355 -->
-            <option value="modeli/santos-dumont-9/model.dae">Santos-Dumont&apos;s airship</option>
+            <option value="santos-dumont-9/model.dae">Santos-Dumont&apos;s airship</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=cf482e8af43c06c0d86d4f3257dfa437 -->
-            <option value="modeli/steampunk-tank/model.dae">Steampunk tank</option>
+            <option value="steampunk-tank/model.dae">Steampunk tank</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=d68d59724372d5041cd632eeaf16b643 -->
-            <option value="modeli/arcology/model.dae">Ring Arcology</option>
+            <option value="arcology/model.dae">Ring Arcology</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=dffa5125ac4d309bdf566b587d6b21 -->
         </optgroup>
         <optgroup label="ww1">
-            <option value="modeli/morane-saulnier-L/model.dae">French aircraft Morane-Saulnier L</option>
+            <option value="morane-saulnier-L/model.dae">French aircraft Morane-Saulnier L</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=9bb142d767f1b6bbab27aa9295303236 -->
-            <option value="modeli/pfalz-d-III/model.dae">German aircraft Pfalz D.III</option>
+            <option value="pfalz-d-III/model-b.dae">German aircraft Pfalz D.III</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=414cf4ec44f4573346e211e2fce8d948 -->
-            <option value="modeli/ehrhardt-e-v4/model.dae">German armored car E-V/4</option>
+            <option value="ehrhardt-e-v4/model.dae">German armored car E-V/4</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=baf0b285162efb4f890824251c0961f3 -->
-            <option value="modeli/s-e-5a/model.dae">British aircraft S.E.5a</option>
+            <option value="s-e-5a/model.dae">British aircraft S.E.5a</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=abb427042f27c884ab27aa9295303236 -->
-            <option value="modeli/a7v/model.dae">German tank A7V</option>
+            <option value="a7v/model.dae">German tank A7V</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=3bebb1403e9a06ae8697536215effec1 -->
         </optgroup>
         <optgroup label="ww2">
-            <option value="modeli/jumbo-steam-locomotive/model.dae">German locomotive DB Class 44 &quot;Jumbo&quot;</option>
+            <option value="jumbo-steam-locomotive/model.dae">German locomotive DB Class 44 &quot;Jumbo&quot;</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=da41f2b9-175e-41c6-ba0e-31c6e0f3402b -->
-            <option value="modeli/rajhstag/model.dae">Battle of Berlin 1945 Reichstag</option>
+            <option value="rajhstag/model.dae">Battle of Berlin 1945 Reichstag</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=8b7ae40cd4a4f1798e8c44d96a1c65d1 -->
-            <option value="modeli/autoblinda-1zm/model.dae">Autoblinda 1ZM</option>
+            <option value="autoblinda-1zm/model.dae">Autoblinda 1ZM</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=udc395b04-5bec-41f0-997e-e44381b42b5e -->
-            <option value="modeli/auschwitz-gate/model.dae">Auschwitz gate, arbeit macht frei</option>
+            <option value="auschwitz-gate/model.dae">Auschwitz gate, arbeit macht frei</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=8c2e0e23e88d8ab89925b4905c3a51d -->
         </optgroup>
-        <optgroup label="probno" id="probni-modeli">
-            <option id="Me-109+-+JG-27" value="modeli/Me-109+-+JG-27/model.dae">Me-109+-+JG-27</option>
-            <option id="panzer" value="modeli/panzer/model.dae">panzer</option>
-            <option id="buldozer" value="modeli/buldozer/model.dae">buldozer</option>
+        <optgroup label="probno">
+            <option value="me-109/model.dae">Me-109+-+JG-27</option>
+            <option value="panzer/model.dae">panzer</option>
+            <option value="buldozer/model.dae">buldozer</option>
             <!-- https://3dwarehouse.sketchup.com/model.html?id=13fcdf33e0cf3efabff3b8b883ab202d -->
         </optgroup>
     </select>
 
-    <script src="/libs/three.min.js"></script>
-    <script src="/libs/OrbitControls.js"></script>
-    <script src="/libs/ColladaLoader.js"></script>
-    <script src="main.js"></script>
-
+    <script src="game.js" type="module"></script>
 </body>
 
 </html>
