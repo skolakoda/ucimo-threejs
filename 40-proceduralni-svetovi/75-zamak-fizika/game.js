@@ -1,4 +1,6 @@
-/* global Physijs */
+/* global THREE, Physijs */
+import {camera, renderer, createOrbitControls} from '/utils/scene.js'
+
 Physijs.scripts.worker = '/libs/physijs_worker.js'
 Physijs.scripts.ammo = 'ammo.js' // relativno u odnosu na worker
 
@@ -7,22 +9,20 @@ const brojSpratova = 7
 const razmak = 10
 const d = razmak * brojCigli
 
-/** SCENA **/
-
 const scene = new Physijs.Scene()
 scene.setGravity(new THREE.Vector3(0, -30, 0))
 
-const camera = new THREE.PerspectiveCamera()
 camera.position.set(55, 50, 250)
-
-const controls = new THREE.OrbitControls(camera)
-
-const renderer = new THREE.WebGLRenderer()
-renderer.setSize(window.innerWidth, window.innerHeight)
-document.body.appendChild(renderer.domElement)
+createOrbitControls()
 
 scene.add(createRigidGround(500))
-// scene.add(createRigidBox(0, 0))
+
+void function praviZgradu(y) {
+  if (y > razmak * brojSpratova) return
+  const start = Math.floor(y / razmak) % 2 == 0 ? 0 : razmak / 2
+  praviSprat(y, start)
+  praviZgradu(y + razmak)
+}(0)
 
 /** FUNCTIONS **/
 
@@ -60,19 +60,10 @@ function praviSprat(y, i) {
   praviSprat(y, i + razmak)
 }
 
-
 /** LOOP **/
-
-void function praviZgradu(y) {
-  if (y > razmak * brojSpratova) return
-  const start = Math.floor(y / razmak) % 2 == 0 ? 0 : razmak / 2
-  praviSprat(y, start)
-  praviZgradu(y + razmak)
-}(0)
 
 void function update() {
   window.requestAnimationFrame(update)
   scene.simulate()
-  controls.update()
   renderer.render(scene, camera)
 }()
