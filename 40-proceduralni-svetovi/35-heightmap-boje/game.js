@@ -1,25 +1,15 @@
 /* global chroma */
+import * as THREE from '/node_modules/three/build/three.module.js'
+import {scene, camera, renderer} from '/utils/scene.js'
 
 const scale = chroma.scale(['blue', 'green', 'red']).domain([0, 50])
 
-const scene = new THREE.Scene()
-
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 10000)
-
-const renderer = new THREE.WebGLRenderer()
-renderer.setClearColor(0x000000, 1.0)
-renderer.setSize(window.innerWidth, window.innerHeight)
-
 const light = new THREE.DirectionalLight()
-light.position.set(600, 600, 600)
+light.position.set(300, 250, 300)
 scene.add(light)
 
-camera.position.x = 600
-camera.position.y = 500
-camera.position.z = 600
+camera.position.set(300, 250, 300)
 camera.lookAt(scene.position)
-
-document.body.appendChild(renderer.domElement)
 
 function getHighPoint(geometry, face) {
   const v1 = geometry.vertices[face.a].y
@@ -80,7 +70,7 @@ function createGeometryFromMap() {
     const mesh = new THREE.Mesh(geom, new THREE.MeshLambertMaterial({
       vertexColors: THREE.FaceColors,
       color: 0x666666,
-      shading: THREE.NoShading
+      flatShading: false
     }))
     mesh.translateX(-xMax / 2)
     mesh.translateZ(-zMax / 2)

@@ -1,18 +1,9 @@
 /* global noise */
-// https://github.com/josdirksen/essential-threejs/blob/master/chapter-05/05.02-3D-plane-from-scratch-perlin.html
+import * as THREE from '/node_modules/three/build/three.module.js'
+import {scene, camera, renderer} from '/utils/scene.js'
 const MAX_HEIGHT = 10
 
-const scene = new THREE.Scene()
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
-
-const renderer = new THREE.WebGLRenderer()
-renderer.setClearColor(0x000000, 1.0)
-renderer.setSize(window.innerWidth, window.innerHeight)
-renderer.shadowMapEnabled = true
-
-camera.position.x = 100
-camera.position.y = 100
-camera.position.z = 100
+camera.position.set(100, 100, 100)
 camera.lookAt(scene.position)
 
 const spotLight = new THREE.SpotLight(0xffffff)
@@ -20,7 +11,7 @@ spotLight.position.set(10, 300, 10)
 scene.add(spotLight)
 scene.add(new THREE.AmbientLight(0x252525))
 
-document.body.appendChild(renderer.domElement)
+scene.add(create3DTerrain(140, 140, 2.5, 2.5, MAX_HEIGHT))
 
 /* FUNCTIONS */
 
@@ -61,7 +52,7 @@ function create3DTerrain(width, depth, spacingX, spacingZ, height) {
   geometry.computeFaceNormals()
 
   const mat = new THREE.MeshPhongMaterial()
-  mat.map = THREE.ImageUtils.loadTexture('../../assets/textures/wood_1-1024x1024.png')
+  mat.map = new THREE.TextureLoader().load('../../assets/textures/wood_1-1024x1024.png')
 
   const groundMesh = new THREE.Mesh(geometry, mat)
   groundMesh.translateX(-width / 1.5)
@@ -72,8 +63,6 @@ function create3DTerrain(width, depth, spacingX, spacingZ, height) {
 }
 
 /* INIT */
-
-scene.add(create3DTerrain(140, 140, 2.5, 2.5, MAX_HEIGHT))
 
 void function render() {
   renderer.render(scene, camera)
