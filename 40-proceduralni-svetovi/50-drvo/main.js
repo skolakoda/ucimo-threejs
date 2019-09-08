@@ -1,23 +1,15 @@
 /* global Tree */
-const scene = new THREE.Scene()
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
+import * as THREE from '/node_modules/three/build/three.module.js'
+import {scene, camera, renderer} from '/utils/scene.js'
 
-const renderer = new THREE.WebGLRenderer()
-renderer.setClearColor(0x000000, 1.0)
-renderer.setSize(window.innerWidth, window.innerHeight)
-renderer.shadowMapEnabled = true
-
-camera.position.x = 5
-camera.position.y = 10
-camera.position.z = 7
+camera.position.set(3, 5, 4)
 camera.lookAt(new THREE.Vector3(1, 5, 0))
+
+const textureLoader = new THREE.TextureLoader()
 
 const spotLight = new THREE.SpotLight(0xffffff)
 spotLight.position.set(10, 150, 10)
-spotLight.shadowCameraNear = 20
-spotLight.shadowCameraFar = 50
 spotLight.castShadow = true
-
 scene.add(spotLight)
 scene.add(new THREE.AmbientLight(0x252525))
 
@@ -46,7 +38,6 @@ const config = {
   trunkLength: 2.4,
 }
 
-document.body.appendChild(renderer.domElement)
 createTree(config)
 
 function createTree(config) {
@@ -102,12 +93,12 @@ function createTree(config) {
   })
 
   const leaveMat = new THREE.MeshLambertMaterial()
-  leaveMat.map = THREE.ImageUtils.loadTexture('../../assets/textures/leaf2.png')
+  leaveMat.map = textureLoader.load('../../assets/textures/leaf2.png')
   leaveMat.doubleSided = true
   leaveMat.transparent = true
 
   const trunkMat = new THREE.MeshLambertMaterial()
-  trunkMat.map = THREE.ImageUtils.loadTexture('../../assets/textures/birch.jpg')
+  trunkMat.map = textureLoader.load('../../assets/textures/birch.jpg')
   trunkMat.doubleSided = true
   trunkMat.transparent = true
 

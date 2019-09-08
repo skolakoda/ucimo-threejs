@@ -90,7 +90,7 @@ scene.add(terrain)
 
 function render() {
   const delta = clock.getDelta()
-  // pomera teren (TODO: pomerati dinamicki u odnosu na igraca)
+  // TODO: pomerati dinamicki u odnosu na igraca
   animDelta = THREE.Math.clamp(animDelta + 0.00075 * animDeltaDir, 0, 0.05)
   uniformsNoise.time.value += delta * animDelta
   uniformsNoise.offset.value.x += delta * 0.05

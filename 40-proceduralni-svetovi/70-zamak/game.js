@@ -1,22 +1,24 @@
+import * as THREE from '/node_modules/three/build/three.module.js'
+import {scene, camera, renderer, createOrbitControls} from '/utils/scene.js'
+
 const brojCigli = 20
 const brojSpratova = 13
 const razmak = 10.2
 const d = razmak * brojCigli
 
-/** SCENA **/
-
-const scene = new THREE.Scene()
-
-const camera = new THREE.PerspectiveCamera()
+createOrbitControls()
 camera.position.set(55, 50, 250)
 
-const controls = new THREE.OrbitControls(camera)
+void function praviZgradu(y) {
+  if (y > razmak * brojSpratova) return
+  const start = Math.floor(y / razmak) % 2 == 0 ? 0 : razmak / 2
+  praviSprat(y, start)
+  praviZgradu(y + razmak)
+}(0)
 
-const renderer = new THREE.WebGLRenderer()
-renderer.setSize(window.innerWidth, window.innerHeight)
-document.body.appendChild(renderer.domElement)
+;[[0, 0], [0, d], [d, 0], [d, d]].map(kord => praviKulu(...kord))
 
-/** GEOMETRIJA **/
+/** FUNCTIONS **/
 
 function praviCiglu(x, y, z) {
   const blok = new THREE.Mesh(new THREE.BoxGeometry(10, 10, 10), new THREE.MeshNormalMaterial())
@@ -40,19 +42,9 @@ function praviKulu(x, z) {
   scene.add(krov)
 }
 
-;[[0, 0], [0, d], [d, 0], [d, d]].map(kord => praviKulu(...kord))
-
-/** UPDATE **/
-
-void function praviZgradu(y) {
-  if (y > razmak * brojSpratova) return
-  const start = Math.floor(y / razmak) % 2 == 0 ? 0 : razmak / 2
-  praviSprat(y, start)
-  praviZgradu(y + razmak)
-}(0)
+/** LOOP **/
 
 void function update() {
   window.requestAnimationFrame(update)
-  controls.update()
   renderer.render(scene, camera)
 }()
