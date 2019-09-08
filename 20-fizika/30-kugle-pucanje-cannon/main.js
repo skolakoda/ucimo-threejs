@@ -1,35 +1,28 @@
-/* global CANNON, PointerLockControls */
+/* global CANNON, THREE, PointerLockControls */
 
-let time = Date.now()
+// import * as THREE from '/node_modules/three/build/three.module.js'
+// import { PointerLockControls } from '/node_modules/three/examples/jsm/controls/PointerLockControls.js'
+import {camera, scene, renderer, clock} from '/utils/scene.js'
 
-const dt = 1 / 60
+camera.position.z = 5
+
+const step = 1 / 60
 const shootVelocity = 15
 const balls = []
 const ballMeshes = []
 const boxes = []
 const boxMeshes = []
 
-/* INIT */
-
-const ballShape = new CANNON.Sphere(0.2)
-const ballGeometry = new THREE.SphereGeometry(ballShape.radius, 32, 32)
 const direction = new THREE.Vector3()
 
 const world = new CANNON.World()
 world.gravity.set(0, -20, 0)
 
-const physicsMaterial = new CANNON.Material('slipperyMaterial')
-const physicsContactMaterial = new CANNON.ContactMaterial(
-  physicsMaterial,
-  physicsMaterial
-)
-world.addContactMaterial(physicsContactMaterial)
-
 const sphereShape = new CANNON.Sphere(1.3)  // radius
-const sphere = new CANNON.Body({mass: 5})
-sphere.addShape(sphereShape)
-sphere.position.set(0, 5, 0)
-world.addBody(sphere)
+const player = new CANNON.Body({mass: 5})
+player.addShape(sphereShape)
+player.position.set(0, 3, 0)
+world.addBody(player)
 
 const groundShape = new CANNON.Plane()
 const ground = new CANNON.Body({mass: 0})
@@ -37,36 +30,25 @@ ground.addShape(groundShape)
 ground.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2)
 world.addBody(ground)
 
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-
-const scene = new THREE.Scene()
-
 const light = new THREE.DirectionalLight(0xffffff, 0.9)
 light.position.set(10, 30, 20)
 light.castShadow = true
 scene.add(light)
 
-const controls = new PointerLockControls(camera, sphere)
+const controls = new PointerLockControls(camera, player)
 controls.enabled = true
 scene.add(controls.getObject())
 
 const material = new THREE.MeshLambertMaterial()
 
-const floorGeometry = new THREE.PlaneGeometry(300, 300, 50, 50)
+const floorGeometry = new THREE.PlaneGeometry(300, 300)
 floorGeometry.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI / 2))
-
 const floor = new THREE.Mesh(floorGeometry, material)
 floor.receiveShadow = true
 scene.add(floor)
 
-const renderer = new THREE.WebGLRenderer()
-renderer.shadowMap.enabled = true
-renderer.setSize(window.innerWidth, window.innerHeight)
-document.body.appendChild(renderer.domElement)
-
-// boxes
 const boxGeometry = new THREE.BoxGeometry(2, 2, 2)
-for (let i = 0; i < 7; i++) {
+for (let i = 0; i < 10; i++) {
   const box = new CANNON.Body({mass: 5})
   box.addShape(new CANNON.Box(new CANNON.Vec3(1, 1, 1)))
   box.position.set(
@@ -83,24 +65,6 @@ for (let i = 0; i < 7; i++) {
   boxMeshes.push(boxMesh)
 }
 
-/* UPDATE */
-
-void function update() {
-  requestAnimationFrame(update)
-  world.step(dt)
-  balls.map((b, i) => {
-    ballMeshes[i].position.copy(b.position)
-    ballMeshes[i].quaternion.copy(b.quaternion)
-  })
-  boxes.map((b, i) => {
-    boxMeshes[i].position.copy(b.position)
-    boxMeshes[i].quaternion.copy(b.quaternion)
-  })
-  controls.update(Date.now() - time)
-  renderer.render(scene, camera)
-  time = Date.now()
-}()
-
 /* HELPERS */
 
 function updateShootDirection(targetVec) {
@@ -108,29 +72,25 @@ function updateShootDirection(targetVec) {
   targetVec.set(0, 0, 1)
   const projector = new THREE.Projector()
   projector.unprojectVector(vector, camera)
-  const ray = new THREE.Ray(
-    sphere.position,
-    vector.sub(sphere.position).normalize()
-  )
+  const ray = new THREE.Ray(player.position, vector.sub(player.position).normalize())
   targetVec.copy(ray.direction)
 }
 
 function shootBall() {
-  const ball = new CANNON.Body({mass: 1})
+  const ball = new CANNON.Body({mass: 3})
+  const ballShape = new CANNON.Sphere(0.4)
   ball.addShape(ballShape)
   world.addBody(ball)
   balls.push(ball)
   updateShootDirection(direction)
-  ball.velocity.set(
-    direction.x * shootVelocity,
-    direction.y * shootVelocity,
-    direction.z * shootVelocity
-  )
+  const {x, y, z} = direction
+  ball.velocity.set(x * shootVelocity, y * shootVelocity, z * shootVelocity)
   ball.position.set(
-    sphere.position.x + direction.x * (sphereShape.radius * 1.02 + ballShape.radius),
-    sphere.position.y + direction.y * (sphereShape.radius * 1.02 + ballShape.radius),
-    sphere.position.z + direction.z * (sphereShape.radius * 1.02 + ballShape.radius)
+    player.position.x + x * (sphereShape.radius * 1.02 + ballShape.radius),
+    player.position.y + y * (sphereShape.radius * 1.02 + ballShape.radius),
+    player.position.z + z * (sphereShape.radius * 1.02 + ballShape.radius)
   )
+  const ballGeometry = new THREE.SphereGeometry(ballShape.radius, 32, 32)
   const ballMesh = new THREE.Mesh(ballGeometry, material)
   ballMesh.position.copy(ball.position)
   ballMesh.castShadow = ballMesh.receiveShadow = true
@@ -138,12 +98,26 @@ function shootBall() {
   ballMeshes.push(ballMesh)
 }
 
+/* LOOP */
+
+void function update() {
+  requestAnimationFrame(update)
+  const delta = clock.getDelta()
+  world.step(step)
+  balls.forEach((ball, i) => {
+    ballMeshes[i].position.copy(ball.position)
+    ballMeshes[i].quaternion.copy(ball.quaternion)
+  })
+  boxes.forEach((box, i) => {
+    boxMeshes[i].position.copy(box.position)
+    boxMeshes[i].quaternion.copy(box.quaternion)
+  })
+  controls.update(delta)
+  renderer.render(scene, camera)
+}()
+
 /* EVENTS */
 
-document.getElementById('instructions').addEventListener('click', e => {
-  e.target.style.display = 'none'
-  document.body.requestPointerLock = document.body.requestPointerLock || document.body.mozRequestPointerLock || document.body.webkitRequestPointerLock
-  document.body.requestPointerLock()
-})
+document.body.addEventListener('click', document.body.requestPointerLock)
 
 window.addEventListener('click', shootBall)

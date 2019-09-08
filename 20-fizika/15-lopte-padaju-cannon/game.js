@@ -1,5 +1,8 @@
 /* global CANNON */
+import * as THREE from '/node_modules/three/build/three.module.js'
+import {camera, scene, renderer, clock, createOrbitControls} from '/utils/scene.js'
 
+createOrbitControls()
 let i = 0
 
 const speed = 5
@@ -10,15 +13,7 @@ const balls = []
 
 /* INIT */
 
-const scene = new THREE.Scene
-
-const canvas = document.getElementById('canvas')
-const renderer = new THREE.WebGLRenderer({canvas})
-renderer.setSize(canvas.clientWidth, canvas.clientHeight)
-
-const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight)
-camera.position.set(-5, -10, 150)
-scene.add(camera)
+camera.position.set(-15, 0, 100)
 
 const light = new THREE.DirectionalLight(0xffffff)
 light.position.set(-.5, .5, 1.5)
@@ -28,10 +23,10 @@ const world = new CANNON.World()
 world.gravity.set(0, -10, 0)
 world.broadphase = new CANNON.NaiveBroadphase()
 
-const red = new THREE.MeshLambertMaterial({color: 0xdd0000})
-const box = new THREE.CubeGeometry(50, 2, 10)
+const redMaterial = new THREE.MeshLambertMaterial({color: 0xdd0000})
+const boxGeometry = new THREE.CubeGeometry(50, 2, 10)
 
-const ramp1 = new THREE.Mesh(box, red)
+const ramp1 = new THREE.Mesh(boxGeometry, redMaterial)
 ramp1.position.set(...ramp1Pos)
 ramp1.quaternion.setFromAxisAngle(new THREE.Vector3(0, 0, 1), -Math.PI / 32)
 scene.add(ramp1)
@@ -42,7 +37,7 @@ ramp1Body.position.set(...ramp1Pos)
 ramp1Body.quaternion.set(ramp1.quaternion.x, ramp1.quaternion.y, ramp1.quaternion.z, ramp1.quaternion.w)
 world.add(ramp1Body)
 
-const ramp2 = new THREE.Mesh(box, red)
+const ramp2 = new THREE.Mesh(boxGeometry, redMaterial)
 ramp2.position.set(...ramp2Pos)
 ramp2.quaternion.setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI / 16)
 scene.add(ramp2)
@@ -54,7 +49,7 @@ ramp2Body.quaternion.set(ramp2.quaternion.x, ramp2.quaternion.y, ramp2.quaternio
 world.add(ramp2Body)
 
 const plane = new THREE.PlaneGeometry(100, 50)
-const floor = new THREE.Mesh(plane, red)
+const floor = new THREE.Mesh(plane, redMaterial)
 floor.rotation.x = -Math.PI / 2
 scene.add(floor)
 
@@ -62,8 +57,6 @@ const floorShape = new CANNON.Box(new CANNON.Vec3(50, .01, 25))
 const floorBody = new CANNON.RigidBody(0, floorShape)
 floorBody.position.y = floor.position.y = -15
 world.add(floorBody)
-
-const clock = new THREE.Clock()
 
 /* FUNCTIONS */
 
