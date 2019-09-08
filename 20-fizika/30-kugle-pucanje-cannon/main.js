@@ -1,25 +1,16 @@
 /* global CANNON, THREE, PointerLockControls */
 import {camera, scene, renderer, clock} from '/utils/scene.js'
 
-camera.position.z = 5
-
 const step = 1 / 60
-const shootVelocity = 15
 const balls = []
 const ballMeshes = []
 const boxes = []
 const boxMeshes = []
 
-const direction = new THREE.Vector3()
+camera.position.z = 5
 
 const world = new CANNON.World()
 world.gravity.set(0, -20, 0)
-
-const playerShape = new CANNON.Sphere(1.3)  // radius
-const player = new CANNON.Body({mass: 5})
-player.addShape(playerShape)
-player.position.set(0, 3, 0)
-world.addBody(player)
 
 const light = new THREE.DirectionalLight(0xffffff, 0.9)
 light.position.set(10, 30, 20)
@@ -29,6 +20,12 @@ scene.add(light)
 const controls = new PointerLockControls(camera, player)
 controls.enabled = true
 scene.add(controls.getObject())
+
+const playerShape = new CANNON.Sphere(1.3)  // radius
+const player = new CANNON.Body({mass: 5})
+player.addShape(playerShape)
+player.position.set(0, 3, 0)
+world.addBody(player)
 
 addGround()
 
@@ -80,12 +77,13 @@ function updateShootDirection(targetVec) {
   targetVec.copy(ray.direction)
 }
 
-function shootBall() {
+function shootBall(velocity = 15) {
   const ball = new CANNON.Body({mass: 3})
   const ballShape = new CANNON.Sphere(0.4)
   ball.addShape(ballShape)
   world.addBody(ball)
   balls.push(ball)
+  const direction = new THREE.Vector3()
   updateShootDirection(direction)
   const {x, y, z} = direction
   ball.position.set(
@@ -93,7 +91,7 @@ function shootBall() {
     player.position.y + y,
     player.position.z + z
   )
-  ball.velocity.set(x * shootVelocity, y * shootVelocity, z * shootVelocity)
+  ball.velocity.set(x * velocity, y * velocity, z * velocity)
   const ballGeometry = new THREE.SphereGeometry(ballShape.radius, 32, 32)
   const ballMesh = new THREE.Mesh(ballGeometry, new THREE.MeshLambertMaterial())
   ballMesh.position.copy(ball.position)
