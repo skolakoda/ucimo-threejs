@@ -1,18 +1,10 @@
-const width = 800
-const height = 600
-
-const scene = new THREE.Scene()
-
-const renderer = window.WebGLRenderingContext ? new THREE.WebGLRenderer() : new THREE.CanvasRenderer()
-renderer.setSize(width, height)
-document.getElementById('webgl-container').appendChild(renderer.domElement)
+import * as THREE from '/node_modules/three/build/three.module.js'
+import {scene, camera, renderer} from '/utils/scene.js'
 
 const light = new THREE.AmbientLight(0xffffff)
 scene.add(light)
 
-const camera = new THREE.PerspectiveCamera(35, width / height, 1, 1000)
-camera.position.z = 200
-scene.add(camera)
+camera.position.z = 100
 
 const box = new THREE.Mesh(
   new THREE.BoxGeometry(20, 20, 20),
@@ -33,7 +25,7 @@ scene.add(box2)
 function checkForCollision() {
   const boxPosition = new THREE.Box3().setFromObject(box)
   const box2Position = new THREE.Box3().setFromObject(box2)
-  const message = boxPosition.isIntersectionBox(box2Position) ? 'Boxes touching' : 'Boxes not touching'
+  const message = boxPosition.intersectsBox(box2Position) ? 'Boxes touching' : 'Boxes not touching'
   document.querySelector('h1').textContent = message
 }
 

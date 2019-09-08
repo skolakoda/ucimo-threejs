@@ -1,4 +1,6 @@
 /* global TWEEN */
+import * as THREE from '/node_modules/three/build/three.module.js'
+import {scene, camera, renderer} from '/utils/scene.js'
 
 let hoda_levo,
   hoda_desno,
@@ -6,22 +8,14 @@ let hoda_levo,
   hoda_nazad
 let vrtenje = false
 let salto = false
-const tacka_gledanja = 75 // blizina gledanja
 const casovnik = new THREE.Clock(true)
 const cvrsti_objekti = []
-
-const scene = new THREE.Scene()
 
 const container = new THREE.Object3D()
 scene.add(container)
 
-const camera = new THREE.PerspectiveCamera(tacka_gledanja, window.innerWidth / window.innerHeight, 1, 10000)
 camera.position.z = 500
 container.add(camera)
-
-const renderer = new THREE.CanvasRenderer()
-renderer.setSize(window.innerWidth, window.innerHeight)
-document.body.appendChild(renderer.domElement)
 
 const texture = new THREE.MeshNormalMaterial()
 const body = new THREE.SphereGeometry(100)

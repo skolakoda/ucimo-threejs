@@ -1,4 +1,6 @@
 /* global TWEEN */
+import * as THREE from '/node_modules/three/build/three.module.js'
+import {scene, camera, renderer, clock} from '/utils/scene.js'
 
 let hoda_levo,
   hoda_desno,
@@ -6,22 +8,13 @@ let hoda_levo,
   hoda_nazad
 let vrtenje = false
 let salto = false
-const tacka_gledanja = 75 // blizina gledanja
-const casovnik = new THREE.Clock(true)
-
-const scene = new THREE.Scene()
 
 // pravi marker za kameru i avatara
 const marker = new THREE.Object3D()
 scene.add(marker)
 
-const camera = new THREE.PerspectiveCamera(tacka_gledanja, window.innerWidth / window.innerHeight, 1, 10000)
 camera.position.z = 500
 marker.add(camera)
-
-const renderer = new THREE.CanvasRenderer()
-renderer.setSize(window.innerWidth, window.innerHeight)
-document.body.appendChild(renderer.domElement)
 
 const tekstura = new THREE.MeshNormalMaterial()
 const telo = new THREE.SphereGeometry(100)
@@ -68,7 +61,7 @@ function jelHoda() {
 
 function hodaj() {
   if (!jelHoda()) return
-  const polozaj = Math.sin(casovnik.getElapsedTime() * 5) * 100
+  const polozaj = Math.sin(clock.getElapsedTime() * 5) * 100
   leva_ruka.position.z = -polozaj
   desna_ruka.position.z = polozaj
   leva_noga.position.z = -polozaj

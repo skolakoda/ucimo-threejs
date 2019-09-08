@@ -1,12 +1,10 @@
+import * as THREE from '/node_modules/three/build/three.module.js'
+import {scene, camera, renderer} from '/utils/scene.js'
+
 const cubes = []
 
-const scene = new THREE.Scene()
-
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
-
-const renderer = new THREE.WebGLRenderer()
-renderer.setClearColor(0x000000, 1.0)
-renderer.setSize(window.innerWidth, window.innerHeight)
+camera.position.set(7, 8, 7)
+camera.lookAt(scene.position)
 
 const cubeGeometry = new THREE.BoxGeometry(2, 2, 2)
 const cubeMaterial = new THREE.MeshLambertMaterial({ color: 0xff2255 })
@@ -44,7 +42,7 @@ cubes.push(cube5)
 const groundPlane = new THREE.PlaneGeometry(1000, 1000, 20, 20)
 const groundMat = new THREE.MeshLambertMaterial({
   color: 0xffffff,
-  map: THREE.ImageUtils.loadTexture('../assets/textures/wood_1-1024x1024.png')
+  map: new THREE.TextureLoader().load('../assets/textures/wood_1-1024x1024.png')
 })
 groundMat.map.wrapS = groundMat.map.wrapT = THREE.RepeatWrapping
 groundMat.map.repeat.set(10, 10)
@@ -63,13 +61,6 @@ dirLight2.position.set(-25, 23, 15)
 scene.add(dirLight2)
 
 scene.add(physMesh)
-
-camera.position.x = 15
-camera.position.y = 16
-camera.position.z = 13
-camera.lookAt(scene.position)
-
-document.body.appendChild(renderer.domElement)
 
 /* FUNCTIONS */
 
