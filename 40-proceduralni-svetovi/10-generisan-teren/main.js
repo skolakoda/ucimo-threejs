@@ -1,71 +1,56 @@
 /* global chroma, dat */
+import * as THREE from '/node_modules/three/build/three.module.js'
+import {scene, camera, renderer} from '/utils/scene.js'
+
 const MAX_HEIGHT = 6
-let renderer
-let scene
-let camera
-let control
+
 const scale = chroma.scale(['blue', 'green', 'red']).domain([0, MAX_HEIGHT])
 
-function init() {
-  scene = new THREE.Scene()
-  camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
+camera.position.set(40, 40, 50)
+camera.lookAt(scene.position)
 
-  renderer = new THREE.WebGLRenderer()
-  renderer.setClearColor(0x000000, 1.0)
-  renderer.setSize(window.innerWidth, window.innerHeight)
-  renderer.shadowMapEnabled = true
+const spotLight = new THREE.SpotLight(0xffffff)
+spotLight.position.set(10, 100, 10)
+scene.add(spotLight)
+scene.add(new THREE.AmbientLight(0x252525))
 
-  camera.position.x = 40
-  camera.position.y = 40
-  camera.position.z = 50
-  camera.lookAt(scene.position)
-
-  const spotLight = new THREE.SpotLight(0xffffff)
-  spotLight.position.set(10, 100, 10)
-
-  scene.add(spotLight)
-
-  scene.add(new THREE.AmbientLight(0x252525))
-
-  control = {
-    smoothShading: false,
-    toFaceMaterial() {
-      const mesh = scene.getObjectByName('terrain')
-      const mat = new THREE.MeshLambertMaterial()
-      mat.vertexColors = THREE.FaceColors
-      mat.shading = THREE.NoShading
-      mesh.material = mat
-    },
-    toNormalMaterial() {
-      const mesh = scene.getObjectByName('terrain')
-      const mat = new THREE.MeshNormalMaterial()
-      mesh.material = mat
-    },
-    onSmoothShadingChange() {
-      const {material} = scene.getObjectByName('terrain')
-      const geom = scene.getObjectByName('terrain').geometry
-      material.shading = this.object.smoothShading ? THREE.SmoothShading : THREE.NoShading
-      material.needsUpdate = true
-      geom.normalsNeedUpdate = true
-    }
+const control = {
+  flatShading: false,
+  toFaceMaterial() {
+    const mesh = scene.getObjectByName('terrain')
+    const mat = new THREE.MeshLambertMaterial()
+    mat.vertexColors = THREE.FaceColors
+    mat.flatShading = false
+    mesh.material = mat
+  },
+  toNormalMaterial() {
+    const mesh = scene.getObjectByName('terrain')
+    const mat = new THREE.MeshNormalMaterial()
+    mesh.material = mat
+  },
+  onSmoothShadingChange() {
+    const {material} = scene.getObjectByName('terrain')
+    const geom = scene.getObjectByName('terrain').geometry
+    material.flatShading = this.object.flatShading ? true : false
+    material.needsUpdate = true
+    geom.normalsNeedUpdate = true
   }
-
-  addControlGui(control)
-  document.body.appendChild(renderer.domElement)
-  create3DTerrain(80, 80, 3, 3, MAX_HEIGHT)
-  render()
 }
+
+addControlGui(control)
+document.body.appendChild(renderer.domElement)
+create3DTerrain(80, 80, 3, 3, MAX_HEIGHT)
 
 function create3DTerrain(width, depth, spacingX, spacingZ, height) {
   const geometry = new THREE.Geometry()
-  for (var z = 0; z < depth; z++)
-    for (var x = 0; x < width; x++) {
+  for (let z = 0; z < depth; z++)
+    for (let x = 0; x < width; x++) {
       const vertex = new THREE.Vector3(x * spacingX, Math.random() * height, z * spacingZ)
       geometry.vertices.push(vertex)
     }
 
-  for (var z = 0; z < depth - 1; z++)
-    for (var x = 0; x < width - 1; x++) {
+  for (let z = 0; z < depth - 1; z++)
+    for (let x = 0; x < width - 1; x++) {
 
       const a = x + z * width
       const b = (x + 1) + (z * width)
@@ -86,7 +71,7 @@ function create3DTerrain(width, depth, spacingX, spacingZ, height) {
 
   const mat = new THREE.MeshPhongMaterial()
   mat.vertexColors = THREE.FaceColors
-  mat.shading = THREE.NoShading
+  mat.flatShading = false
 
   const groundMesh = new THREE.Mesh(geometry, mat)
   groundMesh.translateX(-width / 1.5)
@@ -100,20 +85,17 @@ function getHighPoint(geometry, face) {
   const v1 = geometry.vertices[face.a].y
   const v2 = geometry.vertices[face.b].y
   const v3 = geometry.vertices[face.c].y
-
   return Math.max(v1, v2, v3)
-}
-
-function render() {
-  renderer.render(scene, camera)
-  requestAnimationFrame(render)
 }
 
 function addControlGui(controlObject) {
   const gui = new dat.GUI()
   gui.add(controlObject, 'toFaceMaterial')
   gui.add(controlObject, 'toNormalMaterial')
-  gui.add(controlObject, 'smoothShading').onChange(controlObject.onSmoothShadingChange)
+  gui.add(controlObject, 'flatShading').onChange(controlObject.onSmoothShadingChange)
 }
 
-window.onload = init
+void function render() {
+  renderer.render(scene, camera)
+  requestAnimationFrame(render)
+}()
