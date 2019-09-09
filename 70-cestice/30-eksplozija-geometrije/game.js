@@ -5,20 +5,16 @@ const scale = 0.02
 const avgVertexNormals = []
 const avgVertexCount = []
 
-scene.background = new THREE.Color(0x000000)
-
-camera.position.x = 15
-camera.position.y = 16
-camera.position.z = 13
-camera.lookAt(scene.position)
-
-const orbit = createOrbitControls()
+camera.position.set(5, 5, 3)
+createOrbitControls()
 
 const sphere = new THREE.BoxGeometry(4, 6, 4, 20, 20, 20)
 sphere.vertices.forEach(v => {
   v.velocity = Math.random()
 })
 createParticleSystemFromGeometry(sphere)
+
+/* FUNCTIONS */
 
 function explode() {
   let count = 0
@@ -31,13 +27,14 @@ function explode() {
   sphere.verticesNeedUpdate = true
 }
 
-function createParticleSystemFromGeometry(geom) {
-  const psMat = new THREE.PointsMaterial()
-  psMat.map = new THREE.TextureLoader().load('../../assets/textures/ps_ball.png')
-  psMat.blending = THREE.AdditiveBlending
-  psMat.transparent = true
-  psMat.opacity = 0.6
-  const ps = new THREE.Points(geom, psMat)
+function createParticleSystemFromGeometry(geometry) {
+  const material = new THREE.PointsMaterial({
+    depthTest: false,
+    map: new THREE.TextureLoader().load('../../assets/textures/ps_ball.png'),
+    blending: THREE.AdditiveBlending,
+    opacity: 0.6,
+  })
+  const ps = new THREE.Points(geometry, material)
   ps.sortParticles = true
   scene.add(ps)
 
@@ -64,9 +61,10 @@ function createParticleSystemFromGeometry(geom) {
     avgVertexNormals[i].divideScalar(avgVertexCount[i])
 }
 
+/* LOOP */
+
 void function render() {
   renderer.render(scene, camera)
-  orbit.update()
   explode()
   requestAnimationFrame(render)
 }()
