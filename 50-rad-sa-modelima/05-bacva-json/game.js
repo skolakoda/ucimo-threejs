@@ -1,7 +1,7 @@
 /* global THREE */
-import { scene, camera, renderer, createOrbitControls, addLights } from '/utils/scene.js'
+import { scene, camera, renderer, createOrbitControls, initLights } from '/utils/scene.js'
 
-addLights()
+initLights()
 createOrbitControls()
 
 const textureLoader = new THREE.TextureLoader()

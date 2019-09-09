@@ -1,10 +1,10 @@
 import { OBJLoader } from '/node_modules/three/examples/jsm/loaders/OBJLoader.js'
-import {scene, camera, renderer, createOrbitControls, addLights} from '/utils/scene.js'
+import {scene, camera, renderer, createOrbitControls, initLights} from '/utils/scene.js'
 
 camera.position.z = 250
 
 createOrbitControls()
-addLights()
+initLights()
 
 const loader = new OBJLoader()
 loader.load('/assets/models/zamak.obj', model => {

@@ -1,8 +1,8 @@
 import * as THREE from '/node_modules/three/build/three.module.js'
 import { OBJLoader } from '/node_modules/three/examples/jsm/loaders/OBJLoader.js'
-import {scene, camera, renderer, createOrbitControls, addLights} from '/utils/scene.js'
+import {scene, camera, renderer, createOrbitControls, initLights} from '/utils/scene.js'
 
-addLights()
+initLights()
 createOrbitControls()
 camera.position.set(-2, 6, 20)
 

@@ -1,9 +1,9 @@
 import { ColladaLoader } from '/node_modules/three/examples/jsm/loaders/ColladaLoader.js'
-import {scene, camera, renderer, createOrbitControls, addLights} from '/utils/scene.js'
+import {scene, camera, renderer, createOrbitControls, initLights} from '/utils/scene.js'
 
 const scale = 0.1
 
-addLights()
+initLights()
 createOrbitControls()
 camera.position.set(3, 2, 10)
 

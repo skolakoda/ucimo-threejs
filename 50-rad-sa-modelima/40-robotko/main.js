@@ -2,13 +2,13 @@
 import * as THREE from '/node_modules/three/build/three.module.js'
 import { GUI } from '/node_modules/three/examples/jsm/libs/dat.gui.module.js'
 import { GLTFLoader } from '/node_modules/three/examples/jsm/loaders/GLTFLoader.js'
-import {scene, camera, renderer, clock, createOrbitControls, addLights} from '/utils/scene.js'
+import {scene, camera, renderer, clock, createOrbitControls, initLights} from '/utils/scene.js'
 
 let gui, mixer, actions, activeAction, previousAction, model, face
 
 const api = { state: 'Walking' }
 
-addLights()
+initLights()
 createOrbitControls()
 
 camera.position.set(- 5, 3, 10)

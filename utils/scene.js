@@ -34,7 +34,7 @@ export function createOrbitControls() {
   return controls
 }
 
-export function addLights() {
+export function initLights() {
   const position = new THREE.Vector3(-10, 30, 40)
   const spotLight = new THREE.SpotLight(0xffffff)
   spotLight.position.copy(position)

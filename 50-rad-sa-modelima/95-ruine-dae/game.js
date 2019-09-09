@@ -1,11 +1,11 @@
 import * as THREE from '/node_modules/three/build/three.module.js'
 import { ColladaLoader } from '/node_modules/three/examples/jsm/loaders/ColladaLoader.js'
-import {scene, camera, renderer, createOrbitControls, addLights} from '/utils/scene.js'
+import {scene, camera, renderer, createOrbitControls, initLights} from '/utils/scene.js'
 
 scene.background = new THREE.Color('lightblue')
 camera.position.set(1, .2, 0)
 
-addLights()
+initLights()
 createOrbitControls()
 
 addGround()
