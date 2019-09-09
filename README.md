@@ -14,6 +14,8 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
 
 ## TODO
 
+- primeri iz knjige Jordi Josa - How to design 3D games with web technolology: https://www.thefiveplanets.org/b01/
+
 cestice:
   - https://codepen.io/zadvorsky/pen/VaXqRW
   - https://codepen.io/teolitto/pen/KwOVvL

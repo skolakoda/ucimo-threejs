@@ -13,6 +13,7 @@ scene.add(light2)
 const loader = new THREE.TextureLoader()
 const moonTexture = loader.load('/assets/textures/moon.jpg')
 const crateTexture = loader.load('/assets/textures/crate.gif')
+const bacva = loader.load('/assets/textures/rust_completely_rusted_0068_01_s.jpg')
 
 /* GEOMETRIES */
 
@@ -51,6 +52,12 @@ const crate = new THREE.Mesh(
 )
 crate.position.set(-60, 50, -100)
 scene.add(crate)
+
+const geometry = new THREE.CylinderGeometry(40, 40, 90, 32)
+const material = new THREE.MeshBasicMaterial({ map: bacva })
+const cylinder = new THREE.Mesh(geometry, material)
+cylinder.position.set(60, 50, -100)
+scene.add(cylinder)
 
 /* UPDATE */
 
