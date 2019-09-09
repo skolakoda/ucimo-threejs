@@ -19,7 +19,6 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
 cestice:
   - https://codepen.io/zadvorsky/pen/VaXqRW
   - https://codepen.io/teolitto/pen/KwOVvL
-  - https://codepen.io/seanseansean/pen/EaBZEY
   - https://codepen.io/eltonkamami/pen/ECrKd
   - http://jsfiddle.net/3drjwj2n/
 - svetlo:
@@ -28,11 +27,13 @@ cestice:
 modeli:
   - uzeti kamion model (truck dae from learning-threejs)
   - http://server1.lazy-kitty.com/tests/camera_shake_2019_08_09/
-  * [morph targets - horse](https://github.com/mrdoob/three.js/blob/master/examples/webgl_morphtargets_horse.html)
+  - [morph targets - horse](https://github.com/mrdoob/three.js/blob/master/examples/webgl_morphtargets_horse.html)
+  - https://jbouny.github.io/fft-ocean/
 - razno:
   - https://codepen.io/Mombasa/pen/leiGu
   - https://codepen.io/devildrey33/pen/zKBpmq
   - https://codepen.io/zadvorsky/pen/xPKBBJ
+  - http://nxxcxx.github.io/Neural-Network/
 
 ## Izvori
 
