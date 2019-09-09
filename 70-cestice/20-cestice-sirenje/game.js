@@ -1,27 +1,24 @@
 /* global TWEEN */
-let mouseX = 0,
-  mouseY = 0
+import * as THREE from '/node_modules/three/build/three.module.js'
+import {scene, camera, renderer, createOrbitControls} from '/utils/scene.js'
 
-const windowHalfX = window.innerWidth / 2
-const windowHalfY = window.innerHeight / 2
+createOrbitControls()
 
-const container = document.createElement('div')
-document.body.appendChild(container)
-
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 5000)
 camera.position.z = 1000
+scene.background = new THREE.Color(0x000040)
 
-const scene = new THREE.Scene()
+const material = new THREE.SpriteMaterial({
+  map: new THREE.CanvasTexture(generateSprite()),
+  blending: THREE.AdditiveBlending
+})
 
-const renderer = new THREE.WebGLRenderer()
-renderer.setClearColor(0x000040)
-renderer.setPixelRatio(window.devicePixelRatio)
-renderer.setSize(window.innerWidth, window.innerHeight)
-container.appendChild(renderer.domElement)
+for (let i = 0; i < 1000; i++) {
+  const particle = new THREE.Sprite(material)
+  tweenParticle(particle, i * 10)
+  scene.add(particle)
+}
 
-document.addEventListener('mousemove', onDocumentMouseMove, false)
-document.addEventListener('touchstart', onDocumentTouchStart, false)
-document.addEventListener('touchmove', onDocumentTouchMove, false)
+/* FUNCTIONS */
 
 function generateSprite() {
   const canvas = document.createElement('canvas')
@@ -41,17 +38,14 @@ function generateSprite() {
   return canvas
 }
 
-function initParticle(initParticle, initDelay) {
-  const particle = this instanceof THREE.Sprite ? this : initParticle
-  const delay = initDelay !== undefined ? initDelay : 0
-
+function tweenParticle(particle, delay = 0) {
   particle.position.set(0, 0, 0)
   particle.scale.x = particle.scale.y = Math.random() * 32 + 16
 
   new TWEEN.Tween(particle)
     .delay(delay)
     .to({}, 10000)
-    .onComplete(initParticle)
+    .onComplete(() => tweenParticle(particle))
     .start()
 
   new TWEEN.Tween(particle.position)
@@ -72,47 +66,10 @@ function initParticle(initParticle, initDelay) {
     .start()
 }
 
-function onDocumentMouseMove(event) {
-  mouseX = event.clientX - windowHalfX
-  mouseY = event.clientY - windowHalfY
-}
-
-function onDocumentTouchStart(event) {
-  if (event.touches.length == 1) {
-    event.preventDefault()
-    mouseX = event.touches[0].pageX - windowHalfX
-    mouseY = event.touches[0].pageY - windowHalfY
-  }
-}
-
-function onDocumentTouchMove(event) {
-  if (event.touches.length == 1) {
-    event.preventDefault()
-    mouseX = event.touches[0].pageX - windowHalfX
-    mouseY = event.touches[0].pageY - windowHalfY
-  }
-}
-
-/* INIT */
-
-const material = new THREE.SpriteMaterial({
-  map: new THREE.CanvasTexture(generateSprite()),
-  blending: THREE.AdditiveBlending
-})
-
-for (let i = 0; i < 1000; i++) {
-  const particle = new THREE.Sprite(material)
-  initParticle(particle, i * 10)
-  scene.add(particle)
-}
+/* LOOP */
 
 void function animate() {
   requestAnimationFrame(animate)
   TWEEN.update()
-
-  camera.position.x += (mouseX - camera.position.x) * 0.05
-  camera.position.y += (-mouseY - camera.position.y) * 0.05
-  camera.lookAt(scene.position)
-
   renderer.render(scene, camera)
 }()

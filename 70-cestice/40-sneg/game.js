@@ -1,3 +1,5 @@
+// TODO: https://threejs.org/examples/webgl_points_sprites.html
+
 function initRenderer(additionalProperties) {
   const props = (typeof additionalProperties !== 'undefined' && additionalProperties) ? additionalProperties : {}
   const renderer = new THREE.WebGLRenderer(props)
