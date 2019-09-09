@@ -1,13 +1,10 @@
 /*
-To access the bones, we access the children elements of THREE.SkinnedMesh .
-Getting the correct bone to animate might take some experimenting if the bones
-aren't clearly named. The easiest way to determine which bone to use is to look
-through the output of the JavaScript console and browse the children of the mesh.
+To access the bones, we access the childrens of THREE.SkinnedMesh. The easiest way
+to determine which bone to use is to look at the console and browse the childrens.
 
-When you enable the `skinning` property on the material, Three.js passes all the information
-about the relevant bones and positions into its vertex shader. The vertex shader will use this
-information to position the vertices to their new position based on the position and rotation
-of the relevant bones.
+When you enable the `skinning` property on the material, Three.js passes information about
+relevant bones and positions into its vertex shader. The shader will use this information
+to position vertices to their new position based on movement of the relevant bones.
 */
 
 let giraffe
@@ -53,7 +50,7 @@ const control = new function() {
 addControls(control)
 
 const jsonLoader = new THREE.JSONLoader()
-jsonLoader.load('../../assets/models/bones/giraffe.js', (model, materials) => {
+jsonLoader.load('/assets/models/giraffe/giraffe.js', (model, materials) => {
 
   materials.forEach(mat => {
     mat.skinning = true
