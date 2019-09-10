@@ -1,4 +1,4 @@
-/* global $ */
+/* global $, THREE */
 const map = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ], // 0
     [1, 1, 0, 0, 0, 0, 0, 1, 1, 1, ], // 1
@@ -31,8 +31,8 @@ let health = 100
 let lastHealthPickup = 0
 
 const clock = new THREE.Clock()
-const projector = new THREE.Projector() // Used in bullet projection
 const scene = new THREE.Scene()
+const textureLoader = new THREE.TextureLoader()
 
 const cam = new THREE.PerspectiveCamera(60, ASPECT, 1, 10000) // FOV, aspect, near, far
 cam.position.y = UNITSIZE * .2
@@ -51,8 +51,8 @@ renderer.domElement.style.backgroundColor = '#D6F1FF' // easier to see
 document.body.appendChild(renderer.domElement)
 
 const healthcube = new THREE.Mesh(
-  new THREE.CubeGeometry(30, 30, 30),
-  new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture('images/health.png')})
+  new THREE.BoxGeometry(30, 30, 30),
+  new THREE.MeshBasicMaterial({map: textureLoader.load('images/health.png')})
 )
 healthcube.position.set(-UNITSIZE - 15, 35, -UNITSIZE - 15)
 scene.add(healthcube)
@@ -60,7 +60,7 @@ scene.add(healthcube)
 const bullets = []
 const sphereMaterial = new THREE.MeshBasicMaterial({color: 0x333333})
 const sphereGeo = new THREE.SphereGeometry(2, 6, 6)
-const aiGeo = new THREE.CubeGeometry(40, 40, 40)
+const aiGeo = new THREE.BoxGeometry(40, 40, 40)
 
 function distance(x1, y1, x2, y2) {
   return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1))
@@ -85,7 +85,7 @@ function getRandBetween(lo, hi) {
 function addAI() {
   let x, z
   const c = getMapSector(cam.position)
-  const aiMaterial = new THREE.MeshBasicMaterial({/* color: 0xEE3333,*/map: THREE.ImageUtils.loadTexture('images/face.png')})
+  const aiMaterial = new THREE.MeshBasicMaterial({/* color: 0xEE3333,*/map: textureLoader.load('images/face.png')})
   const o = new THREE.Mesh(aiGeo, aiMaterial)
   do {
     x = getRandBetween(0, mapW - 1)
@@ -112,11 +112,11 @@ function createBullet(obj) {
   let vector
   if (obj instanceof THREE.Camera) {
     vector = new THREE.Vector3(mouse.x, mouse.y, 1)
-    projector.unprojectVector(vector, obj)
+    vector.unproject(obj)
   } else 
     vector = cam.position.clone()
   
-  sphere.ray = new THREE.Ray(obj.position, vector.subSelf(obj.position).normalize())
+  sphere.ray = new THREE.Ray(obj.position, vector.sub(obj.position).normalize())
   sphere.owner = obj
   bullets.push(sphere)
   scene.add(sphere)
@@ -245,17 +245,16 @@ function render() {
 
 function setupScene() {
   const UNITSIZE = 250, units = mapW
-
   const floor = new THREE.Mesh(
-    new THREE.CubeGeometry(units * UNITSIZE, 10, units * UNITSIZE),
-    new THREE.MeshLambertMaterial({color: 0xEDCBA0, /* map: THREE.ImageUtils.loadTexture('images/floor-1.jpg')*/})
+    new THREE.BoxGeometry(units * UNITSIZE, 10, units * UNITSIZE),
+    new THREE.MeshLambertMaterial({color: 0xEDCBA0})
   )
   scene.add(floor)
 
-  const cube = new THREE.CubeGeometry(UNITSIZE, WALLHEIGHT, UNITSIZE)
+  const cube = new THREE.BoxGeometry(UNITSIZE, WALLHEIGHT, UNITSIZE)
   const materials = [
-    new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture('images/wall-1.jpg')}),
-    new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture('images/wall-2.jpg')}),
+    new THREE.MeshLambertMaterial({ map: textureLoader.load('images/wall-1.jpg')}),
+    new THREE.MeshLambertMaterial({ map: textureLoader.load('images/wall-2.jpg')}),
     new THREE.MeshLambertMaterial({color: 0xFBEBCD}),
   ]
   for (let i = 0; i < mapW; i++) 
