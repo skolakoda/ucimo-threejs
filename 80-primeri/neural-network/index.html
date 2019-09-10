@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Neural-Network</title>
+</head>
+<body>
+
+	<div id="loading">
+		<div class="spinner">
+			<div class="rect1"></div>
+			<div class="rect2"></div>
+			<div class="rect3"></div>
+			<div class="rect4"></div>
+			<div class="rect5"></div>
+		</div>
+	</div>
+
+	<!-- https://github.com/nxxcxx/Neural-Network -->
+
+	<div id="canvas-container"></div>
+
+	<script type="x-shader/x-vertex" id="vertexshader-axon">
+		uniform float opacityMultiplier;
+		attribute float opacityAttr;
+		varying float opacityNew;
+
+		void main() {
+			opacityNew = opacityAttr * opacityMultiplier;
+			gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0 );
+		}
+
+	</script>
+
+	<script type="x-shader/x-fragment" id="fragmentshader-axon">
+		uniform vec3 color;
+		varying float opacityNew;
+		
+		void main() {
+			gl_FragColor = vec4(color, opacityNew);
+		}
+	</script>
+
+	<script src="js/vendor/dat.gui.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/73/three.js"></script>
+	<!-- <script src="/libs/OrbitControls.js"></script> -->
+	<script src="js/vendor/OBJLoader.js"></script>
+
+	<script src="game.js" type="module"></script>
+
+</body>
+</html>
