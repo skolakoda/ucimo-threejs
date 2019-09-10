@@ -16,11 +16,7 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
 
 - primeri iz knjige Jordi Josa - How to design 3D games with web technolology: https://www.thefiveplanets.org/b01/
 
-- svetlo:
-  - learning-threejs poglavlje 3
-  - Tony Parisi, Programming 3D Applications with HTML and WebGL (str. 79)
 - modeli:
-  - uzeti kamion model (truck dae from learning-threejs)
   - http://server1.lazy-kitty.com/tests/camera_shake_2019_08_09/
   - [morph targets - horse](https://github.com/mrdoob/three.js/blob/master/examples/webgl_morphtargets_horse.html)
   - https://jbouny.github.io/fft-ocean/
@@ -29,6 +25,9 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
   - https://codepen.io/devildrey33/pen/zKBpmq
   - https://codepen.io/zadvorsky/pen/xPKBBJ
   - http://nxxcxx.github.io/Neural-Network/
+- svetlo:
+  - learning-threejs poglavlje 3
+  - Tony Parisi, Programming 3D Applications with HTML and WebGL (str. 79)
 
 ## Izvori
 
