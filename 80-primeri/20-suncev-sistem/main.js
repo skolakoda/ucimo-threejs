@@ -1,26 +1,21 @@
-document.body.style.backgroundColor = 'black'
+import * as THREE from '/node_modules/three/build/three.module.js'
+import { scene, renderer } from '/utils/scene.js'
+
 let vreme = 0,
   brzina = 1,
   pauza = false
 
-const scene = new THREE.Scene()
-
-// kamere
 const razmera = window.innerWidth / window.innerHeight
 const glavna_kamera = new THREE.PerspectiveCamera(75, razmera, 1, 1e6)
-glavna_kamera.position.z = 1000
-scene.add(glavna_kamera)
-let camera = glavna_kamera // default camera
-
 const kamera_zemlja_sunce = new THREE.PerspectiveCamera(75, razmera, 1, 1e6)
 const kamera_zemlja_mesec = new THREE.PerspectiveCamera(75, razmera, 1, 1e6)
 
+glavna_kamera.position.z = 1000
+scene.add(glavna_kamera)
+let defaultCamera = glavna_kamera
+
 const ambijent = new THREE.AmbientLight(0xffffff)
 scene.add(ambijent)
-
-const renderer = new THREE.WebGLRenderer()
-renderer.setSize(window.innerWidth, window.innerHeight)
-document.body.appendChild(renderer.domElement)
 
 const sunce = praviSunce()
 scene.add(sunce)
@@ -38,7 +33,7 @@ scene.add(praviZvezde())
 /* FUNCTIONS */
 
 function praviSunce() {
-  const surface = new THREE.MeshPhongMaterial({ambient: 0xFFD700})
+  const surface = new THREE.MeshBasicMaterial({color: 0xFFD700})
   const zvezda = new THREE.SphereGeometry(50, 28, 21)
   const sunce = new THREE.Mesh(zvezda, surface)
   const sunceva_svetlost = new THREE.PointLight(0xffffff, 5, 1000)
@@ -47,8 +42,8 @@ function praviSunce() {
 }
 
 function praviZemlju() {
-  const surface = new THREE.MeshPhongMaterial({ambient: 0x1a1a1a, color: 0x0000cd})
-  const planeta = new THREE.SphereGeometry(20, 20, 15)
+  const surface = new THREE.MeshBasicMaterial({color: 0x0000cd})
+  const planeta = new THREE.SphereGeometry(20, 20, 32)
   return new THREE.Mesh(planeta, surface)
 }
 
@@ -62,7 +57,7 @@ function praviZemljinuOrbitu(zemlja, kamera_zemlja_sunce) {
 }
 
 function praviMesec() {
-  const surface = new THREE.MeshPhongMaterial({ambient: 0x1a1a1a, color: 0xffffff})
+  const surface = new THREE.MeshBasicMaterial({color: 0xffffff})
   const planeta = new THREE.SphereGeometry(15, 30, 25)
   const mesec = new THREE.Mesh(planeta, surface)
   return mesec
@@ -84,8 +79,8 @@ function praviZvezde() {
     const lon = 2 * Math.PI * Math.random()
     gemetry.vertices.push(new THREE.Vector3(1e5 * Math.cos(lon) * Math.cos(lat), 1e5 * Math.sin(lon) * Math.cos(lat), 1e5 * Math.sin(lat)))
   }
-  const material = new THREE.ParticleBasicMaterial({size: 500})
-  return new THREE.ParticleSystem(gemetry, material)
+  const material = new THREE.PointsMaterial({size: 500})
+  return new THREE.Points(gemetry, material)
 }
 
 function okreciPlanete() {
@@ -108,7 +103,7 @@ function racunajUgao() {
 
 void function animiraj() {
   requestAnimationFrame(animiraj)
-  renderer.render(scene, camera)
+  renderer.render(scene, defaultCamera)
   if (pauza) return
   okreciPlanete()
   racunajUgao()
@@ -118,16 +113,12 @@ void function animiraj() {
 
 document.addEventListener('keydown', event => {
   const code = event.keyCode
-
   if (code == 81)  // Q
-    camera = kamera_zemlja_sunce
-
+    defaultCamera = kamera_zemlja_sunce
   if (code == 87)  // W
-    camera = kamera_zemlja_mesec
-
+    defaultCamera = kamera_zemlja_mesec
   if (code == 69)  // E
-    camera = glavna_kamera
-
+    defaultCamera = glavna_kamera
   if (code == 80)
     pauza = !pauza // P
   if (code == 49)
@@ -136,5 +127,4 @@ document.addEventListener('keydown', event => {
     brzina = 2 // 2
   if (code == 51)
     brzina = 10 // 3
-}
-)
+})
