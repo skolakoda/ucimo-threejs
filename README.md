@@ -17,8 +17,6 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
 - primeri iz knjige Jordi Josa - How to design 3D games with web technolology: https://www.thefiveplanets.org/b01/
 
 - modeli:
-  - http://server1.lazy-kitty.com/tests/camera_shake_2019_08_09/
-  - [morph targets - horse](https://github.com/mrdoob/three.js/blob/master/examples/webgl_morphtargets_horse.html)
   - https://jbouny.github.io/fft-ocean/
 - razno:
   - https://codepen.io/Mombasa/pen/leiGu
