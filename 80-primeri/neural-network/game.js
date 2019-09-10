@@ -1,9 +1,5 @@
-/* global THREE */
-// import * as THREE from '/node_modules/three/build/three.module.js'
-// import { OBJLoader } from '/node_modules/three/examples/jsm/loaders/OBJLoader.js'
+import * as THREE from '/node_modules/three/build/three.module.js'
 // import { camera, scene, renderer, createOrbitControls } from '/utils/scene.js'
-
-'use strict'
 
 const textureLoader = new THREE.TextureLoader()
 
@@ -324,22 +320,15 @@ NeuralNetwork.prototype.initNeuralNetwork = function() {
 
   // obj loader
   const self = this
-  const loader = new THREE.OBJLoader()
 
-  loader.load('models/brain_vertex.obj', loadedObject => {
-    console.log(loadedObject)
-    const loadedMeshVertices = loadedObject.children[0].geometry.vertices
-
-    self.initNeurons(loadedMeshVertices)
-    self.initAxons()
-
-    self.initialized = true
-
-    console.log('Neural Network initialized')
-    document.getElementById('loading').style.display = 'none'	// hide loading animation when finish loading model
-
-  }) // end of loader
-
+  fetch('vertices.json')
+    .then(res => res.json())
+    .then(vertices => {
+      self.initNeurons(vertices)
+      self.initAxons()  
+      self.initialized = true
+      document.getElementById('loading').style.display = 'none'
+    })
 }
 
 NeuralNetwork.prototype.initNeurons = function(inputVertices) {
