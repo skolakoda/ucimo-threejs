@@ -11,10 +11,8 @@ const toruses = []
 class Torus {
   constructor(f) {
     this.mesh = new THREE.Mesh(new THREE.TorusGeometry(160, 75, 2, 13), new THREE.MeshNormalMaterial())
-    this.mesh.position.x = 57 * Math.cos(f)
-    this.mesh.position.y = 57 * Math.sin(f)
-    this.mesh.position.z = f * 1.25
-    this.mesh.rotation.z = f * 0.03
+    this.mesh.position.set(57 * Math.cos(f), 57 * Math.sin(f), f * 1.25)
+    // this.mesh.rotation.z = f * 0.03
   }
 }
 
