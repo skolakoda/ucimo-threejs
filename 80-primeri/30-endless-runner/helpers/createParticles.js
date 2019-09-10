@@ -6,7 +6,7 @@ export function createParticles(particleCount) {
     const vertex = new THREE.Vector3()
     geometry.vertices.push(vertex)
   }
-  const pMaterial = new THREE.ParticleBasicMaterial({
+  const pMaterial = new THREE.PointsMaterial({
     color: 0xfffafa,
     size: 0.2
   })

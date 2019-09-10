@@ -6,7 +6,7 @@ export function createWorld(radius) {
   const sphereGeometry = new THREE.SphereGeometry(radius, sides, tiers)
   const sphereMaterial = new THREE.MeshStandardMaterial({
     color: 0xfffafa,
-    shading: THREE.FlatShading
+    flatShading: true
   })
   let vertexIndex
   let vertexVector = new THREE.Vector3()

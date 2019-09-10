@@ -45,7 +45,7 @@ renderer.setSize(innerWidth, innerHeight)
 document.body.appendChild(renderer.domElement)
 
 const orbitControl = new THREE.OrbitControls(camera, renderer.domElement) // helper to rotate around in scene
-orbitControl.noKeys = true
+orbitControl.enableKeys = false
 orbitControl.enableZoom = false
 orbitControl.minPolarAngle = 1.1
 orbitControl.maxPolarAngle = 1.1

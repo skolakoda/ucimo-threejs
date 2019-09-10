@@ -43,7 +43,7 @@ function createTreeTop() {
   const geometry = new THREE.ConeGeometry(0.5, 1, sides, tiers)
   const material = new THREE.MeshStandardMaterial({
     color: 0x33ff33,
-    shading: THREE.FlatShading
+    flatShading: true
   })
   blowUpTree(geometry.vertices, sides, 0, rand)
   tightenTree(geometry.vertices, sides, 1)
@@ -63,7 +63,7 @@ function createTreeTrunk() {
   const geometry = new THREE.CylinderGeometry(0.1, 0.1, 0.5)
   const material = new THREE.MeshStandardMaterial({
     color: 0x886633,
-    shading: THREE.FlatShading
+    flatShading: true
   })
   const mesh = new THREE.Mesh(geometry, material)
   mesh.position.y = 0.25
