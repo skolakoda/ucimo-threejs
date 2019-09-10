@@ -1,4 +1,4 @@
-/* global THREE */
+import * as THREE from '/node_modules/three/build/three.module.js'
 
 export function createBall(radius, x, y) {
   const geometry = new THREE.DodecahedronGeometry(radius, 1)

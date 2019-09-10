@@ -1,4 +1,4 @@
-/* global THREE */
+import * as THREE from '/node_modules/three/build/three.module.js'
 
 function blowUpTree(vertices, sides, currentTier, rand) {
   let vertexIndex

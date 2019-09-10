@@ -1,4 +1,4 @@
-/* global THREE */
+import * as THREE from '/node_modules/three/build/three.module.js'
 
 export function createSun() {
   const sun = new THREE.DirectionalLight(0xcdc1c5, 0.9)

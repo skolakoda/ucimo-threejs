@@ -1,10 +1,11 @@
+import * as THREE from '/node_modules/three/build/three.module.js'
+import { camera, scene, renderer, clock, createOrbitControls } from '/utils/scene.js'
 import {createBall} from './helpers/createBall.js'
 import {createWorld} from './helpers/createWorld.js'
 import {createSun} from './helpers/createSun.js'
 import {createTree} from './helpers/createTree.js'
 import {createParticles} from './helpers/createParticles.js'
 
-const {innerWidth, innerHeight} = window
 const rollingSpeed = 0.008
 const worldRadius = 26
 const heroRadius = 0.2
@@ -24,27 +25,17 @@ let score = 0
 
 /* INIT */
 
-const clock = new THREE.Clock()
 clock.start()
 
 const heroRollingSpeed = (rollingSpeed * worldRadius / heroRadius) / 5
 const pathAngleValues = [1.52, 1.57, 1.62]
 
-const scene = new THREE.Scene()
 scene.fog = new THREE.FogExp2(0xf0fff0, 0.14)
-
-const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 1000) // perspective camera
 camera.position.z = 6.5
-camera.position.y = 3.5
-
-const renderer = new THREE.WebGLRenderer()
+camera.position.y = 3
 renderer.setClearColor(0xfffafa, 1)
-renderer.shadowMap.enabled = true // enable shadow
-renderer.shadowMap.type = THREE.PCFSoftShadowMap
-renderer.setSize(innerWidth, innerHeight)
-document.body.appendChild(renderer.domElement)
 
-const orbitControl = new THREE.OrbitControls(camera, renderer.domElement) // helper to rotate around in scene
+const orbitControl = createOrbitControls() // helper to rotate around in scene
 orbitControl.enableKeys = false
 orbitControl.enableZoom = false
 orbitControl.minPolarAngle = 1.1
@@ -147,7 +138,6 @@ function updateTrees() {
     treesInPath.splice(fromWhere, 1)
     treesPool.push(tree)
     tree.visible = false
-    console.log('remove tree')
   })
 }
 

@@ -16,6 +16,7 @@ export const renderer = new THREE.WebGLRenderer({antialias: true})
 renderer.setPixelRatio(window.devicePixelRatio)
 renderer.setSize(window.innerWidth, window.innerHeight)
 renderer.shadowMap.enabled = true
+renderer.shadowMap.type = THREE.PCFSoftShadowMap
 document.body.style.margin = 0
 document.body.appendChild(renderer.domElement)
 renderer.domElement.focus()
