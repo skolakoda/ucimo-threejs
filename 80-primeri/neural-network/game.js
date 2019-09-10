@@ -3,7 +3,8 @@ import { camera, scene, renderer, createOrbitControls } from '/utils/scene.js'
 import {NeuralNetwork} from './classes/NeuralNetwork.js'
 
 createOrbitControls()
-const neuralNet = window.neuralNet = new NeuralNetwork()
+
+const neuralNet = window.neuralNet = new NeuralNetwork('vertices.json')
 
 // GUI
 

@@ -30,10 +30,8 @@ Neuron.prototype.connectNeuronTo = function(neuronB) {
 }
 
 Neuron.prototype.createSignal = function(particlePool, minSpeed, maxSpeed) {
-
   this.firedCount += 1
   this.recievedSignal = false
-
   const signals = []
   // create signal to all connected axons
   for (let i = 0; i < this.connection.length; i++)
@@ -42,7 +40,5 @@ Neuron.prototype.createSignal = function(particlePool, minSpeed, maxSpeed) {
       c.setConnection(this.connection[i])
       signals.push(c)
     }
-
   return signals
-
 }
