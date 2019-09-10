@@ -1,5 +1,7 @@
-/* global Coordinates, dat */
-// Euler angle: order of rotation application is Z, Y, X in three.js
+/* global dat */
+import * as THREE from '/node_modules/three/build/three.module.js'
+import { scene, camera, renderer } from '/utils/scene.js'
+import { drawAxes } from './drawAxes.js'
 
 function createAirplane() {
   const airplane = new THREE.Object3D()
@@ -42,42 +44,24 @@ function createAirplane() {
 
 /* INIT */
 
-const scene = new THREE.Scene()
-
-const renderer = new THREE.WebGLRenderer({alpha:true})
-renderer.setSize(window.innerWidth, window.innerHeight)
-document.body.appendChild(renderer.domElement)
-
-const camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 10000)
-camera.position.set(-668, 474, 210)
+camera.position.set(-350, 250, 100)
 camera.lookAt(scene.position)
 
 const light = new THREE.DirectionalLight(0xFFFFFF, 1.0)
 light.position.set(-10, 10, 0)
 scene.add(light)
-
-Coordinates.drawAllAxes({
-  axisLength: 200,
-  axisRadius: 1,
-  axisTess: 50
-})
+drawAxes(scene)
 
 const airplane = createAirplane()
 scene.add(airplane)
 
-// gui
-
 const gui = new dat.GUI()
-const controller = {
-  x: 0,
-  y: 0,
-  z: 0
-}
-gui.add(controller, 'x', -360, 360).name('pitch (x)')
-gui.add(controller, 'y', -360, 360).name('yaw (y)')
-gui.add(controller, 'z', -360, 360).name('roll (z)')
+const controller = {x: 0, y: 0, z: 0 }
+gui.add(controller, 'x', -360, 360).name('Rotate x (pitch)')
+gui.add(controller, 'y', -360, 360).name('Rotate y (yaw)')
+gui.add(controller, 'z', -360, 360).name('Rotate z (roll)')
 
-/* UPDATE */
+/* LOOP */
 
 void function update() {
   window.requestAnimationFrame(update)
