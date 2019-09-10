@@ -1,23 +1,30 @@
+import * as THREE from '/node_modules/three/build/three.module.js'
 import { OBJLoader } from '/node_modules/three/examples/jsm/loaders/OBJLoader.js'
+import { MTLLoader } from '/node_modules/three/examples/jsm/loaders/MTLLoader.js'
 import {scene, camera, renderer, createOrbitControls, initLights} from '/utils/scene.js'
 
-camera.position.z = 250
+const scale = 0.2
 
-createOrbitControls()
 initLights()
+createOrbitControls()
 
-const loader = new OBJLoader()
-loader.load('/assets/models/zamak.obj', model => {
-  model.position.y = -95
-  scene.add(model)
+const objLoader = new OBJLoader()
+const mtlLoader = new MTLLoader()
+mtlLoader.setMaterialOptions({side: THREE.DoubleSide})
+
+mtlLoader.load('/assets/models/BlackPearl/BlackPearl.mtl', materials => {
+  objLoader.setMaterials(materials)
+  objLoader.load('/assets/models/BlackPearl/BlackPearl.obj', object => {
+    object.scale.set(scale, scale, scale)
+    object.rotateY(Math.PI / 2)
+    scene.add(object)
+  })
 })
 
 /** LOOP **/
 
-const update = () => {
+void function update() {
   requestAnimationFrame(update)
   camera.lookAt(scene.position)
   renderer.render(scene, camera)
-}
-
-update()
+}()

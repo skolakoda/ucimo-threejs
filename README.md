@@ -16,8 +16,6 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
 
 - primeri iz knjige Jordi Josa - How to design 3D games with web technolology: https://www.thefiveplanets.org/b01/
 
-- modeli:
-  - https://jbouny.github.io/fft-ocean/
 - razno:
   - https://codepen.io/Mombasa/pen/leiGu
   - https://codepen.io/devildrey33/pen/zKBpmq
