@@ -1,4 +1,5 @@
 /* global $, THREE */
+
 const map = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ], // 0
     [1, 1, 0, 0, 0, 0, 0, 1, 1, 1, ], // 1
@@ -34,11 +35,11 @@ const clock = new THREE.Clock()
 const scene = new THREE.Scene()
 const textureLoader = new THREE.TextureLoader()
 
-const cam = new THREE.PerspectiveCamera(60, ASPECT, 1, 10000) // FOV, aspect, near, far
-cam.position.y = UNITSIZE * .2
-scene.add(cam)
+const camera = new THREE.PerspectiveCamera(60, ASPECT, 1, 10000) // FOV, aspect, near, far
+camera.position.y = UNITSIZE * .2
+scene.add(camera)
 
-const controls = new THREE.FirstPersonControls(cam)
+const controls = new THREE.FirstPersonControls(camera)
 controls.movementSpeed = MOVESPEED
 controls.lookSpeed = LOOKSPEED
 controls.lookVertical = false // Temporary solution; play on flat surfaces only
@@ -84,7 +85,7 @@ function getRandBetween(lo, hi) {
 
 function addAI() {
   let x, z
-  const c = getMapSector(cam.position)
+  const c = getMapSector(camera.position)
   const aiMaterial = new THREE.MeshBasicMaterial({/* color: 0xEE3333,*/map: textureLoader.load('images/face.png')})
   const o = new THREE.Mesh(aiGeo, aiMaterial)
   do {
@@ -105,7 +106,7 @@ function addAI() {
 
 function createBullet(obj) {
   if (obj === undefined) 
-    obj = cam // eslint-disable-line
+    obj = camera // eslint-disable-line
 
   const sphere = new THREE.Mesh(sphereGeo, sphereMaterial)
   sphere.position.set(obj.position.x, obj.position.y * 0.8, obj.position.z)
@@ -114,7 +115,7 @@ function createBullet(obj) {
     vector = new THREE.Vector3(mouse.x, mouse.y, 1)
     vector.unproject(obj)
   } else 
-    vector = cam.position.clone()
+    vector = camera.position.clone()
   
   sphere.ray = new THREE.Ray(obj.position, vector.sub(obj.position).normalize())
   sphere.owner = obj
@@ -132,7 +133,7 @@ function render() {
   healthcube.rotation.y += 0.008
   // health once per minute
   if (Date.now() > lastHealthPickup + 60000) {
-    if (distance(cam.position.x, cam.position.z, healthcube.position.x, healthcube.position.z) < 15 && health != 100) {
+    if (distance(camera.position.x, camera.position.z, healthcube.position.x, healthcube.position.z) < 15 && health != 100) {
       health = Math.min(health + 50, 100)
       $('#health').html(health)
       lastHealthPickup = Date.now()
@@ -175,7 +176,7 @@ function render() {
       }
     }
     // Bullet hits player
-    if (distance(p.x, p.z, cam.position.x, cam.position.z) < 25 && b.owner != cam) {
+    if (distance(p.x, p.z, camera.position.x, camera.position.z) < 25 && b.owner != camera) {
       $('#hurt').fadeIn(75)
       health -= 10
       if (health < 0) health = 0
@@ -221,14 +222,14 @@ function render() {
       scene.remove(a)
       addAI()
     }
-    const cc = getMapSector(cam.position)
+    const cc = getMapSector(camera.position)
     if (Date.now() > a.lastShot + 750 && distance(c.x, c.z, cc.x, cc.z) < 2) {
       createBullet(a)
       a.lastShot = Date.now()
     }
   }
 
-  renderer.render(scene, cam)
+  renderer.render(scene, camera)
 
   // Death
   if (health <= 0) {
@@ -276,7 +277,7 @@ function setupScene() {
 }
 
 function drawRadar() {
-  const c = getMapSector(cam.position)
+  const c = getMapSector(camera.position)
   const context = document.getElementById('radar').getContext('2d')
   for (let i = 0; i < mapW; i++) 
     for (let j = 0, m = map[i].length; j < m; j++) {
