@@ -1,27 +1,36 @@
-/* global THREE */
+import * as THREE from '/node_modules/three/build/three.module.js'
+import { scene } from '/utils/scene.js'
 
 const textureLoader = new THREE.TextureLoader()
 
 // Private class for particle pool
 function Particle(particlePool) {
+
   this.particlePool = particlePool
   this.available = true
   THREE.Vector3.call(this, particlePool.offScreenPos.x, particlePool.offScreenPos.y, particlePool.offScreenPos.z)
+
 }
 
 Particle.prototype = Object.create(THREE.Vector3.prototype)
 
 Particle.prototype.free = function() {
+
   this.available = true
   this.set(this.particlePool.offScreenPos.x, this.particlePool.offScreenPos.y, this.particlePool.offScreenPos.z)
+
 }
 
-function ParticlePool(poolSize) {
+export function ParticlePool(poolSize) {
+
   this.spriteTextureSignal = textureLoader.load('sprites/electric.png')
+
   this.poolSize = poolSize
   this.pGeom = new THREE.Geometry()
   this.particles = this.pGeom.vertices
+
   this.offScreenPos = new THREE.Vector3(9999, 9999, 9999)	// #CM0A r68 Points default frustumCull = true(extended from Object3D), so need to set to 'false' for this to work with oppScreenPos, else particles will dissappear
+
   this.pColor = 0xff4400
   this.pSize = 0.6
 
@@ -58,9 +67,11 @@ function ParticlePool(poolSize) {
   this.pMesh_outer.frustumCulled = false // ref:#CM0A
 
   scene.add(this.pMesh_outer)
+
 }
 
 ParticlePool.prototype.getParticle = function() {
+
   for (let ii = 0; ii < this.poolSize; ii++) {
     const p = this.particles[ii]
     if (p.available) {
@@ -69,17 +80,22 @@ ParticlePool.prototype.getParticle = function() {
     }
   }
   return null
+
 }
 
 ParticlePool.prototype.update = function() {
+
   this.pGeom.verticesNeedUpdate = true
+
 }
 
 ParticlePool.prototype.updateSettings = function() {
+
   // inner particle
   this.pMat.color.setHex(this.pColor)
   this.pMat.size = this.pSize
   // outer particle
   this.pMat_outer.color.setHex(this.pColor)
   this.pMat_outer.size = this.pSize * 10
+
 }

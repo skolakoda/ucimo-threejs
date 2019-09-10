@@ -16,8 +16,6 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
 
 - primeri iz knjige Jordi Josa - How to design 3D games with web technolology: https://www.thefiveplanets.org/b01/
 
-- razno:
-  - http://nxxcxx.github.io/Neural-Network/
 - svetlo:
   - learning-threejs poglavlje 3
   - Tony Parisi, Programming 3D Applications with HTML and WebGL (str. 79)

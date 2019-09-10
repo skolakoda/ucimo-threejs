@@ -1,8 +1,12 @@
-/* global THREE */
+import * as THREE from '/node_modules/three/build/three.module.js'
+import { scene } from '/utils/scene.js'
+import {ParticlePool} from './ParticlePool.js'
+import {Neuron} from './Neuron.js'
 
 const textureLoader = new THREE.TextureLoader()
 
-function NeuralNetwork() {
+export function NeuralNetwork() {
+
   this.initialized = false
 
   // settings
@@ -62,29 +66,18 @@ function NeuralNetwork() {
 
   // initialize NN
   this.initNeuralNetwork()
+
 }
 
 NeuralNetwork.prototype.initNeuralNetwork = function() {
-
-  // obj loader
-  const self = this
-  let loadedMesh, loadedMeshVertices
-  const loader = new THREE.OBJLoader()
-
-  loader.load('models/brain_vertex_low.obj', loadedObject => {
-
-    loadedMesh = loadedObject.children[0]
-    loadedMeshVertices = loadedMesh.geometry.vertices
-
-    self.initNeurons(loadedMeshVertices)
-    self.initAxons()
-
-    self.initialized = true
-
-    console.log('Neural Network initialized')
-    document.getElementById('loading').style.display = 'none'	// hide loading animation when finish loading model
-
-  }) // end of loader
+  fetch('vertices.json')
+    .then(res => res.json())
+    .then(vertices => {
+      this.initNeurons(vertices)
+      this.initAxons()  
+      this.initialized = true
+      document.getElementById('loading').style.display = 'none'
+    })
 }
 
 NeuralNetwork.prototype.initNeurons = function(inputVertices) {
@@ -99,6 +92,7 @@ NeuralNetwork.prototype.initNeurons = function(inputVertices) {
   // neuron mesh
   this.neuronParticles = new THREE.Points(this.neuronsGeom, this.neuronMaterial)
   scene.add(this.neuronParticles)
+
 }
 
 NeuralNetwork.prototype.initAxons = function() {
@@ -130,19 +124,18 @@ NeuralNetwork.prototype.initAxons = function() {
   transferToArrayBuffer(this.shaderAttributes.opacityAttr.value, axonOpacities)
 
   function transferToArrayBuffer(fromArr, toArr) {
-    for (i = 0; i < toArr.length; i++)
+    for (let i = 0; i < toArr.length; i++)
       toArr[i] = fromArr[i]
-
   }
 
-  this.axonGeom.addAttribute('index', new THREE.BufferAttribute(axonIndices, 1))
+  this.axonGeom.setIndex(new THREE.BufferAttribute(axonIndices, 1))
   this.axonGeom.addAttribute('position', new THREE.BufferAttribute(axonPositions, 3))
   this.axonGeom.addAttribute('opacityAttr', new THREE.BufferAttribute(axonOpacities, 1))
 
   // axons mesh
   this.shaderMaterial = new THREE.ShaderMaterial({
     uniforms:       this.shaderUniforms,
-    attributes:     this.shaderAttributes,
+    // attributes:     this.shaderAttributes,
     vertexShader:   document.getElementById('vertexshader-axon').textContent,
     fragmentShader: document.getElementById('fragmentshader-axon').textContent,
     blending:       THREE.AdditiveBlending,
@@ -150,12 +143,14 @@ NeuralNetwork.prototype.initAxons = function() {
     transparent:    true
   })
 
-  this.axonMesh = new THREE.Line(this.axonGeom, this.shaderMaterial, THREE.LinePieces)
+  this.axonMesh = new THREE.LineSegments( this.axonGeom, this.shaderMaterial );
 
   scene.add(this.axonMesh)
+
 }
 
 NeuralNetwork.prototype.update = function() {
+
   if (!this.initialized) return
 
   let n, ii
@@ -163,6 +158,7 @@ NeuralNetwork.prototype.update = function() {
 
   // update neurons state and release signal
   for (ii = 0; ii < this.allNeurons.length; ii++) {
+
     n = this.allNeurons[ii]
 
     if (this.allSignals.length < this.currentMaxSignals - this.maxConnectionPerNeuron) 		// currentMaxSignals - maxConnectionPerNeuron because allSignals can not bigger than particlePool size
@@ -181,6 +177,7 @@ NeuralNetwork.prototype.update = function() {
 
   // reset all neurons and when there is X signal
   if (this.allSignals.length <= 0) {
+
     for (ii = 0; ii < this.allNeurons.length; ii++) {	// reset all neuron state
       n = this.allNeurons[ii]
       n.releaseDelay = 0
@@ -189,6 +186,7 @@ NeuralNetwork.prototype.update = function() {
       n.firedCount = 0
     }
     this.releaseSignalAt(this.allNeurons[THREE.Math.randInt(0, this.allNeurons.length)])
+
   }
 
   // update and remove signals
@@ -203,12 +201,17 @@ NeuralNetwork.prototype.update = function() {
           this.allSignals.splice(k, 1)
           break
         }
+
     }
+
   }
+
   // update particle pool vertices
   this.particlePool.update()
+
   // update info for GUI
   this.updateInfo()
+
 }
 
 // add vertices to temp-arrayBuffer, generate temp-indexBuffer and temp-opacityArrayBuffer
@@ -221,14 +224,18 @@ NeuralNetwork.prototype.constructAxonArrayBuffer = function(axon) {
   // var opacity = THREE.Math.randFloat(0.001, 0.1);
 
   for (let i = 0; i < numVerts; i++) {
+
     this.axonPositions.push(vertices[i].x, vertices[i].y, vertices[i].z)
 
     if (i < numVerts - 1) {
       const idx = this.axonNextPositionsIndex
       this.axonIndices.push(idx, idx + 1)
+
       const opacity = THREE.Math.randFloat(0.002, 0.2)
       this.shaderAttributes.opacityAttr.value.push(opacity, opacity)
+
     }
+
     this.axonNextPositionsIndex += 1
   }
 }
@@ -248,11 +255,13 @@ NeuralNetwork.prototype.updateInfo = function() {
 }
 
 NeuralNetwork.prototype.updateSettings = function() {
+
   this.neuronMaterial.opacity = this.neuronOpacity
   this.neuronMaterial.color.setHex(this.neuronColor)
   this.neuronMaterial.size = this.neuronSize
 
   this.shaderUniforms.color.value.set(this.axonColor)
   this.shaderUniforms.opacityMultiplier.value = this.axonOpacityMultiplier
+
   this.particlePool.updateSettings()
 }

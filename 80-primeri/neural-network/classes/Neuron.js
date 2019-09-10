@@ -1,11 +1,13 @@
-/* global THREE */
+import * as THREE from '/node_modules/three/build/three.module.js'
+import {Axon} from './Axon.js'
+import {Signal} from './Signal.js'
 
 function Connection(axon, startingPoint) {
   this.axon = axon
   this.startingPoint = startingPoint
 }
 
-function Neuron(x, y, z) {
+export function Neuron(x, y, z) {
   this.connection = []
   this.recievedSignal = false
   this.lastSignalRelease = 0
