@@ -14,7 +14,21 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
 
 ## TODO
 
-- primeri iz knjige Jordi Josa - How to design 3D games with web technolology: https://www.thefiveplanets.org/b01/
+- primeri iz knjige Jordi Josa - How to design 3D games with web technolology
+  - https://thefiveplanets.org/blog/book01/
+  - kamera prati putanju:
+    - https://www.thefiveplanets.org/b01/c04/08-skybox.html
+    - https://threejs.org/examples/#webgl_geometry_extrude_splines
+  - kvazi 3D (2D drvece na 3D sceni) https://www.thefiveplanets.org/b01/c04/11-vegetation.html
+  - 3D selo https://www.thefiveplanets.org/b01/c04/13-map.html
+  - loading screen https://www.thefiveplanets.org/b01/c04/14-map-loadingbar.html
+  - NPC i AI:
+     https://www.thefiveplanets.org/b01/c04/15-map-villagers.html
+     https://www.thefiveplanets.org/b01/c04/16-map-monsters.html
+  - uzimanje predmeta:
+    - https://www.thefiveplanets.org/b01/c05/11-raycaster-drag-drop.html
+    - https://www.thefiveplanets.org/b01/c05/12-game-pick.html
+  - pointerlock nisan https://www.thefiveplanets.org/b01/c05/15-pointer-look-game.html
 
 - svetlo:
   - learning-threejs poglavlje 3
