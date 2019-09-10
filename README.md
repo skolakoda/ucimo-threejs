@@ -30,6 +30,12 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
     - https://www.thefiveplanets.org/b01/c05/12-game-pick.html
   - pointerlock nisan https://www.thefiveplanets.org/b01/c05/15-pointer-look-game.html
 
+razno:
+  - juego-3d-exemplos
+  - https://github.com/mudroljub/3D-RPG-Game-With-THREE.js
+  - udemy-car-game
+  - mini-rpg
+
 - svetlo:
   - learning-threejs poglavlje 3
   - Tony Parisi, Programming 3D Applications with HTML and WebGL (str. 79)
