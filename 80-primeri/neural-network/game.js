@@ -1,4 +1,8 @@
 /* global THREE */
+// import * as THREE from '/node_modules/three/build/three.module.js'
+// import { OBJLoader } from '/node_modules/three/examples/jsm/loaders/OBJLoader.js'
+// import { camera, scene, renderer, createOrbitControls } from '/utils/scene.js'
+
 'use strict'
 
 const textureLoader = new THREE.TextureLoader()
@@ -320,13 +324,11 @@ NeuralNetwork.prototype.initNeuralNetwork = function() {
 
   // obj loader
   const self = this
-  let loadedMesh, loadedMeshVertices
   const loader = new THREE.OBJLoader()
 
-  loader.load('models/brain_vertex_low.obj', loadedObject => {
-
-    loadedMesh = loadedObject.children[0]
-    loadedMeshVertices = loadedMesh.geometry.vertices
+  loader.load('models/brain_vertex.obj', loadedObject => {
+    console.log(loadedObject)
+    const loadedMeshVertices = loadedObject.children[0].geometry.vertices
 
     self.initNeurons(loadedMeshVertices)
     self.initAxons()
@@ -389,7 +391,7 @@ NeuralNetwork.prototype.initAxons = function() {
 
   }
 
-  this.axonGeom.addAttribute('index', new THREE.BufferAttribute(axonIndices, 1))
+  this.axonGeom.setIndex(new THREE.BufferAttribute(axonIndices, 1))
   this.axonGeom.addAttribute('position', new THREE.BufferAttribute(axonPositions, 3))
   this.axonGeom.addAttribute('opacityAttr', new THREE.BufferAttribute(axonOpacities, 1))
 
@@ -404,7 +406,7 @@ NeuralNetwork.prototype.initAxons = function() {
     transparent:    true
   })
 
-  this.axonMesh = new THREE.Line(this.axonGeom, this.shaderMaterial, THREE.LinePieces)
+  this.axonMesh = new THREE.LineSegments( this.axonGeom, this.shaderMaterial );
 
   scene.add(this.axonMesh)
 
