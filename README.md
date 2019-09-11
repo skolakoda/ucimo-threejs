@@ -14,22 +14,6 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
 
 ## TODO
 
-- primeri iz knjige Jordi Josa - How to design 3D games with web technolology
-  - https://thefiveplanets.org/blog/book01/
-  - kamera prati putanju:
-    - https://www.thefiveplanets.org/b01/c04/08-skybox.html
-    - https://threejs.org/examples/#webgl_geometry_extrude_splines
-  - kvazi 3D (2D drvece na 3D sceni) https://www.thefiveplanets.org/b01/c04/11-vegetation.html
-  - 3D selo https://www.thefiveplanets.org/b01/c04/13-map.html
-  - loading screen https://www.thefiveplanets.org/b01/c04/14-map-loadingbar.html
-  - NPC i AI:
-     https://www.thefiveplanets.org/b01/c04/15-map-villagers.html
-     https://www.thefiveplanets.org/b01/c04/16-map-monsters.html
-  - uzimanje predmeta:
-    - https://www.thefiveplanets.org/b01/c05/11-raycaster-drag-drop.html
-    - https://www.thefiveplanets.org/b01/c05/12-game-pick.html
-  - pointerlock nisan https://www.thefiveplanets.org/b01/c05/15-pointer-look-game.html
-
 razno:
   - juego-3d-exemplos
   - https://github.com/mudroljub/3D-RPG-Game-With-THREE.js
@@ -51,6 +35,7 @@ Primeri su preuzeti iz:
 * [Learning Threejs](https://github.com/josdirksen/learning-threejs) (Jos Dirksen)
 * [Essential Three.js](https://github.com/josdirksen/essential-threejs) (Jos Dirksen)
 * [Three.js Cookbook](https://github.com/josdirksen/threejs-cookbook) (Jos Dirksen)
+* [How to Design 3D Games with Web Technology - Book 01: Three. Js - HTML5 and WebGL](https://thefiveplanets.org/b01/) (Jordi Josa)
 
 ---
 ### Škola koda, učimo narod programiranju!
