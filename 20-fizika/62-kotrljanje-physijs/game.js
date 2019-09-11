@@ -1,14 +1,13 @@
 /* global THREE, Physijs, Perlin */
 Physijs.scripts.worker = '/libs/physijs/physijs_worker.js'
 Physijs.scripts.ammo = './ammo.js'
-import {initDefaultLighting } from '../../utils/dirk.js'
-import {renderer, camera, createOrbitControls } from '../../utils/scene.js'
+import {renderer, camera, createOrbitControls, initLights } from '../../utils/scene.js'
 
 createOrbitControls()
 camera.position.y = 50
 
 const scene = new Physijs.Scene
-initDefaultLighting(scene, new THREE.Vector3(0, 50, 120))
+initLights(scene, new THREE.Vector3(0, 50, 120))
 scene.add(new THREE.AmbientLight(0x393939))
 
 function addSphere() {
