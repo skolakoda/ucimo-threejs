@@ -97,10 +97,10 @@ renderer.domElement.addEventListener('mousemove', onDocumentMouseMove, false)
 renderer.domElement.addEventListener('mousedown', onDocumentMouseDown, false)
 renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false)
 
-function onDocumentMouseMove(event) {
-  event.preventDefault()
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1
-  mouse.y = - (event.clientY / window.innerHeight) * 2 + 1
+function onDocumentMouseMove(e) {
+  e.preventDefault()
+  mouse.x = e.clientX / window.innerWidth * 2 - 1
+  mouse.y = -e.clientY / window.innerHeight * 2 + 1
 
   raycaster.setFromCamera(mouse, camera)
 
@@ -114,9 +114,7 @@ function onDocumentMouseMove(event) {
   if (intersects.length > 0) {
     if (SELECTED != intersects[0].object) {
       SELECTED = intersects[0].object
-      plane.setFromNormalAndCoplanarPoint(
-        camera.getWorldDirection(plane.normal),
-        SELECTED.position)
+      plane.setFromNormalAndCoplanarPoint(camera.getWorldDirection(plane.normal), SELECTED.position)
     }
     document.body.style.cursor = 'pointer'
   } else {
@@ -125,8 +123,8 @@ function onDocumentMouseMove(event) {
   }
 }
 
-function onDocumentMouseDown(event) {
-  event.preventDefault()
+function onDocumentMouseDown(e) {
+  e.preventDefault()
   if (SELECTED) {
     controls.enabled = false
     DRAGGED = SELECTED
@@ -136,13 +134,12 @@ function onDocumentMouseDown(event) {
   }
 }
 
-function onDocumentMouseUp(event) {
-  event.preventDefault()
+function onDocumentMouseUp(e) {
+  e.preventDefault()
   controls.enabled = true
   if (DRAGGED) {
     const intersects = raycaster.intersectObject(CHEST)
-    if (intersects.length > 0)
-      scene.remove(DRAGGED)
+    if (intersects.length > 0) scene.remove(DRAGGED)
     DRAGGED = null
   }
   document.body.style.cursor = 'auto'
