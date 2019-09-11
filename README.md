@@ -12,18 +12,6 @@ Vidi još: [github.com/skolakoda/pravimo-3d-sajtove](https://github.com/skolakod
 
 Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura je potreban lokalni server.
 
-## TODO
-
-razno:
-  - juego-3d-exemplos
-  - https://github.com/mudroljub/3D-RPG-Game-With-THREE.js
-  - udemy-car-game
-  - mini-rpg
-
-- svetlo:
-  - learning-threejs poglavlje 3
-  - Tony Parisi, Programming 3D Applications with HTML and WebGL (str. 79)
-
 ## Izvori
 
 Primeri su preuzeti iz:
