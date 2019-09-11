@@ -3,7 +3,7 @@ import {LegacyJSONLoader} from '../libs/LegacyJSONLoader.js'
 
 export const models = {}
 
-export function loadJsonMeshes(assets, callback) {
+export function loadJsonModels(assets, callback) {
   const loader = new LegacyJSONLoader()
   let i = 0
   for (const name in assets)

@@ -1,6 +1,6 @@
 import * as THREE from '/node_modules/three/build/three.module.js'
 
-import {loadJsonMeshes} from './utils/loaders.js'
+import {loadJsonModels} from './utils/loaders.js'
 import GameEngine from './classes/GameEngine.js'
 import Mine from './classes/Mine.js'
 import Village from './classes/Village.js'
@@ -25,7 +25,7 @@ const MINES = 2
 
 const game = new GameEngine()
 
-loadJsonMeshes(assets, () => {
+loadJsonModels(assets, () => {
   game.init()
   game.start()
   game.plantTrees()
