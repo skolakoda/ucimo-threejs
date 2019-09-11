@@ -1,3 +1,6 @@
+/* global THREE */
+import '/node_modules/three/examples/js/loaders/deprecated/LegacyJSONLoader.js'
+
 const IMAGES = []
 export const objects   = {}
 

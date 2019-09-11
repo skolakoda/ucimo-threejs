@@ -1,3 +1,5 @@
+import * as THREE from '/node_modules/three/build/three.module.js'
+
 import AssetManager from './classes/AssetManager.js'
 import GameEngine from './classes/GameEngine.js'
 import Mine from './classes/Mine.js'
@@ -8,6 +10,7 @@ import Bird from './classes/creatures/Bird.js'
 import Rabbit from './classes/creatures/Rabbit.js'
 import {rndInt} from './utils/helpers.js'
 
+window.THREE = THREE
 const MESHES = ['tree', 'mine', 'cloud', 'village']
 const MOBS = 3
 const BIRDS = 15
