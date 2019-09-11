@@ -4,21 +4,69 @@ import { MTLLoader } from '/node_modules/three/examples/jsm/loaders/MTLLoader.js
 import { TrackballControls } from '/node_modules/three/examples/jsm/controls/TrackballControls.js'
 import {scene, camera, renderer, initLights} from '/utils/scene.js'
 
+let SELECTED, DRAGGED, CHEST
+
 const items = []
 const plane = new THREE.Plane()
 const raycaster = new THREE.Raycaster()
 const mouse = new THREE.Vector2()
 const offset = new THREE.Vector3()
 const intersection = new THREE.Vector3()
-let SELECTED, DRAGGED, CHEST
+const mtlLoader = new MTLLoader()
+mtlLoader.setPath('/assets/models/items/')
 
 scene.background = new THREE.Color(0xe0e0e0)
 camera.position.z = 6
 camera.position.y = 4
 
 const controls = new TrackballControls(camera)
-
 initLights()
+
+loadOBJ('potion.mtl', 'potion.obj', potion => {
+  for (let i = 0; i < 4; i++) placeObject(potion)
+})
+
+loadOBJ('potion2.mtl', 'potion.obj', potion2 => {
+  for (let i = 0; i < 4; i++) placeObject(potion2)
+})
+
+loadOBJ('potion3.mtl', 'potion.obj', potion3 => {
+  for (let i = 0; i < 4; i++) placeObject(potion3)
+})
+
+loadOBJ('money.mtl', 'money.obj', money => {
+  for (let i = 0; i < 4; i++) placeObject(money)
+})
+
+loadOBJ('axe.mtl', 'axe.obj', axe => {
+  for (let i = 0; i < 2; i++) placeObject(axe, true)
+})
+
+loadOBJ('hammer.mtl', 'hammer.obj', hammer => {
+  for (let i = 0; i < 2; i++) placeObject(hammer, true)
+})
+
+loadOBJ('shield.mtl', 'shield.obj', shield => {
+  placeObject(shield, true)
+})
+
+loadOBJ('sword.mtl', 'sword.obj', sword => {
+  placeObject(sword, true)
+})
+
+loadOBJ('staff.mtl', 'staff.obj', staff => {
+  placeObject(staff, true)
+})
+
+loadOBJ('chest.mtl', 'chest.obj', chest => {
+  CHEST = chest
+  chest.position.x = 0
+  chest.position.z = 0
+  chest.rotation.y = -Math.PI / 2
+  scene.add(chest)
+})
+
+/* FUNCTIONS */
 
 function placeObject(item, shouldRotate) {
   const object = item.clone()
@@ -33,63 +81,24 @@ function placeObject(item, shouldRotate) {
   items.push(object)
 }
 
-loadOBJ('/assets/models/items/', 'potion.mtl', 'potion.obj', potion => {
-  loadOBJ('/assets/models/items/', 'potion2.mtl', 'potion.obj', potion2 => {
-    loadOBJ('/assets/models/items/', 'potion3.mtl', 'potion.obj', potion3 => {
-      loadOBJ('/assets/models/items/', 'money.mtl', 'money.obj', money => {
-        loadOBJ('/assets/models/items/', 'axe.mtl', 'axe.obj', axe => {
-          loadOBJ('/assets/models/items/', 'hammer.mtl', 'hammer.obj', hammer => {
-            loadOBJ('/assets/models/items/', 'shield.mtl', 'shield.obj', shield => {
-              loadOBJ('/assets/models/items/', 'sword.mtl', 'sword.obj', sword => {
-                loadOBJ('/assets/models/items/', 'staff.mtl', 'staff.obj', staff => {
-                  loadOBJ('/assets/models/items/', 'chest.mtl', 'chest.obj', chest => {
-                    placeObject(shield, true)
-                    placeObject(staff, true)
-                    placeObject(sword, true)
-
-                    for (let i = 0; i < 2; i++) placeObject(axe, true)
-                    for (let i = 0; i < 2; i++) placeObject(hammer, true)
-                    for (let i = 0; i < 4; i++) placeObject(potion)
-                    for (let i = 0; i < 4; i++) placeObject(potion2)
-                    for (let i = 0; i < 4; i++) placeObject(potion3)
-                    for (let i = 0; i < 4; i++) placeObject(money)
-
-                    CHEST = chest
-                    chest.position.x = 0
-                    chest.position.z = 0
-                    chest.rotation.y = -Math.PI / 2
-                    scene.add(chest)
-
-                    animate()
-                  })
-                })
-              })
-            })
-          })
-        })
-      })
-    })
-  })
-})
-
-function loadOBJ(path, fileMaterial, fileOBJ, callback) {
-  const mtlLoader = new MTLLoader()
-  const objLoader = new OBJLoader()
-  mtlLoader.setPath(path)
+function loadOBJ(fileMaterial, fileOBJ, callback) {
   mtlLoader.load(fileMaterial, materials => {
+    const objLoader = new OBJLoader() // mora nova instanca zbog setMaterials
+    objLoader.setPath('/assets/models/items/')
     objLoader.setMaterials(materials)
-    objLoader.setPath(path)
     objLoader.load(fileOBJ, object => {
       callback(object.children[0])
     })
   })
 };
 
-function animate() {
+/* LOOP */
+
+void function animate() {
   requestAnimationFrame(animate)
   controls.update()
   renderer.render(scene, camera)
-}
+}()
 
 /* EVENTS */
 
