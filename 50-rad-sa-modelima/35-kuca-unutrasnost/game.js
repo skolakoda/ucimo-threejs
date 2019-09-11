@@ -5,6 +5,7 @@ import { MTLLoader } from '/node_modules/three/examples/jsm/loaders/MTLLoader.js
 import {scene, camera, renderer, initLights} from '/utils/scene.js'
 
 let tower
+const scale = 1.5
 
 renderer.setClearColor(0x63adef, 1.0)
 renderer.gammaInput = true
@@ -19,26 +20,31 @@ scene.add(plane)
 camera.lookAt(new THREE.Vector3(0, 2.5, 0))
 initLights()
 
-const controlObject = {
+const params = {
   side: THREE.DoubleSide,
-  cameraPos: 1
+  cameraPos: 0
 }
-addControlGui(controlObject)
+addControlGui(params)
 
-loadOBJ ('/assets/models/houses02/', 'house2-02.mtl', 'house2-02.obj',  scene, obj => {
-  tower = obj
-  tower.scale.x = tower.scale.z = 1.5
-  tower.updateMatrix()
-  render()
+const mtlLoader = new MTLLoader()
+const objLoader = new OBJLoader()
+mtlLoader.load('/assets/models/houses02/house2-02.mtl', materials => {
+  objLoader.setMaterials(materials)
+  objLoader.load('/assets/models/houses02/house2-02.obj', object => {
+    object.scale.set(scale, scale, scale)
+    scene.add(object)
+    tower = object
+    render()
+  })
 })
 
-function addControlGui(controlObject) {
+function addControlGui(params) {
   const gui = new dat.GUI()
-  gui.add(controlObject, 'side', {
+  gui.add(params, 'side', {
     'THREE.FrontSide' : THREE.FrontSide,
     'THREE.DoubleSide' : THREE.DoubleSide
   })
-  gui.add(controlObject, 'cameraPos', {
+  gui.add(params, 'cameraPos', {
     'inside' : 0,
     'outside' : 1
   })
@@ -46,11 +52,10 @@ function addControlGui(controlObject) {
 
 function render() {
   tower.traverse(child => {
-    if (child instanceof THREE.Mesh)
-      child.material.side = +controlObject.side
+    if (child instanceof THREE.Mesh) child.material.side = params.side
   })
 
-  if (controlObject.cameraPos == 0) {
+  if (params.cameraPos == 0) {
     camera.position.set(1.5, 2.5, -6.5)
     camera.lookAt(new THREE.Vector3(0, 2.5, 0))
   } else {
@@ -61,22 +66,3 @@ function render() {
   requestAnimationFrame(render)
   renderer.render(scene, camera)
 }
-
-function loadOBJ(path, fileMaterial, fileOBJ, scene, callback) {
-  const mtlLoader = new MTLLoader()
-  const objLoader = new OBJLoader()
-  mtlLoader.setPath(path)
-  mtlLoader.load(fileMaterial, materials => {
-    objLoader.setMaterials(materials)
-    objLoader.setPath(path)
-    objLoader.load(fileOBJ, object => {
-      object.traverse(child => {
-        if (child instanceof THREE.Mesh) child.castShadow = true
-      })
-      object.castShadow = true
-      object.position.set(0, 0, 0)
-      scene.add(object)
-      callback(object)
-    })
-  })
-};

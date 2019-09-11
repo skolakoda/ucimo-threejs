@@ -2,9 +2,9 @@ import * as THREE from '/node_modules/three/build/three.module.js'
 import { OBJLoader } from '/node_modules/three/examples/jsm/loaders/OBJLoader.js'
 import { MTLLoader } from '/node_modules/three/examples/jsm/loaders/MTLLoader.js'
 import { TrackballControls } from '/node_modules/three/examples/jsm/controls/TrackballControls.js'
-import {scene, camera, renderer} from '/utils/scene.js'
+import {scene, camera, renderer, initLights} from '/utils/scene.js'
 
-const objects = []
+const items = []
 const plane = new THREE.Plane()
 const raycaster = new THREE.Raycaster()
 const mouse = new THREE.Vector2()
@@ -17,18 +17,8 @@ camera.position.z = 6
 camera.position.y = 4
 
 const controls = new TrackballControls(camera)
-controls.rotateSpeed = 1.0
-controls.zoomSpeed = 1.2
-controls.panSpeed = 0.8
-controls.noZoom = false
-controls.noPan = false
-controls.staticMoving = true
-controls.dynamicDampingFactor = 0.3
 
-scene.add(new THREE.AmbientLight(0x505050))
-const light = new THREE.SpotLight(0xffffff, 1.5)
-light.position.set(0, 500, 2000)
-scene.add(light)
+initLights()
 
 function placeObject(item, shouldRotate) {
   const object = item.clone()
@@ -40,7 +30,7 @@ function placeObject(item, shouldRotate) {
     object.rotation.y = Math.random() * 2 * Math.PI
   }
   scene.add(object)
-  objects.push(object)
+  items.push(object)
 }
 
 loadOBJ('/assets/models/items/', 'potion.mtl', 'potion.obj', potion => {
@@ -57,23 +47,12 @@ loadOBJ('/assets/models/items/', 'potion.mtl', 'potion.obj', potion => {
                     placeObject(staff, true)
                     placeObject(sword, true)
 
-                    for (let i = 0; i < 2; i++)
-                      placeObject(axe, true)
-
-                    for (let i = 0; i < 2; i++)
-                      placeObject(hammer, true)
-
-                    for (let i = 0; i < 4; i++)
-                      placeObject(potion)
-
-                    for (let i = 0; i < 4; i++)
-                      placeObject(potion2)
-
-                    for (let i = 0; i < 4; i++)
-                      placeObject(potion3)
-
-                    for (let i = 0; i < 4; i++)
-                      placeObject(money)
+                    for (let i = 0; i < 2; i++) placeObject(axe, true)
+                    for (let i = 0; i < 2; i++) placeObject(hammer, true)
+                    for (let i = 0; i < 4; i++) placeObject(potion)
+                    for (let i = 0; i < 4; i++) placeObject(potion2)
+                    for (let i = 0; i < 4; i++) placeObject(potion3)
+                    for (let i = 0; i < 4; i++) placeObject(money)
 
                     CHEST = chest
                     chest.position.x = 0
@@ -95,18 +74,13 @@ loadOBJ('/assets/models/items/', 'potion.mtl', 'potion.obj', potion => {
 
 function loadOBJ(path, fileMaterial, fileOBJ, callback) {
   const mtlLoader = new MTLLoader()
+  const objLoader = new OBJLoader()
   mtlLoader.setPath(path)
   mtlLoader.load(fileMaterial, materials => {
-    materials.preload()
-    const objLoader = new OBJLoader()
     objLoader.setMaterials(materials)
     objLoader.setPath(path)
     objLoader.load(fileOBJ, object => {
-      let mesh = object
-      object.traverse(child => {
-        if (child instanceof THREE.Mesh) mesh = child
-      })
-      callback(mesh)
+      callback(object.children[0])
     })
   })
 };
@@ -136,7 +110,7 @@ function onDocumentMouseMove(event) {
     return
   }
 
-  const intersects = raycaster.intersectObjects(objects)
+  const intersects = raycaster.intersectObjects(items)
   if (intersects.length > 0) {
     if (SELECTED != intersects[0].object) {
       SELECTED = intersects[0].object

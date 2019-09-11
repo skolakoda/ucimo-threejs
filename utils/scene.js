@@ -17,6 +17,8 @@ renderer.setPixelRatio(window.devicePixelRatio)
 renderer.setSize(window.innerWidth, window.innerHeight)
 renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFSoftShadowMap
+renderer.gammaInput = true
+renderer.gammaOutput = true
 document.body.style.margin = 0
 document.body.appendChild(renderer.domElement)
 renderer.domElement.focus()
