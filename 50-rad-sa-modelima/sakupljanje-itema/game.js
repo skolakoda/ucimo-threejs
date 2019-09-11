@@ -12,7 +12,8 @@ const offset = new THREE.Vector3()
 const intersection = new THREE.Vector3()
 let SELECTED, DRAGGED, CHEST
 
-camera.position.z = 8
+scene.background = new THREE.Color(0xe0e0e0)
+camera.position.z = 6
 camera.position.y = 4
 
 const controls = new TrackballControls(camera)
