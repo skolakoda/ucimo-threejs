@@ -1,5 +1,5 @@
 import * as THREE from '/node_modules/three/build/three.module.js'
-import SimplexNoise from '../lib/SimplexNoise.js'
+import SimplexNoise from '../libs/SimplexNoise.js'
 
 export default class Level {
   constructor() {

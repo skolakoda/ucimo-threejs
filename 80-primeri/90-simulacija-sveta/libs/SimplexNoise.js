@@ -8,8 +8,7 @@
  * You can pass in a random number generator object if you like.
  * It is assumed to have a random() method.
  */
-export default function SimplexNoise(r) {
-  if (r == undefined) r = Math
+export default function SimplexNoise(r = Math) {
   this.grad3 = [[1, 1, 0], [-1, 1, 0], [1, -1, 0], [-1, -1, 0],
     [1, 0, 1], [-1, 0, 1], [1, 0, -1], [-1, 0, -1],
     [0, 1, 1], [0, -1, 1], [0, 1, -1], [0, -1, -1]]

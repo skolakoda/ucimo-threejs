@@ -1,7 +1,7 @@
 import * as THREE from '/node_modules/three/build/three.module.js'
 import { OrbitControls } from '/node_modules/three/examples/jsm/controls/OrbitControls.js'
 
-import Machine from '../lib/Machine.js'
+import Machine from '../libs/Machine.js'
 import Tree from './Tree.js'
 import Level from './Level.js'
 import { rndInt } from '../utils/helpers.js'

@@ -1,10 +1,10 @@
-/* global THREE */
-import '/node_modules/three/examples/js/loaders/deprecated/LegacyJSONLoader.js'
+import * as THREE from '/node_modules/three/build/three.module.js'
+import {LegacyJSONLoader} from '../libs/LegacyJSONLoader.js'
 
 const IMAGES = []
 export const objects   = {}
 
-const loader = new THREE.LegacyJSONLoader()
+const loader = new LegacyJSONLoader()
 
 export default class AssetManager {
   constructor() {
