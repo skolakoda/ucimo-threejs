@@ -1,6 +1,7 @@
 import * as THREE from '/node_modules/three/build/three.module.js'
 import { OBJLoader } from '/node_modules/three/examples/jsm/loaders/OBJLoader.js'
 import { MTLLoader } from '/node_modules/three/examples/jsm/loaders/MTLLoader.js'
+import { TrackballControls } from '/node_modules/three/examples/jsm/controls/TrackballControls.js'
 import {scene, camera, renderer} from '/utils/scene.js'
 
 const objects = []
@@ -14,14 +15,14 @@ let SELECTED, DRAGGED, CHEST
 camera.position.z = 8
 camera.position.y = 4
 
-// const controls = new THREE.TrackballControls(camera)
-// controls.rotateSpeed = 1.0
-// controls.zoomSpeed = 1.2
-// controls.panSpeed = 0.8
-// controls.noZoom = false
-// controls.noPan = false
-// controls.staticMoving = true
-// controls.dynamicDampingFactor = 0.3
+const controls = new TrackballControls(camera)
+controls.rotateSpeed = 1.0
+controls.zoomSpeed = 1.2
+controls.panSpeed = 0.8
+controls.noZoom = false
+controls.noPan = false
+controls.staticMoving = true
+controls.dynamicDampingFactor = 0.3
 
 scene.add(new THREE.AmbientLight(0x505050))
 const light = new THREE.SpotLight(0xffffff, 1.5)
@@ -111,7 +112,7 @@ function loadOBJ(path, fileMaterial, fileOBJ, callback) {
 
 function animate() {
   requestAnimationFrame(animate)
-  // controls.update()
+  controls.update()
   renderer.render(scene, camera)
 }
 
@@ -152,7 +153,7 @@ function onDocumentMouseMove(event) {
 function onDocumentMouseDown(event) {
   event.preventDefault()
   if (SELECTED) {
-    // controls.enabled = false
+    controls.enabled = false
     DRAGGED = SELECTED
     if (raycaster.ray.intersectPlane(plane, intersection))
       offset.copy(intersection).sub(DRAGGED.position)
@@ -162,7 +163,7 @@ function onDocumentMouseDown(event) {
 
 function onDocumentMouseUp(event) {
   event.preventDefault()
-  // controls.enabled = true
+  controls.enabled = true
   if (DRAGGED) {
     const intersects = raycaster.intersectObject(CHEST)
     if (intersects.length > 0)
