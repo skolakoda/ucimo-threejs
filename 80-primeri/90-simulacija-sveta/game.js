@@ -10,8 +10,8 @@ import Bird from './classes/creatures/Bird.js'
 import Rabbit from './classes/creatures/Rabbit.js'
 import {rndInt} from './utils/helpers.js'
 
-window.THREE = THREE
 const MESHES = ['tree', 'mine', 'cloud', 'village']
+
 const MOBS = 3
 const BIRDS = 15
 const RABBITS = 50
@@ -19,9 +19,9 @@ const CLOUDS = 15
 const MINES = 2
 
 const game = new GameEngine()
-const assets = new AssetManager()
+const loader = new AssetManager()
 
-assets.loadMeshes(MESHES, () => {
+loader.loadMeshes(MESHES, () => {
   game.init()
   game.start()
   game.plantTrees()

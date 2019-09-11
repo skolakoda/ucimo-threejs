@@ -12,6 +12,10 @@ Vidi još: [github.com/skolakoda/pravimo-3d-sajtove](https://github.com/skolakod
 
 Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura je potreban lokalni server.
 
+## TODO
+
+- dodati modele zivotinja, ptica i seljaka u simulaciju sveta
+
 ## Izvori
 
 Primeri su preuzeti iz:
