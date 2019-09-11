@@ -10,11 +10,9 @@ export default class Village extends Entity {
 
   createMesh() {
     if (models.village) {
-      models.village.scale.set(15, 15, 15)
+      models.village.scale.set(10, 10, 10)
       models.village.castShadow = true
       this.mesh = models.village.clone()
-      for (let i = 0; i < this.mesh.geometry.vertices.length; i++)
-        this.mesh.geometry.vertices[i].y += 1.25
     }
   }
 }
