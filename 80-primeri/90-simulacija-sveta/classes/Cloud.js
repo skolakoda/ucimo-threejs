@@ -1,7 +1,7 @@
 import * as THREE from '/node_modules/three/build/three.module.js'
 
 import Entity from './Entity.js'
-import {objects} from './AssetManager.js'
+import {models} from '../utils/loaders.js'
 import {rndInt, roll} from '../utils/helpers.js'
 
 export default class Cloud extends Entity {
@@ -20,10 +20,10 @@ export default class Cloud extends Entity {
   }
 
   createMesh() {
-    if (objects.cloud) {
-      objects.cloud.scale.set(roll(50) + 10, 15, roll(10) + 10)
-      objects.cloud.castShadow = true
-      this.mesh = objects.cloud.clone()
+    if (models.cloud) {
+      models.cloud.scale.set(roll(50) + 10, 15, roll(10) + 10)
+      models.cloud.castShadow = true
+      this.mesh = models.cloud.clone()
       this.mesh.name = 'cloud'
     }
   }

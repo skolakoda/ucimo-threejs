@@ -1,5 +1,5 @@
 import Entity from './Entity.js'
-import {objects} from './AssetManager.js'
+import {models} from '../utils/loaders.js'
 import {roll} from '../utils/helpers.js'
 
 export default class Mine extends Entity {
@@ -11,10 +11,10 @@ export default class Mine extends Entity {
   }
 
   createMesh() {
-    if (objects.mine) {
-      objects.mine.scale.set(10, 10, 10)
-      objects.mine.castShadow = true
-      this.mesh = objects.mine.clone()
+    if (models.mine) {
+      models.mine.scale.set(10, 10, 10)
+      models.mine.castShadow = true
+      this.mesh = models.mine.clone()
       this.rotation.y = roll(180) * (Math.PI / 180)
     }
   }

@@ -1,5 +1,5 @@
 import Entity from './Entity.js'
-import {objects} from './AssetManager.js'
+import {models} from '../utils/loaders.js'
 
 export default class Village extends Entity {
   constructor(game, data) {
@@ -9,10 +9,10 @@ export default class Village extends Entity {
   }
 
   createMesh() {
-    if (objects.village) {
-      objects.village.scale.set(15, 15, 15)
-      objects.village.castShadow = true
-      this.mesh = objects.village.clone()
+    if (models.village) {
+      models.village.scale.set(15, 15, 15)
+      models.village.castShadow = true
+      this.mesh = models.village.clone()
       for (let i = 0; i < this.mesh.geometry.vertices.length; i++)
         this.mesh.geometry.vertices[i].y += 1.25
     }
