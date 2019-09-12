@@ -14,15 +14,7 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
 
 ## TODO
 
-razno:
-  - juego-3d-exemplos
-  - https://github.com/mudroljub/3D-RPG-Game-With-THREE.js
-  - udemy-car-game
-  - mini-rpg
-
-- svetlo:
-  - learning-threejs poglavlje 3
-  - Tony Parisi, Programming 3D Applications with HTML and WebGL (str. 79)
+- dodati modele zivotinja, ptica i seljaka u simulaciju sveta
 
 ## Izvori
 
