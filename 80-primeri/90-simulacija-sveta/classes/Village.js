@@ -2,12 +2,16 @@ import * as THREE from '/node_modules/three/build/three.module.js'
 
 import Entity from './Entity.js'
 import {models} from '../utils/loaders.js'
+import {rndInt} from '../utils/helpers.js'
 
 export default class Village extends Entity {
-  constructor(game, pos) {
-    super(game, pos)
+  constructor(game) {
+    const rndPoint = new THREE.Vector3(rndInt(1100), 100, rndInt(1100))
+    const collision = game.place(rndPoint)
+    collision.y += 20
+    super(game, collision)
     this.name = 'village'
-    this.destination = pos.clone()
+    this.destination = collision.clone()
   }
 
   createMesh() {

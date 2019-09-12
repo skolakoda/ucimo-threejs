@@ -50,12 +50,8 @@ loadJsonModels(jsonAssets, () => {
 })
 
 loadDaeModels(daeAssets, () => {
+  game.addEntity(new Village(game))
   for (let i = 0; i < MOBS; i++) game.addEntity(new Mob(game))
-
-  const rndPoint = new THREE.Vector3(rndInt(1100), 100, rndInt(1100))
-  const collision = game.place(rndPoint)
-  collision.y += 20
-  game.addEntity(new Village(game, collision))
 })
 
 /* EVENTS */

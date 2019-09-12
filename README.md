@@ -15,6 +15,12 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
 ## TODO
 
 - dodati modele zivotinja, ptica i seljaka u simulaciju sveta
+- proveriti besplatne gltf modele iz threejs (imaju ptice i monster):
+  - https://github.com/mrdoob/three.js/tree/master/examples/models/gltf
+- ptice lete:
+  - https://codesandbox.io/s/github/looeee/discoverthree.com-examples/tree/master/first-steps/7-load-models?from-embed
+- primeri figura od gemetrije:
+  - https://codesandbox.io/s/github/looeee/discoverthree.com-examples/tree/master/first-steps/6-shapes-transformations?from-embed
 
 ## Izvori
 
