@@ -31,7 +31,7 @@ loadObjModels({village: '/assets/models/carobni-zamak.obj'}, () => {
   const rndPoint = new THREE.Vector3(rndInt(1100), 100, rndInt(1100))
   const collision = game.place(rndPoint)
   collision.y += 20
-  game.addEntity(new Village(game, {pos: collision}))
+  game.addEntity(new Village(game, collision))
 })
 
 loadJsonModels(assets, () => {
@@ -44,7 +44,7 @@ loadJsonModels(assets, () => {
     const rndPoint = new THREE.Vector3(rndInt(1100), 100, rndInt(1100))
     const collision = game.place(rndPoint)
     collision.y += 10
-    game.addEntity(new Mine(game, {pos: collision}))
+    game.addEntity(new Mine(game, collision))
   }
 })
 

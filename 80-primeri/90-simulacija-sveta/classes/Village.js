@@ -2,10 +2,10 @@ import Entity from './Entity.js'
 import {models} from '../utils/loaders.js'
 
 export default class Village extends Entity {
-  constructor(game, data) {
-    super(game, data.pos)
+  constructor(game, pos) {
+    super(game, pos)
     this.name = 'village'
-    this.destination = data.pos.clone()
+    this.destination = pos.clone()
   }
 
   createMesh() {

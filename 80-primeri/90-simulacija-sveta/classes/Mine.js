@@ -3,7 +3,7 @@ import {models} from '../utils/loaders.js'
 import {roll} from '../utils/helpers.js'
 
 export default class Mine extends Entity {
-  constructor(game, {pos}) {
+  constructor(game, pos) {
     super(game, pos)
     this.name = 'mine'
     this.destination = pos.clone()
