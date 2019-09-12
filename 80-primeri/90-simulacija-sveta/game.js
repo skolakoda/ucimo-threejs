@@ -1,7 +1,8 @@
 import * as THREE from '/node_modules/three/build/three.module.js'
+import { ColladaLoader } from '/node_modules/three/examples/jsm/loaders/ColladaLoader.js'
 
-import {loadJsonModels, loadObjModels} from './utils/loaders.js'
-import GameEngine from './classes/GameEngine.js'
+import {loadJsonModels, loadObjModels, models} from './utils/loaders.js'
+import game from './classes/GameEngine.js'
 import Mine from './classes/Mine.js'
 import Village from './classes/Village.js'
 import Mob from './classes/Mob.js'
@@ -21,33 +22,44 @@ const jsonAssets = {
 
 const MOBS = 3
 const BIRDS = 15
-const RABBITS = 50
+const RABBITS = 30
 const CLOUDS = 15
 const MINES = 2
 
-const game = new GameEngine()
 game.init()
 game.start()
 game.plantTrees()
 
-loadObjModels(objAssets, () => {
-  const rndPoint = new THREE.Vector3(rndInt(1100), 100, rndInt(1100))
-  const collision = game.place(rndPoint)
-  collision.y += 20
-  game.addEntity(new Village(game, collision))
-})
+// loadObjModels(objAssets, () => {
+//   const rndPoint = new THREE.Vector3(rndInt(1100), 100, rndInt(1100))
+//   const collision = game.place(rndPoint)
+//   collision.y += 20
+//   game.addEntity(new Village(game, collision))
+// })
 
-loadJsonModels(jsonAssets, () => {
-  for (let i = 0; i < RABBITS; i++) game.addEntity(new Rabbit(game))
-  for (let i = 0; i < CLOUDS; i++) game.addEntity(new Cloud(game))
-  for (let i = 0; i < BIRDS; i++) game.addEntity(new Bird(game))
-  for (let i = 0; i < MOBS; i++) game.addEntity(new Mob(game))
+// loadJsonModels(jsonAssets, () => {
+//   for (let i = 0; i < CLOUDS; i++) game.addEntity(new Cloud(game))
+//   for (let i = 0; i < BIRDS; i++) game.addEntity(new Bird(game))
+//   for (let i = 0; i < RABBITS; i++) game.addEntity(new Rabbit(game))
+//   for (let i = 0; i < MOBS; i++) game.addEntity(new Mob(game))
 
-  for (let i = 0; i < MINES; i++) {
-    const rndPoint = new THREE.Vector3(rndInt(1100), 100, rndInt(1100))
-    const collision = game.place(rndPoint)
-    collision.y += 10
-    game.addEntity(new Mine(game, collision))
+//   for (let i = 0; i < MINES; i++) {
+//     const rndPoint = new THREE.Vector3(rndInt(1100), 100, rndInt(1100))
+//     const collision = game.place(rndPoint)
+//     collision.y += 10
+//     game.addEntity(new Mine(game, collision))
+//   }
+// })
+
+const loader = new ColladaLoader()
+loader.load('/assets/models/nightelf-priest/model.dae', collada => {
+  const { scene } = collada
+  scene.rotation.x = -Math.PI / 2
+  for (let i = 0; i < MOBS; i++) {
+    const mesh = scene.clone()
+    const actor = new Mob(game)
+    actor.mesh = mesh
+    game.addEntity(actor)
   }
 })
 

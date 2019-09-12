@@ -126,6 +126,7 @@ export default class Mob extends Entity {
 
     this.mesh.castShadow = true
     this.mesh.name = this.name
+    if (this.mixer) this.mixer.update(this.game.delta)
   }
 
   carry(entity) {

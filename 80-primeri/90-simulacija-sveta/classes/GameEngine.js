@@ -9,7 +9,7 @@ import { rndInt } from '../utils/helpers.js'
 const TREES = 100
 const { innerWidth, innerHeight } = window
 
-export default class GameEngine {
+class GameEngine {
   constructor() {
     this.entityId = 0
     this.fps = false
@@ -159,3 +159,5 @@ export default class GameEngine {
     }
   }
 }
+
+export default new GameEngine()
