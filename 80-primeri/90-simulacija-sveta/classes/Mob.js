@@ -4,6 +4,7 @@ import Entity from './Entity.js'
 import Arrow from './Arrow.js'
 import Resource from './Resource.js'
 import {rndInt, roll} from '../utils/helpers.js'
+import {models} from '../utils/loaders.js'
 
 const mobJson = {
   id: 'idle', strategy: 'prioritised',
@@ -102,6 +103,19 @@ export default class Mob extends Entity {
     this.vision = 50
   }
 
+  createMesh() {
+    if (models.mob) {
+      models.mob.castShadow = true
+      models.mob.rotation.x = -Math.PI / 2
+      models.mob.scale.set(.1, .1, .1)
+      models.mob.position.y = 20
+      const group = new THREE.Group()
+      group.add(models.mob.clone())
+      this.mesh = group
+      this.mesh.name = this.name
+    }
+  }
+
   update() {
     const collision = this.game.place(this.pos)
     this.pos.y = collision.y + 1.5
@@ -115,18 +129,6 @@ export default class Mob extends Entity {
     }
     super.update()
     if (this.fps) this.game.cameraFPS.lookAt(this.destination)
-  }
-
-  createMesh() {
-    const geometry = new THREE.BoxGeometry(5, 10, 5)
-    const material = new THREE.MeshLambertMaterial({ color: 0xecc2a7 })
-    this.mesh = new THREE.Mesh(geometry, material)
-    for (let i = 0; i < this.mesh.geometry.vertices.length; i++)
-      this.mesh.geometry.vertices[i].y += 5
-
-    this.mesh.castShadow = true
-    this.mesh.name = this.name
-    if (this.mixer) this.mixer.update(this.game.delta)
   }
 
   carry(entity) {
