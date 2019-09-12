@@ -58,12 +58,8 @@ export default class GameEngine {
     return false
   }
 
-  loop() {
-    this.delta = this.clock.getDelta()
-    this.update()
-  }
-
   update() {
+    this.delta = this.clock.getDelta()
     for (const key in this.entities) {
       const entity = this.entities[key]
       if (!entity.remove) entity.update()
@@ -81,7 +77,7 @@ export default class GameEngine {
   start() {
     const self = this
     void function gameLoop() {
-      self.loop()
+      self.update()
       requestAnimationFrame(gameLoop)
       const camera = self.fps ? self.cameraFPS : self.camera
       self.renderer.render(self.scene, camera)
