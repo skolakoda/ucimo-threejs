@@ -10,7 +10,10 @@ import Bird from './classes/creatures/Bird.js'
 import Rabbit from './classes/creatures/Rabbit.js'
 import {rndInt} from './utils/helpers.js'
 
-const assets = {
+const objAssets = {
+  village: '/assets/models/carobni-zamak.obj'
+}
+const jsonAssets = {
   tree: 'assets/tree.json',
   mine: 'assets/mine.json',
   cloud: 'assets/cloud.json',
@@ -27,14 +30,14 @@ game.init()
 game.start()
 game.plantTrees()
 
-loadObjModels({village: '/assets/models/carobni-zamak.obj'}, () => {
+loadObjModels(objAssets, () => {
   const rndPoint = new THREE.Vector3(rndInt(1100), 100, rndInt(1100))
   const collision = game.place(rndPoint)
   collision.y += 20
   game.addEntity(new Village(game, collision))
 })
 
-loadJsonModels(assets, () => {
+loadJsonModels(jsonAssets, () => {
   for (let i = 0; i < RABBITS; i++) game.addEntity(new Rabbit(game))
   for (let i = 0; i < CLOUDS; i++) game.addEntity(new Cloud(game))
   for (let i = 0; i < BIRDS; i++) game.addEntity(new Bird(game))
