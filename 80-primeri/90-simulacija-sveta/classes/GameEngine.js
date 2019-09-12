@@ -136,7 +136,7 @@ export default class GameEngine {
       const collision = this.place(rndPoint)
       if (collision.y > 0) {
         collision.y -= 10
-        this.addEntity(new Tree(this, { pos: collision }))
+        this.addEntity(new Tree(this, collision))
       }
     }
   }
