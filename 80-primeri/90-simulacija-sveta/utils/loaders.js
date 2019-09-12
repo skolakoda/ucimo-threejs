@@ -1,7 +1,7 @@
 import * as THREE from '/node_modules/three/build/three.module.js'
 import {LegacyJSONLoader} from '../libs/LegacyJSONLoader.js'
-import {OBJLoader} from '/node_modules/three/examples/jsm/loaders/OBJLoader.js'
-import { ColladaLoader } from '/node_modules/three/examples/jsm/loaders/ColladaLoader.js'
+import {ColladaLoader} from '/node_modules/three/examples/jsm/loaders/ColladaLoader.js'
+import {GLTFLoader} from '/node_modules/three/examples/jsm/loaders/GLTFLoader.js'
 
 export const models = {}
 
@@ -15,12 +15,12 @@ export function loadJsonModels(assets, callback) {
     })
 }
 
-export function loadObjModels(assets, callback) {
-  const loader = new OBJLoader()
+export function loadGlbModels(assets, callback) {
+  const loader = new GLTFLoader()
   let i = 0
   for (const name in assets)
-    loader.load(assets[name], mesh => {
-      models[name] = mesh
+    loader.load(assets[name], data => {
+      models[name] = data.scene // ili data.scene.children[0]
       if (++i === Object.keys(assets).length) callback(models)
     })
 }
