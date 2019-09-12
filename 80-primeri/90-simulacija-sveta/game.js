@@ -43,7 +43,6 @@ loadJsonModels(jsonAssets, () => {
   for (let i = 0; i < CLOUDS; i++) game.addEntity(new Cloud(game))
   for (let i = 0; i < BIRDS; i++) game.addEntity(new Bird(game))
   for (let i = 0; i < RABBITS; i++) game.addEntity(new Rabbit(game))
-  for (let i = 0; i < MOBS; i++) game.addEntity(new Mob(game))
 
   for (let i = 0; i < MINES; i++) {
     const rndPoint = new THREE.Vector3(rndInt(1100), 100, rndInt(1100))
