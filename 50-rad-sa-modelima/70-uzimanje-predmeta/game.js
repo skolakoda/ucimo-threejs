@@ -22,41 +22,15 @@ camera.position.y = 4
 const controls = new TrackballControls(camera)
 initLights()
 
-loadOBJ('potion.mtl', 'potion.obj', potion => {
-  for (let i = 0; i < 4; i++) placeObject(potion)
-})
-
-loadOBJ('potion2.mtl', 'potion.obj', potion2 => {
-  for (let i = 0; i < 4; i++) placeObject(potion2)
-})
-
-loadOBJ('potion3.mtl', 'potion.obj', potion3 => {
-  for (let i = 0; i < 4; i++) placeObject(potion3)
-})
-
-loadOBJ('money.mtl', 'money.obj', money => {
-  for (let i = 0; i < 4; i++) placeObject(money)
-})
-
-loadOBJ('axe.mtl', 'axe.obj', axe => {
-  for (let i = 0; i < 2; i++) placeObject(axe, true)
-})
-
-loadOBJ('hammer.mtl', 'hammer.obj', hammer => {
-  for (let i = 0; i < 2; i++) placeObject(hammer, true)
-})
-
-loadOBJ('shield.mtl', 'shield.obj', shield => {
-  placeObject(shield, true)
-})
-
-loadOBJ('sword.mtl', 'sword.obj', sword => {
-  placeObject(sword, true)
-})
-
-loadOBJ('staff.mtl', 'staff.obj', staff => {
-  placeObject(staff, true)
-})
+loadOBJ('potion.mtl', 'potion.obj', potion => placeModel(potion, false, 4))
+loadOBJ('potion2.mtl', 'potion.obj', potion2 => placeModel(potion2, false, 4))
+loadOBJ('potion3.mtl', 'potion.obj', potion3 => placeModel(potion3, false, 4))
+loadOBJ('money.mtl', 'money.obj', money => placeModel(money, false, 4))
+loadOBJ('axe.mtl', 'axe.obj', axe => placeModel(axe, true, 2))
+loadOBJ('hammer.mtl', 'hammer.obj', hammer => placeModel(hammer, true, 2))
+loadOBJ('shield.mtl', 'shield.obj', shield => placeModel(shield, true))
+loadOBJ('sword.mtl', 'sword.obj', sword => placeModel(sword, true))
+loadOBJ('staff.mtl', 'staff.obj', staff => placeModel(staff, true))
 
 loadOBJ('chest.mtl', 'chest.obj', chest => {
   CHEST = chest
@@ -68,17 +42,19 @@ loadOBJ('chest.mtl', 'chest.obj', chest => {
 
 /* FUNCTIONS */
 
-function placeObject(item, shouldRotate) {
-  const object = item.clone()
-  object.position.x = Math.random() * 20 - 10
-  object.position.z = Math.random() * 10 - 10
-  object.rotation.y = Math.random() * 2 * Math.PI
-  if (shouldRotate) {
-    object.rotation.z = Math.PI / 2
+function placeModel(model, shouldRotate = false, itemsNum = 1) {
+  for (let i = 0; i < itemsNum; i++) {
+    const object = model.clone()
+    object.position.x = Math.random() * 20 - 10
+    object.position.z = Math.random() * 10 - 10
     object.rotation.y = Math.random() * 2 * Math.PI
+    if (shouldRotate) {
+      object.rotation.z = Math.PI / 2
+      object.rotation.y = Math.random() * 2 * Math.PI
+    }
+    scene.add(object)
+    items.push(object)
   }
-  scene.add(object)
-  items.push(object)
 }
 
 function loadOBJ(fileMaterial, fileOBJ, callback) {
