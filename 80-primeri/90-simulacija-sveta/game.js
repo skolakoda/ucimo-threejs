@@ -10,19 +10,19 @@ import Bird from './classes/creatures/Bird.js'
 import Rabbit from './classes/creatures/Rabbit.js'
 import {rndInt} from './utils/helpers.js'
 
-const objAssets = {
-  village: '/assets/models/carobni-zamak.obj'
-}
+const objAssets = {}
+
 const jsonAssets = {
   tree: 'assets/tree.json',
   mine: 'assets/mine.json',
   cloud: 'assets/cloud.json',
 }
 const daeAssets = {
+  village: '/assets/models/wildsgate-keep/model.dae',
   mob: '/assets/models/nightelf-priest/model.dae'
 }
 
-const MOBS = 1
+const MOBS = 2
 const BIRDS = 15
 const RABBITS = 20
 const CLOUDS = 5
@@ -33,10 +33,7 @@ game.start()
 game.plantTrees()
 
 loadObjModels(objAssets, () => {
-  const rndPoint = new THREE.Vector3(rndInt(1100), 100, rndInt(1100))
-  const collision = game.place(rndPoint)
-  collision.y += 20
-  game.addEntity(new Village(game, collision))
+
 })
 
 loadJsonModels(jsonAssets, () => {
@@ -54,6 +51,11 @@ loadJsonModels(jsonAssets, () => {
 
 loadDaeModels(daeAssets, () => {
   for (let i = 0; i < MOBS; i++) game.addEntity(new Mob(game))
+
+  const rndPoint = new THREE.Vector3(rndInt(1100), 100, rndInt(1100))
+  const collision = game.place(rndPoint)
+  collision.y += 20
+  game.addEntity(new Village(game, collision))
 })
 
 /* EVENTS */
