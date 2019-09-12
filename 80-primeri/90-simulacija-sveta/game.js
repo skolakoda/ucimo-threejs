@@ -54,11 +54,15 @@ game.plantTrees()
 const loader = new ColladaLoader()
 loader.load('/assets/models/nightelf-priest/model.dae', collada => {
   const { scene } = collada
-  scene.rotation.x = -Math.PI / 2
   for (let i = 0; i < MOBS; i++) {
     const mesh = scene.clone()
+    mesh.rotation.x = -Math.PI / 2
+    mesh.scale.set(.1, .1, .1)
+    mesh.position.y = 20
+    const group = new THREE.Group()
+    group.add(mesh)
     const actor = new Mob(game)
-    actor.mesh = mesh
+    actor.mesh = group
     game.addEntity(actor)
   }
 })
