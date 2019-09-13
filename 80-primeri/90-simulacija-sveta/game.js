@@ -9,8 +9,8 @@ import Bird from './classes/creatures/Bird.js'
 import Rabbit from './classes/creatures/Rabbit.js'
 
 const MOBS = 1
-const BIRDS = 15
-const RABBITS = 20
+const BIRDS = 10
+const RABBITS = 10
 const CLOUDS = 5
 const MINES = 2
 
@@ -33,13 +33,12 @@ game.init()
 game.start()
 game.plantTrees()
 
-loadGlbModels(glbAssets, models => {
-  console.log(models) // TODO: dodati model ptice na scenu
+loadGlbModels(glbAssets, () => {
+  for (let i = 0; i < BIRDS; i++) game.addEntity(new Bird(game))
 })
 
 loadJsonModels(jsonAssets, () => {
   for (let i = 0; i < CLOUDS; i++) game.addEntity(new Cloud(game))
-  for (let i = 0; i < BIRDS; i++) game.addEntity(new Bird(game))
   for (let i = 0; i < RABBITS; i++) game.addEntity(new Rabbit(game))
   for (let i = 0; i < MINES; i++) game.addEntity(new Mine(game))
 })
