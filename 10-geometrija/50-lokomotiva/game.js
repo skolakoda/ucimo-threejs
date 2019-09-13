@@ -1,77 +1,34 @@
 import * as THREE from '/node_modules/three/build/three.module.js'
-import { OrbitControls } from '/node_modules/three/examples/jsm/controls/OrbitControls.js'
-// import {camera, scene, renderer} from '/utils/scene.js'
+import {camera, scene, renderer, initLights, createOrbitControls} from '/utils/scene.js'
 
-let container
-let camera
-let renderer
-let scene
+createOrbitControls()
+camera.position.set(0, 2, 6)
 
-container = document.querySelector('#scene-container')
-scene = new THREE.Scene()
+initLights()
+
 scene.background = new THREE.Color(0x8FBCD4)
-createCamera()
-new OrbitControls(camera, container)
-createLights()
-createMeshes()
-createRenderer()
+scene.add(createTrain())
 
-function createCamera() {
-  camera = new THREE.PerspectiveCamera(35, container.clientWidth / container.clientHeight, 0.1, 100)
-  camera.position.set(-5, 5, 7)
-}
-
-function createLights() {
-  const ambientLight = new THREE.HemisphereLight(0xddeeff, 0x0f0e0d, 5)
-  const mainLight = new THREE.DirectionalLight(0xffffff, 5)
-  mainLight.position.set(10, 10, 10)
-  scene.add(ambientLight, mainLight)
-}
-
-function createMaterials() {
-  const body = new THREE.MeshStandardMaterial({
-    color: 0xff3333,
-    flatShading: true,
-  })
-  body.color.convertSRGBToLinear()
-  const detail = new THREE.MeshStandardMaterial({
-    color: 0x333333,
-    flatShading: true,
-  })
-  detail.color.convertSRGBToLinear()
-  return {
-    body,
-    detail,
-  }
-}
-
-function createGeometries() {
-  const nose = new THREE.CylinderBufferGeometry(0.75, 0.75, 3, 12)
-  const cabin = new THREE.BoxBufferGeometry(2, 2.25, 1.5)
-  const chimney = new THREE.CylinderBufferGeometry(0.3, 0.1, 0.5)
-  const wheel = new THREE.CylinderBufferGeometry(0.4, 0.4, 1.75, 16)
-  wheel.rotateX(Math.PI / 2)
-  return {
-    nose,
-    cabin,
-    chimney,
-    wheel,
-  }
-}
-
-function createMeshes() {
+function createTrain() {
   const train = new THREE.Group()
-  scene.add(train)
-  const materials = createMaterials()
-  const geometries = createGeometries()
-  const nose = new THREE.Mesh(geometries.nose, materials.body)
+  // materials
+  const redMaterial = new THREE.MeshStandardMaterial({color: 0xff1111})
+  const blackMaterial = new THREE.MeshStandardMaterial({color: 0x333333})
+  // geometries
+  const noseGeo = new THREE.CylinderBufferGeometry(0.75, 0.75, 3, 12)
+  const cabinGeo = new THREE.BoxBufferGeometry(2, 2.25, 1.5)
+  const chimneyGeo = new THREE.CylinderBufferGeometry(0.3, 0.1, 0.5)
+  const wheelGeo = new THREE.CylinderBufferGeometry(0.4, 0.4, 1.75, 16)
+  wheelGeo.rotateX(Math.PI / 2)  
+  // meshes
+  const nose = new THREE.Mesh(noseGeo, redMaterial)
   nose.rotation.z = Math.PI / 2
   nose.position.x = -1
-  const cabin = new THREE.Mesh(geometries.cabin, materials.body)
+  const cabin = new THREE.Mesh(cabinGeo, redMaterial)
   cabin.position.set(1.5, 0.4, 0)
-  const chimney = new THREE.Mesh(geometries.chimney, materials.detail)
+  const chimney = new THREE.Mesh(chimneyGeo, blackMaterial)
   chimney.position.set(-2, 0.9, 0)
-  const smallWheelRear = new THREE.Mesh(geometries.wheel, materials.detail)
+  const smallWheelRear = new THREE.Mesh(wheelGeo, blackMaterial)
   smallWheelRear.position.set(0, -0.5, 0)
   const smallWheelCenter = smallWheelRear.clone()
   smallWheelCenter.position.x = -1
@@ -80,25 +37,8 @@ function createMeshes() {
   const bigWheel = smallWheelRear.clone()
   bigWheel.scale.set(2, 2, 1.25)
   bigWheel.position.set(1.5, -0.1, 0)
-  train.add(
-    nose,
-    cabin,
-    chimney,
-    smallWheelRear,
-    smallWheelCenter,
-    smallWheelFront,
-    bigWheel,
-  )
-}
-
-function createRenderer() {
-  renderer = new THREE.WebGLRenderer({ antialias: true })
-  renderer.setSize(container.clientWidth, container.clientHeight)
-  renderer.setPixelRatio(window.devicePixelRatio)
-  renderer.gammaFactor = 2.2
-  renderer.gammaOutput = true
-  renderer.physicallyCorrectLights = true
-  container.appendChild(renderer.domElement)
+  train.add(nose, cabin, chimney, smallWheelRear, smallWheelCenter, smallWheelFront, bigWheel)
+  return train
 }
 
 /* LOOP */
