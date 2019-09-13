@@ -19,7 +19,6 @@ const glbAssets = {
 }
 
 const jsonAssets = {
-  tree: 'assets/tree.json',
   mine: 'assets/mine.json',
   cloud: 'assets/cloud.json',
 }
