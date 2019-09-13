@@ -8,8 +8,14 @@ import Cloud from './classes/Cloud.js'
 import Bird from './classes/creatures/Bird.js'
 import Rabbit from './classes/creatures/Rabbit.js'
 
+const MOBS = 1
+const BIRDS = 15
+const RABBITS = 20
+const CLOUDS = 5
+const MINES = 2
+
 const glbAssets = {
-  bird: '/assets/models/ptice/Flamingo.glb'
+  bird: '/assets/models/ptice/flamingo.glb'
 }
 
 const jsonAssets = {
@@ -17,16 +23,11 @@ const jsonAssets = {
   mine: 'assets/mine.json',
   cloud: 'assets/cloud.json',
 }
+
 const daeAssets = {
   village: '/assets/models/wildsgate-keep/model.dae',
   mob: '/assets/models/nightelf-priest/model.dae'
 }
-
-const MOBS = 2
-const BIRDS = 15
-const RABBITS = 20
-const CLOUDS = 5
-const MINES = 2
 
 game.init()
 game.start()

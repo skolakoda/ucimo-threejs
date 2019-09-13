@@ -2,6 +2,7 @@ import * as THREE from '/node_modules/three/build/three.module.js'
 
 import Entity from '../Entity.js'
 import {rndInt, roll} from '../../utils/helpers.js'
+import { models } from '../../utils/loaders.js'
 
 const birdJson = {
   id: 'idle', strategy: 'prioritised',
@@ -12,14 +13,6 @@ const birdJson = {
       ]
     }
   ]
-}
-
-function createBird() {
-  const geometry = new THREE.BoxGeometry(2, 2, 5)
-  const material = new THREE.MeshLambertMaterial({ color: 0xff6666, vertexColors: THREE.FaceColors })
-  const mesh = new THREE.Mesh(geometry, material)
-  mesh.castShadow = true
-  return mesh
 }
 
 const birdStates = {
@@ -47,13 +40,18 @@ export default class Bird extends Entity {
     this.state = this.game.machine.generate(birdJson, this, birdStates)
   }
 
+  createMesh() {
+    if (models.bird) {
+      models.bird.scale.set(.1, .1, .1)
+      models.bird.castShadow = true
+      this.mesh = models.bird.clone()
+      this.mesh.name = 'bird'
+    }
+  }
+
   update() {
     this.state = this.state.tick()
     super.update()
-  }
-
-  createMesh() {
-    this.mesh = createBird()
   }
 
   attacked() {
