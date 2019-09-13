@@ -26,7 +26,8 @@ const jsonAssets = {
 
 const daeAssets = {
   village: '/assets/models/wildsgate-keep/model.dae',
-  mob: '/assets/models/nightelf-priest/model.dae'
+  mob: '/assets/models/nightelf-priest/model.dae',
+  rabbit: '/assets/models/rabbit.dae'
 }
 
 game.init()
@@ -39,13 +40,13 @@ loadGlbModels(glbAssets, () => {
 
 loadJsonModels(jsonAssets, () => {
   for (let i = 0; i < CLOUDS; i++) game.addEntity(new Cloud(game))
-  for (let i = 0; i < RABBITS; i++) game.addEntity(new Rabbit(game))
   for (let i = 0; i < MINES; i++) game.addEntity(new Mine(game))
 })
 
 loadDaeModels(daeAssets, () => {
   game.addEntity(new Village(game))
   for (let i = 0; i < MOBS; i++) game.addEntity(new Mob(game))
+  for (let i = 0; i < RABBITS; i++) game.addEntity(new Rabbit(game))
 })
 
 /* EVENTS */

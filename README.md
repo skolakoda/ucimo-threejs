@@ -21,6 +21,7 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
   - https://codesandbox.io/s/github/looeee/discoverthree.com-examples/tree/master/first-steps/7-load-models?from-embed
 - primeri figura od gemetrije:
   - https://codesandbox.io/s/github/looeee/discoverthree.com-examples/tree/master/first-steps/6-shapes-transformations?from-embed
+  - https://codepen.io/Yakudoo/pen/PjaeGV?editors=0010
 
 ## Izvori
 

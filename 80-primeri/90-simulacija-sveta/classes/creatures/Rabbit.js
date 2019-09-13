@@ -2,6 +2,7 @@ import * as THREE from '/node_modules/three/build/three.module.js'
 
 import Entity from '../Entity.js'
 import {rndInt, roll} from '../../utils/helpers.js'
+import { models } from '../../utils/loaders.js'
 
 const rabbitJson = {
   id: 'idle', strategy: 'prioritised',
@@ -12,16 +13,6 @@ const rabbitJson = {
       ]
     }
   ]
-}
-
-function createRabbit() {
-  const geometry = new THREE.BoxGeometry(2, 2, 5)
-  const material = new THREE.MeshLambertMaterial({ color: 0x777777, vertexColors: THREE.FaceColors })
-  const mesh = new THREE.Mesh(geometry, material)
-  mesh.castShadow = true
-  for (let i = 0; i < mesh.geometry.vertices.length; i++)
-    mesh.geometry.vertices[i].y += 5
-  return mesh
 }
 
 const rabbitStates = {
@@ -59,7 +50,14 @@ export default class Rabbit extends Entity {
   }
 
   createMesh() {
-    this.mesh = createRabbit()
+    if (models.rabbit) {
+      models.rabbit.castShadow = true
+      const group = new THREE.Group()
+      group.scale.set(.05, .05, .05)
+      group.add(models.rabbit.clone())
+      this.mesh = group
+      this.mesh.name = 'rabbit'
+    }
   }
 
   attacked() {
