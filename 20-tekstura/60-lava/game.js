@@ -12,7 +12,7 @@ createOrbitControls()
 
 const textureLoader = new THREE.TextureLoader()
 const uniforms = {
-  'fogDensity': { value: 0.45 },
+  'fogDensity': { value: 0.55 },
   'fogColor': { value: new THREE.Vector3(0, 0, 0) },
   'time': { value: 1.0 },
   'uvScale': { value: new THREE.Vector2(3.0, 1.0) },
@@ -43,8 +43,8 @@ composer.addPass(effectFilm)
 
 void function animate() {
   requestAnimationFrame(animate)
-  const delta = 5 * clock.getDelta()
-  uniforms.time.value += 0.1 * delta
+  const delta = clock.getDelta()
+  uniforms.time.value += 0.4 * delta
   renderer.clear()
   composer.render(0.01)
 }()
