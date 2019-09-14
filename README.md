@@ -14,8 +14,9 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
 
 ## TODO
 
-- primeri figura od gemetrije:
-  - https://codepen.io/Yakudoo/pen/PjaeGV?editors=0010
+- dobre kontrole:
+  - https://yomotsu.github.io/walkthrough/
+  - https://yomotsu.github.io/xmas2014/
 
 ## Izvori
 

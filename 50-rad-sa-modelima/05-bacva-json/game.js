@@ -10,9 +10,9 @@ camera.position.set(1, 1, 1)
 camera.lookAt(new THREE.Vector3(0, 0.4, 0))
 
 // commercial textures from http://gametextures.com/
-const map = textureLoader.load('https://s3-us-west-2.amazonaws.com/s.cdpn.io/25480/Misc_WoodBarrelOldMold_2k_d.jpg')
-const specularMap = textureLoader.load('https://s3-us-west-2.amazonaws.com/s.cdpn.io/25480/Misc_WoodBarrelOldMold_2k_s.jpg')
-const normalMap = textureLoader.load('https://s3-us-west-2.amazonaws.com/s.cdpn.io/25480/Misc_WoodBarrelOldMold_2k_n.jpg')
+const map = textureLoader.load('textures/WoodBarrel_2k_d.jpg')
+const specularMap = textureLoader.load('textures/WoodBarrel_2k_s.jpg')
+const normalMap = textureLoader.load('textures/WoodBarrel_2k_n.jpg')
 const material = new THREE.MeshPhongMaterial({
   map,
   normalMap,
