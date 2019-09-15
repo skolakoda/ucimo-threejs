@@ -4,12 +4,11 @@ import { RenderPass } from '/node_modules/three/examples/jsm/postprocessing/Rend
 import { FilmPass } from '/node_modules/three/examples/jsm/postprocessing/FilmPass.js'
 import { BloomPass } from '/node_modules/three/examples/jsm/postprocessing/BloomPass.js'
 
-import {camera, scene, renderer, clock, initLights, createOrbitControls} from '/utils/scene.js'
+import {camera, scene, renderer, clock, createOrbitControls} from '/utils/scene.js'
 
 camera.position.z = 200
 renderer.autoClear = false
 createOrbitControls()
-initLights()
 
 /* LAVA */
 
@@ -89,7 +88,6 @@ composer.addPass(effectFilm)
 
 const telo = new THREE.SphereGeometry(100)
 const avatar = new THREE.Mesh(telo, material)
-avatar.add(avatar)
 
 const ud = new THREE.SphereGeometry(50)
 const desna_ruka = new THREE.Mesh(ud, material)
