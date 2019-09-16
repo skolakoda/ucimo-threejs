@@ -10,7 +10,9 @@ camera.lookAt(scene.position)
 
 /* OBLICI */
 
-const material = new THREE.MeshNormalMaterial({wireframe: true}) // bez wireframe ima boju
+const material = new THREE.MeshNormalMaterial({
+  wireframe: true // bez wireframe ima boju
+})
 
 const tetrahedron = new THREE.Mesh(
   new THREE.TetrahedronGeometry(5),
