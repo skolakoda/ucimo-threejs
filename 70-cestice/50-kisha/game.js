@@ -1,50 +1,40 @@
 import * as THREE from '/node_modules/three/build/three.module.js'
-import {scene, camera, renderer} from '/utils/scene.js'
+import {scene, camera, renderer, initLights} from '/utils/scene.js'
 
-const flakesNum = 10000
-const flakeSizes = [20, 15, 10, 8, 5]
-const materials = []
-const vertices = []
+const rainCount = 15000
+const rainGeo = new THREE.Geometry()
 
-camera.position.z = 1000
-
-const geometry = new THREE.BufferGeometry()
-const textureLoader = new THREE.TextureLoader()
-const sprite = textureLoader.load('/assets/textures/snowflake.png')
-
-for (let i = 0; i < flakesNum; i ++) {
-  const x = Math.random() * 2000 - 1000
-  const y = Math.random() * 2000 - 1000
-  const z = Math.random() * 2000 - 1000
-  vertices.push(x, y, z)
+for (let i = 0; i < rainCount; i++) {
+  const rainDrop = new THREE.Vector3(
+    Math.random() * 400 - 200,
+    Math.random() * 500 - 250,
+    Math.random() * 400 - 200
+  )
+  rainDrop.velocity = 0
+  rainGeo.vertices.push(rainDrop)
 }
-geometry.addAttribute('position', new THREE.Float32BufferAttribute(vertices, 3))
 
-flakeSizes.forEach((size, i) => {
-  materials[i] = new THREE.PointsMaterial({
-    size,
-    map: sprite,
-    blending: THREE.AdditiveBlending,
-    depthTest: false,
-  })
-  const drops = new THREE.Points(geometry, materials[i])
-  scene.add(drops)
+const rainMaterial = new THREE.PointsMaterial({
+  color: 0xaaaaaa,
+  size: 0.1,
+  transparent: true
 })
+
+const rain = new THREE.Points(rainGeo, rainMaterial)
+scene.add(rain)
 
 /* LOOP */
 
-function render() {
-  const time = Date.now() * 0.00005
-  scene.children.forEach((child, i) => {
-    if (child instanceof THREE.Points) {
-      child.translateY(-5)
-      child.rotation.y = time * (i < 4 ? i + 1 : - (i + 1))
+void function animate() {
+  rainGeo.vertices.forEach(p => {
+    p.velocity = Math.random() * 0.1
+    p.y += p.velocity
+    if (p.y < -200) {
+      p.y = 200
+      p.velocity = 0
     }
   })
+  rainGeo.verticesNeedUpdate = true
   renderer.render(scene, camera)
-}
-
-void function animate() {
   requestAnimationFrame(animate)
-  render()
 }()

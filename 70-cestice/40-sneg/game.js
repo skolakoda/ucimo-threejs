@@ -27,9 +27,8 @@ flakeSizes.forEach((size, i) => {
     blending: THREE.AdditiveBlending,
     depthTest: false,
   })
-  const flakes = new THREE.Points(geometry, materials[i])
-  flakes.rotation.set(Math.random() * 6, Math.random() * 6, Math.random() * 6)
-  scene.add(flakes)
+  const drops = new THREE.Points(geometry, materials[i])
+  scene.add(drops)
 })
 
 /* LOOP */
@@ -37,8 +36,12 @@ flakeSizes.forEach((size, i) => {
 function render() {
   const time = Date.now() * 0.00005
   scene.children.forEach((child, i) => {
-    if (child instanceof THREE.Points)
+    if (child instanceof THREE.Points) {
+      child.translateY(-5)
       child.rotation.y = time * (i < 4 ? i + 1 : - (i + 1))
+      if (child.position.y < 0)
+        child.position.y = Math.random() * 2000 - 1000
+    }
   })
   renderer.render(scene, camera)
 }
