@@ -15,8 +15,6 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
 ## TODO
 
 - napraviti 3D kišu 
-  - https://danni-three.blogspot.com/2013/09/threejs-particle-engine.html
-  - https://github.com/josdirksen/learning-threejs/blob/master/chapter-07/06-rainy-scene.html
 - dobre kontrole:
   - https://yomotsu.github.io/walkthrough/
   - https://yomotsu.github.io/xmas2014/

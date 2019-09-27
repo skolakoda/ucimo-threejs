@@ -1,40 +1,36 @@
 import * as THREE from '/node_modules/three/build/three.module.js'
-import {scene, camera, renderer, initLights} from '/utils/scene.js'
+import { scene, camera, renderer, createOrbitControls } from '/utils/scene.js'
+import { randomInRange } from '/utils/helpers.js'
 
-const rainCount = 15000
-const rainGeo = new THREE.Geometry()
+createOrbitControls()
 
-for (let i = 0; i < rainCount; i++) {
-  const rainDrop = new THREE.Vector3(
-    Math.random() * 400 - 200,
-    Math.random() * 500 - 250,
-    Math.random() * 400 - 200
-  )
-  rainDrop.velocity = 0
-  rainGeo.vertices.push(rainDrop)
+const dropsNum = 10000
+const geometry = new THREE.Geometry()
+
+for (let i = 0; i < dropsNum; i++) {
+  const rainDrop = new THREE.Vector3()
+  rainDrop.x = THREE.Math.randFloatSpread(2000)
+  rainDrop.y = THREE.Math.randFloatSpread(2000)
+  rainDrop.z = THREE.Math.randFloatSpread(2000)
+  rainDrop.velocity = randomInRange(5, 10)
+  geometry.vertices.push(rainDrop)
 }
 
-const rainMaterial = new THREE.PointsMaterial({
-  color: 0xaaaaaa,
-  size: 0.1,
-  transparent: true
+const material = new THREE.PointsMaterial({
+  color: 0x9999ff,
+  // size: 0.5,
 })
-
-const rain = new THREE.Points(rainGeo, rainMaterial)
+const rain = new THREE.Points(geometry, material)
 scene.add(rain)
 
-/* LOOP */
+// /* LOOP */
 
 void function animate() {
-  rainGeo.vertices.forEach(p => {
-    p.velocity = Math.random() * 0.1
-    p.y += p.velocity
-    if (p.y < -200) {
-      p.y = 200
-      p.velocity = 0
-    }
+  geometry.vertices.forEach(p => {
+    p.y -= p.velocity
+    if (p.y < -200) p.y = 200
   })
-  rainGeo.verticesNeedUpdate = true
+  geometry.verticesNeedUpdate = true
   renderer.render(scene, camera)
   requestAnimationFrame(animate)
 }()
