@@ -18,6 +18,8 @@ for (let i = 0; i < dropsNum; i++) {
 
 const material = new THREE.PointsMaterial({
   color: 0x9999ff,
+  transparent: true,
+  opacity: 0.8
   // size: 0.5,
 })
 const rain = new THREE.Points(geometry, material)
