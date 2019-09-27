@@ -2,30 +2,35 @@ import * as THREE from '/node_modules/three/build/three.module.js'
 import {scene, camera, renderer, createOrbitControls} from '/utils/scene.js'
 import { randomInRange } from '/utils/helpers.js'
 
-const dropsNum = 1000
-const rain = []
+const drops = createRain()
+scene.add(...drops)
 
 createOrbitControls()
 
-for (let i = 0; i < dropsNum; i++) {
-  const geometry = new THREE.SphereGeometry(5)
-  const material = new THREE.MeshBasicMaterial({
-    color: 0x9999ff,
-    transparent: true,
-    opacity: 0.6
-  })
-  const drop = new THREE.Mesh(geometry, material)
-  drop.position.x = Math.random() * 1000 - 500
-  drop.position.y = Math.random() * 1000 - 500
-  drop.position.z = Math.random() * 1000 - 500
-  drop.velocity = randomInRange(5, 10)
-  drop.scale.x = drop.scale.z = 0.1
-  scene.add(drop)
-  rain.push(drop)
+/* FUNCTIONS */
+
+function createRain(dropsNum = 1000) {
+  const drops = []
+  for (let i = 0; i < dropsNum; i++) {
+    const geometry = new THREE.SphereGeometry(Math.random() * 5)
+    const material = new THREE.MeshBasicMaterial({
+      color: 0x9999ff,
+      transparent: true,
+      opacity: 0.6,
+    })
+    const drop = new THREE.Mesh(geometry, material)
+    drop.scale.set(0.1, 1, 0.1)
+    drop.position.x = randomInRange(-500, 500)
+    drop.position.y = randomInRange(-500, 500)
+    drop.position.z = randomInRange(-500, 500)
+    drop.velocity = randomInRange(5, 10)
+    drops.push(drop)
+  }
+  return drops
 }
 
-function animateRain() {
-  rain.forEach(drop => {
+function updateRain() {
+  drops.forEach(drop => {
     drop.position.y -= drop.velocity
     if (drop.position.y < -100) drop.position.y += 1000
   })
@@ -36,5 +41,5 @@ function animateRain() {
 void function render() {
   requestAnimationFrame(render)
   renderer.render(scene, camera)
-  animateRain()
+  updateRain()
 }()
