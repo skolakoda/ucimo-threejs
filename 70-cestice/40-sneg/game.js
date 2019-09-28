@@ -6,8 +6,6 @@ const flakeSizes = [20, 15, 10, 8, 5]
 const materials = []
 const vertices = []
 
-camera.position.z = 1000
-
 const geometry = new THREE.BufferGeometry()
 const textureLoader = new THREE.TextureLoader()
 const sprite = textureLoader.load('/assets/textures/snowflake.png')
@@ -33,7 +31,7 @@ flakeSizes.forEach((size, i) => {
 
 /* LOOP */
 
-function render() {
+function renderSnow() {
   const time = Date.now() * 0.00005
   scene.children.forEach((child, i) => {
     if (child instanceof THREE.Points) {
@@ -48,5 +46,5 @@ function render() {
 
 void function animate() {
   requestAnimationFrame(animate)
-  render()
+  renderSnow()
 }()
