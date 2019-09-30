@@ -90,7 +90,7 @@ const mobStates = {
 export default class Mob extends Entity {
   constructor(game) {
     const position = new THREE.Vector3(rndInt(1100), 100, rndInt(1100))
-    super(game, position)
+    super(position)
     this.game = game
     this.name = 'mob'
     this.destination = position.clone()
@@ -136,7 +136,7 @@ export default class Mob extends Entity {
     if (entity.name !== 'rabbit') {
       if (entity.units > 0) {
         entity.units -= 1
-        const resource = new Resource(this.game, entity.name, this.pos.clone())
+        const resource = new Resource(entity.name, this.pos.clone())
         this.game.addEntity(resource)
         this.carryEntity = resource
       }
@@ -155,7 +155,6 @@ export default class Mob extends Entity {
     if (this.shootCooldown > 0) return
     this.game.addEntity(
       new Arrow(
-        this.game,
         {
           pos: this.pos.clone(),
           destination,

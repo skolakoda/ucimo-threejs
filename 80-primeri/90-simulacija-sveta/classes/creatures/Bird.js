@@ -30,9 +30,9 @@ const birdStates = {
 }
 
 export default class Bird extends Entity {
-  constructor(game) {
+  constructor() {
     const position = new THREE.Vector3(rndInt(1100), 60 + roll(50), rndInt(1100))
-    super(game, position)
+    super(position)
     this.name = 'bird'
     this.destination = position.clone()
     this.health = 5

@@ -34,18 +34,18 @@ game.start()
 game.plantTrees()
 
 loadGlbModels(glbAssets, () => {
-  for (let i = 0; i < BIRDS; i++) game.addEntity(new Bird(game))
+  for (let i = 0; i < BIRDS; i++) game.addEntity(new Bird())
 })
 
 loadJsonModels(jsonAssets, () => {
-  for (let i = 0; i < CLOUDS; i++) game.addEntity(new Cloud(game))
-  for (let i = 0; i < MINES; i++) game.addEntity(new Mine(game))
+  for (let i = 0; i < CLOUDS; i++) game.addEntity(new Cloud())
+  for (let i = 0; i < MINES; i++) game.addEntity(new Mine())
 })
 
 loadDaeModels(daeAssets, () => {
-  game.addEntity(new Village(game))
+  game.addEntity(new Village())
   for (let i = 0; i < MOBS; i++) game.addEntity(new Mob(game))
-  for (let i = 0; i < RABBITS; i++) game.addEntity(new Rabbit(game))
+  for (let i = 0; i < RABBITS; i++) game.addEntity(new Rabbit())
 })
 
 /* EVENTS */

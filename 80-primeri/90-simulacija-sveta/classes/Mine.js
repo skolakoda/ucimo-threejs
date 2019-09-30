@@ -5,9 +5,9 @@ import {models} from '../utils/loaders.js'
 import {roll, rndInt} from '../utils/helpers.js'
 
 export default class Mine extends Entity {
-  constructor(game) {
+  constructor() {
     const rndPoint = new THREE.Vector3(rndInt(1100), 10, rndInt(1100))
-    super(game, rndPoint)
+    super(rndPoint)
     this.name = 'mine'
     this.destination = rndPoint.clone()
     this.units = 100

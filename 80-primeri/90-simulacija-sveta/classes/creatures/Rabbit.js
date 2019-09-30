@@ -30,9 +30,9 @@ const rabbitStates = {
 }
 
 export default class Rabbit extends Entity {
-  constructor(game) {
+  constructor() {
     const position = new THREE.Vector3(rndInt(1200), 0, rndInt(1200))
-    super(game, position)
+    super(position)
     this.name = 'rabbit'
     this.destination = position.clone()
     this.health = 5
