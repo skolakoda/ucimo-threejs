@@ -3,7 +3,7 @@ import Machine from '../libs/Machine.js'
 
 export default class Entity {
   constructor(game, position, color = 0xffffff) {
-    this.game = game
+    // this.game = game
     this.destination = new THREE.Vector3(0, 0, 0)
     this.vel = new THREE.Vector3(0, 0, 0)
     this.rotation = new THREE.Euler(0, 0, 0)

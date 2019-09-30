@@ -91,6 +91,7 @@ export default class Mob extends Entity {
   constructor(game) {
     const position = new THREE.Vector3(rndInt(1100), 100, rndInt(1100))
     super(game, position)
+    this.game = game
     this.name = 'mob'
     this.destination = position.clone()
     this.target = null
