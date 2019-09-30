@@ -1,13 +1,10 @@
-import * as THREE from '/node_modules/three/build/three.module.js'
-
 import Entity from './Entity.js'
 import {models} from '../utils/loaders.js'
-import {roll, rndInt} from '../utils/helpers.js'
+import {roll} from '../utils/helpers.js'
 
 export default class Mine extends Entity {
   constructor() {
-    const rndPoint = new THREE.Vector3(rndInt(1100), 20, rndInt(1100))
-    super(rndPoint)
+    super()
     this.name = 'mine'
     this.units = 100
   }
