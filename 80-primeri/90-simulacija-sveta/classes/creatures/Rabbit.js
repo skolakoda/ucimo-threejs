@@ -21,9 +21,7 @@ const rabbitStates = {
   },
   getRandomDestination() {
     const rndPoint = new THREE.Vector3(rndInt(1100), 10, rndInt(1100))
-    const collision = this.game.place(rndPoint)
-    if (collision.y > 5)
-      this.destination = collision
+    this.destination = rndPoint
   },
   canExplore() {
     return Math.random() > 0.99 && !this.remove && this.health > 0
@@ -43,8 +41,6 @@ export default class Rabbit extends Entity {
   }
 
   update(delta) {
-    const collision = this.game.place(this.pos)
-    this.pos.y = collision.y + 5
     this.state = this.state.tick()
     super.update(delta)
   }
