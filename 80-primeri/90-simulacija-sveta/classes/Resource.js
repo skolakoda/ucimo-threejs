@@ -7,14 +7,15 @@ import Entity from './Entity.js'
  */
 export default class Resource extends Entity {
   constructor(name, position) {
-    const color = name == 'mine' ? 0xfdd017 : 0x966f33
-    super(position, color)
+    super(position)
     switch(name) {
       case 'tree':
         this.name = 'wood'
+        this.color = 0x966f33
         break
       case 'mine':
         this.name = 'gold'
+        this.color = 0xfdd017
         break
     }
   }
