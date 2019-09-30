@@ -1,4 +1,3 @@
-// import * as THREE from '/node_modules/three/build/three.module.js'
 import {loadJsonModels, loadGlbModels, loadDaeModels} from './utils/loaders.js'
 import game from './classes/GameEngine.js'
 import Mine from './classes/Mine.js'
@@ -39,13 +38,13 @@ loadGlbModels(glbAssets, () => {
 
 loadJsonModels(jsonAssets, () => {
   for (let i = 0; i < CLOUDS; i++) game.addEntity(new Cloud())
-  for (let i = 0; i < MINES; i++) game.addEntity(new Mine())
+  for (let i = 0; i < MINES; i++) game.randomPlaceEntity(new Mine())
 })
 
 loadDaeModels(daeAssets, () => {
-  game.addEntity(new Village())
-  for (let i = 0; i < MOBS; i++) game.addEntity(new Mob(game))
-  for (let i = 0; i < RABBITS; i++) game.addEntity(new Rabbit())
+  game.randomPlaceEntity(new Village())
+  for (let i = 0; i < MOBS; i++) game.randomPlaceEntity(new Mob(game))
+  for (let i = 0; i < RABBITS; i++) game.randomPlaceEntity(new Rabbit())
 })
 
 /* EVENTS */

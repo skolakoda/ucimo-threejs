@@ -31,10 +31,9 @@ const birdStates = {
 
 export default class Bird extends Entity {
   constructor() {
-    const position = new THREE.Vector3(rndInt(1100), 60 + roll(50), rndInt(1100))
-    super(position)
+    super()
+    this.mesh.position.y = 60 + roll(50)
     this.name = 'bird'
-    this.destination = position.clone()
     this.health = 5
     this.speed = 50 + rndInt(40)
     this.state = this.machine.generate(birdJson, this, birdStates)

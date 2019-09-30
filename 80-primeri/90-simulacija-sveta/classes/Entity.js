@@ -3,7 +3,7 @@ import Machine from '../libs/Machine.js'
 import {rndInt} from '../utils/helpers.js'
 
 export default class Entity {
-  constructor(position = new THREE.Vector3(rndInt(1100), 20, rndInt(1100)), color = 0xffffff) {
+  constructor(position = new THREE.Vector3(rndInt(1100), 0, rndInt(1100)), color = 0xffffff) {
     this.destination = position.clone() // new THREE.Vector3(0, 0, 0)
     this.vel = new THREE.Vector3(0, 0, 0)
     this.rotation = new THREE.Euler(0, 0, 0)

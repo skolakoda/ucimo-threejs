@@ -93,7 +93,6 @@ export default class Mob extends Entity {
     super(position)
     this.game = game
     this.name = 'mob'
-    this.destination = position.clone()
     this.target = null
     this.speed = 40
     this.log = false

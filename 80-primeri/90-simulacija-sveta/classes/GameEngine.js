@@ -126,13 +126,26 @@ class GameEngine {
     }
   }
 
+  // place it on ground (not always)
   place(position) {
+    position.y += 200
     const caster = new THREE.Raycaster()
     const ray = new THREE.Vector3(0, -1, 0)
     caster.set(position, ray)
     const collisions = caster.intersectObject(this.scene.getObjectByName('terrain').children[0])
     if (collisions.length > 0) return collisions[0].point
     return position
+  }
+
+  placeEntity(entity) {
+    const {x, y, z} = this.place(entity.mesh.position)
+    entity.mesh.position.set(x, y, z)
+    this.addEntity(entity)
+  }
+
+  randomPlaceEntity(entity) {
+    entity.mesh.position.set(rndInt(1100), 0, rndInt(1100))
+    this.placeEntity(entity)
   }
 
   switchCam() {
