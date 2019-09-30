@@ -25,8 +25,7 @@ const birdStates = {
   },
   canExplore() {
     return Math.random() > 0.99
-  },
-  sleep() {}
+  }
 }
 
 export default class Bird extends Entity {

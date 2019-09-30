@@ -25,8 +25,7 @@ const rabbitStates = {
   },
   canExplore() {
     return Math.random() > 0.99 && !this.remove && this.health > 0
-  },
-  sleep() {}
+  }
 }
 
 export default class Rabbit extends Entity {
