@@ -1,7 +1,7 @@
 import {loadJsonModels, loadGlbModels, loadDaeModels} from './utils/loaders.js'
 import game from './classes/GameEngine.js'
 import Mine from './classes/Mine.js'
-import Village from './classes/Village.js'
+import Castle from './classes/Castle.js'
 import Mob from './classes/Mob.js'
 import Cloud from './classes/Cloud.js'
 import Bird from './classes/creatures/Bird.js'
@@ -42,7 +42,7 @@ loadJsonModels(jsonAssets, () => {
 })
 
 loadDaeModels(daeAssets, () => {
-  game.randomPlaceEntity(new Village())
+  game.randomPlaceEntity(new Castle())
   for (let i = 0; i < MOBS; i++) game.randomPlaceEntity(new Mob(game))
   for (let i = 0; i < RABBITS; i++) game.randomPlaceEntity(new Rabbit())
 })
