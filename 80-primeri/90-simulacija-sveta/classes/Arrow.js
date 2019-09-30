@@ -14,14 +14,14 @@ export default class Arrow extends Entity {
     this.lifeSpan = data.lifeSpan || 150
   }
 
-  update() {
+  update(delta) {
     this.lifeSpan--
     this.speed--
     if (this.lifeSpan <= 0) {
       this.speed = 0
       this.remove = true
     }
-    super.update()
+    super.update(delta)
   }
 
   createMesh() {

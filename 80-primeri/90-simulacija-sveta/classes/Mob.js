@@ -97,7 +97,7 @@ export default class Mob extends Entity {
     this.speed = 40
     this.log = false
     this.fps = false
-    this.state = this.game.machine.generate(mobJson, this, mobStates)
+    this.state = this.machine.generate(mobJson, this, mobStates)
     this.carryEntity = undefined
     this.shootCooldown = 5
     this.vision = 50
@@ -116,7 +116,7 @@ export default class Mob extends Entity {
     }
   }
 
-  update() {
+  update(delta) {
     const collision = this.game.place(this.pos)
     this.pos.y = collision.y + 1.5
     this.shootCooldown--
@@ -127,7 +127,7 @@ export default class Mob extends Entity {
       this.carryEntity.pos.y = this.pos.y
       this.carryEntity.pos.z = this.pos.z - 4
     }
-    super.update()
+    super.update(delta)
     if (this.fps) this.game.cameraFPS.lookAt(this.destination)
   }
 

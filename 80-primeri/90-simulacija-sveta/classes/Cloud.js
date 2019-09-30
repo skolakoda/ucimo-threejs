@@ -13,10 +13,10 @@ export default class Cloud extends Entity {
     this.speed = 25
   }
 
-  update() {
+  update(delta) {
     if (this.pos.x > 600)
       this.pos.x = -600
-    super.update()
+    super.update(delta)
   }
 
   createMesh() {

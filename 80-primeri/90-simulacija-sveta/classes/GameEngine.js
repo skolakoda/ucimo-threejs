@@ -1,7 +1,6 @@
 import * as THREE from '/node_modules/three/build/three.module.js'
 import { OrbitControls } from '/node_modules/three/examples/jsm/controls/OrbitControls.js'
 
-import Machine from '../libs/Machine.js'
 import Tree from './Tree.js'
 import Level from './Level.js'
 import { rndInt } from '../utils/helpers.js'
@@ -58,17 +57,7 @@ class GameEngine {
     return false
   }
 
-  update() {
-    this.delta = this.clock.getDelta()
-    for (const key in this.entities) {
-      const entity = this.entities[key]
-      if (!entity.remove) entity.update()
-    }
-    this.controls.update()
-  }
-
   init() {
-    this.machine = new Machine()
     this.terrain = new Level()
     this.scene.add(this.terrain.generate())
     this.initLighting()
@@ -157,6 +146,15 @@ class GameEngine {
       this.cameraFPS.position.copy(mob.pos)
       this.cameraFPS.position.y += 10
     }
+  }
+
+  update() {
+    this.delta = this.clock.getDelta()
+    for (const key in this.entities) {
+      const entity = this.entities[key]
+      if (!entity.remove) entity.update(this.delta)
+    }
+    this.controls.update()
   }
 }
 

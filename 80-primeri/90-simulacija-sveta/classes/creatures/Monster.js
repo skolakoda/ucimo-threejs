@@ -33,7 +33,6 @@ export default class Bird extends Entity {
   constructor(game) {
     const position = new THREE.Vector3(rndInt(1100), 60 + roll(50), rndInt(1100))
     super(game, position)
-    this.name = 'bird'
     this.destination = position.clone()
     this.health = 5
     this.speed = 50 + rndInt(40)
@@ -41,11 +40,10 @@ export default class Bird extends Entity {
   }
 
   createMesh() {
-    if (models.bird) {
-      models.bird.scale.set(.1, .1, .1)
-      models.bird.castShadow = true
-      this.mesh = models.bird.clone()
-      this.mesh.name = 'bird'
+    if (models.monster) {
+      models.monster.scale.set(.1, .1, .1)
+      models.monster.castShadow = true
+      this.mesh = models.monster.clone()
     }
   }
 

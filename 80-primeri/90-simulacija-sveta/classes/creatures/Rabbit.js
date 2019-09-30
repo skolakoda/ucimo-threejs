@@ -39,14 +39,14 @@ export default class Rabbit extends Entity {
     this.destination = position.clone()
     this.health = 5
     this.speed = 50 + rndInt(40)
-    this.state = this.game.machine.generate(rabbitJson, this, rabbitStates)
+    this.state = this.machine.generate(rabbitJson, this, rabbitStates)
   }
 
-  update() {
+  update(delta) {
     const collision = this.game.place(this.pos)
     this.pos.y = collision.y + 5
     this.state = this.state.tick()
-    super.update(this)
+    super.update(delta)
   }
 
   createMesh() {
