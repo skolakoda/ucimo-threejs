@@ -1,9 +1,8 @@
 import * as THREE from '/node_modules/three/build/three.module.js'
 import { OrbitControls } from '/node_modules/three/examples/jsm/controls/OrbitControls.js'
-
 import Tree from './Tree.js'
-import Level from './Level.js'
 import { rndInt } from '../utils/helpers.js'
+import {generateTerrain} from '../utils/generateTerrain.js'
 
 const TREES = 100
 const { innerWidth, innerHeight } = window
@@ -58,8 +57,7 @@ class GameEngine {
   }
 
   init() {
-    this.terrain = new Level()
-    this.scene.add(this.terrain.generate())
+    this.scene.add(generateTerrain())
     this.initLighting()
   }
 
