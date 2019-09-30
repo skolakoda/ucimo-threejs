@@ -6,10 +6,9 @@ import {rndInt} from '../utils/helpers.js'
 
 export default class Village extends Entity {
   constructor() {
-    const rndPoint = new THREE.Vector3(rndInt(1100), 10, rndInt(1100))
+    const rndPoint = new THREE.Vector3(rndInt(1100), 20, rndInt(1100))
     super(rndPoint)
     this.name = 'village'
-    this.destination = rndPoint.clone()
   }
 
   createMesh() {

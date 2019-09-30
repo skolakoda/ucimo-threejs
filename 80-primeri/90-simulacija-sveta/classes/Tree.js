@@ -40,7 +40,6 @@ export default class Tree extends Entity {
   constructor(pos) {
     super(pos)
     this.name = 'tree'
-    this.destination = pos.clone()
     this.units = 4
   }
 
