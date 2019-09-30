@@ -14,7 +14,7 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
 
 ## TODO
 
-- napraviti 3D kišu 
+- dodati monstera na simulaciju sveta
 - dobre kontrole:
   - https://yomotsu.github.io/walkthrough/
   - https://yomotsu.github.io/xmas2014/
