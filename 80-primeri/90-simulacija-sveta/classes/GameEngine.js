@@ -58,7 +58,7 @@ class GameEngine {
 
   init() {
     this.scene.add(generateTerrain())
-    this.initLighting()
+    this.initLights()
   }
 
   start() {
@@ -72,7 +72,7 @@ class GameEngine {
     }()
   }
 
-  initLighting() {
+  initLights() {
     const d = 500
     const dirLight = new THREE.DirectionalLight(0xffffcc, 0.5, 500)
     const hemiLight = new THREE.HemisphereLight(0xffffcc, 0xffffcc, 0.6)
@@ -109,10 +109,6 @@ class GameEngine {
     this.paused = this.paused ? false : true
   }
 
-  getEntity(id) {
-    return this.entities[id] || false
-  }
-
   plantTrees() {
     for (let i = 0; i < TREES; i++) {
       const rndPoint = new THREE.Vector3(rndInt(1100), 100, rndInt(1100))
@@ -124,7 +120,6 @@ class GameEngine {
     }
   }
 
-  // place it on ground (not always)
   place(position) {
     position.y += 200
     const caster = new THREE.Raycaster()
