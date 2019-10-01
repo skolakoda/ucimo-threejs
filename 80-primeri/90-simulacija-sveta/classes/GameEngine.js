@@ -33,25 +33,20 @@ class GameEngine {
 
   addEntity(entity) {
     this.entities[this.entityId] = entity
-    entity.id = this.entityId
     this.entityId++
     this.scene.add(entity.mesh)
   }
 
   removeEntity(entity) {
-    this.entities[entity.id].remove = true
+    entity.remove = true
     this.scene.remove(entity.mesh)
   }
 
   getCloseEntity(name, position, range) {
-    let i, distance, entity
-    for (i in this.entities) {
-      entity = this.entities[i]
-      if (entity.name === name && !entity.remove) {
-        distance = position.distanceTo(entity.pos)
-        if (distance < range)
-          return entity
-      }
+    for (const i in this.entities) {
+      const entity = this.entities[i]
+      if (entity.name === name && !entity.remove && position.distanceTo(entity.pos) < range)
+        return entity
     }
     return false
   }
