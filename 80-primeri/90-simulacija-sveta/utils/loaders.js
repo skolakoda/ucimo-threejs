@@ -20,7 +20,7 @@ export function loadGlbModels(assets, callback) {
   let i = 0
   for (const name in assets)
     loader.load(assets[name], data => {
-      models[name] = data.scene // ili data.scene.children[0]
+      models[name] = data
       if (++i === Object.keys(assets).length) callback(models)
     })
 }

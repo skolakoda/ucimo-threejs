@@ -40,9 +40,11 @@ export default class Bird extends Entity {
 
   createMesh() {
     if (models.bird) {
-      models.bird.scale.set(.1, .1, .1)
-      models.bird.castShadow = true
-      this.mesh = models.bird.clone()
+      const {scene, animations} = models.bird
+      console.log(animations)
+      scene.scale.set(.1, .1, .1)
+      scene.castShadow = true
+      this.mesh = scene.clone()
       this.mesh.name = 'bird'
     }
   }
