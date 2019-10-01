@@ -36,22 +36,25 @@ export default class Bird extends Entity {
     this.health = 5
     this.speed = 50 + rndInt(40)
     this.state = this.machine.generate(birdJson, this, birdStates)
+    this.mixer = null
   }
 
   createMesh() {
     if (models.bird) {
       const {scene, animations} = models.bird
-      console.log(animations)
       scene.scale.set(.1, .1, .1)
       scene.castShadow = true
       this.mesh = scene.clone()
       this.mesh.name = 'bird'
+      this.mixer = new THREE.AnimationMixer(scene)
+      this.mixer.clipAction(animations[0]).play()
     }
   }
 
   update(delta) {
     this.state = this.state.tick()
     super.update(delta)
+    if (this.mixer) this.mixer.update(delta)
   }
 
   attacked() {
