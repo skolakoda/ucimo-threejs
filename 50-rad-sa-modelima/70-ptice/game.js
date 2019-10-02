@@ -13,13 +13,12 @@ scene.background = new THREE.Color(0x8FBCD4)
 function loadModels() {
   const loader = new GLTFLoader()
   const onLoad = (data, position) => {
-    const model = data.scene
+    const {scene: model, animations} = data
     model.position.copy(position)
     model.scale.set(.4, .4, .4)
-    const animation = data.animations[0]
     const mixer = new THREE.AnimationMixer(model)
     mixers.push(mixer)
-    const action = mixer.clipAction(animation)
+    const action = mixer.clipAction(animations[0])
     action.play()
     scene.add(model)
   }
