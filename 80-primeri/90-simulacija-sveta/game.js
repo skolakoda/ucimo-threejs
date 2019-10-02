@@ -1,3 +1,4 @@
+import { GLTFLoader } from '/node_modules/three/examples/jsm/loaders/GLTFLoader.js'
 import {loadJsonModels, loadGlbModels, loadDaeModels} from './utils/loaders.js'
 import game from './classes/GameEngine.js'
 import Mine from './classes/Mine.js'
@@ -6,6 +7,8 @@ import Mob from './classes/Mob.js'
 import Cloud from './classes/Cloud.js'
 import Bird from './classes/creatures/Bird.js'
 import Rabbit from './classes/creatures/Rabbit.js'
+
+const loader = new GLTFLoader()
 
 const MOBS = 1
 const BIRDS = 10
@@ -34,6 +37,11 @@ game.plantTrees()
 
 loadGlbModels(glbAssets, () => {
   for (let i = 0; i < BIRDS; i++) game.addEntity(new Bird())
+})
+
+loader.load('/assets/models/ptice/flamingo.glb', data => {
+  console.log(data)
+  // TODO: kreirati ptice
 })
 
 loadJsonModels(jsonAssets, () => {
