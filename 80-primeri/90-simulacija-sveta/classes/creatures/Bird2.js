@@ -1,5 +1,5 @@
 import * as THREE from '/node_modules/three/build/three.module.js'
-import { rndInt } from '../../utils/helpers.js'
+import { rndInt, roll } from '../../utils/helpers.js'
 
 export default class Bird {
   constructor(model) {
@@ -9,6 +9,7 @@ export default class Bird {
     this.speed = 50 + rndInt(40)
     this.mixer = null
     this.createMesh()
+    this.mesh.position.copy(new THREE.Vector3(rndInt(1100), 60 + roll(50), rndInt(1100)))
   }
 
   createMesh() {
@@ -16,7 +17,6 @@ export default class Bird {
     this.mesh = scene.clone()
     this.mesh.scale.set(.4, .4, .4)
     this.mesh.name = 'bird'
-    this.mesh.position.x = rndInt(50)
     this.mixer = new THREE.AnimationMixer(this.mesh)
     this.mixer.clipAction(animations[0]).play()
   }
