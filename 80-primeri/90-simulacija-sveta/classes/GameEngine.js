@@ -12,7 +12,7 @@ class GameEngine {
     this.entityId = 0
     this.fps = false
     this.paused = false
-    this.entities = {}
+    this.entities = []
     this.clock = new THREE.Clock()
     this.delta = 0
     this.elapsed = 0
@@ -32,18 +32,12 @@ class GameEngine {
   }
 
   addEntity(entity) {
-    this.entities[this.entityId] = entity
-    this.entityId++
+    this.entities.push(entity)
     this.scene.add(entity.mesh)
   }
 
-  removeEntity(entity) {
-    entity.remove = true
-    this.scene.remove(entity.mesh)
-  }
-
   getCloseEntity(name, position, range) {
-    for (const i in this.entities) {
+    for (let i = 0; i < this.entities.length; i++) {
       const entity = this.entities[i]
       if (entity.name === name && !entity.remove && position.distanceTo(entity.pos) < range)
         return entity
@@ -151,10 +145,9 @@ class GameEngine {
 
   update() {
     this.delta = this.clock.getDelta()
-    for (const key in this.entities) {
-      const entity = this.entities[key]
+    this.entities.forEach(entity => {
       if (!entity.remove) entity.update(this.delta)
-    }
+    })
     this.controls.update()
   }
 }
