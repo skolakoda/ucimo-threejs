@@ -15,6 +15,8 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
 ## TODO
 
 - dodati monstera na simulaciju sveta
+- https://pissang.github.io/little-big-city/
+- https://threejs.org/examples/webgl_water.html
 - dobre kontrole:
   - https://yomotsu.github.io/walkthrough/
   - https://yomotsu.github.io/xmas2014/
