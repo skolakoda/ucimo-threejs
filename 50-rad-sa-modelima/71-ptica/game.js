@@ -12,8 +12,7 @@ loader.load('/assets/models/ptice/flamingo.glb', data => {
   const {scene: model, animations} = data
   model.scale.set(.4, .4, .4)
   mixer = new THREE.AnimationMixer(model)
-  const action = mixer.clipAction(animations[0])
-  action.play()
+  mixer.clipAction(animations[0]).play()
   scene.add(model)
 })
 

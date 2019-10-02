@@ -1,5 +1,4 @@
 import * as THREE from '/node_modules/three/build/three.module.js'
-
 import Entity from '../Entity.js'
 import {rndInt, roll} from '../../utils/helpers.js'
 import { models } from '../../utils/loaders.js'
