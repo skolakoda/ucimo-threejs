@@ -7,7 +7,7 @@ import Entity from './Entity.js'
  */
 export default class Resource extends Entity {
   constructor(name, position) {
-    super(null, position)
+    super()
     switch(name) {
       case 'tree':
         this.name = 'wood'

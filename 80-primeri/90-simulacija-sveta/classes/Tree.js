@@ -38,7 +38,7 @@ function createTree() {
  */
 export default class Tree extends Entity {
   constructor(pos) {
-    super(null, pos)
+    super()
     this.name = 'tree'
     this.units = 4
     this.createMesh(pos)
