@@ -43,14 +43,13 @@ export default class Rabbit extends Entity {
   }
 
   createMesh() {
-    if (models.rabbit) {
-      models.rabbit.castShadow = true
-      const group = new THREE.Group()
-      group.scale.set(.05, .05, .05)
-      group.add(models.rabbit.clone())
-      this.mesh = group
-      this.mesh.name = 'rabbit'
-    }
+    const {scene} = this.model
+    scene.castShadow = true
+    const group = new THREE.Group()
+    group.scale.set(.05, .05, .05)
+    group.add(scene.clone())
+    this.mesh = group
+    this.mesh.name = 'rabbit'
   }
 
   attacked() {

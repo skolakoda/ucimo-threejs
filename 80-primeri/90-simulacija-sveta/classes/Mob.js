@@ -4,7 +4,6 @@ import Entity from './Entity.js'
 import Arrow from './Arrow.js'
 import Resource from './Resource.js'
 import {rndInt, roll} from '../utils/helpers.js'
-import {models} from '../utils/loaders.js'
 
 const mobJson = {
   id: 'idle', strategy: 'prioritised',
@@ -104,16 +103,15 @@ export default class Mob extends Entity {
   }
 
   createMesh() {
-    if (models.mob) {
-      models.mob.castShadow = true
-      models.mob.rotation.x = -Math.PI / 2
-      models.mob.scale.set(.1, .1, .1)
-      models.mob.position.y = 20
-      const group = new THREE.Group()
-      group.add(models.mob.clone())
-      this.mesh = group
-      this.mesh.name = this.name
-    }
+    const {scene} = this.model
+    scene.castShadow = true
+    scene.rotation.x = -Math.PI / 2
+    scene.scale.set(.1, .1, .1)
+    scene.position.y = 20
+    const group = new THREE.Group()
+    group.add(scene.clone())
+    this.mesh = group
+    this.mesh.name = this.name
   }
 
   update(delta) {

@@ -38,15 +38,13 @@ export default class Bird extends Entity {
   }
 
   createMesh() {
-    if (this.model) {
-      const {scene, animations} = this.model
-      scene.scale.set(.1, .1, .1)
-      scene.castShadow = true
-      this.mesh = scene.clone()
-      this.mesh.name = 'bird'
-      this.mixer = new THREE.AnimationMixer(scene)
-      this.mixer.clipAction(animations[0]).play()
-    }
+    const {scene, animations} = this.model
+    scene.scale.set(.1, .1, .1)
+    scene.castShadow = true
+    this.mesh = scene.clone()
+    this.mesh.name = 'bird'
+    this.mixer = new THREE.AnimationMixer(scene)
+    this.mixer.clipAction(animations[0]).play()
   }
 
   update(delta) {
