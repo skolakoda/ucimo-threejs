@@ -41,9 +41,11 @@ export default class Tree extends Entity {
     super(null, pos)
     this.name = 'tree'
     this.units = 4
+    this.createMesh(pos)
   }
 
-  createMesh() {
+  createMesh(pos) {
     this.mesh = createTree()
+    this.mesh.position.copy(pos)
   }
 }

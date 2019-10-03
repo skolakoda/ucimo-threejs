@@ -88,8 +88,7 @@ const mobStates = {
 
 export default class Mob extends Entity {
   constructor(game, model) {
-    const position = new THREE.Vector3(rndInt(1100), 100, rndInt(1100))
-    super(model, position)
+    super(model)
     this.game = game
     this.name = 'mob'
     this.target = null
@@ -100,9 +99,10 @@ export default class Mob extends Entity {
     this.carryEntity = undefined
     this.shootCooldown = 5
     this.vision = 50
+    this.createMesh(new THREE.Vector3(rndInt(1100), 100, rndInt(1100)))
   }
 
-  createMesh() {
+  createMesh(pos) {
     const {scene} = this.model
     scene.castShadow = true
     scene.rotation.x = -Math.PI / 2
@@ -112,6 +112,7 @@ export default class Mob extends Entity {
     group.add(scene.clone())
     this.mesh = group
     this.mesh.name = this.name
+    this.mesh.position.copy(pos)
   }
 
   update(delta) {

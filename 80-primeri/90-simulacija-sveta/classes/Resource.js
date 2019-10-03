@@ -18,14 +18,16 @@ export default class Resource extends Entity {
         this.color = 0xfdd017
         break
     }
+    this.createMesh(position)
   }
 
-  createMesh() {
+  createMesh(pos) {
     const geometry = new THREE.BoxGeometry(4, 4, 4)
     const material = new THREE.MeshLambertMaterial({ color: this.color })
     this.mesh = new THREE.Mesh(geometry, material)
     for (let i = 0; i < this.mesh.geometry.vertices.length; i++)
       this.mesh.geometry.vertices[i].y += 5
     this.mesh.castShadow = true
+    this.mesh.position.copy(pos)
   }
 }

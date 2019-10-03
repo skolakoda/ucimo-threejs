@@ -12,6 +12,7 @@ export default class Arrow extends Entity {
     this.destination = data.destination.add(randomOffset)
     this.speed = data.speed || 600
     this.lifeSpan = data.lifeSpan || 150
+    this.createMesh(data.pos)
   }
 
   update(delta) {
@@ -24,10 +25,11 @@ export default class Arrow extends Entity {
     super.update(delta)
   }
 
-  createMesh() {
+  createMesh(pos) {
     const geometry = new THREE.BoxGeometry(0.5, 0.5, 5)
     const material = new THREE.MeshLambertMaterial({ color: 0x966f33 })
     this.mesh = new THREE.Mesh(geometry, material)
     this.mesh.castShadow = true
+    this.mesh.position.copy(pos)
   }
 }

@@ -14,8 +14,6 @@ export default class Entity {
     this.remove = false
     this.shadow = false
     this.state = null
-    this.createMesh()
-    this.mesh.position.copy(position)
   }
 
   get pos() {
@@ -24,13 +22,6 @@ export default class Entity {
 
   set pos(newPos) {
     this.mesh.position.copy(newPos)
-  }
-
-  createMesh() {
-    const geometry = new THREE.BoxGeometry(10, 10, 10)
-    const material = new THREE.MeshLambertMaterial({ color: 0xff0000 })
-    this.mesh = new THREE.Mesh(geometry, material)
-    this.mesh.castShadow = true
   }
 
   update(delta) {

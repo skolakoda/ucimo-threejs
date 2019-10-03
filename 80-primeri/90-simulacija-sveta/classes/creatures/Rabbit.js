@@ -33,6 +33,7 @@ export default class Rabbit extends Entity {
     this.health = 5
     this.speed = 50 + rndInt(40)
     this.state = this.machine.generate(rabbitJson, this, rabbitStates)
+    this.createMesh()
   }
 
   update(delta) {

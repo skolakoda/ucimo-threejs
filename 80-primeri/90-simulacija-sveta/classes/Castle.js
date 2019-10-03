@@ -5,6 +5,7 @@ export default class Castle extends Entity {
   constructor(model) {
     super(model)
     this.name = 'village'
+    this.createMesh()
   }
 
   createMesh() {

@@ -33,8 +33,8 @@ export default class Bird extends Entity {
     this.health = 5
     this.speed = 50 + rndInt(40)
     this.mixer = null
-    this.createMesh()
     this.state = this.machine.generate(birdJson, this, birdStates)
+    this.createMesh()
   }
 
   createMesh() {

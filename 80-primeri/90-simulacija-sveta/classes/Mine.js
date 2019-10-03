@@ -6,6 +6,7 @@ export default class Mine extends Entity {
     super(model)
     this.name = 'mine'
     this.units = 100
+    this.createMesh()
   }
 
   createMesh() {
