@@ -27,8 +27,8 @@ const birdStates = {
 }
 
 export default class Bird extends Entity {
-  constructor(models) {
-    super(models)
+  constructor(model) {
+    super(model)
     this.mesh.position.y = 60 + roll(50)
     this.name = 'bird'
     this.health = 5

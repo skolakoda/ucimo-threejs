@@ -5,9 +5,9 @@ import {models} from '../utils/loaders.js'
 import {rndInt, roll} from '../utils/helpers.js'
 
 export default class Cloud extends Entity {
-  constructor() {
+  constructor(model) {
     const position = new THREE.Vector3(rndInt(1200), 100 + rndInt(20), rndInt(1200))
-    super(null, position)
+    super(model, position)
     this.name = 'cloud'
     this.destination = new THREE.Vector3(1200, position.y, position.z)
     this.speed = 25

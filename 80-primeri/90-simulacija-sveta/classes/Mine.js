@@ -3,8 +3,8 @@ import {models} from '../utils/loaders.js'
 import {roll} from '../utils/helpers.js'
 
 export default class Mine extends Entity {
-  constructor() {
-    super()
+  constructor(model) {
+    super(model)
     this.name = 'mine'
     this.units = 100
   }

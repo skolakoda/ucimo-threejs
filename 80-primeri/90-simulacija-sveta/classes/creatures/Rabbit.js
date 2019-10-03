@@ -29,8 +29,8 @@ const rabbitStates = {
 }
 
 export default class Rabbit extends Entity {
-  constructor() {
-    super()
+  constructor(model) {
+    super(model)
     this.name = 'rabbit'
     this.health = 5
     this.speed = 50 + rndInt(40)

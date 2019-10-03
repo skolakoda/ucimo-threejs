@@ -3,8 +3,8 @@ import Entity from './Entity.js'
 import {models} from '../utils/loaders.js'
 
 export default class Castle extends Entity {
-  constructor() {
-    super()
+  constructor(model) {
+    super(model)
     this.name = 'village'
   }
 
