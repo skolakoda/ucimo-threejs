@@ -38,7 +38,7 @@ function createTree() {
  */
 export default class Tree extends Entity {
   constructor(pos) {
-    super(pos)
+    super(null, pos)
     this.name = 'tree'
     this.units = 4
   }

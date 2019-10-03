@@ -35,13 +35,8 @@ game.init()
 game.start()
 game.plantTrees()
 
-loadGlbModels(glbAssets, () => {
-  for (let i = 0; i < BIRDS; i++) game.addEntity(new Bird())
-})
-
-loader.load('/assets/models/ptice/flamingo.glb', data => {
-  console.log(data)
-  // TODO: kreirati ptice
+loader.load('/assets/models/ptice/flamingo.glb', model => {
+  for (let i = 0; i < BIRDS; i++) game.addEntity(new Bird(model))
 })
 
 loadJsonModels(jsonAssets, () => {

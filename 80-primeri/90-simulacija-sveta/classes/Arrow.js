@@ -5,7 +5,7 @@ import {rndInt, roll} from '../utils/helpers.js'
 
 export default class Arrow extends Entity {
   constructor(data) {
-    super(data.pos)
+    super(null, data.pos)
     const offset = data.offset || 10
     const randomOffset = new THREE.Vector3(rndInt(offset), roll(offset), rndInt(offset))
     this.name = 'arrow'
