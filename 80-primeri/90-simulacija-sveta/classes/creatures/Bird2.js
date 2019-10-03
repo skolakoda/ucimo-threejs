@@ -1,9 +1,10 @@
 import * as THREE from '/node_modules/three/build/three.module.js'
+import Entity from '../Entity.js'
 import { rndInt, roll } from '../../utils/helpers.js'
 
-export default class Bird {
+export default class Bird extends Entity {
   constructor(model) {
-    this.model = model
+    super(model)
     this.name = 'bird'
     this.health = 5
     this.speed = 50 + rndInt(40)
