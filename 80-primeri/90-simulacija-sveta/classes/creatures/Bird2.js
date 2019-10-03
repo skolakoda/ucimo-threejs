@@ -10,7 +10,6 @@ export default class Bird extends Entity {
     this.speed = 50 + rndInt(40)
     this.mixer = null
     this.createMesh()
-    this.mesh.position.copy(new THREE.Vector3(rndInt(1100), 60 + roll(50), rndInt(1100)))
   }
 
   createMesh() {
@@ -20,6 +19,7 @@ export default class Bird extends Entity {
     this.mesh.name = 'bird'
     this.mixer = new THREE.AnimationMixer(this.mesh)
     this.mixer.clipAction(animations[0]).play()
+    this.mesh.position.copy(new THREE.Vector3(rndInt(1100), 60 + roll(50), rndInt(1100)))
   }
 
   update(delta) {

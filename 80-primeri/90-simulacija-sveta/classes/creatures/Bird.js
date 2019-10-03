@@ -29,22 +29,23 @@ const birdStates = {
 export default class Bird extends Entity {
   constructor(model) {
     super(model)
-    this.mesh.position.y = 60 + roll(50)
     this.name = 'bird'
     this.health = 5
     this.speed = 50 + rndInt(40)
-    this.state = this.machine.generate(birdJson, this, birdStates)
     this.mixer = null
+    this.createMesh()
+    this.state = this.machine.generate(birdJson, this, birdStates)
   }
 
   createMesh() {
     const {scene, animations} = this.model
-    scene.scale.set(.1, .1, .1)
-    scene.castShadow = true
     this.mesh = scene.clone()
+    this.mesh.scale.set(.1, .1, .1)
+    this.mesh.castShadow = true
     this.mesh.name = 'bird'
-    this.mixer = new THREE.AnimationMixer(scene)
+    this.mixer = new THREE.AnimationMixer(this.mesh)
     this.mixer.clipAction(animations[0]).play()
+    this.mesh.position.copy(new THREE.Vector3(rndInt(1100), 60 + roll(50), rndInt(1100)))
   }
 
   update(delta) {
