@@ -14,6 +14,7 @@ Neke html fajlove je moguće direktno otvoriti. Za učitavanje modela i tekstura
 
 ## TODO
 
+- https://classroom.udacity.com/courses/cs291/lessons/91376562/concepts/1514136690923
 - dodati monstera na simulaciju sveta
 - https://pissang.github.io/little-big-city/
 - https://threejs.org/examples/webgl_water.html
