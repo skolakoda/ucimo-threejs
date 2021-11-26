@@ -16,7 +16,6 @@ const mlib = {}
 const sceneRenderTarget = new THREE.Scene()
 const cameraOrtho = new THREE.OrthographicCamera(innerWidth / - 2, innerWidth / 2, innerHeight / 2, innerHeight / -2, -10000, 10000)
 cameraOrtho.position.z = 100
-sceneRenderTarget.add(cameraOrtho)
 
 createOrbitControls()
 camera.position.set(-1200, 800, 1200)
@@ -97,7 +96,10 @@ const controller = { x: 5, y: 5 }
 gui.add(controller, 'x', -20, 20).name('x')
 gui.add(controller, 'y', -20, 20).name('y')
 
-function render() {
+/* LOOP */
+
+void function animate() {
+  requestAnimationFrame(animate)
   // TODO: pomerati u odnosu na igraca
   animDelta = THREE.Math.clamp(animDelta + 0.00075 * animDeltaDir, 0, 0.05)
   uniformsNoise.time.value += animDelta
@@ -114,11 +116,4 @@ function render() {
   renderer.render(sceneRenderTarget, cameraOrtho)
   renderer.setRenderTarget(null)
   renderer.render(scene, camera)
-}
-
-/* LOOP */
-
-void function animate() {
-  requestAnimationFrame(animate)
-  render()
 }()
