@@ -8,6 +8,9 @@ import vertexShader from './vertexShader.js'
 const { innerWidth, innerHeight } = window
 export const mlib = {}
 
+export const cameraOrtho = new THREE.OrthographicCamera(innerWidth / - 2, innerWidth / 2, innerHeight / 2, innerHeight / -2, -10000, 10000)
+cameraOrtho.position.z = 100
+
 // HEIGHT + NORMAL MAPS
 const rx = 256, ry = 256
 const pars = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat }
