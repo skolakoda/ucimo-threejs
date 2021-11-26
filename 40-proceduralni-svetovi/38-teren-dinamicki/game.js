@@ -26,17 +26,16 @@ const position = { x: 2, y: 2 }
 gui.add(position, 'x', -20, 20).name('x')
 gui.add(position, 'y', -20, 20).name('y')
 
-/* LOOP */
-
-void function animate() {
-  requestAnimationFrame(animate)
+function updateTerrain(pos) {
   animDelta = THREE.Math.clamp(animDelta, 0, 0.05)
   uniformsNoise.time.value += animDelta
-  uniformsNoise.offset.value.x += position.x * 0.0005
+  uniformsNoise.offset.value.x += pos.x * 0.0005
   uniformsTerrain.uOffset.value.x = 4 * uniformsNoise.offset.value.x
-  uniformsNoise.offset.value.y += position.y * 0.0005
+  uniformsNoise.offset.value.y += pos.y * 0.0005
   uniformsTerrain.uOffset.value.y = 4 * uniformsNoise.offset.value.y
-  // renda teren
+}
+
+function renderTerrain() {
   quadTarget.material = mlib.heightmap
   renderer.setRenderTarget(heightMap)
   renderer.render(sceneRenderTarget, cameraOrtho)
@@ -44,5 +43,13 @@ void function animate() {
   renderer.setRenderTarget(normalMap)
   renderer.render(sceneRenderTarget, cameraOrtho)
   renderer.setRenderTarget(null)
+}
+
+/* LOOP */
+
+void function animate() {
+  requestAnimationFrame(animate)
+  updateTerrain(position)
+  renderTerrain()
   renderer.render(scene, camera)
 }()
