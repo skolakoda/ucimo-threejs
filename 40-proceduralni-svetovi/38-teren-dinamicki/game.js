@@ -1,3 +1,4 @@
+/* global dat */
 import * as THREE from '/node_modules/three108/build/three.module.js'
 import { NormalMapShader } from '/node_modules/three108/examples/jsm/shaders/NormalMapShader.js'
 import { TerrainShader } from '/node_modules/three108/examples/jsm/shaders/TerrainShader.js'
@@ -90,13 +91,21 @@ terrain.position.set(0, -125, 0)
 terrain.rotation.x = -Math.PI / 2
 scene.add(terrain)
 
+// GUI
+const gui = new dat.GUI()
+const controller = {x: 0, y: 0, z: 0 }
+gui.add(controller, 'x', -36, 36).name('x')
+gui.add(controller, 'y', -36, 36).name('y')
+
 function render() {
   const delta = clock.getDelta()
   // TODO: pomerati dinamicki u odnosu na igraca
   animDelta = THREE.Math.clamp(animDelta + 0.00075 * animDeltaDir, 0, 0.05)
   uniformsNoise.time.value += delta * animDelta
-  uniformsNoise.offset.value.x += delta * 0.05
+  uniformsNoise.offset.value.x += controller.x * 0.0005
   uniformsTerrain.uOffset.value.x = 4 * uniformsNoise.offset.value.x
+  uniformsNoise.offset.value.y += controller.y * 0.0005
+  uniformsTerrain.uOffset.value.y = 4 * uniformsNoise.offset.value.y
   // renda teren
   quadTarget.material = mlib.heightmap
   renderer.setRenderTarget(heightMap)
