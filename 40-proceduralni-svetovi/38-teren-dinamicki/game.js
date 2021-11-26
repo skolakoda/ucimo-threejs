@@ -2,10 +2,13 @@ import * as THREE from '/node_modules/three108/build/three.module.js'
 import { NormalMapShader } from '/node_modules/three108/examples/jsm/shaders/NormalMapShader.js'
 import { TerrainShader } from '/node_modules/three108/examples/jsm/shaders/TerrainShader.js'
 import { BufferGeometryUtils } from '/node_modules/three108/examples/jsm/utils/BufferGeometryUtils.js'
-import {camera, scene, renderer, clock, createOrbitControls} from '/utils/scene.js'
+import { camera, scene, renderer, clock, createOrbitControls } from '/utils/scene.js'
+import fragmentShaderNoise from './fragmentShaderNoise.js'
+import vertexShader from './vertexShader.js'
 
-const {innerWidth, innerHeight} = window
-let animDelta = 0, animDeltaDir = - 1
+const { innerWidth, innerHeight } = window
+let animDelta = 0
+const animDeltaDir = - 1
 const mlib = {}
 
 // RENDER TARGET
@@ -35,7 +38,6 @@ const uniformsNormal = THREE.UniformsUtils.clone(NormalMapShader.uniforms)
 uniformsNormal.height.value = 0.05
 uniformsNormal.resolution.value.set(rx, ry)
 uniformsNormal.heightMap.value = heightMap.texture
-const vertexShader = document.getElementById('vertexShader').textContent
 
 // TEXTURES
 const textureLoader = new THREE.TextureLoader()
@@ -60,7 +62,7 @@ uniformsTerrain.uDisplacementScale.value = 375
 uniformsTerrain.uRepeatOverlay.value.set(6, 6)
 
 const shaders = [
-  ['heightmap', document.getElementById('fragmentShaderNoise').textContent, vertexShader, uniformsNoise, false],
+  ['heightmap', fragmentShaderNoise, vertexShader, uniformsNoise, false],
   ['normal', NormalMapShader.fragmentShader, NormalMapShader.vertexShader, uniformsNormal, false],
   ['terrain', TerrainShader.fragmentShader, TerrainShader.vertexShader, uniformsTerrain, true]
 ]
