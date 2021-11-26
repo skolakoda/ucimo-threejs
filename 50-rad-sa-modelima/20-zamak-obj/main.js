@@ -1,4 +1,4 @@
-import { OBJLoader } from '/node_modules/three/examples/jsm/loaders/OBJLoader.js'
+import { OBJLoader } from '/node_modules/three108/examples/jsm/loaders/OBJLoader.js'
 import {scene, camera, renderer, createOrbitControls, initLights} from '/utils/scene.js'
 
 camera.position.z = 250

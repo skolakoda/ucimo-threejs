@@ -1,4 +1,4 @@
-import * as THREE from '/node_modules/three/build/three.module.js'
+import * as THREE from '/node_modules/three108/build/three.module.js'
 import { scene } from '/utils/scene.js'
 import {ParticlePool} from './ParticlePool.js'
 import {Neuron} from './Neuron.js'

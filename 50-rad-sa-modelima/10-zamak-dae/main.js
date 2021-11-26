@@ -1,4 +1,4 @@
-import { ColladaLoader } from '/node_modules/three/examples/jsm/loaders/ColladaLoader.js'
+import { ColladaLoader } from '/node_modules/three108/examples/jsm/loaders/ColladaLoader.js'
 import {scene, camera, renderer, createOrbitControls, initLights} from '/utils/scene.js'
 
 const scale = 0.1

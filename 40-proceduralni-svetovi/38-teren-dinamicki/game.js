@@ -1,7 +1,7 @@
-import * as THREE from '/node_modules/three/build/three.module.js'
-import { NormalMapShader } from '/node_modules/three/examples/jsm/shaders/NormalMapShader.js'
-import { TerrainShader } from '/node_modules/three/examples/jsm/shaders/TerrainShader.js'
-import { BufferGeometryUtils } from '/node_modules/three/examples/jsm/utils/BufferGeometryUtils.js'
+import * as THREE from '/node_modules/three108/build/three.module.js'
+import { NormalMapShader } from '/node_modules/three108/examples/jsm/shaders/NormalMapShader.js'
+import { TerrainShader } from '/node_modules/three108/examples/jsm/shaders/TerrainShader.js'
+import { BufferGeometryUtils } from '/node_modules/three108/examples/jsm/utils/BufferGeometryUtils.js'
 import {camera, scene, renderer, clock, createOrbitControls} from '/utils/scene.js'
 
 const {innerWidth, innerHeight} = window

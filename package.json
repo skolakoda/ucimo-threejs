@@ -14,6 +14,7 @@
   "license": "ISC",
   "homepage": "https://github.com/skolakoda/ucimo-threejs#readme",
   "dependencies": {
-    "three": "^0.109.0"
+    "eslint": "^8.3.0",
+    "three108": "npm:three@^0.108.0"
   }
 }

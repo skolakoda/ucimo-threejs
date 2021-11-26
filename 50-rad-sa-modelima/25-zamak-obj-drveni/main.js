@@ -1,5 +1,5 @@
-import * as THREE from '/node_modules/three/build/three.module.js'
-import { OBJLoader } from '/node_modules/three/examples/jsm/loaders/OBJLoader.js'
+import * as THREE from '/node_modules/three108/build/three.module.js'
+import { OBJLoader } from '/node_modules/three108/examples/jsm/loaders/OBJLoader.js'
 import {scene, camera, renderer, createOrbitControls, initLights} from '/utils/scene.js'
 
 initLights()

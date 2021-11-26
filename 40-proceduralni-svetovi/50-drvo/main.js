@@ -1,5 +1,5 @@
 /* global Tree */
-import * as THREE from '/node_modules/three/build/three.module.js'
+import * as THREE from '/node_modules/three108/build/three.module.js'
 import {scene, camera, renderer} from '/utils/scene.js'
 
 camera.position.set(3, 5, 4)

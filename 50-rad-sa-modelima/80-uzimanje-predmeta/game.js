@@ -1,7 +1,7 @@
-import * as THREE from '/node_modules/three/build/three.module.js'
-import { OBJLoader } from '/node_modules/three/examples/jsm/loaders/OBJLoader.js'
-import { MTLLoader } from '/node_modules/three/examples/jsm/loaders/MTLLoader.js'
-import { TrackballControls } from '/node_modules/three/examples/jsm/controls/TrackballControls.js'
+import * as THREE from '/node_modules/three108/build/three.module.js'
+import { OBJLoader } from '/node_modules/three108/examples/jsm/loaders/OBJLoader.js'
+import { MTLLoader } from '/node_modules/three108/examples/jsm/loaders/MTLLoader.js'
+import { TrackballControls } from '/node_modules/three108/examples/jsm/controls/TrackballControls.js'
 import {scene, camera, renderer, initLights} from '/utils/scene.js'
 
 let SELECTED, DRAGGED, CHEST

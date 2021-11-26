@@ -1,5 +1,5 @@
-import * as THREE from '/node_modules/three/build/three.module.js'
-import { ImprovedNoise } from '/node_modules/three/examples/jsm/math/ImprovedNoise.js'
+import * as THREE from '/node_modules/three108/build/three.module.js'
+import { ImprovedNoise } from '/node_modules/three108/examples/jsm/math/ImprovedNoise.js'
 import {camera, scene, renderer, createOrbitControls} from '/utils/scene.js'
 
 const perlin = new ImprovedNoise()

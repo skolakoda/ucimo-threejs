@@ -1,4 +1,4 @@
-import * as THREE from '/node_modules/three/build/three.module.js'
+import * as THREE from '/node_modules/three108/build/three.module.js'
 import {camera, scene, renderer, clock, createOrbitControls} from '/utils/scene.js'
 
 camera.position.z = 200
