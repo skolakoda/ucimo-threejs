@@ -2,21 +2,23 @@ import * as THREE from '/node_modules/three108/build/three.module.js'
 import { NormalMapShader } from '/node_modules/three108/examples/jsm/shaders/NormalMapShader.js'
 import { TerrainShader } from '/node_modules/three108/examples/jsm/shaders/TerrainShader.js'
 import { BufferGeometryUtils } from '/node_modules/three108/examples/jsm/utils/BufferGeometryUtils.js'
+
+import { renderer } from '/utils/scene.js'
 import fragmentShaderNoise from './fragmentShaderNoise.js'
 import vertexShader from './vertexShader.js'
 
 let animDelta = 0
 const { innerWidth, innerHeight } = window
-export const mlib = {}
+const mlib = {}
 
-export const cameraOrtho = new THREE.OrthographicCamera(innerWidth / - 2, innerWidth / 2, innerHeight / 2, innerHeight / -2, -10000, 10000)
+const cameraOrtho = new THREE.OrthographicCamera(innerWidth / - 2, innerWidth / 2, innerHeight / 2, innerHeight / -2, -10000, 10000)
 cameraOrtho.position.z = 100
 
 // HEIGHT + NORMAL MAPS
 const rx = 256, ry = 256
 const pars = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat }
-export const heightMap = new THREE.WebGLRenderTarget(rx, ry, pars)
-export const normalMap = new THREE.WebGLRenderTarget(rx, ry, pars)
+const heightMap = new THREE.WebGLRenderTarget(rx, ry, pars)
+const normalMap = new THREE.WebGLRenderTarget(rx, ry, pars)
 const uniformsNoise = {
   'time': { value: 1.0 },
   'scale': { value: new THREE.Vector2(1.5, 1.5) },
@@ -66,7 +68,7 @@ shaders.forEach(shader => {
 })
 
 const plane = new THREE.PlaneBufferGeometry(innerWidth, innerHeight)
-export const quadTarget = new THREE.Mesh(plane, new THREE.MeshBasicMaterial({ color: 0x000000 }))
+const quadTarget = new THREE.Mesh(plane, new THREE.MeshBasicMaterial({ color: 0x000000 }))
 
 // TERRAIN
 const geometry = new THREE.PlaneBufferGeometry(6000, 6000, 256, 256)
@@ -75,6 +77,9 @@ export const terrain = new THREE.Mesh(geometry, mlib.terrain)
 terrain.position.set(0, -125, 0)
 terrain.rotation.x = -Math.PI / 2
 
+const sceneRenderTarget = new THREE.Scene()
+sceneRenderTarget.add(quadTarget)
+
 export function updateTerrain(pos) {
   animDelta = THREE.Math.clamp(animDelta, 0, 0.05)
   uniformsNoise.time.value += animDelta
@@ -82,4 +87,14 @@ export function updateTerrain(pos) {
   uniformsTerrain.uOffset.value.x = 4 * uniformsNoise.offset.value.x
   uniformsNoise.offset.value.y += pos.y * 0.0005
   uniformsTerrain.uOffset.value.y = 4 * uniformsNoise.offset.value.y
+}
+
+export function renderTerrain() {
+  quadTarget.material = mlib.heightmap
+  renderer.setRenderTarget(heightMap)
+  renderer.render(sceneRenderTarget, cameraOrtho)
+  quadTarget.material = mlib.normal
+  renderer.setRenderTarget(normalMap)
+  renderer.render(sceneRenderTarget, cameraOrtho)
+  renderer.setRenderTarget(null)
 }
