@@ -67,7 +67,6 @@ shaders.forEach(shader => {
 
 const plane = new THREE.PlaneBufferGeometry(innerWidth, innerHeight)
 export const quadTarget = new THREE.Mesh(plane, new THREE.MeshBasicMaterial({ color: 0x000000 }))
-// quadTarget.position.z = -500
 
 // TERRAIN
 const geometry = new THREE.PlaneBufferGeometry(6000, 6000, 256, 256)
