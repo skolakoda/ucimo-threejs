@@ -5,6 +5,7 @@ import { BufferGeometryUtils } from '/node_modules/three108/examples/jsm/utils/B
 import fragmentShaderNoise from './fragmentShaderNoise.js'
 import vertexShader from './vertexShader.js'
 
+let animDelta = 0
 const { innerWidth, innerHeight } = window
 export const mlib = {}
 
@@ -16,12 +17,12 @@ const rx = 256, ry = 256
 const pars = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat }
 export const heightMap = new THREE.WebGLRenderTarget(rx, ry, pars)
 export const normalMap = new THREE.WebGLRenderTarget(rx, ry, pars)
-export const uniformsNoise = {
+const uniformsNoise = {
   'time': { value: 1.0 },
   'scale': { value: new THREE.Vector2(1.5, 1.5) },
   'offset': { value: new THREE.Vector2(0, 0) }
 }
-export const uniformsNormal = THREE.UniformsUtils.clone(NormalMapShader.uniforms)
+const uniformsNormal = THREE.UniformsUtils.clone(NormalMapShader.uniforms)
 uniformsNormal.height.value = 0.05
 uniformsNormal.resolution.value.set(rx, ry)
 uniformsNormal.heightMap.value = heightMap.texture
@@ -36,7 +37,7 @@ diffuseTexture2.wrapS = diffuseTexture2.wrapT = THREE.RepeatWrapping
 detailTexture.wrapS = detailTexture.wrapT = THREE.RepeatWrapping
 
 // TERRAIN SHADER
-export const uniformsTerrain = THREE.UniformsUtils.clone(TerrainShader.uniforms)
+const uniformsTerrain = THREE.UniformsUtils.clone(TerrainShader.uniforms)
 uniformsTerrain.tNormal.value = normalMap.texture
 uniformsTerrain.uNormalScale.value = 3.5
 uniformsTerrain.tDisplacement.value = heightMap.texture
@@ -74,3 +75,12 @@ BufferGeometryUtils.computeTangents(geometry)
 export const terrain = new THREE.Mesh(geometry, mlib.terrain)
 terrain.position.set(0, -125, 0)
 terrain.rotation.x = -Math.PI / 2
+
+export function updateTerrain(pos) {
+  animDelta = THREE.Math.clamp(animDelta, 0, 0.05)
+  uniformsNoise.time.value += animDelta
+  uniformsNoise.offset.value.x += pos.x * 0.0005
+  uniformsTerrain.uOffset.value.x = 4 * uniformsNoise.offset.value.x
+  uniformsNoise.offset.value.y += pos.y * 0.0005
+  uniformsTerrain.uOffset.value.y = 4 * uniformsNoise.offset.value.y
+}
