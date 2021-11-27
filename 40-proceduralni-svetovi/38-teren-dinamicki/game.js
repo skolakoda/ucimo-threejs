@@ -1,9 +1,7 @@
 /* global dat */
 import * as THREE from '/node_modules/three108/build/three.module.js'
 import { camera, scene, renderer, createOrbitControls } from '/utils/scene.js'
-import {
-  terrain, updateTerrain, renderTerrain
-} from './shader-utils.js'
+import { terrain, updateTerrain, renderTerrain } from './terrain.js'
 
 createOrbitControls()
 camera.position.set(-1200, 800, 1200)
