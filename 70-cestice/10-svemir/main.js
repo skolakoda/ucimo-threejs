@@ -3,11 +3,12 @@ import { scene, camera, renderer, createOrbitControls } from '/utils/scene.js'
 
 createOrbitControls()
 
-const geometry = new THREE.Geometry()
 const radiusMin = 500
 const radius = 2000
+const numberOfStars = 10000
 
-for (let i = 0; i < 10000; i++) {
+const geometry = new THREE.Geometry()
+for (let i = 0; i < numberOfStars; i++) {
   const direction = new THREE.Vector3(Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1)
   const distance = Math.random() * radius + radiusMin
   const position = direction.multiplyScalar(distance)
