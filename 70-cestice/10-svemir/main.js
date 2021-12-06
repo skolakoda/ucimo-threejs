@@ -1,7 +1,9 @@
 import * as THREE from '/node_modules/three108/build/three.module.js'
-import { scene, camera, renderer } from '/utils/scene.js'
+import { scene, camera, renderer, createOrbitControls } from '/utils/scene.js'
 
-const starGeo = new THREE.Geometry()
+createOrbitControls()
+
+const geometry = new THREE.Geometry()
 
 for (let i = 0;i < 6000;i++) {
   const star = new THREE.Vector3(
@@ -9,24 +11,17 @@ for (let i = 0;i < 6000;i++) {
     Math.random() * 600 - 300,
     Math.random() * 600 - 300
   )
-  star.velocity = 0
-  star.acceleration = 0.02
-  starGeo.vertices.push(star)
+  geometry.vertices.push(star)
 }
 
-const sprite = new THREE.TextureLoader().load('star.png')
-const starMaterial = new THREE.PointsMaterial({
-  color: 0xaaaaaa,
-  size: 0.7,
-  map: sprite
+const material = new THREE.PointsMaterial({
+  map: new THREE.TextureLoader().load('star.png')
 })
 
-const stars = new THREE.Points(starGeo, starMaterial)
+const stars = new THREE.Points(geometry, material)
 scene.add(stars)
 
-animate()
-
-function animate() {
+void function animate() {
   renderer.render(scene, camera)
   requestAnimationFrame(animate)
-}
+}()
