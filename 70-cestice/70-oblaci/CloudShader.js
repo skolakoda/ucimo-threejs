@@ -4,8 +4,7 @@
  * Ray tracing based cloud noise shader.
  */
 
-THREE.CloudShader = {
-
+export const CloudShader = {
   defines: {
     'ITERATIONS'    : '8',
     'KAPPA'         : '0.2',
@@ -29,7 +28,6 @@ THREE.CloudShader = {
   ].join('\n'),
 
   fragmentShader: [
-
     'uniform vec3 color;',
     'uniform float time;',
     'uniform float seed;',
@@ -117,7 +115,5 @@ THREE.CloudShader = {
 
     'gl_FragColor = vec4(pow(c, 0.5) * 9.0 * color, c * 80.0);',
     '}',
-
   ].join('\n')
-
 }

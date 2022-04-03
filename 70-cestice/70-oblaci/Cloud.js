@@ -3,14 +3,15 @@
  *
  * Ray tracing based cloud noise object.
  */
+import { CloudShader } from './CloudShader.js'
 
 THREE.Cloud = function(color) {
 
   const cloudMaterial = new THREE.ShaderMaterial({
-    defines         : THREE.CloudShader.defines,
-    uniforms        : THREE.UniformsUtils.clone(THREE.CloudShader.uniforms),
-    vertexShader    : THREE.CloudShader.vertexShader,
-    fragmentShader  : THREE.CloudShader.fragmentShader,
+    defines         : CloudShader.defines,
+    uniforms        : THREE.UniformsUtils.clone(CloudShader.uniforms),
+    vertexShader    : CloudShader.vertexShader,
+    fragmentShader  : CloudShader.fragmentShader,
     transparent     : true,
     depthWrite      : false,
     depthTest       : false
