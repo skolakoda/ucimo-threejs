@@ -1,38 +1,22 @@
-import * as THREE from '/node_modules/three108/build/three.module.js'
+import { scene, camera, renderer, clock, createOrbitControls } from '/utils/scene.js'
+import { randomInRange } from '/utils/helpers.js'
 import { Cloud } from './Cloud.js'
 
-const clock = new THREE.Clock()
-const scene = new THREE.Scene()
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.001, 1000)
-
-camera.position.z = 2
-scene.add(camera)
-
-const light = new THREE.DirectionalLight(0xffffff, 0.8)
-light.position.set(0, 1, 0)
-scene.add(light)
-
-const renderer = new THREE.WebGLRenderer({
-  alpha: true,
-  antialias: true
-})
+createOrbitControls()
 
 renderer.setClearColor(0x7ec0ee)
-renderer.setSize(window.innerWidth, window.innerHeight)
-document.body.append(renderer.domElement)
+camera.position.z = 2
 
 const cloudCount = 10
 const clouds = []
-const range = 10
-
-const rand = function() {
-  return Math.random() - 0.5
-}
+const range = 5
+const angl = Math.PI / 2
+const speed = 1.0
 
 for (let i = 0; i < cloudCount; i++) {
   const cloud = new Cloud()
-  cloud.position.set(rand() * range, rand() * range, rand() * range)
-  cloud.rotation.set(rand() * Math.PI, rand() * Math.PI, rand() * Math.PI)
+  cloud.position.set(randomInRange(-range, range), randomInRange(-range, range), randomInRange(-range, range))
+  cloud.rotation.set(randomInRange(-angl, angl), randomInRange(-angl, angl), randomInRange(-angl, angl))
 
   const scale = 2.0 + Math.random() * 6
   cloud.scale.set(scale, scale, scale)
@@ -40,8 +24,6 @@ for (let i = 0; i < cloudCount; i++) {
   scene.add(cloud)
   clouds.push(cloud)
 }
-
-const speed = 1.0
 
 void function loop() {
   requestAnimationFrame(loop)
