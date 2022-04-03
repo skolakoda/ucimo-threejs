@@ -35,19 +35,8 @@ App.prototype = {
       return Math.random() - 0.5
     }
 
-    const wireframeMat = new THREE.MeshBasicMaterial({
-      color : new THREE.Color(0x000000),
-      wireframe : true
-    })
-
     for (let i = 0; i < cloudCount; i++) {
-
       const cloud = new Cloud()
-
-      const wireframe = new THREE.Mesh(cloud.geometry.clone(), wireframeMat.clone())
-      cloud.add(wireframe)
-      wireframe.visible = false
-
       cloud.position.set(rand() * range, rand() * range, rand() * range)
       cloud.rotation.set(rand() * Math.PI, rand() * Math.PI, rand() * Math.PI)
 
@@ -55,7 +44,6 @@ App.prototype = {
       cloud.scale.set(scale, scale, scale)
 
       scene.add(cloud)
-
       clouds.push(cloud)
     }
 
@@ -66,17 +54,7 @@ App.prototype = {
       wireframe : false
     }
 
-    const gui = new dat.GUI()
-    gui.add(controller, 'speed', 0.1, 10.0).step(0.1)
-    gui.add(controller, 'wireframe').onChange(() => {
-      for (let i = 0, n = clouds.length; i < n; i++) {
-        const cloud = clouds[i]
-        const wireframe = cloud.children[0]
-        wireframe.visible = controller.wireframe
-      }
-    });
-
-    (function loop() {
+    void function loop() {
       requestAnimationFrame(loop)
       const t = clock.elapsedTime * controller.speed
 
@@ -86,7 +64,7 @@ App.prototype = {
       }
 
       renderer.render(scene, camera)
-    })()
+    }()
 
   }
 }
