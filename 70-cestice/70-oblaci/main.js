@@ -1,3 +1,6 @@
+import * as THREE from '/node_modules/three108/build/three.module.js'
+import { Cloud } from './Cloud.js'
+
 let app, App = function() {
   app = this
   app.init()
@@ -39,7 +42,7 @@ App.prototype = {
 
     for (let i = 0; i < cloudCount; i++) {
 
-      const cloud = new THREE.Cloud()
+      const cloud = new Cloud()
 
       const wireframe = new THREE.Mesh(cloud.geometry.clone(), wireframeMat.clone())
       cloud.add(wireframe)
