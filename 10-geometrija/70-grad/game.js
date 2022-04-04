@@ -1,6 +1,6 @@
 import * as THREE from '/node_modules/three108/build/three.module.js'
 import { scene, camera, renderer, createOrbitControls } from '/utils/scene.js'
-import {randomInRange} from '/utils/helpers.js'
+import { randomInRange } from '/utils/helpers.js'
 
 const size = 100
 
@@ -29,7 +29,7 @@ export function generateBuilding(size) {
 }
 
 export function createFloor(r = 1000, color = 0x60bf63) {
-  const material = new THREE.MeshBasicMaterial({color})
+  const material = new THREE.MeshBasicMaterial({ color })
   const geometry = new THREE.CircleGeometry(r, 32)
   geometry.rotateX(-Math.PI / 2)
   return new THREE.Mesh(geometry, material)
