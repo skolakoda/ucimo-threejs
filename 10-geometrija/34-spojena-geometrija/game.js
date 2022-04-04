@@ -6,6 +6,8 @@ const height = 10
 const cubesNum = 2000
 const shouldMerge = true // mnogo sporije renderuje sa puno objekata koji nisu spojeni
 
+const textureLoader = new THREE.TextureLoader()
+
 camera.position.set(25, 25, 25)
 createOrbitControls()
 
@@ -16,9 +18,9 @@ else for (let i = 0; i < cubesNum; i++) scene.add(createCube())
 
 function createMergedCubes() {
   const parent = new THREE.Geometry()
-  for (let i = 0; i < cubesNum; i++)
-    parent.merge(createCubeGeometry())
-  const material = new THREE.MeshNormalMaterial()
+  for (let i = 0; i < cubesNum; i++) parent.merge(createCubeGeometry())
+  const normalMap = textureLoader.load('/assets/textures/RooftilesWood.jpg')
+  const material = new THREE.MeshNormalMaterial({ normalMap })
   return new THREE.Mesh(parent, material)
 }
 
