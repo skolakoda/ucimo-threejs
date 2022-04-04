@@ -1,6 +1,8 @@
 import * as THREE from '/node_modules/three108/build/three.module.js'
-import {camera, scene, renderer, createOrbitControls} from '/utils/scene.js'
+import { camera, scene, renderer, createOrbitControls } from '/utils/scene.js'
 
+const space = 120
+const height = 10
 const cubesNum = 2000
 const shouldMerge = true // mnogo sporije renderuje sa puno objekata koji nisu spojeni
 
@@ -21,19 +23,20 @@ function createMergedCubes() {
 }
 
 function createCubeGeometry() {
-  const y = 10 * Math.random()
+  const y = height * Math.random()
   const geometry = new THREE.BoxGeometry(4 * Math.random(), y, 4 * Math.random())
-  const translation = new THREE.Matrix4().makeTranslation(150 * Math.random() - 50, y / 2, 150 * Math.random() - 50)
+  const translation = new THREE.Matrix4().makeTranslation(space * Math.random() - space / 2, y / 2, space * Math.random() - space / 2)
   geometry.applyMatrix(translation)
   return geometry
 }
 
 function createCube() {
-  const geometry = new THREE.BoxGeometry(4 * Math.random(), 4 * Math.random(), 4 * Math.random())
+  const y = height * Math.random()
+  const geometry = new THREE.BoxGeometry(4 * Math.random(), y, 4 * Math.random())
   const material = new THREE.MeshNormalMaterial()
   material.transparent = true
   const mesh = new THREE.Mesh(geometry, material)
-  mesh.position.set(100 * Math.random() - 50, 0, 100 * Math.random() - 50)
+  mesh.position.set(space * Math.random() - space / 2, y / 2, space * Math.random() - space / 2)
   return mesh
 }
 
