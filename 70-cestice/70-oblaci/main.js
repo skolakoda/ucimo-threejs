@@ -6,8 +6,6 @@ import { Cloud } from './Cloud.js'
 createOrbitControls()
 renderer.setClearColor(0x7ec0ee)
 
-const speed = 5
-
 const clouds = createClouds()
 scene.add(clouds)
 
@@ -37,7 +35,7 @@ function updateClouds(clouds, t) {
 
 void function loop() {
   requestAnimationFrame(loop)
-  const t = clock.getElapsedTime() * speed
+  const t = clock.getElapsedTime() * 5
   updateClouds(clouds, t)
   renderer.render(scene, camera)
 }()
