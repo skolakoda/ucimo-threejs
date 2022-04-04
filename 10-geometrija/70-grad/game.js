@@ -25,7 +25,7 @@ export function generateBuilding(size) {
   geometry.faces.splice(6, 2) // remove bottom for optimization
 
   const TEXTURE_SIZE = 32
-  const texture = new THREE.TextureLoader().load('/assets/textures/Brick-2399-bump-map.jpg')
+  const texture = new THREE.TextureLoader().load('/assets/textures/concrete.png')
   texture.wrapS = THREE.RepeatWrapping
   texture.wrapT = THREE.RepeatWrapping
   texture.repeat.set(width / TEXTURE_SIZE, height / TEXTURE_SIZE)
