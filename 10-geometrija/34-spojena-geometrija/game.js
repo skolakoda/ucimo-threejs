@@ -1,11 +1,11 @@
 import * as THREE from '/node_modules/three108/build/three.module.js'
-import {camera, scene, renderer} from '/utils/scene.js'
+import {camera, scene, renderer, createOrbitControls} from '/utils/scene.js'
 
 const cubesNum = 2000
-const rotationSpeed = 0.002
 const shouldMerge = true // mnogo sporije renderuje sa puno objekata koji nisu spojeni
 
 camera.position.set(25, 25, 25)
+createOrbitControls()
 
 if (shouldMerge) scene.add(createMergedCubes())
 else for (let i = 0; i < cubesNum; i++) scene.add(createCube())
@@ -21,8 +21,9 @@ function createMergedCubes() {
 }
 
 function createCubeGeometry() {
-  const geometry = new THREE.BoxGeometry(4 * Math.random(), 4 * Math.random(), 4 * Math.random())
-  const translation = new THREE.Matrix4().makeTranslation(100 * Math.random() - 50, 0, 100 * Math.random() - 50)
+  const y = 10 * Math.random()
+  const geometry = new THREE.BoxGeometry(4 * Math.random(), y, 4 * Math.random())
+  const translation = new THREE.Matrix4().makeTranslation(150 * Math.random() - 50, y / 2, 150 * Math.random() - 50)
   geometry.applyMatrix(translation)
   return geometry
 }
@@ -40,11 +41,5 @@ function createCube() {
 
 void function render() {
   renderer.render(scene, camera)
-
-  const {x, z} = camera.position
-  camera.position.x = x * Math.cos(rotationSpeed) + z * Math.sin(rotationSpeed)
-  camera.position.z = z * Math.cos(rotationSpeed) - x * Math.sin(rotationSpeed)
-
-  camera.lookAt(scene.position)
   requestAnimationFrame(render)
 }()
