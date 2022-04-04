@@ -35,10 +35,7 @@ Cloud.prototype.update = function(time) {
 
   this.updateMatrix()
   invModelMatrix.getInverse(this.matrix)
-
-  if (time !== undefined)
-    this.material.uniforms.time.value = time
-
+  if (time) this.material.uniforms.time.value = time
   this.material.uniforms.invModelMatrix.value = invModelMatrix
   this.material.uniforms.scale.value = this.scale
 }

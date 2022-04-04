@@ -4,10 +4,9 @@ import { randomInRange } from '/utils/helpers.js'
 import { Cloud } from './Cloud.js'
 
 createOrbitControls()
-// camera.position.z = 2
 renderer.setClearColor(0x7ec0ee)
 
-const speed = 10
+const speed = 5
 
 const clouds = createClouds()
 scene.add(clouds)
@@ -29,7 +28,7 @@ function createClouds() {
   return group
 }
 
-function updateClouds(t) {
+function updateClouds(clouds, t) {
   for (let i = 0, n = clouds.children.length; i < n; i++) {
     const cloud = clouds.children[i]
     cloud.update(t)
@@ -39,6 +38,6 @@ function updateClouds(t) {
 void function loop() {
   requestAnimationFrame(loop)
   const t = clock.getElapsedTime() * speed
-  updateClouds(t)
+  updateClouds(clouds, t)
   renderer.render(scene, camera)
 }()
