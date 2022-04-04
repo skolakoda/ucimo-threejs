@@ -1,10 +1,13 @@
 import * as THREE from '/node_modules/three108/build/three.module.js'
-import { scene, camera, renderer, createOrbitControls } from '/utils/scene.js'
+import { scene, camera, renderer, createOrbitControls, initLights } from '/utils/scene.js'
 import { randomInRange } from '/utils/helpers.js'
 
 const size = 100
 
 createOrbitControls()
+initLights(scene, new THREE.Vector3(-10, 130, 40))
+renderer.setClearColor(0x7ec0ee)
+
 camera.position.set(0, 50, 200)
 
 scene.fog = new THREE.FogExp2(0xd0e0f0, 0.0025)
@@ -16,15 +19,22 @@ for (let i = 0; i < size; i++)
 /* FUNCTIONS */
 
 export function generateBuilding(size) {
-  const geometry = new THREE.CubeGeometry(1, 1, 1)
+  const width = randomInRange(10, 20)
+  const height = Math.random() * width * 4 + 4
+  const geometry = new THREE.CubeGeometry(width, height, width)
   geometry.faces.splice(6, 2) // remove bottom for optimization
-  const material = new THREE.MeshLambertMaterial()
+
+  const TEXTURE_SIZE = 32
+  const texture = new THREE.TextureLoader().load('/assets/textures/Brick-2399-bump-map.jpg')
+  texture.wrapS = THREE.RepeatWrapping
+  texture.wrapT = THREE.RepeatWrapping
+  texture.repeat.set(width / TEXTURE_SIZE, height / TEXTURE_SIZE)
+
+  const material = new THREE.MeshStandardMaterial({ map: texture })
   const mesh = new THREE.Mesh(geometry, material)
+
   mesh.rotation.y = Math.random()
-  mesh.scale.x = mesh.scale.z = randomInRange(10, 20)
-  const scaleY = Math.random() * mesh.scale.x * 4 + 4
-  mesh.scale.y = scaleY
-  mesh.position.set(randomInRange(-size, size), scaleY / 2, randomInRange(-size, size))
+  mesh.position.set(randomInRange(-size, size), height / 2, randomInRange(-size, size))
   return mesh
 }
 
