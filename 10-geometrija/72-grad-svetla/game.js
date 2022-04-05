@@ -8,9 +8,9 @@ createOrbitControls()
 camera.position.set(0, 50, 100)
 renderer.setClearColor(0x7ec0ee)
 
-function createWindow({ width, height }) {
+function createWindow({ wWidth, wHeight }) {
   const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, color: 0xffff00 })
-  const geometry = new THREE.PlaneGeometry(width, height)
+  const geometry = new THREE.PlaneGeometry(wWidth, wHeight)
   const window = new THREE.Mesh(geometry, material)
   return window
 }
@@ -30,16 +30,48 @@ function createBuilding(size) {
   const wWidth = width / 8
   const wHeight = height / 8
 
-  for (let i = 0; i < width / wWidth / 2; i++)
-    for (let j = 0; j < height / wHeight / 2; j++) {
-      const prozor = createWindow({ width: wWidth, height: wHeight })
-      prozor.position.set(
-        (mesh.position.x - width / 2 + wWidth) + i * wWidth * 2,
-        (height / 8) + j * wHeight * 2,
-        mesh.position.z + (width / 2)
-      )
-      group.add(prozor)
-    }
+  const iterate = setPosition => {
+    for (let i = 0; i < width / wWidth / 2; i++)
+      for (let j = 0; j < height / wHeight / 2; j++) {
+        const okno = createWindow({ wWidth, wHeight })
+        group.add(okno)
+        setPosition(okno, i, j)
+      }
+  }
+
+  iterate((okno, i, j) => {
+    okno.position.set(
+      (mesh.position.x - width / 2 + wWidth) + i * wWidth * 2,
+      (height / 8) + j * wHeight * 2,
+      mesh.position.z + (width / 2)
+    )
+  })
+
+  iterate((okno, i, j) => {
+    okno.rotation.y = Math.PI / 2
+    okno.position.set(
+      mesh.position.z + (width / 2),
+      (height / 8) + (j * wHeight * 2),
+      (mesh.position.x - width / 2 + wWidth) + (i * wWidth * 2),
+    )
+  })
+
+  iterate((okno, i, j) => {
+    okno.position.set(
+      (mesh.position.x - width / 2 + wWidth) + i * wWidth * 2,
+      (height / 8) + j * wHeight * 2,
+      mesh.position.z - (width / 2)
+    )
+  })
+
+  iterate((okno, i, j) => {
+    okno.rotation.y = Math.PI / 2
+    okno.position.set(
+      mesh.position.z - (width / 2),
+      (height / 8) + (j * wHeight * 2),
+      (mesh.position.x - width / 2 + wWidth) + (i * wWidth * 2),
+    )
+  })
 
   group.rotation.y = Math.random()
   return group
