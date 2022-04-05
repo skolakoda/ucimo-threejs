@@ -22,11 +22,11 @@ function createBuilding(size) {
   geometry.faces.splice(6, 2) // remove bottom for optimization
 
   const material = new THREE.MeshStandardMaterial({ color: 0x000000 })
+  const group = new THREE.Group()
   const mesh = new THREE.Mesh(geometry, material)
-
   mesh.position.set(0, height / 2, 0)
-  // mesh.rotation.y = Math.random()
-  // prozor.rotation.y = mesh.rotation.y
+  group.add(mesh)
+
   const wWidth = width / 8
   const wHeight = height / 8
 
@@ -38,10 +38,11 @@ function createBuilding(size) {
         (height / 8) + j * wHeight * 2,
         mesh.position.z + (width / 2)
       )
-      scene.add(prozor)
+      group.add(prozor)
     }
 
-  return mesh
+  group.rotation.y = Math.random()
+  return group
 }
 
 scene.add(createBuilding(size))
