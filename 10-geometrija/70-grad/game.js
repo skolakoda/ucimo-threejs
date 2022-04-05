@@ -2,7 +2,8 @@ import * as THREE from '/node_modules/three108/build/three.module.js'
 import { scene, camera, renderer, createOrbitControls, initLights } from '/utils/scene.js'
 import { randomInRange } from '/utils/helpers.js'
 
-const size = 100
+// TODO: dodati prozore
+const size = 150
 
 createOrbitControls()
 initLights(scene, new THREE.Vector3(-10, 130, 40))
@@ -20,17 +21,18 @@ for (let i = 0; i < size; i++)
 
 export function generateBuilding(size) {
   const width = randomInRange(10, 20)
-  const height = Math.random() * width * 4 + 4
+  const height = randomInRange(width, width * 4)
   const geometry = new THREE.CubeGeometry(width, height, width)
   geometry.faces.splice(6, 2) // remove bottom for optimization
 
-  const TEXTURE_SIZE = 32
-  const texture = new THREE.TextureLoader().load('/assets/textures/concrete.png')
-  texture.wrapS = THREE.RepeatWrapping
-  texture.wrapT = THREE.RepeatWrapping
-  texture.repeat.set(width / TEXTURE_SIZE, height / TEXTURE_SIZE)
+  const TEXTURE_SIZE = 16
+  const texture = Math.random() > 0.2 ? 'gray-bricks.jpg' : 'bricks.jpg'
+  const map = new THREE.TextureLoader().load(`/assets/textures/${texture}`)
+  map.wrapS = THREE.RepeatWrapping
+  map.wrapT = THREE.RepeatWrapping
+  map.repeat.set(width / TEXTURE_SIZE, height / TEXTURE_SIZE)
 
-  const material = new THREE.MeshStandardMaterial({ map: texture })
+  const material = new THREE.MeshStandardMaterial({ map })
   const mesh = new THREE.Mesh(geometry, material)
 
   mesh.rotation.y = Math.random()

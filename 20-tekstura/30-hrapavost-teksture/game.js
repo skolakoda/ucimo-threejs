@@ -20,13 +20,13 @@ scene.add(dirLight2)
 const geometry = new THREE.BoxGeometry(15, 15, 15)
 
 const material = new THREE.MeshPhongMaterial()
-material.map = THREE.ImageUtils.loadTexture('../../assets/textures/Brick-2399.jpg')
+material.map = THREE.ImageUtils.loadTexture('../../assets/textures/bricks.jpg')
 const cube = new THREE.Mesh(geometry, material)
 cube.position.set(-13, 0, -5)
 scene.add(cube)
 
 const bumpMaterial = material.clone()
-bumpMaterial.bumpMap = THREE.ImageUtils.loadTexture('../../assets/textures/Brick-2399-bump-map.jpg')
+bumpMaterial.bumpMap = THREE.ImageUtils.loadTexture('../../assets/textures/gray-bricks.jpg')
 const bumpCube = new THREE.Mesh(geometry, bumpMaterial)
 bumpCube.material.bumpScale = bumpScale
 bumpCube.position.set(13, 0, -5)
