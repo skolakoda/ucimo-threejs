@@ -2,7 +2,6 @@ import * as THREE from '/node_modules/three108/build/three.module.js'
 import { scene, camera, renderer, createOrbitControls, initLights } from '/utils/scene.js'
 import { randomInRange } from '/utils/helpers.js'
 
-// TODO: dodati prozore
 const size = 150
 
 createOrbitControls()
@@ -15,11 +14,11 @@ scene.fog = new THREE.FogExp2(0xd0e0f0, 0.0025)
 scene.add(createFloor(size * 2, 0x101018))
 
 for (let i = 0; i < size; i++)
-  scene.add(generateBuilding(size))
+  scene.add(createBuilding(size))
 
 /* FUNCTIONS */
 
-export function generateBuilding(size) {
+function createBuilding(size) {
   const width = randomInRange(10, 20)
   const height = randomInRange(width, width * 4)
   const geometry = new THREE.CubeGeometry(width, height, width)
@@ -40,7 +39,7 @@ export function generateBuilding(size) {
   return mesh
 }
 
-export function createFloor(r = 1000, color = 0x60bf63) {
+function createFloor(r = 1000, color = 0x60bf63) {
   const material = new THREE.MeshBasicMaterial({ color })
   const geometry = new THREE.CircleGeometry(r, 32)
   geometry.rotateX(-Math.PI / 2)
