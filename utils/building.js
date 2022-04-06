@@ -2,7 +2,9 @@ import * as THREE from '/node_modules/three108/build/three.module.js'
 import { randomInRange } from '/utils/helpers.js'
 
 function createWindow(wWidth, wHeight) {
-  const color = Math.random() > 0.7 ? 0x000000 : 0xffff00
+  const colors = [0xffff00, 0xF5F5DC, 0xFFEA00, 0xFDDA0D, 0xFFFF8F, 0xFFFDD0]
+  const lightColor = colors[Math.floor(Math.random() * colors.length)]
+  const color = Math.random() > 0.5 ? 0x000000 : lightColor
   const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, color })
   const geometry = new THREE.PlaneGeometry(wWidth, wHeight)
   const window = new THREE.Mesh(geometry, material)
