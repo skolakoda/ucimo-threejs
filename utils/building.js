@@ -46,13 +46,22 @@ function createWindows(building, bWidth, bHeight) {
   return windows
 }
 
-export function createBuilding() {
+export function createBuilding({ textured = true } = {}) {
   const bWidth = randomInRange(10, 20, true)
   const bHeight = randomInRange(bWidth, bWidth * 4, true)
 
   const geometry = new THREE.BoxGeometry(bWidth, bHeight, bWidth)
   geometry.faces.splice(6, 2) // remove bottom for optimization
-  const material = new THREE.MeshStandardMaterial({ color: 0x000000 })
+
+  const TEXTURE_SIZE = 16
+  const texture = Math.random() > 0.2 ? 'gray-bricks.jpg' : 'bricks.jpg'
+  const map = new THREE.TextureLoader().load(`/assets/textures/${texture}`)
+  map.wrapS = THREE.RepeatWrapping
+  map.wrapT = THREE.RepeatWrapping
+  map.repeat.set(bWidth / TEXTURE_SIZE, bHeight / TEXTURE_SIZE)
+
+  const params = textured ? { map } : { color: 0x000000 }
+  const material = new THREE.MeshStandardMaterial(params)
   const building = new THREE.Mesh(geometry, material)
   building.position.set(0, bHeight / 2, 0)
 
