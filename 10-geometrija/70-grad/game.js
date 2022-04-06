@@ -21,7 +21,7 @@ for (let i = 0; i < size; i++)
 function createBuilding(size) {
   const width = randomInRange(10, 20)
   const height = randomInRange(width, width * 4)
-  const geometry = new THREE.CubeGeometry(width, height, width)
+  const geometry = new THREE.BoxGeometry(width, height, width)
   geometry.faces.splice(6, 2) // remove bottom for optimization
 
   const TEXTURE_SIZE = 16
