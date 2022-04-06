@@ -8,71 +8,68 @@ createOrbitControls()
 camera.position.set(0, 50, 100)
 renderer.setClearColor(0x7ec0ee)
 
-function createWindow({ wWidth, wHeight }) {
+function createWindow(wWidth, wHeight) {
+  // TODO: random black window
   const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, color: 0xffff00 })
   const geometry = new THREE.PlaneGeometry(wWidth, wHeight)
   const window = new THREE.Mesh(geometry, material)
   return window
 }
 
-function createBuilding(size) {
-  const width = randomInRange(10, 20)
-  const height = randomInRange(width, width * 4)
-  const geometry = new THREE.CubeGeometry(width, height, width)
-  geometry.faces.splice(6, 2) // remove bottom for optimization
-
-  const material = new THREE.MeshStandardMaterial({ color: 0x000000 })
+function createWindows(building, bWidth, bHeight) {
+  const wWidth = bWidth / 8
+  const wHeight = bHeight / 8
   const group = new THREE.Group()
-  const mesh = new THREE.Mesh(geometry, material)
-  mesh.position.set(0, height / 2, 0)
-  group.add(mesh)
 
-  const wWidth = width / 8
-  const wHeight = height / 8
-
-  const iterate = setPosition => {
-    for (let i = 0; i < width / wWidth / 2; i++)
-      for (let j = 0; j < height / wHeight / 2; j++) {
-        const okno = createWindow({ wWidth, wHeight })
-        group.add(okno)
-        setPosition(okno, i, j)
+  const createSideWindows = callback => {
+    for (let i = 0; i < bWidth / wWidth / 2; i++)
+      for (let j = 0; j < bHeight / wHeight / 2; j++) {
+        const win = createWindow(wWidth, wHeight)
+        callback(win, i)
+        win.position.y = bHeight / 8 + j * wHeight * 2
+        group.add(win)
       }
   }
 
-  iterate((okno, i, j) => {
-    okno.position.set(
-      (mesh.position.x - width / 2 + wWidth) + i * wWidth * 2,
-      (height / 8) + j * wHeight * 2,
-      mesh.position.z + (width / 2)
-    )
+  createSideWindows((win, i) => {
+    win.position.x = building.position.x - bWidth / 2 + wWidth + i * wWidth * 2
+    win.position.z = building.position.z + bWidth / 2
   })
 
-  iterate((okno, i, j) => {
-    okno.rotation.y = Math.PI / 2
-    okno.position.set(
-      mesh.position.z + (width / 2),
-      (height / 8) + (j * wHeight * 2),
-      (mesh.position.x - width / 2 + wWidth) + (i * wWidth * 2),
-    )
+  createSideWindows((win, i) => {
+    win.position.x = building.position.x - bWidth / 2 + wWidth + i * wWidth * 2
+    win.position.z = building.position.z - bWidth / 2
   })
 
-  iterate((okno, i, j) => {
-    okno.position.set(
-      (mesh.position.x - width / 2 + wWidth) + i * wWidth * 2,
-      (height / 8) + j * wHeight * 2,
-      mesh.position.z - (width / 2)
-    )
+  createSideWindows((win, i) => {
+    win.rotation.y = Math.PI / 2
+    win.position.x = building.position.z + bWidth / 2
+    win.position.z = building.position.x - bWidth / 2 + wWidth + i * wWidth * 2
   })
 
-  iterate((okno, i, j) => {
-    okno.rotation.y = Math.PI / 2
-    okno.position.set(
-      mesh.position.z - (width / 2),
-      (height / 8) + (j * wHeight * 2),
-      (mesh.position.x - width / 2 + wWidth) + (i * wWidth * 2),
-    )
+  createSideWindows((win, i) => {
+    win.rotation.y = Math.PI / 2
+    win.position.x = building.position.z - bWidth / 2
+    win.position.z = building.position.x - bWidth / 2 + wWidth + i * wWidth * 2
   })
 
+  return group
+}
+
+function createBuilding(size) {
+  const bWidth = randomInRange(10, 20, true)
+  const bHeight = randomInRange(bWidth, bWidth * 4, true)
+
+  const geometry = new THREE.CubeGeometry(bWidth, bHeight, bWidth)
+  geometry.faces.splice(6, 2) // remove bottom for optimization
+  const material = new THREE.MeshStandardMaterial({ color: 0x000000 })
+  const building = new THREE.Mesh(geometry, material)
+  building.position.set(0, bHeight / 2, 0)
+
+  const group = new THREE.Group()
+  group.add(building)
+  const windows = createWindows(building, bWidth, bHeight)
+  group.add(windows)
   group.rotation.y = Math.random()
   return group
 }
