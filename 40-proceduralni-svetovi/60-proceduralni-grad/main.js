@@ -55,16 +55,13 @@ function generateTexture() {
   return canvas2
 }
 
-const city = generateBuildings(10000)
+const cityGeometry = generateBuildings(10000)
 const texture = new THREE.Texture(generateTexture())
-texture.anisotropy = renderer.capabilities.getMaxAnisotropy()
 texture.needsUpdate = true
 
-const cityMesh = new THREE.Mesh(city, new THREE.MeshLambertMaterial({
-  map: texture,
-  vertexColors: THREE.VertexColors
-}))
-scene.add(cityMesh)
+const cityMaterial = new THREE.MeshLambertMaterial({ map: texture })
+const city = new THREE.Mesh(cityGeometry, cityMaterial)
+scene.add(city)
 
 /* INIT */
 
