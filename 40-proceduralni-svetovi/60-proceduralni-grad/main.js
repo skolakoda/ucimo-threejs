@@ -18,7 +18,7 @@ function createBuilding() {
   geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0.5, 0))
 
   // roof color
-  const color = new THREE.Color(new THREE.Color(`rgb(${randomInRange(185, 255, true)}, ${randomInRange(185, 255, true)}, ${randomInRange(185, 255, true)})`))
+  const color = new THREE.Color(randomInRange(.7, 1), randomInRange(.7, 1), randomInRange(.7, 1))
   geometry.faces[5].color = color
   geometry.faces[4].color = color
 
