@@ -12,9 +12,12 @@ scene.add(plane)
 
 // TODO: promeniti boju krova zgrade
 function createBuilding() {
-  const box = new THREE.CubeGeometry(1, 1, 1)
-  box.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0.5, 0))
-  const building = new THREE.Mesh(box)
+  const geometry = new THREE.CubeGeometry(1, 1, 1)
+  const color = Math.floor(Math.random() * 0xffffff)
+  geometry.faces[5].color.setHex(color)
+  geometry.faces[4].color.setHex(color)
+  geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0.5, 0))
+  const building = new THREE.Mesh(geometry)
   building.position.x = Math.floor(Math.random() * 200 - 100) * 10
   building.position.z = Math.floor(Math.random() * 200 - 100) * 10
   building.rotation.y = Math.random()
@@ -32,7 +35,7 @@ function generateBuildings(num = 10000) {
   }
   const texture = new THREE.Texture(generateTexture())
   texture.needsUpdate = true
-  const material = new THREE.MeshLambertMaterial({ map: texture })
+  const material = new THREE.MeshLambertMaterial({ map: texture, vertexColors: THREE.FaceColors })
   return new THREE.Mesh(geometry, material)
 }
 
