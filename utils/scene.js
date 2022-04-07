@@ -8,7 +8,7 @@ export const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window
 camera.position.z = 50
 camera.lookAt(scene.position)
 
-export const renderer = new THREE.WebGLRenderer({antialias: true})
+export const renderer = new THREE.WebGLRenderer({ antialias: true })
 renderer.setPixelRatio(window.devicePixelRatio)
 renderer.setSize(window.innerWidth, window.innerHeight)
 renderer.shadowMap.enabled = true
@@ -48,4 +48,9 @@ export function initLights(theScene = scene, position = new THREE.Vector3(-10, 3
   const ambientLight = new THREE.AmbientLight(0x343434)
   ambientLight.name = 'ambientLight'
   theScene.add(ambientLight)
+}
+
+export function addLights(theScene = scene) {
+  const light = new THREE.HemisphereLight(0xfffff0, 0x101020, 1.25)
+  theScene.add(light)
 }
