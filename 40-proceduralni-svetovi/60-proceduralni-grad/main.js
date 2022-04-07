@@ -11,7 +11,7 @@ plane.rotation.x = -90 * Math.PI / 180
 scene.add(plane)
 
 function generateBuildings(num = 10000) {
-  const city = new THREE.Geometry()
+  const cityGeometry = new THREE.Geometry()
   const box = new THREE.CubeGeometry(1, 1, 1)
   box.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0.5, 0))
   const building = new THREE.Mesh(box)
@@ -22,11 +22,10 @@ function generateBuildings(num = 10000) {
     building.rotation.y = Math.random()
     building.scale.x = building.scale.z = Math.random() * Math.random() * Math.random() * Math.random() * 50 + 10
     building.scale.y = (Math.random() * Math.random() * Math.random() * building.scale.x) * 8 + 8
-
     building.updateMatrix() // needed for merge
-    city.merge(building.geometry, building.matrix)
+    cityGeometry.merge(building.geometry, building.matrix)
   }
-  return city
+  return cityGeometry
 }
 
 function generateTexture() {
