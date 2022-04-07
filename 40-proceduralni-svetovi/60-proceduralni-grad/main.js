@@ -10,22 +10,30 @@ const plane = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), new THREE.Mesh
 plane.rotation.x = -90 * Math.PI / 180
 scene.add(plane)
 
-function generateBuildings(num = 10000) {
-  const cityGeometry = new THREE.Geometry()
+// TODO: promeniti boju krova zgrade
+function createBuilding() {
   const box = new THREE.CubeGeometry(1, 1, 1)
   box.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0.5, 0))
   const building = new THREE.Mesh(box)
+  building.position.x = Math.floor(Math.random() * 200 - 100) * 10
+  building.position.z = Math.floor(Math.random() * 200 - 100) * 10
+  building.rotation.y = Math.random()
+  building.scale.x = building.scale.z = Math.random() * Math.random() * Math.random() * Math.random() * 50 + 10
+  building.scale.y = (Math.random() * Math.random() * Math.random() * building.scale.x) * 8 + 8
+  building.updateMatrix() // needed for merge
+  return building
+}
 
+function generateBuildings(num = 10000) {
+  const geometry = new THREE.Geometry()
   for (let i = 0; i < num; i++) {
-    building.position.x = Math.floor(Math.random() * 200 - 100) * 10
-    building.position.z = Math.floor(Math.random() * 200 - 100) * 10
-    building.rotation.y = Math.random()
-    building.scale.x = building.scale.z = Math.random() * Math.random() * Math.random() * Math.random() * 50 + 10
-    building.scale.y = (Math.random() * Math.random() * Math.random() * building.scale.x) * 8 + 8
-    building.updateMatrix() // needed for merge
-    cityGeometry.merge(building.geometry, building.matrix)
+    const building = createBuilding()
+    geometry.merge(building.geometry, building.matrix)
   }
-  return cityGeometry
+  const texture = new THREE.Texture(generateTexture())
+  texture.needsUpdate = true
+  const material = new THREE.MeshLambertMaterial({ map: texture })
+  return new THREE.Mesh(geometry, material)
 }
 
 function generateTexture() {
@@ -54,12 +62,8 @@ function generateTexture() {
   return canvas2
 }
 
-const cityGeometry = generateBuildings(10000)
-const texture = new THREE.Texture(generateTexture())
-texture.needsUpdate = true
+const city = generateBuildings(10000)
 
-const cityMaterial = new THREE.MeshLambertMaterial({ map: texture })
-const city = new THREE.Mesh(cityGeometry, cityMaterial)
 scene.add(city)
 
 /* INIT */
