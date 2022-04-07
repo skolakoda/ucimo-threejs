@@ -1,6 +1,6 @@
 import * as THREE from '/node_modules/three108/build/three.module.js'
 import { scene, camera, renderer, createOrbitControls, addLights } from '/utils/scene.js'
-import { randomGrey, generateCityTexture } from '/utils/helpers.js'
+import { randomInRange, generateCityTexture } from '/utils/helpers.js'
 
 addLights()
 createOrbitControls()
@@ -19,7 +19,8 @@ function createBuilding() {
   geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0.5, 0))
 
   // roof color
-  const color = new THREE.Color(randomGrey())
+  const gray = randomInRange(.3, .7)
+  const color = new THREE.Color(gray + randomInRange(-.01, .01), gray + randomInRange(-.01, .01), gray + randomInRange(-.01, .01))
   geometry.faces[5].color = color
   geometry.faces[4].color = color
 
