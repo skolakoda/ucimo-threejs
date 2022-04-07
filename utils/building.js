@@ -48,7 +48,7 @@ function createWindows(building, bWidth, bHeight) {
   return windows
 }
 
-export function createBuilding({ textured = true } = {}) {
+export function createBuilding({ textured = false } = {}) {
   const bWidth = randomInRange(10, 20, true)
   const bHeight = randomInRange(bWidth, bWidth * 4, true)
 
