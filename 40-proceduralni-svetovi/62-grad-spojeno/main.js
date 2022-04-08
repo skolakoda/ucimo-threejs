@@ -17,8 +17,11 @@ scene.add(city)
 function createBuilding() {
   const geometry = new THREE.BoxGeometry(1, 1, 1)
   geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0.5, 0))
-  geometry.faces[4].color = geometry.faces[5].color = randomGray() // roof color
   removeTopTexture(geometry)
+  const color = randomGray()
+  geometry.faces.forEach(face => {
+    face.color = color // manually set geometry color
+  })
 
   const building = new THREE.Mesh(geometry)
   building.position.x = Math.floor(Math.random() * 200 - 100) * 10
