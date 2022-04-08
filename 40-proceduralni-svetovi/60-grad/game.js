@@ -2,7 +2,7 @@ import * as THREE from '/node_modules/three108/build/three.module.js'
 import { scene, camera, renderer, createOrbitControls, addLights, initLights } from '/utils/scene.js'
 import { randomInRange, randomGray, generateCityTexture, removeTopTexture } from '/utils/helpers.js'
 
-const size = 150
+const size = 300
 
 createOrbitControls()
 addLights()
