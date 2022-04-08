@@ -38,3 +38,14 @@ export function generateCityTexture() {
   texture.needsUpdate = true
   return texture
 }
+
+// colorful = 0 for gray nianses only
+export function randomGray({ min = .3, max = .7, colorful = .02 } = {}) {
+  const gray = randomInRange(min, max)
+  const color = new THREE.Color(
+    gray + randomInRange(-colorful, colorful),
+    gray + randomInRange(-colorful, colorful),
+    gray + randomInRange(-colorful, colorful)
+  )
+  return color
+}
