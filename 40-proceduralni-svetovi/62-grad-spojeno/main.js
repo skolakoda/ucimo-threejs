@@ -3,7 +3,7 @@ import { scene, camera, renderer, createOrbitControls, addLights } from '/utils/
 import { randomInRange, removeTopTexture, generateCityTexture, randomGray } from '/utils/helpers.js'
 
 const mapSize = 2000
-const halfMap = mapSize / 2
+const numBuildings = 10000
 
 addLights()
 createOrbitControls()
@@ -16,7 +16,7 @@ const floor = new THREE.Mesh(
 floor.rotateX(-Math.PI / 2)
 scene.add(floor)
 
-const city = generateBuildings(10000)
+const city = generateBuildings(numBuildings)
 scene.add(city)
 
 function createBuilding() {
@@ -31,13 +31,14 @@ function createBuilding() {
   })
 
   const building = new THREE.Mesh(geometry)
+  const halfMap = mapSize / 2
   building.position.set(randomInRange(-halfMap, halfMap), height / 2, randomInRange(-halfMap, halfMap))
   if (Math.random() > .6) building.rotateY(Math.random())
   building.updateMatrix() // needed for merge
   return building
 }
 
-function generateBuildings(num = 10000) {
+function generateBuildings(num) {
   const geometry = new THREE.Geometry()
   for (let i = 0; i < num; i++) {
     const building = createBuilding()
