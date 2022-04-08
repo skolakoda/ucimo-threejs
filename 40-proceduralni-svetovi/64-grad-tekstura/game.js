@@ -26,13 +26,6 @@ function createBuilding(size) {
   removeTopTexture(geometry)
   geometry.faces.splice(6, 2) // remove bottom for optimization
 
-  const TEXTURE_SIZE = 16
-  const texture = Math.random() > 0.2 ? 'gray-bricks.jpg' : 'bricks.jpg'
-  const map = new THREE.TextureLoader().load(`/assets/textures/${texture}`)
-  map.wrapS = THREE.RepeatWrapping
-  map.wrapT = THREE.RepeatWrapping
-  map.repeat.set(width / TEXTURE_SIZE, height / TEXTURE_SIZE)
-
   const material = new THREE.MeshStandardMaterial({ map: generateCityTexture(), color: randomGray({ colorful: .04 }) })
   const mesh = new THREE.Mesh(geometry, material)
 
