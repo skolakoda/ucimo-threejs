@@ -23,8 +23,8 @@ function createBuilding(size) {
   const width = randomInRange(10, 20)
   const height = randomInRange(width, width * 4)
   const geometry = new THREE.BoxGeometry(width, height, width)
-  // geometry.faces.splice(6, 2) // remove bottom for optimization
   removeTopTexture(geometry)
+  geometry.faces.splice(6, 2) // remove bottom for optimization
 
   const TEXTURE_SIZE = 16
   const texture = Math.random() > 0.2 ? 'gray-bricks.jpg' : 'bricks.jpg'
