@@ -1,6 +1,6 @@
 import * as THREE from '/node_modules/three108/build/three.module.js'
 import { scene, camera, renderer, createOrbitControls, addLights } from '/utils/scene.js'
-import { randomInRange, generateCityTexture, randomGray } from '/utils/helpers.js'
+import { removeTopTexture, generateCityTexture, randomGray } from '/utils/helpers.js'
 
 addLights()
 createOrbitControls()
@@ -17,17 +17,8 @@ scene.add(city)
 function createBuilding() {
   const geometry = new THREE.BoxGeometry(1, 1, 1)
   geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0.5, 0))
-
-  // roof color
-  geometry.faces[4].color = geometry.faces[5].color = randomGray()
-
-  // remove roof texture
-  geometry.faceVertexUvs[0][4][0].set(0, 0)
-  geometry.faceVertexUvs[0][4][1].set(0, 0)
-  geometry.faceVertexUvs[0][4][2].set(0, 0)
-  geometry.faceVertexUvs[0][5][0].set(0, 0)
-  geometry.faceVertexUvs[0][5][1].set(0, 0)
-  geometry.faceVertexUvs[0][5][2].set(0, 0)
+  geometry.faces[4].color = geometry.faces[5].color = randomGray() // roof color
+  removeTopTexture(geometry)
 
   const building = new THREE.Mesh(geometry)
   building.position.x = Math.floor(Math.random() * 200 - 100) * 10

@@ -1,11 +1,12 @@
 import * as THREE from '/node_modules/three108/build/three.module.js'
-import { scene, camera, renderer, createOrbitControls, addLights } from '/utils/scene.js'
-import { randomInRange, randomGray, generateCityTexture } from '/utils/helpers.js'
+import { scene, camera, renderer, createOrbitControls, addLights, initLights } from '/utils/scene.js'
+import { randomInRange, randomGray, generateCityTexture, removeTopTexture } from '/utils/helpers.js'
 
 const size = 150
 
 createOrbitControls()
 addLights()
+initLights()
 renderer.setClearColor(0x7ec0ee)
 
 camera.position.set(0, 50, 200)
@@ -23,14 +24,7 @@ function createBuilding(size) {
   const height = randomInRange(width, width * 4)
   const geometry = new THREE.BoxGeometry(width, height, width)
   // geometry.faces.splice(6, 2) // remove bottom for optimization
-
-  // remove roof texture
-  geometry.faceVertexUvs[0][4][0].set(0, 0)
-  geometry.faceVertexUvs[0][4][1].set(0, 0)
-  geometry.faceVertexUvs[0][4][2].set(0, 0)
-  geometry.faceVertexUvs[0][5][0].set(0, 0)
-  geometry.faceVertexUvs[0][5][1].set(0, 0)
-  geometry.faceVertexUvs[0][5][2].set(0, 0)
+  removeTopTexture(geometry)
 
   const TEXTURE_SIZE = 16
   const texture = Math.random() > 0.2 ? 'gray-bricks.jpg' : 'bricks.jpg'
@@ -39,7 +33,7 @@ function createBuilding(size) {
   map.wrapT = THREE.RepeatWrapping
   map.repeat.set(width / TEXTURE_SIZE, height / TEXTURE_SIZE)
 
-  const material = new THREE.MeshStandardMaterial({ map: generateCityTexture(), color: randomGray() })
+  const material = new THREE.MeshStandardMaterial({ map: generateCityTexture(), color: randomGray({ colorful: .04 }) })
   const mesh = new THREE.Mesh(geometry, material)
 
   mesh.rotation.y = Math.random()
