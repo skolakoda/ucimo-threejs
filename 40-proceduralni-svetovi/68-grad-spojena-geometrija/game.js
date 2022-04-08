@@ -30,6 +30,7 @@ function createCubeGeometry() {
   const geometry = new THREE.BoxGeometry(4 * Math.random(), y, 4 * Math.random())
   const translation = new THREE.Matrix4().makeTranslation(randomInRange(-space, space), y / 2, randomInRange(-space, space))
   geometry.applyMatrix(translation)
+  if (Math.random() > .8) geometry.rotateY(Math.random())
   return geometry
 }
 

@@ -6,6 +6,7 @@ addLights()
 createOrbitControls()
 camera.position.y = 80
 scene.fog = new THREE.FogExp2(0xd0e0f0, 0.0025)
+renderer.setClearColor(0x7ec0ee)
 
 const plane = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), new THREE.MeshBasicMaterial({ color: 0x101018 }))
 plane.rotation.x = -90 * Math.PI / 180
@@ -18,9 +19,9 @@ function createBuilding() {
   const geometry = new THREE.BoxGeometry(1, 1, 1)
   geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0.5, 0))
   removeTopTexture(geometry)
-  const color = randomGray()
+  const color = randomGray({ colorful: .035, max: 1 })
   geometry.faces.forEach(face => {
-    face.color = color // manually set geometry color
+    face.color = color // set color before merge
   })
 
   const building = new THREE.Mesh(geometry)
