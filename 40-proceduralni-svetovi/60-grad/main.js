@@ -19,6 +19,8 @@ scene.add(floor)
 const city = generateBuildings(numBuildings)
 scene.add(city)
 
+/* FUNCTIONS */
+
 function createBuilding() {
   const width = Math.random() * Math.random() * Math.random() * Math.random() * 50 + 10
   const height = (Math.random() * Math.random() * Math.random() * width) * 8 + 8
