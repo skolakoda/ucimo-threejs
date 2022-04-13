@@ -21,9 +21,9 @@ for (let i = 0; i < size; i++) {
 
   const building = createBuilding({ bWidth, bHeight, x, y, z, rotY })
   cityGeometry.merge(building.geometry, building.matrix)
-  // addWindows(building, bWidth, bHeight, cityGeometry)
+  addWindows({ building, bWidth, bHeight, cityGeometry })
 }
-const material = new THREE.MeshLambertMaterial({ vertexColors: THREE.FaceColors })
+const material = new THREE.MeshLambertMaterial({ vertexColors: THREE.FaceColors, side: THREE.DoubleSide })
 const city = new THREE.Mesh(cityGeometry, material)
 scene.add(city)
 
@@ -38,7 +38,7 @@ function createBuilding({ bWidth, bHeight, x, y, z, rotY }) {
 
   const building = new THREE.Mesh(geometry)
   building.position.set(x, y, z)
-  building.rotation.y = rotY
+  // building.rotation.y = rotY
   building.updateMatrix()
   return building
 }
@@ -51,14 +51,11 @@ function createWindow(wWidth, wHeight) {
   geometry.faces.forEach(face => {
     face.color = new THREE.Color(color)
   })
-
   const window = new THREE.Mesh(geometry)
-  window.material.side = THREE.DoubleSide
-  window.updateMatrix()
   return window
 }
 
-function addWindows(building, bWidth, bHeight, cityGeometry) {
+function addWindows({ building, bWidth, bHeight, cityGeometry }) {
   const createSideWindows = setPosition => {
     const wWidth = bWidth / 8
     const wHeight = bHeight / 8
@@ -68,6 +65,7 @@ function addWindows(building, bWidth, bHeight, cityGeometry) {
         const currPos = building.position.x - bWidth / 2 + wWidth + i * wWidth * 2
         setPosition(win, currPos)
         win.position.y = bHeight / 8 + j * wHeight * 2
+        win.updateMatrix()
         cityGeometry.merge(win.geometry, win.matrix)
       }
   }
@@ -80,16 +78,16 @@ function addWindows(building, bWidth, bHeight, cityGeometry) {
     win.position.x = currPos
     win.position.z = building.position.z - bWidth / 2
   })
-  createSideWindows((win, currPos) => {
-    win.rotation.y = Math.PI / 2
-    win.position.x = building.position.z + bWidth / 2
-    win.position.z = currPos
-  })
-  createSideWindows((win, currPos) => {
-    win.rotation.y = Math.PI / 2
-    win.position.x = building.position.z - bWidth / 2
-    win.position.z = currPos
-  })
+  // createSideWindows((win, currPos) => {
+  //   win.rotation.y = Math.PI / 2
+  //   win.position.x = building.position.z + bWidth / 2
+  //   win.position.z = currPos
+  // })
+  // createSideWindows((win, currPos) => {
+  //   win.rotation.y = Math.PI / 2
+  //   win.position.x = building.position.z - bWidth / 2
+  //   win.position.z = currPos
+  // })
 }
 
 function createFloor(r = 1000, color = 0x60bf63) {

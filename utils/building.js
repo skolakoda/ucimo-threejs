@@ -71,6 +71,5 @@ export function createBuilding({ textured = false } = {}) {
   group.add(building)
   const windows = createWindows(building, bWidth, bHeight)
   group.add(windows)
-  group.rotation.y = Math.random()
   return group
 }

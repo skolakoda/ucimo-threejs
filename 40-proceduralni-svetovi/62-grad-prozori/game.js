@@ -15,6 +15,7 @@ for (let i = 0; i < size; i++) {
   const building = createBuilding()
   building.position.x = randomInRange(-size, size)
   building.position.z = randomInRange(-size, size)
+  building.rotation.y = Math.random()
   scene.add(building)
 }
 
