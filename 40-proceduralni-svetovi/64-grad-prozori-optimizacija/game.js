@@ -14,11 +14,14 @@ const cityGeometry = new THREE.Geometry()
 for (let i = 0; i < size; i++) {
   const bWidth = randomInRange(10, 20, true)
   const bHeight = randomInRange(bWidth, bWidth * 4, true)
+  const x = randomInRange(-size, size)
+  const y = bHeight / 2
+  const z = randomInRange(-size, size)
+  const rotY = Math.random()
 
-  const building = createBuilding(bWidth, bHeight)
-  // cityGeometry.merge(building.geometry, building.matrix)
-  // spoja prozor
-  createWindows(building, bWidth, bHeight, cityGeometry)
+  const building = createBuilding({ bWidth, bHeight, x, y, z, rotY })
+  cityGeometry.merge(building.geometry, building.matrix)
+  // addWindows(building, bWidth, bHeight, cityGeometry)
 }
 const material = new THREE.MeshLambertMaterial({ vertexColors: THREE.FaceColors })
 const city = new THREE.Mesh(cityGeometry, material)
@@ -26,7 +29,7 @@ scene.add(city)
 
 /* FUNCTIONS */
 
-function createBuilding(bWidth, bHeight) {
+function createBuilding({ bWidth, bHeight, x, y, z, rotY }) {
   const geometry = new THREE.BoxGeometry(bWidth, bHeight, bWidth)
   const color = randomGray({ min:0, max: 0.1, colorful: .002 })
   geometry.faces.forEach(face => {
@@ -34,8 +37,8 @@ function createBuilding(bWidth, bHeight) {
   })
 
   const building = new THREE.Mesh(geometry)
-  building.position.set(randomInRange(-size, size), bHeight / 2, randomInRange(-size, size))
-  building.rotation.y = Math.random()
+  building.position.set(x, y, z)
+  building.rotation.y = rotY
   building.updateMatrix()
   return building
 }
@@ -55,8 +58,7 @@ function createWindow(wWidth, wHeight) {
   return window
 }
 
-function createWindows(building, bWidth, bHeight, cityGeometry) {
-
+function addWindows(building, bWidth, bHeight, cityGeometry) {
   const createSideWindows = setPosition => {
     const wWidth = bWidth / 8
     const wHeight = bHeight / 8
