@@ -2,7 +2,7 @@ import * as THREE from '/node_modules/three108/build/three.module.js'
 import { scene, camera, renderer, createOrbitControls, addLights } from '/utils/scene.js'
 import { randomInRange, randomGray } from '/utils/helpers.js'
 
-const size = 150
+const size = 250
 
 createOrbitControls()
 createStreetLights()
@@ -78,16 +78,6 @@ function addWindows({ building, bWidth, bHeight, cityGeometry }) {
     win.position.x = currPos
     win.position.z = building.position.z - bWidth / 2
   })
-  // createSideWindows((win, currPos) => {
-  //   win.rotation.y = Math.PI / 2
-  //   win.position.x = building.position.z + bWidth / 2
-  //   win.position.z = currPos
-  // })
-  // createSideWindows((win, currPos) => {
-  //   win.rotation.y = Math.PI / 2
-  //   win.position.x = building.position.z - bWidth / 2
-  //   win.position.z = currPos
-  // })
 }
 
 function createFloor(r = 1000, color = 0x60bf63) {
