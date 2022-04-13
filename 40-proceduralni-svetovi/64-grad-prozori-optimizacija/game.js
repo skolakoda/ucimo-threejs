@@ -2,7 +2,7 @@ import * as THREE from '/node_modules/three108/build/three.module.js'
 import { scene, camera, renderer, createOrbitControls, addLights } from '/utils/scene.js'
 import { randomInRange, randomGray } from '/utils/helpers.js'
 
-const size = 250
+const size = 300
 
 createOrbitControls()
 createStreetLights()
@@ -31,7 +31,7 @@ scene.add(city)
 
 function createBuilding({ bWidth, bHeight, x, y, z, rotY }) {
   const geometry = new THREE.BoxGeometry(bWidth, bHeight, bWidth)
-  const color = randomGray({ min:0, max: 0.1, colorful: .002 })
+  const color = randomGray({ min: 0, max: .03, colorful: .003 })
   geometry.faces.forEach(face => {
     face.color = color
   })
