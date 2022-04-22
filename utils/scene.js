@@ -26,7 +26,6 @@ export const clock = new THREE.Clock()
 
 export function createOrbitControls() {
   const controls = new OrbitControls(camera, renderer.domElement)
-  // controls.maxPolarAngle = Math.PI / 2 - 0.1 // prevent bellow ground
   controls.minDistance = 1
   // controls.maxDistance = 20
   controls.zoomSpeed = .3
@@ -56,7 +55,12 @@ export function addLights(theScene = scene) {
   theScene.add(light)
 }
 
-// TODO: dodati krug kao lampu, probati na praznoj sceni
+/**
+ * TODO:
+ * dodati sijalice
+ * probati na praznoj sceni
+ * opciono kruzna podloga
+ */
 export function createStreetLights({ size, numLights = 10, y = 10 } = {}) {
   const group = new THREE.Group()
   for (let i = 0; i < numLights; i++) {

@@ -6,6 +6,7 @@ const size = 200
 const numBuildings = 200
 
 createOrbitControls()
+// TODO: srediti svetla
 scene.add(createStreetLights({ size, numLights: numBuildings / 10 }))
 camera.position.set(0, 50, 200)
 
