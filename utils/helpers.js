@@ -6,6 +6,14 @@ export function randomInRange(min, max, round = false) {
   return round ? Math.floor(rand) : rand
 }
 
+export function randomInCircle(radius) {
+  const angle = Math.random() * Math.PI * 2
+  const r = Math.sqrt(Math.random()) * radius
+  const x = Math.cos(angle) * r
+  const z = Math.sin(angle) * r
+  return { x, z }
+}
+
 export function randomGrey(min = 75, max = 150) {
   const v = (randomInRange(min, max) | 0).toString(16)
   return '#' + v + v + v
