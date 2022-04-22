@@ -2,23 +2,24 @@ import * as THREE from '/node_modules/three108/build/three.module.js'
 import { scene, camera, renderer, createOrbitControls } from '/utils/scene.js'
 import { randomInRange, randomGray, createFloor } from '/utils/helpers.js'
 
-const size = 400
+const size = 600
+const halfSize = size / 2
 const numBuildings = 1000
 
 createOrbitControls()
 createStreetLights()
 camera.position.set(0, 50, 200)
 
-scene.add(createFloor({ size: size * 1.5 }))
+scene.add(createFloor({ size, circle: false }))
 
 const cityGeometry = new THREE.Geometry()
 
 for (let i = 0; i < numBuildings; i++) {
   const bWidth = randomInRange(10, 20, true)
   const bHeight = randomInRange(bWidth, bWidth * 4, true)
-  const x = randomInRange(-size, size)
+  const x = randomInRange(-halfSize, halfSize)
   const y = bHeight / 2
-  const z = randomInRange(-size, size)
+  const z = randomInRange(-halfSize, halfSize)
   const rotY = Math.random()
 
   const building = createBuilding({ bWidth, bHeight, x, y, z, rotY })
