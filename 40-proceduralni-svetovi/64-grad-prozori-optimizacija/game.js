@@ -1,19 +1,21 @@
 import * as THREE from '/node_modules/three108/build/three.module.js'
-import { scene, camera, renderer, createOrbitControls } from '/utils/scene.js'
+import { scene, camera, renderer, createOrbitControls, createStreetLights } from '/utils/scene.js'
 import { randomInRange, randomGray, createFloor } from '/utils/helpers.js'
 
 const size = 600
 const halfSize = size / 2
-const numBuildings = 1000
+const numBuildings = 900
 
 createOrbitControls()
-createStreetLights()
 camera.position.set(0, 50, 200)
 
-scene.add(createFloor({ size, circle: false }))
+const streetLights = createStreetLights({ size, numLights: 5 })
+scene.add(streetLights)
+
+const floor = createFloor({ size: size * 1.05, circle: false })
+scene.add(floor)
 
 const cityGeometry = new THREE.Geometry()
-
 for (let i = 0; i < numBuildings; i++) {
   const bWidth = randomInRange(10, 20, true)
   const bHeight = randomInRange(bWidth, bWidth * 4, true)
@@ -26,16 +28,16 @@ for (let i = 0; i < numBuildings; i++) {
   cityGeometry.merge(building.geometry, building.matrix)
   addWindows({ building, bWidth, bHeight, cityGeometry })
 }
-const material = new THREE.MeshLambertMaterial({ vertexColors: THREE.FaceColors, side: THREE.DoubleSide })
+const material = new THREE.MeshStandardMaterial({ vertexColors: THREE.FaceColors, side: THREE.DoubleSide })
 const city = new THREE.Mesh(cityGeometry, material)
 scene.add(city)
 
 /* FUNCTIONS */
 
-// TODO: reuse from helpers
+// TODO: reuse from helpers?
 function createBuilding({ bWidth, bHeight, x, y, z, rotY }) {
   const geometry = new THREE.BoxGeometry(bWidth, bHeight, bWidth)
-  const color = randomGray({ min: 0, max: .03, colorful: .001 })
+  const color = randomGray({ min: 0, max: .1, colorful: .1 })
   geometry.faces.forEach(face => {
     face.color = color
   })
@@ -50,10 +52,10 @@ function createBuilding({ bWidth, bHeight, x, y, z, rotY }) {
 function createWindow(wWidth, wHeight) {
   const colors = [0xffff00, 0xF5F5DC, 0xFFEA00, 0xFDDA0D, 0xFFFF8F, 0xFFFDD0]
   const lightColor = colors[Math.floor(Math.random() * colors.length)]
-  const color = Math.random() > 0.5 ? 0x000000 : lightColor
+  const color = Math.random() > 0.5 ? 0x000000 : new THREE.Color(lightColor)
   const geometry = new THREE.PlaneGeometry(wWidth, wHeight)
   geometry.faces.forEach(face => {
-    face.color = new THREE.Color(color)
+    face.color = color
   })
   const window = new THREE.Mesh(geometry)
   return window
@@ -82,18 +84,6 @@ function addWindows({ building, bWidth, bHeight, cityGeometry }) {
     win.position.x = currPos
     win.position.z = building.position.z - bWidth / 2
   })
-}
-
-function createStreetLights() {
-  for (let i = 0; i < 10; i++) {
-    const spotLight = new THREE.SpotLight(0xF5F5DC)
-    const x = randomInRange(-size, size)
-    const z = randomInRange(-size, size)
-    spotLight.position.set(x, 10, z)
-    spotLight.lookAt(x, 0, z)
-    spotLight.castShadow = true
-    scene.add(spotLight)
-  }
 }
 
 /* LOOP */

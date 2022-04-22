@@ -1,5 +1,6 @@
 import * as THREE from '/node_modules/three108/build/three.module.js'
 import { OrbitControls } from '/node_modules/three108/examples/jsm/controls/OrbitControls.js'
+import { randomInRange, randomInCircle } from '/utils/helpers.js'
 
 export const scene = new THREE.Scene()
 // scene.background = new THREE.Color(0xe0e0e0)
@@ -53,4 +54,19 @@ export function initLights(theScene = scene, position = new THREE.Vector3(-10, 3
 export function addLights(theScene = scene) {
   const light = new THREE.HemisphereLight(0xfffff0, 0x101020, 1.25)
   theScene.add(light)
+}
+
+// TODO: dodati krug kao lampu, probati na praznoj sceni
+export function createStreetLights({ size, numLights = 10, y = 10 } = {}) {
+  const group = new THREE.Group()
+  for (let i = 0; i < numLights; i++) {
+    const spotLight = new THREE.SpotLight(0xF5F5DC)
+    const x = randomInRange(-size, size)
+    const z = randomInRange(-size, size)
+    spotLight.position.set(x, y, z)
+    spotLight.lookAt(x, 0, z)
+    spotLight.castShadow = true
+    group.add(spotLight)
+  }
+  return group
 }
