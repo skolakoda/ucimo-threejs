@@ -1,6 +1,6 @@
 import * as THREE from '/node_modules/three108/build/three.module.js'
-import { scene, camera, renderer, createOrbitControls, addLights } from '/utils/scene.js'
-import { randomInRange, randomGray } from '/utils/helpers.js'
+import { scene, camera, renderer, createOrbitControls } from '/utils/scene.js'
+import { randomInRange, randomGray, createFloor } from '/utils/helpers.js'
 
 const size = 400
 const numBuildings = 1000
@@ -9,7 +9,7 @@ createOrbitControls()
 createStreetLights()
 camera.position.set(0, 50, 200)
 
-scene.add(createFloor(size * 2, 0x101018))
+scene.add(createFloor({ size: size * 1.5 }))
 
 const cityGeometry = new THREE.Geometry()
 
@@ -31,16 +31,17 @@ scene.add(city)
 
 /* FUNCTIONS */
 
+// TODO: reuse from helpers
 function createBuilding({ bWidth, bHeight, x, y, z, rotY }) {
   const geometry = new THREE.BoxGeometry(bWidth, bHeight, bWidth)
-  const color = randomGray({ min: 0, max: .03, colorful: .003 })
+  const color = randomGray({ min: 0, max: .03, colorful: .001 })
   geometry.faces.forEach(face => {
     face.color = color
   })
 
   const building = new THREE.Mesh(geometry)
   building.position.set(x, y, z)
-  // building.rotation.y = rotY
+  // building.rotation.y = rotY // TODO: fix window rotation
   building.updateMatrix()
   return building
 }
@@ -80,15 +81,6 @@ function addWindows({ building, bWidth, bHeight, cityGeometry }) {
     win.position.x = currPos
     win.position.z = building.position.z - bWidth / 2
   })
-}
-
-function createFloor(r = 1000, color = 0x60bf63) {
-  const material = new THREE.MeshBasicMaterial({ color, side: THREE.DoubleSide })
-  const geometry = new THREE.CircleGeometry(r, 32)
-  geometry.rotateX(-Math.PI / 2)
-  const mesh = new THREE.Mesh(geometry, material)
-  mesh.receiveShadow = true
-  return mesh
 }
 
 function createStreetLights() {

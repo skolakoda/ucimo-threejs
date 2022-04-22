@@ -12,7 +12,7 @@ camera.position.y = 80
 scene.fog = new THREE.FogExp2(0xd0e0f0, 0.0025)
 renderer.setClearColor(0x7ec0ee)
 
-scene.add(createFloor(size))
+scene.add(createFloor({ size, circle: false }))
 scene.add(generateBuildings(numBuildings))
 
 /* FUNCTIONS */
