@@ -58,3 +58,9 @@ export function removeTopTexture(boxGeometry) {
   boxGeometry.faceVertexUvs[0][5][1].set(0, 0)
   boxGeometry.faceVertexUvs[0][5][2].set(0, 0)
 }
+
+export function createFloor(size, color = 0x101018) {
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(size, size), new THREE.MeshBasicMaterial({ color }))
+  floor.rotateX(-Math.PI / 2)
+  return floor
+}

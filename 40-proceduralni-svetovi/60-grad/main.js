@@ -1,23 +1,19 @@
 import * as THREE from '/node_modules/three108/build/three.module.js'
 import { scene, camera, renderer, createOrbitControls, addLights } from '/utils/scene.js'
-import { randomInRange, removeTopTexture, generateCityTexture, randomGray } from '/utils/helpers.js'
+import { randomInRange, removeTopTexture, generateCityTexture, randomGray, createFloor } from '/utils/helpers.js'
 
-const mapSize = 2000
+const size = 2000
 const numBuildings = 10000
 
 addLights()
 createOrbitControls()
 camera.position.y = 80
+
 scene.fog = new THREE.FogExp2(0xd0e0f0, 0.0025)
 renderer.setClearColor(0x7ec0ee)
 
-const floor = new THREE.Mesh(
-  new THREE.PlaneGeometry(mapSize, mapSize), new THREE.MeshBasicMaterial({ color: 0x101018 }))
-floor.rotateX(-Math.PI / 2)
-scene.add(floor)
-
-const city = generateBuildings(numBuildings)
-scene.add(city)
+scene.add(createFloor(size))
+scene.add(generateBuildings(numBuildings))
 
 /* FUNCTIONS */
 
@@ -33,7 +29,7 @@ function createBuilding() {
   })
 
   const building = new THREE.Mesh(geometry)
-  const halfMap = mapSize / 2
+  const halfMap = size / 2
   building.position.set(randomInRange(-halfMap, halfMap), height / 2, randomInRange(-halfMap, halfMap))
   if (Math.random() > .6) building.rotateY(Math.random())
   building.updateMatrix() // needed for merge
