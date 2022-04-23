@@ -58,7 +58,6 @@ export function addLights(theScene = scene) {
 /**
  * TODO:
  * dodati sijalice
- * probati na praznoj sceni
  * opciono kruzna podloga
  */
 export function createStreetLights({ size, numLights = 10, y = 10 } = {}) {
