@@ -6,8 +6,8 @@ import { createCityLights } from '/utils/streetlights.js'
 const size = 200
 const numBuildings = 200
 
-createOrbitControls()
-camera.position.set(0, 50, 200)
+const controls = createOrbitControls()
+camera.position.set(0, size * .5, size)
 
 const streetLights = createCityLights({ size, numLights: 12 })
 scene.add(streetLights)
@@ -103,5 +103,6 @@ export function createBuilding() {
 
 void function animate() {
   requestAnimationFrame(animate)
+  controls.update()
   renderer.render(scene, camera)
 }()

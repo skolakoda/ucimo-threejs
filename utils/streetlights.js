@@ -1,5 +1,5 @@
 import * as THREE from '/node_modules/three108/build/three.module.js'
-import { randomInRange } from '/utils/helpers.js'
+import { randomInRange, randomInCircle, randomInSquare } from '/utils/helpers.js'
 
 export function createLamppost({ x, z, height = 40 } = {}) {
   const group = new THREE.Group()
@@ -36,13 +36,11 @@ export function createLamppost({ x, z, height = 40 } = {}) {
 }
 
 // reflektori koji sa svih strana sijaju ka centru
-// TODO: opciono kruzna podloga
-export function createCityLights({ size, numLights = 10, height = 10 } = {}) {
+export function createCityLights({ size, numLights = 10, height = 10, circle = true } = {}) {
   const group = new THREE.Group()
   for (let i = 0; i < numLights; i++) {
     const spotLight = new THREE.SpotLight(0xF5F5DC)
-    const x = randomInRange(-size * .6, size * .6)
-    const z = randomInRange(-size * .6, size * .6)
+    const { x, z } = circle ? randomInCircle(size) : randomInSquare(size)
     spotLight.position.set(x, height, z)
     spotLight.castShadow = true
     group.add(spotLight)

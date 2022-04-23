@@ -14,6 +14,12 @@ export function randomInCircle(radius) {
   return { x, z }
 }
 
+export function randomInSquare(size) {
+  const x = randomInRange(-size * .5, size * .5)
+  const z = randomInRange(-size * .5, size * .5)
+  return { x, z }
+}
+
 export function randomGrey(min = 75, max = 150) {
   const v = (randomInRange(min, max) | 0).toString(16)
   return '#' + v + v + v
