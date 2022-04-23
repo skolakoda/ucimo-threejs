@@ -9,13 +9,13 @@ const numBuildings = 200
 createOrbitControls()
 camera.position.set(0, 50, 200)
 
-scene.add(createCityLights({ size, numLights: numBuildings / 10 }))
+const streetLights = createCityLights({ size, numLights: 12 })
+scene.add(streetLights)
 
 const floor = createFloor({ size })
 scene.add(floor)
 
 const cityGeometry = new THREE.Geometry()
-
 for (let i = 0; i < numBuildings; i++) {
   const building = createBuilding()
   const { x, z } = randomInCircle(size * .9)

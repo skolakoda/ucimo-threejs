@@ -35,11 +35,8 @@ export function createLamppost({ x, z, height = 40 } = {}) {
   return group
 }
 
-/**
- * TODO:
- * opciono kruzna podloga
- */
 // reflektori koji sa svih strana sijaju ka centru
+// TODO: opciono kruzna podloga
 export function createCityLights({ size, numLights = 10, height = 10 } = {}) {
   const group = new THREE.Group()
   for (let i = 0; i < numLights; i++) {

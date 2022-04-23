@@ -7,7 +7,7 @@ const size = 200
 const numBuildings = 200
 
 createOrbitControls()
-scene.add(createCityLights({ size, numLights: numBuildings / 10 }))
+scene.add(createCityLights({ size, numLights: 10 }))
 camera.position.set(0, 50, 200)
 
 const floor = createFloor({ size })
