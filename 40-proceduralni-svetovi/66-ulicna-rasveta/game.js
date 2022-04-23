@@ -13,10 +13,7 @@ const params = {
   decay: 2, // spotLight.decay,
 }
 
-const gui = new dat.GUI()
-
 camera.position.set(160, 40, 10)
-
 createOrbitControls()
 
 const ambient = new THREE.AmbientLight(0xffffff, 0.1)
@@ -39,15 +36,10 @@ scene.add(spotLight)
 const shadowHelper = new THREE.CameraHelper(spotLight.shadow.camera)
 scene.add(shadowHelper)
 
-const material = new THREE.MeshPhongMaterial({ color: 0x808080, dithering: true })
-const geometry = new THREE.PlaneGeometry(2000, 2000)
-const mesh = new THREE.Mesh(geometry, material)
-mesh.position.set(0, - 1, 0)
-mesh.rotation.x = - Math.PI * 0.5
-mesh.receiveShadow = true
-scene.add(mesh)
+scene.add(createFloor())
 
-function buildGui() {
+void function buildGui() {
+  const gui = new dat.GUI()
   gui.addColor(params, 'light color').onChange(val => {
     spotLight.color.setHex(val)
   })
@@ -67,9 +59,7 @@ function buildGui() {
     spotLight.decay = val
   })
   gui.open()
-}
-
-buildGui()
+}()
 
 void function animate() {
   requestAnimationFrame(animate)

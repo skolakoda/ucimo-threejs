@@ -67,12 +67,14 @@ export function removeTopTexture(boxGeometry) {
   boxGeometry.faceVertexUvs[0][5][2].set(0, 0)
 }
 
-export function createFloor({ size = 1000, color = 0x101018, circle = true } = {}) {
-  const material = new THREE.MeshBasicMaterial({ color, side: THREE.DoubleSide })
+// 0x101018, 0x808080
+export function createFloor({ size = 1000, color = 0x808080, circle = true } = {}) {
+  // MeshPhongMaterial prima svetlost, možda i dithering: true
+  const material = new THREE.MeshPhongMaterial({ color, side: THREE.DoubleSide })
   const geometry = circle
     ? new THREE.CircleGeometry(size, 32)
     : new THREE.PlaneGeometry(size, size)
-  geometry.rotateX(-Math.PI / 2)
+  geometry.rotateX(-Math.PI * 0.5)
   const mesh = new THREE.Mesh(geometry, material)
   mesh.receiveShadow = true
   return mesh
