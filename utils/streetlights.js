@@ -35,7 +35,6 @@ export function createLamppost({ x, z, height = 40 } = {}) {
   return group
 }
 
-// reflektori koji sa svih strana sijaju ka centru
 export function createCityLights({ size, numLights = 10, height = 10, circle = true } = {}) {
   const group = new THREE.Group()
   for (let i = 0; i < numLights; i++) {
