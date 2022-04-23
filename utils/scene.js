@@ -1,6 +1,5 @@
 import * as THREE from '/node_modules/three108/build/three.module.js'
 import { OrbitControls } from '/node_modules/three108/examples/jsm/controls/OrbitControls.js'
-import { randomInRange, randomInCircle } from '/utils/helpers.js'
 
 export const scene = new THREE.Scene()
 // scene.background = new THREE.Color(0xe0e0e0)
@@ -55,21 +54,3 @@ export function addLights(theScene = scene) {
   theScene.add(light)
 }
 
-/**
- * TODO:
- * dodati sijalice
- * opciono kruzna podloga
- */
-export function createStreetLights({ size, numLights = 10, y = 10 } = {}) {
-  const group = new THREE.Group()
-  for (let i = 0; i < numLights; i++) {
-    const spotLight = new THREE.SpotLight(0xF5F5DC)
-    const x = randomInRange(-size, size)
-    const z = randomInRange(-size, size)
-    spotLight.position.set(x, y, z)
-    spotLight.lookAt(x, 0, z)
-    spotLight.castShadow = true
-    group.add(spotLight)
-  }
-  return group
-}

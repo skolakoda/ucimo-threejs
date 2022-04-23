@@ -34,3 +34,22 @@ export function createLamppost({ x, z, height = 40 } = {}) {
 
   return group
 }
+
+/**
+ * TODO:
+ * opciono kruzna podloga
+ */
+export function createCityLights({ size, numLights = 10, height = 10 } = {}) {
+  const group = new THREE.Group()
+  for (let i = 0; i < numLights; i++) {
+    const spotLight = new THREE.SpotLight(0xF5F5DC)
+    const x = randomInRange(-size * .6, size * .6)
+    const z = randomInRange(-size * .6, size * .6)
+    spotLight.position.set(x, height, z)
+    // spotLight.target.position.set(x, 0, z)
+    // spotLight.target.updateMatrixWorld()
+    spotLight.castShadow = true
+    group.add(spotLight)
+  }
+  return group
+}

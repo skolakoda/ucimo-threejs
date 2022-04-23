@@ -1,13 +1,14 @@
-import { scene, camera, renderer, createOrbitControls, createStreetLights } from '/utils/scene.js'
+import { scene, camera, renderer, createOrbitControls } from '/utils/scene.js'
 import { randomInCircle, createFloor } from '/utils/helpers.js'
 import { createBuilding } from '/utils/building.js'
+import { createCityLights } from '/utils/streetlights.js'
 
 const size = 200
 const numBuildings = 200
 
 createOrbitControls()
 // TODO: srediti svetla
-scene.add(createStreetLights({ size, numLights: numBuildings / 10 }))
+scene.add(createCityLights({ size, numLights: numBuildings / 10 }))
 camera.position.set(0, 50, 200)
 
 const floor = createFloor({ size })

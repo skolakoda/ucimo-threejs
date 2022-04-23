@@ -1,6 +1,7 @@
 import * as THREE from '/node_modules/three108/build/three.module.js'
-import { scene, camera, renderer, createOrbitControls, createStreetLights } from '/utils/scene.js'
+import { scene, camera, renderer, createOrbitControls } from '/utils/scene.js'
 import { randomInRange, randomGray, createFloor } from '/utils/helpers.js'
+import { createCityLights } from '/utils/streetlights.js'
 
 const size = 600
 const halfSize = size / 2
@@ -9,7 +10,7 @@ const numBuildings = 900
 createOrbitControls()
 camera.position.set(0, 50, 200)
 
-const streetLights = createStreetLights({ size, numLights: 5 })
+const streetLights = createCityLights({ size, numLights: 5 })
 scene.add(streetLights)
 
 const floor = createFloor({ size: size * 1.05, circle: false })
