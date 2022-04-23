@@ -6,9 +6,9 @@ import { createLamppost, createCityLights } from '/utils/streetlights.js'
 const numLampposts = 12 // max num of SpotLights is 16
 const numCityLights = 16 - numLampposts
 
-const size = 500
+const size = 400
 const halfSize = size / 2
-const numBuildings = 750
+const numBuildings = 400
 
 camera.position.set(160, 40, 10)
 createOrbitControls()
