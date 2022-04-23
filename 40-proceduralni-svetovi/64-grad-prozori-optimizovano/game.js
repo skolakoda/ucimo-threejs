@@ -1,6 +1,6 @@
 import * as THREE from '/node_modules/three108/build/three.module.js'
 import { scene, camera, renderer, createOrbitControls } from '/utils/scene.js'
-import { randomInCircle, createFloor } from '/utils/helpers.js'
+import { randomInCircle, randomGray, createFloor } from '/utils/helpers.js'
 import { createCityLights } from '/utils/streetlights.js'
 import { createBuilding } from '/utils/city.js'
 
@@ -18,7 +18,8 @@ scene.add(floor)
 
 const cityGeometry = new THREE.Geometry()
 for (let i = 0; i < numBuildings; i++) {
-  const building = createBuilding()
+  const color = randomGray({ min: 0, max: .1, colorful: .1 })
+  const building = createBuilding({ color })
   const { x, z } = randomInCircle(size * .9)
   building.position.x = x
   building.position.z = z

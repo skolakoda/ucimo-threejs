@@ -1,14 +1,15 @@
 import { scene, camera, renderer, createOrbitControls } from '/utils/scene.js'
 import { randomInCircle, createFloor } from '/utils/helpers.js'
-import { createBuilding } from '/utils/building.js'
+import { createBuilding } from '/utils/city.js'
 import { createCityLights } from '/utils/streetlights.js'
 
 const size = 200
 const numBuildings = 200
 
-createOrbitControls()
+const controls = createOrbitControls()
+camera.position.set(0, size * .5, size)
+
 scene.add(createCityLights({ size, numLights: 10 }))
-camera.position.set(0, 50, 200)
 
 const floor = createFloor({ size })
 scene.add(floor)
@@ -26,5 +27,6 @@ for (let i = 0; i < numBuildings; i++) {
 
 void function animate() {
   requestAnimationFrame(animate)
+  controls.update()
   renderer.render(scene, camera)
 }()

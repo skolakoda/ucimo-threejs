@@ -1,5 +1,5 @@
 import * as THREE from '/node_modules/three108/build/three.module.js'
-import { randomInRange, randomGray } from '/utils/helpers.js'
+import { randomInRange } from '/utils/helpers.js'
 
 function createWindow(wWidth, wHeight) {
   const colors = [0xffff00, 0xF5F5DC, 0xFFEA00, 0xFDDA0D, 0xFFFF8F, 0xFFFDD0]
@@ -51,16 +51,16 @@ function createWindows(building, bWidth, bHeight) {
   return windows
 }
 
-export function createBuilding() {
+export function createBuilding({ color = new THREE.Color(0x000000) } = {}) {
   const bWidth = randomInRange(10, 20, true)
   const bHeight = randomInRange(bWidth, bWidth * 4, true)
 
   const geometry = new THREE.BoxGeometry(bWidth, bHeight, bWidth)
-  const color = randomGray({ min: 0, max: .1, colorful: .1 })
   geometry.faces.forEach(face => {
     face.color = color
   })
-  const building = new THREE.Mesh(geometry)
+  const material = new THREE.MeshStandardMaterial({ vertexColors: THREE.FaceColors, side: THREE.DoubleSide })
+  const building = new THREE.Mesh(geometry, material)
   building.position.set(0, bHeight / 2, 0)
 
   const windows = createWindows(building, bWidth, bHeight)
