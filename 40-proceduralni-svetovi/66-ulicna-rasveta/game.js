@@ -3,16 +3,22 @@ import * as THREE from '/node_modules/three108/build/three.module.js'
 import { scene, camera, renderer, createOrbitControls } from '/utils/scene.js'
 import { randomInCircle, createFloor } from '/utils/helpers.js'
 
+const numLampposts = 10
+const size = 200
+
 camera.position.set(160, 40, 10)
 createOrbitControls()
+
+scene.add(createFloor({ size }))
 
 const ambient = new THREE.AmbientLight(0xffffff, 0.1)
 scene.add(ambient)
 
-const lamppost = createLamppost({ x: 0, z: 0 })
-scene.add(lamppost)
-
-scene.add(createFloor())
+for (let i = 0; i < numLampposts; i++) {
+  const { x, z } = randomInCircle(size)
+  const lamppost = createLamppost({ x, z })
+  scene.add(lamppost)
+}
 
 /* FUNCTIONS */
 
@@ -33,7 +39,9 @@ function createLamppost({ x, z, height = 40, color = 0xdceff5 } = {}) {
 
   const lamppost = new THREE.SpotLight(color)
   lamppost.position.set(x, height, z)
-  lamppost.lookAt(x, 0, z)
+  lamppost.target.position.set(x, 0, z)
+  lamppost.target.updateMatrixWorld()
+  // group.add(lamppost.target)
   lamppost.angle = Math.PI / 6
   lamppost.intensity = .8 // 0-2
   lamppost.penumbra = 0.3
