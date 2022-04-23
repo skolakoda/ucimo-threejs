@@ -35,8 +35,8 @@ scene.add(city)
 
 /* FUNCTIONS */
 
-// TODO: reuse from helpers?
-function createBuilding({ bWidth, bHeight, x, y, z, rotY }) {
+// TODO: reuse
+function createBuilding({ bWidth, bHeight, x, y, z }) {
   const geometry = new THREE.BoxGeometry(bWidth, bHeight, bWidth)
   const color = randomGray({ min: 0, max: .1, colorful: .1 })
   geometry.faces.forEach(face => {
@@ -45,7 +45,6 @@ function createBuilding({ bWidth, bHeight, x, y, z, rotY }) {
 
   const building = new THREE.Mesh(geometry)
   building.position.set(x, y, z)
-  // building.rotation.y = rotY // TODO: fix window rotation
   building.updateMatrix()
   return building
 }

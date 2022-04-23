@@ -10,7 +10,7 @@ const size = 400
 const halfSize = size / 2
 const numBuildings = 400
 
-camera.position.set(0, 120, size * .4)
+camera.position.set(0, size * .3, size * .4)
 createOrbitControls()
 
 const streetLights = createCityLights({ size, numLights: numCityLights })
