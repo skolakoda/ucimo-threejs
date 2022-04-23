@@ -3,15 +3,17 @@ import { scene, camera, renderer, createOrbitControls } from '/utils/scene.js'
 import { randomInRange, randomGray, createFloor } from '/utils/helpers.js'
 import { createLamppost, createCityLights } from '/utils/streetlights.js'
 
-const numLampposts = 10
-const size = 300
+const numLampposts = 12 // max num of SpotLights is 16
+const numCityLights = 16 - numLampposts
+
+const size = 500
 const halfSize = size / 2
-const numBuildings = 200
+const numBuildings = 750
 
 camera.position.set(160, 40, 10)
 createOrbitControls()
 
-const streetLights = createCityLights({ size, numLights: 5 })
+const streetLights = createCityLights({ size, numLights: numCityLights })
 scene.add(streetLights)
 
 scene.add(createFloor({ size: size * 1.2, circle: false, color: 0x101018 }))
