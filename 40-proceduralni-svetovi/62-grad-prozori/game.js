@@ -11,7 +11,6 @@ scene.add(createStreetLights({ size, numLights: numBuildings / 10 }))
 camera.position.set(0, 50, 200)
 
 const floor = createFloor({ size })
-floor.position.set(0, 0, 0)
 scene.add(floor)
 
 for (let i = 0; i < numBuildings; i++) {

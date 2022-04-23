@@ -1,138 +1,104 @@
+/* global dat */
+// https://threejs.org/examples/#webgl_lights_spotlight
 import * as THREE from '/node_modules/three108/build/three.module.js'
-import { TWEEN } from '/node_modules/three108/examples/jsm/libs/tween.module.min.js'
-import { OrbitControls } from '/node_modules/three108/examples/jsm/controls/OrbitControls.js'
+import { scene, camera, renderer, createOrbitControls } from '/utils/scene.js'
+import { randomInCircle, createFloor } from '/utils/helpers.js'
 
-const renderer = new THREE.WebGLRenderer()
-renderer.setPixelRatio(window.devicePixelRatio)
+const gui = new dat.GUI()
 
-const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 2000)
+camera.position.set(160, 40, 10)
 
-const controls = new OrbitControls(camera, renderer.domElement)
+const controls = createOrbitControls()
+controls.addEventListener('change', render)
 
-const scene = new THREE.Scene()
+const ambient = new THREE.AmbientLight(0xffffff, 0.1)
+scene.add(ambient)
 
-const matFloor = new THREE.MeshPhongMaterial()
-const matBox = new THREE.MeshPhongMaterial({ color: 0xaaaaaa })
+const spotLight = new THREE.SpotLight(0xffffff, 1)
+spotLight.position.set(15, 40, 35)
+spotLight.angle = Math.PI / 4
+spotLight.penumbra = 0.1
+spotLight.decay = 2
+spotLight.distance = 200
 
-const geoFloor = new THREE.PlaneGeometry(2000, 2000)
-const geoBox = new THREE.BoxGeometry(3, 1, 2)
+spotLight.castShadow = true
+spotLight.shadow.mapSize.width = 512
+spotLight.shadow.mapSize.height = 512
+spotLight.shadow.camera.near = 10
+spotLight.shadow.camera.far = 200
+spotLight.shadow.focus = 1
+scene.add(spotLight)
 
-const mshFloor = new THREE.Mesh(geoFloor, matFloor)
-mshFloor.rotation.x = - Math.PI * 0.5
-const mshBox = new THREE.Mesh(geoBox, matBox)
+const lightHelper = new THREE.SpotLightHelper(spotLight)
+scene.add(lightHelper)
 
-const ambient = new THREE.AmbientLight(0x111111)
+const shadowCameraHelper = new THREE.CameraHelper(spotLight.shadow.camera)
+scene.add(shadowCameraHelper)
 
-const spotLight1 = createSpotlight(0xFF7F00)
-const spotLight2 = createSpotlight(0x00FF7F)
-const spotLight3 = createSpotlight(0x7F00FF)
+const material = new THREE.MeshPhongMaterial({ color: 0x808080, dithering: true })
+const geometry = new THREE.PlaneGeometry(2000, 2000)
+const mesh = new THREE.Mesh(geometry, material)
+mesh.position.set(0, - 1, 0)
+mesh.rotation.x = - Math.PI * 0.5
+mesh.receiveShadow = true
+scene.add(mesh)
 
-let lightHelper1, lightHelper2, lightHelper3
-
-function init() {
-
-  renderer.shadowMap.enabled = true
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap
-  renderer.outputEncoding = THREE.sRGBEncoding
-
-  camera.position.set(46, 22, - 21)
-
-  spotLight1.position.set(15, 40, 45)
-  spotLight2.position.set(0, 40, 35)
-  spotLight3.position.set(- 15, 40, 45)
-
-  lightHelper1 = new THREE.SpotLightHelper(spotLight1)
-  lightHelper2 = new THREE.SpotLightHelper(spotLight2)
-  lightHelper3 = new THREE.SpotLightHelper(spotLight3)
-
-  matFloor.color.set(0x808080)
-
-  mshFloor.receiveShadow = true
-  mshFloor.position.set(0, - 0.05, 0)
-
-  mshBox.castShadow = true
-  mshBox.receiveShadow = true
-  mshBox.position.set(0, 5, 0)
-
-  scene.add(mshFloor)
-  scene.add(mshBox)
-  scene.add(ambient)
-  scene.add(spotLight1, spotLight2, spotLight3)
-  scene.add(lightHelper1, lightHelper2, lightHelper3)
-
-  document.body.appendChild(renderer.domElement)
-  onWindowResize()
-  window.addEventListener('resize', onWindowResize)
-
-  controls.target.set(0, 7, 0)
-  controls.maxPolarAngle = Math.PI / 2
-  controls.update()
-
-}
-
-function createSpotlight(color) {
-
-  const newObj = new THREE.SpotLight(color, 2)
-
-  newObj.castShadow = true
-  newObj.angle = 0.3
-  newObj.penumbra = 0.2
-  newObj.decay = 2
-  newObj.distance = 50
-
-  return newObj
-
-}
-
-function onWindowResize() {
-
-  camera.aspect = window.innerWidth / window.innerHeight
-  camera.updateProjectionMatrix()
-  renderer.setSize(window.innerWidth, window.innerHeight)
-
-}
-
-function tween(light) {
-
-  new TWEEN.Tween(light).to({
-    angle: (Math.random() * 0.7) + 0.1,
-    penumbra: Math.random() + 1
-  }, Math.random() * 3000 + 2000)
-    .easing(TWEEN.Easing.Quadratic.Out).start()
-
-  new TWEEN.Tween(light.position).to({
-    x: (Math.random() * 30) - 15,
-    y: (Math.random() * 10) + 15,
-    z: (Math.random() * 30) - 15
-  }, Math.random() * 3000 + 2000)
-    .easing(TWEEN.Easing.Quadratic.Out).start()
-
-}
-
-function animate() {
-
-  tween(spotLight1)
-  tween(spotLight2)
-  tween(spotLight3)
-
-  setTimeout(animate, 5000)
-
-}
+render()
 
 function render() {
-
-  TWEEN.update()
-
-  if (lightHelper1) lightHelper1.update()
-  if (lightHelper2) lightHelper2.update()
-  if (lightHelper3) lightHelper3.update()
-
+  lightHelper.update()
+  shadowCameraHelper.update()
   renderer.render(scene, camera)
-
-  requestAnimationFrame(render)
-
 }
 
-init()
+function buildGui() {
+  const params = {
+    'light color': spotLight.color.getHex(),
+    intensity: spotLight.intensity,
+    distance: spotLight.distance,
+    angle: spotLight.angle,
+    penumbra: spotLight.penumbra,
+    decay: spotLight.decay,
+    focus: spotLight.shadow.focus
+  }
+
+  gui.addColor(params, 'light color').onChange(val => {
+    spotLight.color.setHex(val)
+    render()
+  })
+
+  gui.add(params, 'intensity', 0, 2).onChange(val => {
+    spotLight.intensity = val
+    render()
+  })
+
+  gui.add(params, 'distance', 50, 200).onChange(val => {
+    spotLight.distance = val
+    render()
+  })
+
+  gui.add(params, 'angle', 0, Math.PI / 3).onChange(val => {
+    spotLight.angle = val
+    render()
+  })
+
+  gui.add(params, 'penumbra', 0, 1).onChange(val => {
+    spotLight.penumbra = val
+    render()
+  })
+
+  gui.add(params, 'decay', 1, 2).onChange(val => {
+    spotLight.decay = val
+    render()
+  })
+
+  gui.add(params, 'focus', 0, 1).onChange(val => {
+    spotLight.shadow.focus = val
+    render()
+  })
+  gui.open()
+}
+
+buildGui()
+
 render()
-animate()
