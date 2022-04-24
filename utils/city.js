@@ -77,13 +77,12 @@ export function createBuilding({
   return building
 }
 
-// TODO: opciono tekstura
 export function createCity({
   numBuildings = 200,
   size = 200,
   circle = true,
   rotateEvery = 0,
-  extendEvery = 0,
+  enlargeEvery = 0,
   addWindows = true,
   colorParams = { min: 0, max: .1, colorful: .1 },
   addTexture = false,
@@ -92,15 +91,18 @@ export function createCity({
   for (let i = 0; i < numBuildings; i++) {
     const color = colorParams ? randomColor(colorParams) : new THREE.Color(0x000000)
     const { x, z } = circle ? randomInCircle(size * .9) : randomInSquare(size)
-    // TODO: handle rotateEvery 0, extendEvery 0
-    const rotY = i % rotateEvery == 0 ? Math.random() * Math.PI : 0
-    const bWidth = i % extendEvery === 0 ? randomInRange(10, 25, true) : randomInRange(10, 20, true)
-    const bHeight = i % extendEvery === 0 ? randomInRange(bWidth * 4, bWidth * 6, true) : randomInRange(bWidth, bWidth * 4, true)
+    const rotY = (rotateEvery && i % rotateEvery == 0) ? Math.random() * Math.PI : 0
+    const bWidth = (enlargeEvery && i % enlargeEvery === 0)
+      ? randomInRange(10, 25, true)
+      : randomInRange(10, 20, true)
+    const bHeight = (enlargeEvery && i % enlargeEvery === 0)
+      ? randomInRange(bWidth * 4, bWidth * 6, true)
+      : randomInRange(bWidth, bWidth * 4, true)
     const building = createBuilding({ color, x, z, rotY, addWindows, bWidth, bHeight })
     cityGeometry.merge(building.geometry, building.matrix)
   }
   const material = addTexture
-    ? new THREE.MeshLambertMaterial({ map: generateCityTexture(), vertexColors: THREE.FaceColors, side: THREE.DoubleSide })
+    ? new THREE.MeshLambertMaterial({ map: generateCityTexture(), vertexColors: THREE.FaceColors })
     : new THREE.MeshStandardMaterial({ vertexColors: THREE.FaceColors, side: THREE.DoubleSide })
   const city = new THREE.Mesh(cityGeometry, material)
   return city
