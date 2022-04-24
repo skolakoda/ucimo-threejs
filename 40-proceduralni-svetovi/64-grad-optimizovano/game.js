@@ -9,22 +9,19 @@ const numBuildings = 200
 
 const controls = createOrbitControls()
 camera.position.set(0, size * .5, size)
+renderer.setClearColor(0x070b34)
 
 const streetLights = createCityLights({ size, numLights: 12 })
 scene.add(streetLights)
 
-const floor = createFloor({ size })
+const floor = createFloor({ size, color: 0x606060 })
 scene.add(floor)
 
 const cityGeometry = new THREE.Geometry()
 for (let i = 0; i < numBuildings; i++) {
   const color = randomGray({ min: 0, max: .1, colorful: .1 })
-  const building = createBuilding({ color })
   const { x, z } = randomInCircle(size * .9)
-  building.position.x = x
-  building.position.z = z
-  building.rotation.y = Math.random()
-  building.updateMatrix()
+  const building = createBuilding({ color, x, z, rotY: Math.random() })
   cityGeometry.merge(building.geometry, building.matrix)
 }
 const material = new THREE.MeshStandardMaterial({ vertexColors: THREE.FaceColors, side: THREE.DoubleSide })

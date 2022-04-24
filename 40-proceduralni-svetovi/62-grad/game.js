@@ -8,6 +8,7 @@ const numBuildings = 200
 
 const controls = createOrbitControls()
 camera.position.set(0, size * .5, size)
+renderer.setClearColor(0x070b34)
 
 scene.add(createCityLights({ size, numLights: 10 }))
 
@@ -15,11 +16,8 @@ const floor = createFloor({ size })
 scene.add(floor)
 
 for (let i = 0; i < numBuildings; i++) {
-  const building = createBuilding()
   const { x, z } = randomInCircle(size * .9)
-  building.position.x = x
-  building.position.z = z
-  building.rotation.y = Math.random()
+  const building = createBuilding({ x, z, rotY: Math.random() })
   scene.add(building)
 }
 

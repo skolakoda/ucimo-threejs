@@ -3,9 +3,9 @@ import { createBuilding } from '/utils/city.js'
 
 initLights()
 
-createOrbitControls()
-camera.position.set(0, 50, 100)
-renderer.setClearColor(0x7ec0ee)
+const controls = createOrbitControls()
+camera.position.set(0, 75, 75)
+renderer.setClearColor(0x070b34)
 
 scene.add(createBuilding())
 
@@ -13,5 +13,6 @@ scene.add(createBuilding())
 
 void function animate() {
   requestAnimationFrame(animate)
+  controls.update()
   renderer.render(scene, camera)
 }()

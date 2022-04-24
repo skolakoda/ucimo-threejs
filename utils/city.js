@@ -51,19 +51,25 @@ function createWindows(building, bWidth, bHeight) {
   return windows
 }
 
-export function createBuilding({ color = new THREE.Color(0x000000) } = {}) {
-  const bWidth = randomInRange(10, 20, true)
-  const bHeight = randomInRange(bWidth, bWidth * 4, true)
-
+export function createBuilding({
+  x = 0,
+  z = 0,
+  color = new THREE.Color(0x000000),
+  bWidth = randomInRange(10, 20, true),
+  bHeight = randomInRange(bWidth, bWidth * 4, true),
+  y = bHeight * .5,
+  addWindows = true,
+  rotY = 0,
+} = {}) {
   const geometry = new THREE.BoxGeometry(bWidth, bHeight, bWidth)
   geometry.faces.forEach(face => {
     face.color = color
   })
   const material = new THREE.MeshStandardMaterial({ vertexColors: THREE.FaceColors, side: THREE.DoubleSide })
   const building = new THREE.Mesh(geometry, material)
-  building.position.set(0, bHeight / 2, 0)
-
-  const windows = createWindows(building, bWidth, bHeight)
-  building.geometry.merge(windows)
+  if (addWindows) building.geometry.merge(createWindows(building, bWidth, bHeight))
+  building.position.set(x, y, z)
+  if (rotY) building.rotateY(rotY)
+  building.updateMatrix() // needed for merge
   return building
 }
