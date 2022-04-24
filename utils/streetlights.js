@@ -35,6 +35,16 @@ export function createLamppost({ x, z, height = 40 } = {}) {
   return group
 }
 
+export function createLampposts({ size = 200, numLampposts = 10, height = 40, circle = true } = {}) {
+  const group = new THREE.Group()
+  for (let i = 0; i < numLampposts; i++) {
+    const { x, z } = circle ? randomInCircle(size) : randomInSquare(size)
+    const lamppost = createLamppost({ x, z, height })
+    group.add(lamppost)
+  }
+  return group
+}
+
 export function createCityLights({ size, numLights = 10, height = 10, circle = true } = {}) {
   const group = new THREE.Group()
   for (let i = 0; i < numLights; i++) {
