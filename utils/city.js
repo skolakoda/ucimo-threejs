@@ -1,5 +1,5 @@
 import * as THREE from '/node_modules/three108/build/three.module.js'
-import { randomInRange, randomColor, randomInCircle } from '/utils/helpers.js'
+import { randomInRange, randomColor, randomInCircle, randomInSquare } from '/utils/helpers.js'
 
 function createWindow(wWidth, wHeight) {
   const colors = [0xffff00, 0xF5F5DC, 0xFFEA00, 0xFDDA0D, 0xFFFF8F, 0xFFFDD0]
@@ -74,12 +74,13 @@ export function createBuilding({
   return building
 }
 
-export function createCity({ numBuildings = 200, size = 200, colorful = false } = {}) {
+export function createCity({ numBuildings = 200, size = 200, circle = true, colorful = false, rotPercent = 0 } = {}) {
   const cityGeometry = new THREE.Geometry()
   for (let i = 0; i < numBuildings; i++) {
     const color = colorful ? randomColor({ min: 0, max: .1, colorful: .1 }) : new THREE.Color(0x000000)
-    const { x, z } = randomInCircle(size * .9)
-    const building = createBuilding({ color, x, z, rotY: Math.random() })
+    const { x, z } = circle ? randomInCircle(size * .9) : randomInSquare(size)
+    const rotY = Math.random() > rotPercent ? Math.random() * Math.PI : 0
+    const building = createBuilding({ color, x, z, rotY })
     cityGeometry.merge(building.geometry, building.matrix)
   }
   const material = new THREE.MeshStandardMaterial({ vertexColors: THREE.FaceColors, side: THREE.DoubleSide })
