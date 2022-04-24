@@ -16,7 +16,7 @@ renderer.setClearColor(0x070b34)
 const floor = createFloor({ size: size * 1.2, circle: false, color: 0x101018 })
 const lampposts = createLampposts({ size, numLampposts, circle: false })
 const streetLights = createCityLights({ size, numLights: numCityLights })
-const city = createCity({ numBuildings, size, circle: false, rotPercent: .9 })
+const city = createCity({ numBuildings, size, circle: false, rotateEvery: 9, colorParams: null })
 
 scene.add(floor, lampposts, streetLights, city)
 

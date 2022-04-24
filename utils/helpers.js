@@ -36,15 +36,6 @@ export function randomColor({ min = .3, max = .7, colorful = .02 } = {}) {
   return color
 }
 
-export function removeTopTexture(boxGeometry) {
-  boxGeometry.faceVertexUvs[0][4][0].set(0, 0)
-  boxGeometry.faceVertexUvs[0][4][1].set(0, 0)
-  boxGeometry.faceVertexUvs[0][4][2].set(0, 0)
-  boxGeometry.faceVertexUvs[0][5][0].set(0, 0)
-  boxGeometry.faceVertexUvs[0][5][1].set(0, 0)
-  boxGeometry.faceVertexUvs[0][5][2].set(0, 0)
-}
-
 export function createFloor({ size = 1000, color = 0x808080, circle = true } = {}) {
   const material = new THREE.MeshPhongMaterial({ color, dithering: true, side: THREE.DoubleSide })
   const geometry = circle

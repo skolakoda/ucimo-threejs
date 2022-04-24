@@ -12,7 +12,7 @@ renderer.setClearColor(0x070b34)
 
 const floor = createFloor({ size, color: 0x606060 })
 const streetLights = createCityLights({ size, numLights: 12 })
-const city = createCity({ numBuildings, size, colorful: true })
+const city = createCity({ numBuildings, size })
 
 scene.add(floor, streetLights, city)
 

@@ -1,5 +1,5 @@
 import * as THREE from '/node_modules/three108/build/three.module.js'
-import { randomInRange, randomColor, randomInCircle, randomInSquare, removeTopTexture } from '/utils/helpers.js'
+import { randomInRange, randomColor, randomInCircle, randomInSquare } from '/utils/helpers.js'
 
 function createWindow(wWidth, wHeight) {
   const colors = [0xffff00, 0xF5F5DC, 0xFFEA00, 0xFDDA0D, 0xFFFF8F, 0xFFFDD0]
@@ -51,6 +51,42 @@ function createWindows(building, bWidth, bHeight) {
   return windows
 }
 
+function generateCityTexture() {
+  // beli kvadrat
+  const canvas = document.createElement('canvas')
+  canvas.width = 32
+  canvas.height = 64
+  const context = canvas.getContext('2d')
+  context.fillStyle = '#ffffff'
+  context.fillRect(0, 0, 32, 64)
+  // crno-sive nijanse
+  for (let y = 2; y < 64; y += 2)
+    for (let x = 0; x < 32; x += 2) {
+      const value = Math.floor(Math.random() * 64)
+      context.fillStyle = `rgb(${value}, ${value}, ${value})`
+      context.fillRect(x, y, 2, 1)
+    }
+  const canvas2 = document.createElement('canvas')
+  canvas2.width = 512
+  canvas2.height = 1024
+  const context2 = canvas2.getContext('2d')
+  context2.imageSmoothingEnabled = false
+  context2.drawImage(canvas, 0, 0, canvas2.width, canvas2.height)
+
+  const texture = new THREE.Texture(canvas2)
+  texture.needsUpdate = true
+  return texture
+}
+
+function removeTopTexture(boxGeometry) {
+  boxGeometry.faceVertexUvs[0][4][0].set(0, 0)
+  boxGeometry.faceVertexUvs[0][4][1].set(0, 0)
+  boxGeometry.faceVertexUvs[0][4][2].set(0, 0)
+  boxGeometry.faceVertexUvs[0][5][0].set(0, 0)
+  boxGeometry.faceVertexUvs[0][5][1].set(0, 0)
+  boxGeometry.faceVertexUvs[0][5][2].set(0, 0)
+}
+
 export function createBuilding({
   x = 0,
   z = 0,
@@ -75,44 +111,31 @@ export function createBuilding({
   return building
 }
 
-export function createCity({ numBuildings = 200, size = 200, circle = true, colorful = false, rotPercent = 0 } = {}) {
+// TODO: opciono tekstura
+export function createCity({
+  numBuildings = 200,
+  size = 200,
+  circle = true,
+  rotateEvery = 0,
+  extendEvery = 100,
+  addWindows = true,
+  colorParams = { min: 0, max: .1, colorful: .1 },
+  addTexture = false,
+} = {}) {
   const cityGeometry = new THREE.Geometry()
   for (let i = 0; i < numBuildings; i++) {
-    const color = colorful ? randomColor({ min: 0, max: .1, colorful: .1 }) : new THREE.Color(0x000000)
+    const color = colorParams ? randomColor(colorParams) : new THREE.Color(0x000000)
     const { x, z } = circle ? randomInCircle(size * .9) : randomInSquare(size)
-    const rotY = Math.random() > rotPercent ? Math.random() * Math.PI : 0
-    const building = createBuilding({ color, x, z, rotY })
+    // TODO: handle rotateEvery 0
+    const rotY = i % rotateEvery == 0 ? Math.random() * Math.PI : 0
+    const bWidth = i % extendEvery === 0 ? randomInRange(10, 25, true) : randomInRange(10, 20, true)
+    const bHeight = i % extendEvery === 0 ? randomInRange(bWidth * 4, bWidth * 6, true) : randomInRange(bWidth, bWidth * 4, true)
+    const building = createBuilding({ color, x, z, rotY, addWindows, bWidth, bHeight })
     cityGeometry.merge(building.geometry, building.matrix)
   }
-  const material = new THREE.MeshStandardMaterial({ vertexColors: THREE.FaceColors, side: THREE.DoubleSide })
+  const material = addTexture
+    ? new THREE.MeshLambertMaterial({ map: generateCityTexture(), vertexColors: THREE.FaceColors, side: THREE.DoubleSide })
+    : new THREE.MeshStandardMaterial({ vertexColors: THREE.FaceColors, side: THREE.DoubleSide })
   const city = new THREE.Mesh(cityGeometry, material)
   return city
-}
-
-export function generateCityTexture() {
-  // beli kvadrat
-  const canvas = document.createElement('canvas')
-  canvas.width = 32
-  canvas.height = 64
-  const context = canvas.getContext('2d')
-  context.fillStyle = '#ffffff'
-  context.fillRect(0, 0, 32, 64)
-  // crno-sive nijanse
-  for (let y = 2; y < 64; y += 2)
-    for (let x = 0; x < 32; x += 2) {
-      const value = Math.floor(Math.random() * 64)
-      context.fillStyle = `rgb(${value}, ${value}, ${value})`
-      context.fillRect(x, y, 2, 1)
-    }
-
-  const canvas2 = document.createElement('canvas')
-  canvas2.width = 512
-  canvas2.height = 1024
-  const context2 = canvas2.getContext('2d')
-  context2.imageSmoothingEnabled = false
-  context2.drawImage(canvas, 0, 0, canvas2.width, canvas2.height)
-
-  const texture = new THREE.Texture(canvas2)
-  texture.needsUpdate = true
-  return texture
 }
