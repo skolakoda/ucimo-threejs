@@ -8,11 +8,11 @@ const numBuildings = 200
 
 const controls = createOrbitControls()
 camera.position.set(0, size * .5, size)
-renderer.setClearColor(0x070b34)
+// renderer.setClearColor(0x070b34)
 
 const floor = createFloor({ size, color: 0x606060 })
 const streetLights = createCityLights({ size, numLights: 12 })
-const city = createCity({ numBuildings, size })
+const city = createCity({ numBuildings, size, rotateEvery: 5 })
 
 scene.add(floor, streetLights, city)
 
