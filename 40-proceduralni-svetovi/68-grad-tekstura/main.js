@@ -1,6 +1,6 @@
 import * as THREE from '/node_modules/three108/build/three.module.js'
 import { scene, camera, renderer, createOrbitControls, addLights } from '/utils/scene.js'
-import { randomInRange, removeTopTexture, generateCityTexture, randomGray, createFloor } from '/utils/helpers.js'
+import { randomInRange, removeTopTexture, generateCityTexture, randomColor, createFloor } from '/utils/helpers.js'
 
 const size = 2000
 const numBuildings = 10000
@@ -23,7 +23,7 @@ function createBuilding() {
   const geometry = new THREE.BoxGeometry(width, height, width)
 
   removeTopTexture(geometry)
-  const color = randomGray({ colorful: .035, max: 1 })
+  const color = randomColor({ colorful: .035, max: 1 })
   geometry.faces.forEach(face => {
     face.color = color // set color before merge
   })

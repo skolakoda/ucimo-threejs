@@ -54,7 +54,7 @@ export function generateCityTexture() {
 }
 
 // colorful = 0 for gray nianses only
-export function randomGray({ min = .3, max = .7, colorful = .02 } = {}) {
+export function randomColor({ min = .3, max = .7, colorful = .02 } = {}) {
   const gray = randomInRange(min, max)
   const color = new THREE.Color(
     gray + randomInRange(-colorful, colorful),
