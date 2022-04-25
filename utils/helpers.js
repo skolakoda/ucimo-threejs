@@ -6,8 +6,8 @@ export function randomInRange(min, max, round = false) {
   return round ? Math.floor(random) : random
 }
 
-export function randomInCircle(radius, startFrom = 0) {
-  const random = startFrom ? randomInRange(startFrom, 1) : Math.random()
+export function randomInCircle(radius, fromCenter = 0) {
+  const random = fromCenter ? randomInRange(fromCenter, 1) : Math.random()
   const r = Math.sqrt(random) * radius
   const angle = Math.random() * Math.PI * 2
   const x = Math.cos(angle) * r
@@ -26,17 +26,17 @@ const randomBool = () => Math.random() < 0.5
 const randomInRangeExcluded = (min, max, minExclude, maxExclude, round = false) =>
   randomBool() ? randomInRange(min, minExclude, round) : randomInRange(maxExclude, max, round)
 
-export function randomInSquare(size, startFrom = 0) {
+export function randomInSquare(size, fromCenter = 0) {
   const x = randomInRange(-size * .5, size * .5)
-  const z = x > -startFrom && x < startFrom
-    ? randomInRangeExcluded(-size * .5, size * .5, -startFrom, startFrom)
+  const z = x > -fromCenter && x < fromCenter
+    ? randomInRangeExcluded(-size * .5, size * .5, -fromCenter, fromCenter)
     : randomInRange(-size * .5, size * .5)
   return randomBool() ? { x, z } : { x : z, z : x }
 }
 
-// export function randomInSquareEmptyCross(size, startFrom = 0) {
-//   const x = randomInRangeExcluded(-size * .5, size * .5, -startFrom, startFrom)
-//   const z = randomInRangeExcluded(-size * .5, size * .5, -startFrom, startFrom)
+// export function randomInSquareEmptyCross(size, fromCenter = 0) {
+//   const x = randomInRangeExcluded(-size * .5, size * .5, -fromCenter, fromCenter)
+//   const z = randomInRangeExcluded(-size * .5, size * .5, -fromCenter, fromCenter)
 //   return { x, z }
 // }
 

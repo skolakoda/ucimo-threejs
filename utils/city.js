@@ -77,30 +77,30 @@ export function createBuilding({
   return building
 }
 
-const shouldRotate = (rotateNth, i) => rotateNth && i % rotateNth == 0
+const shouldRotate = (rotateEvery, i) => rotateEvery && i % rotateEvery == 0
 
-const shouldEnlarge = (enlargeNth, i) => enlargeNth && i % enlargeNth == 0
+const shouldEnlarge = (enlargeEvery, i) => enlargeEvery && i % enlargeEvery == 0
 
 export function createCity({
   numBuildings = 200,
   size = 200,
   circle = true,
-  rotateNth = 0,
-  enlargeNth = 0,
+  rotateEvery = 0,
+  enlargeEvery = 0,
   addWindows = true,
   colorParams = { min: 0, max: .1, colorful: .1 },
   addTexture = false,
-  startFrom = 0,
+  fromCenter = 0,
 } = {}) {
   const cityGeometry = new THREE.Geometry()
   for (let i = 0; i < numBuildings; i++) {
     const color = colorParams ? randomColor(colorParams) : new THREE.Color(0x000000)
-    const { x, z } = circle ? randomInCircle(size * .9, startFrom) : randomInSquare(size, startFrom)
-    const rotY = shouldRotate(rotateNth, i) ? Math.random() * Math.PI : 0
-    const bWidth = shouldEnlarge(enlargeNth, i)
+    const { x, z } = circle ? randomInCircle(size * .9, fromCenter) : randomInSquare(size, fromCenter)
+    const rotY = shouldRotate(rotateEvery, i) ? Math.random() * Math.PI : 0
+    const bWidth = shouldEnlarge(enlargeEvery, i)
       ? randomInRange(10, 25, true)
       : randomInRange(10, 20, true)
-    const bHeight = shouldEnlarge(enlargeNth, i)
+    const bHeight = shouldEnlarge(enlargeEvery, i)
       ? randomInRange(bWidth * 4, bWidth * 6, true)
       : randomInRange(bWidth, bWidth * 4, true)
     const building = createBuilding({ color, x, z, rotY, addWindows, bWidth, bHeight })

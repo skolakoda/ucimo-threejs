@@ -12,7 +12,7 @@ camera.position.set(0, size * .6, size * 1.1)
 const floor = createFloor({ size, color: 0x606060 })
 const streetLights = createCityLights({ size, numLights: 12 })
 
-const city = createCity({ numBuildings, size, rotateNth: 2 })
+const city = createCity({ numBuildings, size, rotateEvery: 2 })
 
 scene.add(floor, streetLights, city)
 
