@@ -77,12 +77,16 @@ export function createBuilding({
   return building
 }
 
+const shouldRotate = (rotateNth, i) => rotateNth && i % rotateNth == 0
+
+const shouldEnlarge = (enlargeNth, i) => enlargeNth && i % enlargeNth == 0
+
 export function createCity({
   numBuildings = 200,
   size = 200,
   circle = true,
-  rotateEvery = 0,
-  enlargeEvery = 0,
+  rotateNth = 0,
+  enlargeNth = 0,
   addWindows = true,
   colorParams = { min: 0, max: .1, colorful: .1 },
   addTexture = false,
@@ -90,12 +94,13 @@ export function createCity({
   const cityGeometry = new THREE.Geometry()
   for (let i = 0; i < numBuildings; i++) {
     const color = colorParams ? randomColor(colorParams) : new THREE.Color(0x000000)
+    // TODO: handle excluded area
     const { x, z } = circle ? randomInCircle(size * .9) : randomInSquare(size)
-    const rotY = (rotateEvery && i % rotateEvery == 0) ? Math.random() * Math.PI : 0
-    const bWidth = (enlargeEvery && i % enlargeEvery === 0)
+    const rotY = shouldRotate(rotateNth, i) ? Math.random() * Math.PI : 0
+    const bWidth = shouldEnlarge(enlargeNth, i)
       ? randomInRange(10, 25, true)
       : randomInRange(10, 20, true)
-    const bHeight = (enlargeEvery && i % enlargeEvery === 0)
+    const bHeight = shouldEnlarge(enlargeNth, i)
       ? randomInRange(bWidth * 4, bWidth * 6, true)
       : randomInRange(bWidth, bWidth * 4, true)
     const building = createBuilding({ color, x, z, rotY, addWindows, bWidth, bHeight })

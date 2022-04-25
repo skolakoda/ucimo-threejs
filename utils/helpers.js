@@ -2,13 +2,14 @@ import * as THREE from '/node_modules/three108/build/three.module.js'
 
 /* including min, not including max */
 export function randomInRange(min, max, round = false) {
-  const rand = Math.random() * (max - min) + min
-  return round ? Math.floor(rand) : rand
+  const random = Math.random() * (max - min) + min
+  return round ? Math.floor(random) : random
 }
 
-export function randomInCircle(radius) {
+export function randomInCircle(radius, startRand = 0) {
+  const random = startRand ? randomInRange(startRand, 1) : Math.random()
+  const r = Math.sqrt(random) * radius
   const angle = Math.random() * Math.PI * 2
-  const r = Math.sqrt(Math.random()) * radius
   const x = Math.cos(angle) * r
   const z = Math.sin(angle) * r
   return { x, z }
@@ -19,6 +20,25 @@ export function randomInSquare(size) {
   const z = randomInRange(-size * .5, size * .5)
   return { x, z }
 }
+
+const randomBool = () => Math.random() < 0.5
+
+const randomInRangeExcluded = (min, max, minExclude, maxExclude, round = false) =>
+  randomBool() ? randomInRange(min, minExclude, round) : randomInRange(maxExclude, max, round)
+
+export function randomInSquareExcluded(size, startFrom = 0) {
+  const x = randomInRange(-size * .5, size * .5)
+  const z = x > -startFrom && x < startFrom
+    ? randomInRangeExcluded(-size * .5, size * .5, -startFrom, startFrom)
+    : randomInRange(-size * .5, size * .5)
+  return randomBool() ? { x, z } : { x : z, z : x }
+}
+
+// export function randomInSquareEmptyCross(size, startFrom = 0) {
+//   const x = randomInRangeExcluded(-size * .5, size * .5, -startFrom, startFrom)
+//   const z = randomInRangeExcluded(-size * .5, size * .5, -startFrom, startFrom)
+//   return { x, z }
+// }
 
 export function randomGrey(min = 75, max = 150) {
   const v = (randomInRange(min, max) | 0).toString(16)
