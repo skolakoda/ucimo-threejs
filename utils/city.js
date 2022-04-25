@@ -90,12 +90,12 @@ export function createCity({
   addWindows = true,
   colorParams = { min: 0, max: .1, colorful: .1 },
   addTexture = false,
+  startFrom = 0,
 } = {}) {
   const cityGeometry = new THREE.Geometry()
   for (let i = 0; i < numBuildings; i++) {
     const color = colorParams ? randomColor(colorParams) : new THREE.Color(0x000000)
-    // TODO: handle excluded area
-    const { x, z } = circle ? randomInCircle(size * .9) : randomInSquare(size)
+    const { x, z } = circle ? randomInCircle(size * .9, startFrom) : randomInSquare(size, startFrom)
     const rotY = shouldRotate(rotateNth, i) ? Math.random() * Math.PI : 0
     const bWidth = shouldEnlarge(enlargeNth, i)
       ? randomInRange(10, 25, true)
